@@ -56,6 +56,7 @@ app.directive('roleChooser', function(residentsService) {
                 var saveRolePromise = residentsService.saveRoleForCityId(scope.city.id, scope.roleId);
                 saveRolePromise.then(function(updatedResident) {
                     scope.infos.push({type: 'success', msg: 'You will be presented with this role the next time you log in to this game.'});
+                    scope.infos.push({msg: 'Only actions conducted while your true role is selected will be deemed valid.'});
                 }, function(reason) {
                     scope.infos.push({type: 'danger', msg: 'Server error. Failed to save role.'});
                 });
