@@ -1,5 +1,9 @@
+var APP_PERMISSION_PARTICIPATE = 1;
+var APP_PERMISSION_CREATE_GAMES = 2;
+
 app.factory('usersService', function($q, serverService) {
     "use strict";
+
 
     var allUsers = [];
 

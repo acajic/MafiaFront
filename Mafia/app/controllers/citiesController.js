@@ -163,9 +163,20 @@ app.controller('CitiesController',function ($scope, citiesService, authService, 
             return false;
     }
 
+    $scope.$watch("user", function (newUser) {
+        if (newUser.app_permissions) {
+            $scope.appPermissionCreateGamesGranted = newUser.app_permissions[APP_PERMISSION_CREATE_GAMES];
+        } else {
+            $scope.appPermissionCreateGamesGranted = null;
+        }
+
+
+    });
+
     init();
 
     function init() {
+
         $scope.selected = {rowId: 0};
         $scope.refreshCities();
 

@@ -4,8 +4,7 @@
     </div>
 
     <div>
-        <!-- <button ng-click="refreshCities()" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i>Refresh</button> -->
-        <button ng-click="newCity()" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>Create new city</button>
+        <button ng-click="newCity()" ng-if="appPermissionCreateGamesGranted" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>Create new city</button>
     </div>
 
 
@@ -128,6 +127,10 @@
                 <tr>
                     <td>Name</td>
                     <td>{{selectedCity.name}}</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>{{selectedCity.description}}</td>
                 </tr>
                 <tr>
                     <td>Creator</td>

@@ -29,9 +29,10 @@ app.directive('auth', function(authService, $location, layoutService) {
                 var userMePromise = authService.authenticate(scope.user.username, scope.user.password);
 
                 userMePromise.then(function(userMe) {
-                    scope.user.username = userMe.username;
+                    scope.user = userMe;
                     scope.user.signedIn = true;
                     scope.user.password = "";
+
                     scope.loader.isLoading = false;
                 }, function(reason) {
                     scope.user.signedIn = false;
@@ -56,9 +57,10 @@ app.directive('auth', function(authService, $location, layoutService) {
 
             scope.signOut = function() {
                 authService.signOut();
-                scope.user.username = "";
+                scope.user = {};
+                /*scope.user.username = "";
                 scope.user.password = "";
-                scope.user.signedIn = false;
+                scope.user.signedIn = false;*/
                 $location.path('/cities');
             };
 

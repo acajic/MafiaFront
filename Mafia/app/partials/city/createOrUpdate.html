@@ -51,6 +51,10 @@
                         <td class="col-md-1 gray-cell">Name</td>
                         <td>{{ city.name }}</td>
                     </tr>
+                    <tr>
+                        <td class="col-md-1 gray-cell">Description</td>
+                        <td><textarea ng-model="city.description"></textarea></td>
+                    </tr>
                     <tr ng-if="city.id != undefined">
                         <td class="col-md-1 gray-cell">Creator</td>
                         <td>{{city.user_creator_username}}</td>
