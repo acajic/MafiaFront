@@ -1,6 +1,6 @@
 app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, citiesService, rolesService,
                                                          gameEndConditionsService, selfGeneratedResultTypesService,
-                                                         authService, $location, $q, $modal) {
+                                                         authService, usersService, $location, $q, $modal) {
     "use strict";
 
     var MIN_DAY_DURATION = 4;
@@ -386,6 +386,8 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
                     if (!$scope.newInvitedUser.username || $scope.newInvitedUser.username.length == 0) {
                         $scope.newInvitedUser.username = $scope.newInvitedUser.email.substr(0,$scope.newInvitedUser.email.indexOf('@'));
                     }
+
+
                 } else {
                     clearNewInvitedUser();
                     return;
@@ -400,9 +402,39 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
                 return;
             }
 
+            if ($scope.newInvitedUser.id) {
+                $scope.invitedUsers.push(angular.copy($scope.newInvitedUser));
+                clearNewInvitedUser();
+            } else {
+                var allowedEmailPatternsPromise = usersService.getAllowedEmailPatterns();
+                allowedEmailPatternsPromise.then(function(allowedEmailPatterns) {
+                    var allowed = false;
+                    angular.forEach(allowedEmailPatterns, function(emailPattern) {
+                        if (!allowed) {
+                            var regex = new RegExp(emailPattern, 'i');
+                            var matchResult = $scope.newInvitedUser.email.match(regex);
+                            if (matchResult) {
+                                allowed = true;
+                            }
+                        }
+                    });
 
-            $scope.invitedUsers.push(angular.copy($scope.newInvitedUser));
-            clearNewInvitedUser();
+                    if (allowed) {
+                        $scope.invitedUsers.push(angular.copy($scope.newInvitedUser));
+                    } else {
+                        $scope.inviteErrors = [];
+                        $scope.inviteErrors.push({type: 'danger', msg:"Email '" + $scope.newInvitedUser.email + "' not accepted."});
+                    }
+
+                    clearNewInvitedUser();
+                });
+            }
+
+
+        };
+
+        $scope.closeInviteErrorMessage = function(index) {
+            $scope.inviteErrors.splice(index, 1);
         };
 
         $scope.removeInvitedUser = function(index) {

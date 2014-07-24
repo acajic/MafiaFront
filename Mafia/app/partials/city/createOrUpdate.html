@@ -124,6 +124,9 @@
                     <p>Select a user by username or by email address and add them to your game.</p>
                     <p>Or simply enter an email address of a friend that is not a registered user and click '+'. The account will be created, email will be sent with login credentials and the user will automatically be added to your game.</p>
                 </div>
+                <div>
+                    <alert ng-repeat="alert in inviteErrors" type="alert.type" close="closeInviteErrorMessage($index)">{{alert.msg}}</alert>
+                </div>
                 <table class="table">
                     <thead>
                     <tr>

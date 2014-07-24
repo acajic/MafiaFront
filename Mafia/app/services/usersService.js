@@ -25,10 +25,30 @@ app.factory('usersService', function($q, serverService) {
         });
     };
 
+    var allowedEmailPatterns = [];
+
+    var getAllowedEmailPatterns = function(refresh) {
+        if (!allowedEmailPatterns || allowedEmailPatterns.length == 0 || refresh) {
+            var allowedEmailPatternsPromise = serverService.get('users/allowed_email_patterns');
+            allowedEmailPatternsPromise.then(function(allowedEmailPatternsResult) {
+                allowedEmailPatterns = allowedEmailPatternsResult;
+            });
+            return allowedEmailPatternsPromise;
+        } else {
+            var deferred = $q.defer();
+
+            deferred.resolve(allowedEmailPatterns);
+
+            return deferred.promise;
+        }
+    };
+
     return {
         allUsers: allUsers,
         getAllUsers: getAllUsers,
         createUser : createUser,
-        updateUser : updateUser
+        updateUser : updateUser,
+        allowedEmailPatterns: allowedEmailPatterns,
+        getAllowedEmailPatterns : getAllowedEmailPatterns
     };
 });
