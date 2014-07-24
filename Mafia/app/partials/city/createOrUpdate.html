@@ -63,7 +63,7 @@
                         <td class="col-md-1 gray-cell">Creator</td>
                         <td>{{userMe.username}}</td>
                     </tr>
-                    <tr>
+                    <tr ng-if="!city.started_at">
                         <td class="col-md-1 gray-cell">Timezone</td>
                         <td>
 
@@ -74,6 +74,12 @@
 
                             <timepicker style="display: inline-block" ng-model="timezone.timeDate" ng-change="timezoneChanged()" hour-step="1" minute-step="15" show-meridian="false"></timepicker>
                             <!-- </div> -->
+                        </td>
+                    </tr>
+                    <tr ng-if="city.started_at">
+                        <td class="col-md-1 gray-cell">Timezone</td>
+                        <td>
+                            {{timezone.sign}} {{ ("0"+timezone.timeDate.getHours()).slice(-2) }} : {{ ("0"+timezone.timeDate.getMinutes()).slice(-2) }}
                         </td>
                     </tr>
                     <tr ng-if="city.id != undefined">

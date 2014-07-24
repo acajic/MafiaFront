@@ -76,6 +76,11 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
     }
 
     function start() {
+        if ($scope.remainingRoles != 0) {
+            $scope.generalMessages.push({msg: 'You need to distribute the roles before starting a game.'});
+            return;
+        }
+
         var startCityPromise = citiesService.startCity($scope.city.id);
         startCityPromise.then(function(city) {
             initDayCycles(city);
@@ -88,7 +93,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
     }
 
     function showSaveButton(city) {
-        return !isNew(city) && amIOwner(city) && !isStartedAndOngoing(city) && !isStartedAndPaused(city) && !city.finished_at;
+        return !isNew(city) && amIOwner(city);
     }
 
     function saveCity() {
