@@ -183,11 +183,11 @@
                     <tr>
                         <td>Day start</td>
                         <td>Night start</td>
-                        <td ng-if="!city.started_at" class="col-sm-1"></td>
+                        <td ng-if="!city.started_at || city.paused" class="col-sm-1"></td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-if="!city.started_at" ng-repeat="(index, day_cycle) in city.day_cycles">
+                    <tr ng-if="!city.started_at || city.paused" ng-repeat="(index, day_cycle) in city.day_cycles">
                         <td>
                             <div ng-model="day_cycle.day_start_date" ng-change="dayCycleChanged(index)" style="display:inline-block;">
                                 <timepicker hour-step="1" minute-step="1" show-meridian="false"></timepicker>
@@ -202,20 +202,20 @@
                             <button class="btn btn-default" ng-if="city.day_cycles.length > 1 && !city.started_at" ng-click="removeDayCycle(index)"><i class="glyphicon glyphicon-minus"></i></button>
                         </td>
                     </tr>
-                    <tr ng-if="!showAddDayCycle && !city.started_at">
+                    <tr ng-if="!showAddDayCycle && (!city.started_at || city.paused)">
                         <td colspan="3">
                             <button class="btn btn-default narrow-horizontal-button" ng-click="toggleShowAddDayCycle()"><i class="glyphicon glyphicon-chevron-down"></i></button>
                             <!-- <a href="" ng-if="!showAddDayCycle && !city.started_at" ng-click="toggleShowAddDayCycle()">+</a> -->
                         </td>
                     </tr>
-                    <tr ng-if="showAddDayCycle && !city.started_at">
+                    <tr ng-if="showAddDayCycle && (!city.started_at || city.paused)">
                         <td colspan="3">
                             <button class="btn btn-default narrow-horizontal-button" ng-click="toggleShowAddDayCycle()"><i class="glyphicon glyphicon-chevron-up"></i></button>
                             <!-- <a href="" ng-if="!showAddDayCycle && !city.started_at" ng-click="toggleShowAddDayCycle()">+</a> -->
                         </td>
                     </tr>
 
-                    <tr ng-if="showAddDayCycle && !city.started_at" class="new-day-cycle-row">
+                    <tr ng-if="showAddDayCycle && (!city.started_at || city.paused)" class="new-day-cycle-row">
                         <td>
                             <div ng-model="newDayCycle.day_start_date" style="display:inline-block;">
                                 <timepicker hour-step="1" minute-step="1" show-meridian="false"></timepicker>
@@ -233,7 +233,7 @@
 
 
 
-                    <tr ng-if="city.started_at" ng-repeat="(index, day_cycle) in city.day_cycles">
+                    <tr ng-if="city.started_at && !city.paused" ng-repeat="(index, day_cycle) in city.day_cycles">
                         <td>
                             {{ minutesToString(day_cycle.day_start) }}
                         </td>
