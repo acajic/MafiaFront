@@ -1,0 +1,168 @@
+<div>
+    <div style="clear: both">
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+    </div>
+
+    <div>
+        <!-- <button ng-click="refreshCities()" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i>Refresh</button> -->
+        <button ng-click="newCity()" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>Create new city</button>
+    </div>
+
+
+
+    <div class="col-md-12 nopadding">
+        <tabset>
+            <tab select="tabSelected(0)">
+                <tab-heading>
+                    <i class="glyphicon glyphicon-home"></i> My cities
+                </tab-heading>
+
+                <div class="col-md-6 nopadding">
+                <table interactive-table selected-row-id="selected.rowId" class="table">
+                    <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Started</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="city in cities | myCityFilter" ng-class="classNameForCityRow(city)">
+                        <input type="hidden" name="id" value="{{ city.id }}">
+                        <td>{{city.name}}</td>
+                        <td style="text-align: center;">
+                            <img-bool boolean-value="city.started_at"></img-bool>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+
+            </tab>
+
+            <tab select="tabSelected(1)">
+            <tab-heading>
+                <i class="glyphicon glyphicon-globe"></i> All cities
+            </tab-heading>
+
+            <div class="col-md-6 nopadding">
+            <table interactive-table selected-row-id="selected.rowId" class="table">
+                <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Started</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="city in cities" ng-class="classNameForCityRow(city)">
+                    <input type="hidden" name="id" value="{{ city.id }}">
+                    <td>{{city.name}}</td>
+                    <td style="text-align: center;">
+                        <img-bool boolean-value="city.started_at"></img-bool>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+
+        </tab>
+
+
+        <tab select="tabSelected(2)">
+            <tab-heading>
+                <i class="glyphicon glyphicon-info-sign"></i> Info
+            </tab-heading>
+
+            Games are listed as <i>cities</i>. Players of a game are residents of that city. <br/>
+
+            Most of the residents in a city are innocent people.
+            But there is a mysterious small group of people in each city that form <b>the Mafia</b>.
+            Nobody of <i>the innocents</i> knows who these people are, but they know each other among themselves.
+            <br/>
+
+            The essence of this game is a competition between two <b>teams</b> - <b>the Citizens</b> and <b>the Mafia</b>. </br>
+
+            The objective for <b>the Citizens</b> is to kill every Mafia member. </br>
+            The objective for <b>the Mafia</b> is to kill enough citizens so that mafia members become 50% of entire city's population or more. </br>
+
+            If either of these two objectives are completed, the game is over. </br>
+
+            After the game is started, a city repeatedly goes through <b>day and night phases</b>. </br>
+
+            The <b>killings</b> occur in one of the following ways:
+            <ul>
+                <li>
+                    During every night, mafia members vote who they want to kill. The resident that gets the most votes, will be dead the next morning.
+                    In this secret internal voting, mafia members need to be harmonized:
+                    strictly more than half (>50%) of alive mafia members need to vote for the same resident, in order for mafia hit to be successful.
+                </li>
+                <li>
+                    During every day, citizens organize a public voting - a lynch. The idea is to vote for a resident that is believed to be a part of the Mafia.
+                    A resident that gets the most votes is executed at the end of the day. (Votes don't have to be >50%) </br>
+                    Every living resident in town (including the Mafia members) has access to this public voting.
+                </li>
+            </ul>
+
+            <br/>
+            <br/>
+
+            If you die during the game, that <b>does NOT</b> mean you lost the game.
+            The fact you died merely means that your votes and actions no longer count and they don't affect the state of the game.
+            As mentioned earlier, the game is a competition between <b>teams</b>. That means you either <b>lose as a team, or win as a team</b>. <br/>
+
+            The only problem may be that, at first, you don't even know who else is on your team with you :).
+
+
+
+
+        </tab>
+        </tabset>
+
+        <div class="col-md-6" ng-if="selectedCity">
+            <table class="table sidetable">
+                <thead>
+                <tr>
+                    <td colspan="2">Details</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Name</td>
+                    <td>{{selectedCity.name}}</td>
+                </tr>
+                <tr>
+                    <td>Creator</td>
+                    <td>{{selectedCity.user_creator_username}}</td>
+                </tr>
+                <tr>
+                    <td>Timezone</td>
+                    <td><timezone minutes="selectedCity.timezone"></timezone></td>
+                </tr>
+                <tr>
+                    <td>Started</td>
+                    <td><img-bool boolean-value="selectedCity.started_at"></img-bool></td>
+                </tr>
+                <tr>
+                    <td>Started at</td>
+                    <td>{{selectedCity.started_at}}</td>
+                </tr>
+                <tr ng-if="selectedCity.paused">
+                    <td>Paused</td>
+                    <td><img-bool boolean-value="selectedCity.paused"></img-bool></td>
+                </tr>
+                <tr ng-if="selectedCity.finished_at">
+                    <td>Finished at</td>
+                    <td>{{selectedCity.finished_at}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <button ng-if="showEditButtonForCity(selectedCity)" ng-click="editCity(selectedCity)" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i>Edit</button>
+            <button ng-if="!showEditButtonForCity(selectedCity)" ng-click="showCity(selectedCity)" class="btn btn-default"><i class="glyphicon glyphicon-dashboard"></i>Details</button>
+            <button ng-if="showEnterButtonForCity(selectedCity)" ng-click="enterCity(selectedCity)" class="btn btn-default"><i class="glyphicon glyphicon-briefcase"></i>Enter</button>
+            <button ng-if="showJoinButtonForCity(selectedCity)" ng-click="joinCity(selectedCity)" class="btn btn-default"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
+            <button ng-if="showLeaveButtonForCity(selectedCity)" ng-click="leaveCity(selectedCity)" class="btn btn-default"><i class="glyphicon glyphicon-road"></i>Leave</button>
+        </div>
+    </div>
+
+
+</div>

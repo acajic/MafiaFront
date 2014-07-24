@@ -1,0 +1,72 @@
+app.directive('silentSheriffIdentities', function(actionsService, actionResultsService) {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/actions/silentSheriffIdentities.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            scope.actionTypeIds = actionsService.actionTypeIds;
+
+            scope.actionResultTypes = actionResultsService.actionResultTypes;
+
+            scope.actionTypeParamsResult = {};
+
+            scope.$watch('actionResults', function(actionResults) {
+                if (!actionResults)
+                    return;
+
+                // var actionResults = values[0];
+                var actionTypeParamsResultIndex = actionResults.indexOfMatchFunction(function (someActionResult) {
+                    return someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS;
+                });
+                if (actionTypeParamsResultIndex < 0) {
+                    return;
+                }
+
+                // var actionTypeParamsResult = actionResults[actionTypeParamsResultIndex].result.action_types_params;
+                scope.actionTypeParamsResult = actionResults[actionTypeParamsResultIndex];
+
+                scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES.toString()];
+
+
+            }, true);
+
+
+            scope.revealIdentities = function() {
+
+                var postActionPromise = actionsService.postAction(scope.city.id,
+                    scope.roleId,
+                    ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES,
+                    scope.city.current_day_id,
+                    { });
+
+                postActionPromise.then(function() {
+                    scope.infos = [{type:"success", msg: "On the next morning, you will see the true roles of all residents that died since you became the Sheriff."}];
+                }, function(reason) {
+                    angular.forEach(reason.httpObj.responseJSON, function(error) {
+                        scope.infos.push({type : 'danger', msg: error })
+                    });
+                });
+
+            };
+
+            scope.closeInfoAlert = function(index) {
+                scope.infos.splice(index, 1);
+            };
+
+            scope.cancelUnprocessedActions = function() {
+                var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.roleId, ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES);
+
+                cancelUnprocessedActionsPromise.then(function() {
+                    scope.infos = [{type:"success", msg: "Canceled unprocessed actions."}];
+                }, function(reason) {
+                    angular.forEach(reason.httpObj.responseJSON, function(error) {
+                        scope.infos.push({type : 'danger', msg: error })
+                    });
+                });
+            };
+
+        }
+    };
+});

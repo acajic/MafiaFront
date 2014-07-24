@@ -1,0 +1,18 @@
+<div ng-dblclick="toggleMode()">
+    <i class="glyphicon glyphicon-bullhorn"></i> News feed
+
+    <div ng-if="editMode">
+        <div id="action-type-chooser" class="dropdown">
+            <a class="dropdown-toggle">
+                {{ actionTypeLabel }}
+            </a>
+            <ul class="dropdown-menu">
+                <li ng-repeat="actionResultTypeId in supportedActionResultTypeIds">
+                    <a ng-click="actionResultTypeSelected(actionResultTypes[actionResultTypeId])">{{ actionResultTypes[actionResultTypeId].name }}</a>
+                </li>
+            </ul>
+        </div>
+
+        <action-result city="city" resident="resident" action-result="newActionResult" action-results="actionResults" role-id="roleId" edit-mode="true" is-new="true" hide="hide"></action-result>
+    </div>
+</div>

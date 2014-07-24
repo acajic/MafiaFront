@@ -1,0 +1,13 @@
+
+<div id="info-box">
+    <alert ng-repeat="alert in infos" type="alert.type" close="closeInfoAlert($index)">{{alert.msg}}</alert>
+</div>
+<div>
+<i class="glyphicon glyphicon-screenshot"></i>Mafia Vote
+</div>
+        <div class="col-md-1">
+<button ng-click="cancelUnprocessedActions()" popover="Cancel all unprocessed actions of this type" popover-trigger="mouseenter" popover-placement="right"><img src="content/img/delete-unprocessed-actions-icon.png" style="width: 25px;" /></button>
+        </div>
+        <div class="col-md-11">
+<input ng-if="city.residents" type="text" typeahead-on-select="voteOnSelect($item)" ng-model="selected" typeahead="otherResident.username for otherResident in city.residents | filter:$viewValue" class="form-control" popover="Vote for a player you want dead." popover-trigger="focus">
+        </div>

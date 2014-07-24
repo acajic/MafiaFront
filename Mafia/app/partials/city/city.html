@@ -1,0 +1,56 @@
+<!--<div class="city-not-started-overlay">
+    <div class="city-not-started-message-box">
+        This city is not yet started.
+    </div>
+</div>-->
+
+<div class="col-md-6 nopadding">
+
+    <div ng-if="!city.finished_at && !city.paused">
+        <current-day></current-day>
+
+        <city-timer city="city" next-moment="nextMoment" on-day-start="" on-night-start=""></city-timer>
+
+        <div class="day-cycle-phase">
+            <img ng-if="nextMoment && !nextMoment.isDayStart && refreshCountdownTicks == 0" src="content/img/day.png" style="width: 100px; height: 100px;" />
+            <img ng-if="nextMoment && nextMoment.isDayStart && refreshCountdownTicks == 0" src="content/img/night.png" style="width: 100px; height: 100px;" />
+            <img ng-if="refreshCountdownTicks > 0" src="content/img/ajax-loader-32.gif" />
+        </div>
+
+        <div ng-if="nextMoment">
+            {{nextMoment.isDayStart ? "Day starts at: " : "Night starts at: "}}
+            {{(nextMoment.time / 60) | minLength:2}}:{{(nextMoment.time % 60) | minLength:2}}
+        </div>
+    </div>
+    <div ng-if="city.finished_at">
+        <img src="content/img/lock-icon.png" style="width: 100px; height: 100px;" />
+        Game over. {{ gameOverDeclarationOfWinners }}
+    </div>
+    <div ng-if="city.paused">
+        <current-day></current-day>
+
+        <div class="day-cycle-phase">
+            <img ng-if="city.paused_during_day" src="content/img/day.png" style="width: 100px; height: 100px;" />
+            <img ng-if="!city.paused_during_day" src="content/img/night.png" style="width: 100px; height: 100px;" />
+        </div>
+
+        <img src="content/img/pause-icon.png" style="width: 100px; height: 100px;" />
+        Paused at: {{ city.last_paused_at}}
+    </div>
+
+    <div class="role-chooser-container">
+    Your role: <role-chooser city="city" role-id="resident.role.id" role-selected="roleSelected" edit-mode="roleChooserEditMode" enable-role-saving="true"></role-chooser>
+    </div>
+</div>
+<div ng-if="resident.alive === false" class="resident-dead" class="col-md-6">
+    <img  src="content/img/resident-dead.png" style="height: 140px">
+    You are dead
+</div>
+
+
+<div id="basic-validation-error" style="clear: both">
+    <alert ng-repeat="alert in basicValidationErrors" type="alert.type" close="closeBasicValidationAlert($index)">{{alert.msg}}</alert>
+</div>
+
+
+<role city="city" resident="resident" action-results="actionResults" is-loading="isLoading" action-results-by-type="actionResultsByType"></role>

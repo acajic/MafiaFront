@@ -1,0 +1,20 @@
+<!-- Public -->
+<vote-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_VOTE" ></vote-result>
+<vote-mafia-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_VOTE_MAFIA"></vote-mafia-result>
+<sheriff-identities-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_SHERIFF_IDENTITIES"></sheriff-identities-result>
+<terrorist-bomb-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_TERRORIST_BOMB"></terrorist-bomb-result>
+<resident-became-sheriff-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SHERIFF"></resident-became-sheriff-result>
+
+<!-- Private -->
+<investigate-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_INVESTIGATE"></investigate-result>
+
+<protect-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_PROTECT"></protect-result>
+<teller-votes-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_TELLER_VOTES"></teller-votes-result>
+
+<mafia-members-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_SINGLE_REQUIRED_MAFIA_MEMBERS"></mafia-members-result>
+
+<journalist-investigate-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE"></journalist-investigate-result>
+
+<silent-sheriff-identities-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_SILENT_SHERIFF_IDENTITIES"></silent-sheriff-identities-result>
+
+<resident-became-silent-sheriff-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF"></resident-became-silent-sheriff-result>

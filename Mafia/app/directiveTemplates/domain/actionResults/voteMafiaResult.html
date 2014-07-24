@@ -1,0 +1,15 @@
+<div ng-if="!editMode" ng-dblclick="toggleMode()">
+Day {{ actionResult.day_number }} <img src="content/img/vote-mafia-result-icon.png" style="width: 25px;"/> {{ interpretation }}
+</div>
+<div ng-if="editMode" ng-dblclick="toggleMode()">
+    Day <select ng-model="actionResultCopied.day" ng-options="day.number for day in city.days"></select>
+
+    <input ng-if="city.residents" type="text" typeahead-on-select="addToKilledResidents($item)" ng-model="selected" typeahead="otherResident.username for otherResident in city.residents | filter:$viewValue" class="form-control">
+    <a ng-click="removeFromKilledResidents(index)">x</a> {{ killedResident.username}}
+
+
+
+    <button ng-if="isNew" ng-click="hide()"><i class="glyphicon glyphicon-ban-circle"></i></button>
+    <button ng-if="!isNew" ng-click="deleteActionResult()"><i class="glyphicon glyphicon-trash"></i></button>
+    <button ng-click="submitActionResult()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+</div>

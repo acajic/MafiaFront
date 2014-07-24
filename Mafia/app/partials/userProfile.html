@@ -1,0 +1,40 @@
+<button ng-click="home()" class="btn btn-default"><i class="glyphicon glyphicon-home"></i>Home</button>
+
+<div id="info-box">
+    <alert ng-repeat="alert in infos" type="alert.type" close="closeInfoAlert($index)">{{alert.msg}}</alert>
+</div>
+<div ng-hide="isLoading">
+
+    <table class="table">
+        <tr>
+            <td>Username</td>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="text" ng-model="user.email"></td>
+        </tr>
+        <tr>
+            <td>Current Password</td>
+            <td><input type="password" ng-model="user.current_password"></td>
+        </tr>
+        <tr>
+            <td>New Password</td>
+            <td><input type="password" ng-model="user.new_password"></td>
+        </tr>
+        <tr>
+            <td>Repeat new password</td>
+            <td><input type="password" ng-model="user.repeat_new_password"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><button ng-click="save()" class="btn btn-default">Save</button></td>
+        </tr>
+    </table>
+    <br>
+
+</div>
+
+<div ng-show="isLoading">
+    <loader size="large"></loader>
+</div>

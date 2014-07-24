@@ -1,0 +1,194 @@
+
+
+#footer {
+    text-align: center;
+}
+
+@-moz-document url-prefix() {
+
+}
+
+/* BEGIN bootstrap modifications */
+
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* END bootstrap modifications */
+
+
+
+
+/* BEGIN layout */
+
+.auth {
+    text-align:right
+}
+
+/* END layout */
+
+
+
+/* BEGIN pointer for anchor tags */
+a {
+    cursor: pointer;
+}
+
+button {
+    padding: 0px;
+}
+
+td {
+    vertical-align: middle !important;
+}
+/* END pointer for anchor tags */
+
+
+/* BEGIN interactiveTableDirective */
+.table tbody tr.selected td { background-color: #a4aaa9; }
+.table thead tr {
+    background-color: #7c8281;
+    color: #eef7f5;
+}
+/* END interactiveTableDirective */
+
+/* BEGIN sidetable */
+
+.sidetable thead tr {
+    text-align: center;
+    background-color: #a2a9a8;
+    color: #eef7f5;
+}
+
+.sidetable tbody td:nth-child(1) {
+    min-width: 200px;
+    width: 10%;
+    background-color: #7c8281;
+    color: #eef7f5;
+}
+
+.gray-cell {
+    background-color: #7c8281;
+    color: #eef7f5;
+}
+
+.side-key {
+    height: 26px;
+    background-color: #7c8281;
+    color: #eef7f5;
+    border: solid;
+    border-color: #c8c8c8;
+    border-width: 1px;
+}
+
+/* END sidetable */
+
+/* BEGIN day cycles */
+.new-day-cycle-row {
+    background-color: rgba(182, 255, 202, 0.33);
+}
+
+.narrow-horizontal-button {
+    width: 100%;
+}
+
+/* END day cycles */
+
+
+/* BEGIN invite players to your game */
+.invite-adding-row {
+    background-color: rgba(182, 255, 202, 0.33);
+}
+
+.invite-added-row {
+}
+
+/* END invite players to your game */
+
+/* BEGIN */
+
+.resident-dead {
+    font-size: 20px;
+}
+
+.role-chooser-container {
+    font-size: 20px;
+}
+
+.role-chooser {
+    font-size: 20px;
+    display: inline-block;
+}
+
+.role-chooser .alert {
+    font-size: 12px;
+}
+
+.role-chooser-explanation {
+    font-size: 12px;
+}
+
+.current-day, .current-day-edit {
+    font-size: 20px;
+}
+
+.city-time {
+    font-size: 20px;
+}
+
+.city-time-edit {
+    font-size: 16px;
+}
+
+.city-row-created {
+    background-color: rgba(239, 241, 51, 0.25);
+}
+
+.city-row-finished {
+    background-color: rgba(187, 20, 0, 0.25);
+}
+
+.city-row-paused {
+    background-color: rgba(104, 156, 248, 0.24);
+}
+
+.city-row-active {
+    background-color: rgba(52, 252, 72, 0.23);
+}
+
+/*.city-not-started-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #14171c;
+    opacity: 0.8;
+    z-index: 30;
+}
+
+.city-not-started-message-box {
+    width: 300px;
+    height: 50px;
+    margin: auto auto;
+    color: #ffffff;
+    font-size: 22px;
+}*/
+
+.popover {
+    font-size: 14px;
+    width: 350px;
+}
+
+/* END */
+
+/* BEGIN gameOverResult */
+
+.resident-row-won {
+    background-color: rgba(52, 252, 72, 0.23);
+}
+
+.resident-row-lost {
+    background-color: rgba(187, 20, 0, 0.25);
+}
+
+/* END gameOverResult */

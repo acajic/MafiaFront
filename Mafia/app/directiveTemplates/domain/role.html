@@ -1,0 +1,24 @@
+<div id="role" ng-hide="isLoading">
+
+    <citizen ng-if="resident.role.id == roleIds.ROLE_ID_CITIZEN"></citizen>
+
+    <doctor ng-if="resident.role.id == roleIds.ROLE_ID_DOCTOR"></doctor>
+
+    <detective ng-if="resident.role.id == roleIds.ROLE_ID_DETECTIVE"></detective>
+    <teller ng-if="resident.role.id == roleIds.ROLE_ID_TELLER"></teller>
+
+    <mob ng-if="resident.role.id == roleIds.ROLE_ID_MOB"></mob>
+    <sheriff ng-if="resident.role.id == roleIds.ROLE_ID_SHERIFF"></sheriff>
+    <terrorist ng-if="resident.role.id == roleIds.ROLE_ID_TERRORIST"></terrorist>
+
+    <journalist ng-if="resident.role.id == roleIds.ROLE_ID_JOURNALIST"></journalist>
+
+    <fugitive ng-if="resident.role.id == roleIds.ROLE_ID_FUGITIVE"></fugitive>
+
+    <silent-sheriff ng-if="resident.role.id == roleIds.ROLE_ID_SILENT_SHERIFF"></silent-sheriff>
+
+    <div style="clear: both"></div>
+</div>
+<div ng-show="isLoading">
+    <loader size="large"></loader>
+</div>

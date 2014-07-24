@@ -1,0 +1,10 @@
+<div class="col-md-6 nopadding">
+    <vote ng-if="!city.finished_at && roleId != roleIds.ROLE_ID_FUGITIVE" city="city" resident="resident"></vote>
+    <residents ng-hide="city.finished_at" city="city" action-results="actionResults" action-results-by-type="actionResultsByType"></residents>
+    <game-over-result ng-if="city.finished_at" city="city" action-results-by-type="actionResultsByType"></game-over-result>
+
+</div>
+<div class="col-md-6">
+
+    <public-news-feed city="city" role-id="roleId" resident="resident" action-results="actionResults"></public-news-feed>
+</div>
