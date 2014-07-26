@@ -42,7 +42,13 @@ app.directive('auth', function(authService, $location, layoutService) {
                         return;
 
                     if (reason.httpObj.status == 401) {
-                        scope.infos.push({type: 'danger', msg:'Wrong credentials'});
+                        if (reason.httpObj.responseText) {
+                            scope.infos.push({type: 'danger', msg:reason.httpObj.responseText});
+                        } else {
+                            scope.infos.push({type: 'danger', msg:'Server error'});
+                        }
+
+
                     } else {
                         scope.infos.push({type: 'danger', msg:'Server error'});
                     }
