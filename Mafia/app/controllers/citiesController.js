@@ -1,4 +1,4 @@
-app.controller('CitiesController',function ($scope, citiesService, authService, modalService, $location, layoutService) {
+app.controller('CitiesController',function ($scope, $routeParams, citiesService, authService, modalService, $location, layoutService) {
     "use strict";
 
     layoutService.setHomeButtonVisible(false);
@@ -176,6 +176,15 @@ app.controller('CitiesController',function ($scope, citiesService, authService, 
     init();
 
     function init() {
+        var emailConfirmationCode = $routeParams["emailConfirmationCode"];
+        if (emailConfirmationCode) {
+            if ($scope.user) {
+                $scope.user['emailConfirmationCode'] = emailConfirmationCode;
+            } else {
+                $scope.user = {emailConfirmationCode : emailConfirmationCode};
+            }
+            $location.path('/cities');
+        }
 
         $scope.selected = {rowId: 0};
         $scope.refreshCities();

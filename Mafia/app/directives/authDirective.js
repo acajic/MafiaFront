@@ -1,4 +1,4 @@
-app.directive('auth', function(authService, $location, layoutService) {
+app.directive('auth', function($routeParams, authService, $location, layoutService) {
     return {
         restrict: 'E',
         link: function(scope, element, attrs) {
@@ -22,18 +22,34 @@ app.directive('auth', function(authService, $location, layoutService) {
                 isLoading: false
             };
 
+            scope.$watch('user', function(newUser) {
+                if (newUser['emailConfirmationCode']) {
+                    if (!newUser.signedIn)
+                        signIn();
+                }
+            }, true);
+
             signIn();
 
             function signIn() {
                 scope.loader.isLoading = true;
-                var userMePromise = authService.authenticate(scope.user.username, scope.user.password);
+                var userMePromise;
+                if (scope.user['emailConfirmationCode']) {
+                    var emailConfirmationCode = scope.user['emailConfirmationCode'];
+                    scope.user['emailConfirmationCode'] = null;
+                    userMePromise = authService.exchangeEmailConfirmationCode(emailConfirmationCode);
+                } else {
+                    userMePromise = authService.authenticate(scope.user.username, scope.user.password);
+                }
 
                 userMePromise.then(function(userMe) {
+
                     scope.user = userMe;
                     scope.user.signedIn = true;
                     scope.user.password = "";
 
                     scope.loader.isLoading = false;
+
                 }, function(reason) {
                     scope.user.signedIn = false;
                     scope.loader.isLoading = false;
