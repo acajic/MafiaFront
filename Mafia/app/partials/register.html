@@ -7,24 +7,24 @@
 
     <table>
         <tr>
-            <td>Username*</td>
+            <td>Username<p style="color: red; display: inline">*</p></td>
             <td><input type="text" ng-model="newUser.username"></td>
         </tr>
         <tr>
-            <td>Email</td>
+            <td>Email<p style="color: red; display: inline">*</p></td>
             <td><input type="email" ng-model="newUser.email"></td>
         </tr>
         <tr>
-            <td>Password*</td>
+            <td>Password<p style="color: red; display: inline">*</p></td>
             <td><input type="password" ng-model="newUser.password"></td>
         </tr>
         <tr>
-            <td>Repeat password*</td>
+            <td>Repeat password<p style="color: red; display: inline">*</p></td>
             <td><input type="password" ng-model="newUser.repeat_password"></td>
         </tr>
     </table>
     <br>
-    * - required fields
+    <p style="color: red; display: inline">*</p> - required fields
 
     <br>
     <button ng-click="register()">Register</button>
