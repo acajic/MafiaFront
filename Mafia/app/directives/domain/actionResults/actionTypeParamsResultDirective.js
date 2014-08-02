@@ -55,42 +55,6 @@ app.directive('actionTypeParamsResult', function(actionResultsService) {
                 postActionResult(modifiedActionResult);
             };
 
-            /*
-            scope.deleteActionResult = function() {
-                var deleteActionResultPromise = actionResultsService.deleteActionResult(scope.actionResult.id);
-                deleteActionResultPromise.then(function() {
-                    var index = scope.actionResults.indexOfMatchFunction(function(someActionResult) {
-                        return someActionResult.id == scope.actionResult.id;
-                    });
-
-                    if (index < 0)
-                        return;
-
-                    scope.actionResults.splice(index, 1);
-                });
-            };
-
-            scope.submitActionResult = function() {
-                var postActionResultPromise = actionResultsService.postActionResult(
-                    scope.city.id,
-                    scope.resident.role.id,
-                    scope.actionResult.action_result_type,
-                    scope.actionResult.action_id,
-                    scope.actionResult.day_id,
-                    {
-                        target_id : scope.investigatedResident == null ? -1 : scope.investigatedResident.id,
-                        success : scope.outcome.success
-                    }
-                );
-
-                postActionResultPromise.then(function(createdActionResult) {
-                    var index = scope.actionResults.indexOfMatchFunction(function(someActionResult) {
-                        return someActionResult.id == scope.actionResult.id;
-                    });
-
-                    scope.actionResults.splice(index, 1, createdActionResult);
-                });
-            };*/
 
             function postActionResult(actionResult) {
                 var postActionResultPromise = actionResultsService.postActionResult(

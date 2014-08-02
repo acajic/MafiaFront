@@ -1,6 +1,6 @@
 <div ng-if="!editMode">
-    Detonation delay: {{ actionTypeParams.detonation_delay }}
-    Number of collateral victims: {{ actionTypeParams.number_of_collaterals  }}
+    Detonation delay: {{ actionTypeParams ? actionTypeParams.detonation_delay : '5m' }}
+    Number of collateral victims: {{ actionTypeParams ? actionTypeParams.number_of_collaterals : 1 }}
 
 </div>
 <div ng-if="editMode">

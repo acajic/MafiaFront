@@ -10,9 +10,13 @@ app.directive('terroristBombActionTypeParamsResult', function(actionResultsServi
         link: function(scope, element, attrs) {
             "use strict";
 
+            var detonationNumber;
+            var detonationTimeInterval;
+            if (scope.actionTypeParams && scope.actionTypeParams.detonation_delay && scope.actionTypeParams.number_of_collaterals !== undefined) {
+                detonationNumber = parseInt(scope.actionTypeParams.detonation_delay.slice(0,-1));
+                detonationTimeInterval = scope.actionTypeParams.detonation_delay.slice(-1);
+            }
 
-            var detonationNumber = parseInt(scope.actionTypeParams.detonation_delay.slice(0,-1));
-            var detonationTimeInterval = scope.actionTypeParams.detonation_delay.slice(-1);
 
             scope.detonationProps = {
                 detonationNumber : detonationNumber || 5,
@@ -24,6 +28,10 @@ app.directive('terroristBombActionTypeParamsResult', function(actionResultsServi
             };
 
             scope.$watch('actionTypeParams.number_of_collaterals', function(newValue, oldValue) {
+                if (!scope.actionTypeParams) {
+                    return;
+                }
+
                 if (!isNumberOfCollateralsValid(newValue)) {
                     if (isNumberOfCollateralsValid(oldValue))
                         scope.actionTypeParams.number_of_collaterals = oldValue;
@@ -49,7 +57,7 @@ app.directive('terroristBombActionTypeParamsResult', function(actionResultsServi
             };
 
             scope.$watch('detonationProps.detonationNumber', function(newValue, oldValue) {
-                if (newValue === undefined || !scope.actionTypeParams.detonation_delay)
+                if (newValue === undefined || !scope.actionTypeParams || !scope.actionTypeParams.detonation_delay)
                     return;
 
                 if (!isDetonationNumberValid(newValue)) {
@@ -85,7 +93,8 @@ app.directive('terroristBombActionTypeParamsResult', function(actionResultsServi
 
                 }
                 var detonationNumber = scope.detonationProps.detonationNumber;
-                scope.actionTypeParams.detonation_delay = '' + detonationNumber + scope.detonationProps.detonationTimeInterval;
+                if (scope.actionTypeParams)
+                    scope.actionTypeParams.detonation_delay = '' + detonationNumber + scope.detonationProps.detonationTimeInterval;
 
             }, true);
 
@@ -95,7 +104,7 @@ app.directive('terroristBombActionTypeParamsResult', function(actionResultsServi
 
                 var detonationNumber = newValue.slice(0,-1);
                 if (!scope.detonationProps.detonationNumber || detonationNumber != scope.detonationProps.detonationNumber.toString()) {
-                    // scope.detonationProps.detonationNumber = parseInt(detonationNumber);
+                    scope.detonationProps.detonationNumber = parseInt(detonationNumber);
                 }
                 var detonationTimeInterval = newValue.slice(-1);
                 if (detonationTimeInterval != scope.detonationProps.detonationTimeInterval) {
