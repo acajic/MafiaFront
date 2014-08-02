@@ -1,6 +1,7 @@
-<teller-votes-action-type-params-result ng-if="actionTypeId == actionTypeIds.ACTION_TYPE_ID_TELLER_VOTES"></teller-votes-action-type-params-result>
+<div ng-dblclick="toggleMode()">
 
-<sheriff-identities-action-type-params-result ng-if="actionTypeId == actionTypeIds.ACTION_TYPE_ID_SHERIFF_IDENTITIES"></sheriff-identities-action-type-params-result>
-<terrorist-bomb-action-type-params-result ng-if="actionTypeId == actionTypeIds.ACTION_TYPE_ID_TERRORIST_BOMB"></terrorist-bomb-action-type-params-result>
+<action-type-params action-type-id="actionTypeId" action-type-params="actionTypeParams" edit-mode="editMode"></action-type-params>
 
-<silent-sheriff-identities-action-type-params-result ng-if="actionTypeId == actionTypeIds.ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES"></silent-sheriff-identities-action-type-params-result>
+<button ng-click="deleteActionResult()" ng-if="editMode"><i class="glyphicon glyphicon-trash"></i></button>
+<button ng-click="submitActionResult()" ng-if="editMode"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+</div>

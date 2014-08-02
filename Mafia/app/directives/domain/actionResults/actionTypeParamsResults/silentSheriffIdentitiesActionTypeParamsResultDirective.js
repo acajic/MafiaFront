@@ -2,9 +2,32 @@ app.directive('silentSheriffIdentitiesActionTypeParamsResult', function(actionRe
     "use strict";
     return {
         restrict : 'E',
+        scope: {
+            actionTypeParams: '=',
+            editMode: '='
+        },
         templateUrl: 'app/directiveTemplates/domain/actionResults/actionTypeParamsResults/silentSheriffIdentitiesActionTypeParamsResult.html',
         link: function(scope, element, attrs) {
             "use strict";
+
+            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
+
+            scope.validateInput = function() {
+                if (scope.actionTypeParams.number_of_actions_available < 0) {
+                    scope.actionTypeParams.number_of_actions_available = 0;
+                }
+            };
+
+            scope.isInfiniteChanged = function(){
+                scope.isInfinite = !scope.isInfinite;
+                if (scope.isInfinite) {
+                    scope.actionTypeParams.number_of_actions_available = -1;
+                } else {
+                    scope.actionTypeParams.number_of_actions_available = 1;
+                }
+            };
+
+            /*
 
             scope.$watch('[actionResult, roleId]', function(values) {
                 var actionResult = values[0];
@@ -30,6 +53,8 @@ app.directive('silentSheriffIdentitiesActionTypeParamsResult', function(actionRe
 
                 scope.editMode = !scope.editMode;
             };
+
+
 
             scope.deleteActionResult = function() {
                 var modifiedActionResult = {};
@@ -68,7 +93,7 @@ app.directive('silentSheriffIdentitiesActionTypeParamsResult', function(actionRe
                     scope.actionResults.splice(index, 1, createdActionResult);
                     scope.editMode = false;
                 });
-            };
+            };*/
 
 
         }

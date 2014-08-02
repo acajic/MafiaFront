@@ -3,7 +3,7 @@ var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'u
 app.config(function ($routeProvider, $locationProvider) {
     'use strict';
 
-    $routeProvider.when('/cities/:emailConfirmationCode', {
+    $routeProvider.when('/cities/email_confirmation/:emailConfirmationCode', {
         controller: 'CitiesController',
         templateUrl: 'app/partials/cities.html'
     }).when('/cities', {

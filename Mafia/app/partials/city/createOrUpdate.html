@@ -261,32 +261,90 @@
                 You should have a targeted number of players join your game before proceeding to role distribution step.
             </div>
 
-            <table class="table sidetable">
-                <tbody>
-                <tr>
-                    <td>Total residents</td>
-                    <td>{{ city.residents.length }}</td>
-                </tr>
-                <tr>
-                    <td>Roles undistributed</td>
-                    <td>{{ remainingRoles }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center">Citizens</td>
-                </tr>
-                <tr ng-repeat="role_quantity in roleQuantities | filter : {role : {affiliation_id : 1}}">
-                    <td>{{role_quantity.role.name}}</td>
-                    <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'" readonly="city.started_at"></points-assign></td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center">Mafia</td>
-                </tr>
-                <tr ng-repeat="role_quantity in roleQuantities | filter : {role: {affiliation_id : 2}} ">
-                    <td>{{role_quantity.role.name}}</td>
-                    <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'" readonly="city.started_at"></points-assign></td>
-                </tr>
-                </tbody>
-            </table>
+            <tabset>
+                <tab>
+                    <tab-heading>
+                        <i class="glyphicon glyphicon-tasks"></i> Distribution
+                    </tab-heading>
+                    <table class="table sidetable">
+                        <tbody>
+                        <tr>
+                            <td>Total residents</td>
+                            <td>{{ city.residents.length }}</td>
+                        </tr>
+                        <tr>
+                            <td>Roles undistributed</td>
+                            <td>{{ remainingRoles }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: center">Citizens</td>
+                        </tr>
+                        <tr ng-repeat="role_quantity in roleQuantities | filter : {role : {affiliation_id : 1}}">
+                            <td>{{role_quantity.role.name}}</td>
+                            <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'" readonly="city.started_at"></points-assign></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: center">Mafia</td>
+                        </tr>
+                        <tr ng-repeat="role_quantity in roleQuantities | filter : {role: {affiliation_id : 2}} ">
+                            <td>{{role_quantity.role.name}}</td>
+                            <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'" readonly="city.started_at"></points-assign></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </tab>
+
+                <tab>
+                    <tab-heading>
+                        <i class="glyphicon glyphicon-cog"></i> Action Type Parameters
+                    </tab-heading>
+                    <table class="table sidetable">
+                        <thead>
+                            <tr>
+                                <td class="col-md-1">Role</td>
+                                <td class="col-md-2">Action Type</td>
+                                <td class="col-md-9">Parameters</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td colspan="3" style="text-align: center">Citizens</td>
+                        </tr>
+                        <tr ng-repeat="cityHasRole in city.city_has_roles | filter : {role : {affiliation_id : 1}} | cityHasRolesWithActionTypesParamsFilter">
+                            <td class="col-md-1">{{cityHasRole.role.name}}</td>
+                            <td colspan="2" class="col-md-11">
+                                <table>
+                                    <tr ng-repeat="actionType in cityHasRole.role.action_types | defaultActionTypeParamsPresentFilter">
+                                        <td class="col-md-1">{{ actionType.name }}</td>
+                                        <td class="col-md-10"> <action-type-params action-type-id="actionType.id" action-type-params="cityHasRole.action_types_params[actionType.id]" edit-mode="!city.started_at"></action-type-params> </td>
+                                    </tr>
+                                </table>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align: center">Mafia</td>
+                        </tr>
+                        <tr ng-repeat="cityHasRole in city.city_has_roles | filter : {role: {affiliation_id : 2}} | cityHasRolesWithActionTypesParamsFilter">
+                            <td class="col-md-1">{{cityHasRole.role.name}}</td>
+                            <td colspan="2" class="col-md-11">
+                                <table>
+                                    <tr ng-repeat="actionType in cityHasRole.role.action_types | defaultActionTypeParamsPresentFilter">
+                                        <td class="col-md-1">{{ actionType.name }}</td>
+                                        <td class="col-md-10"> <action-type-params action-type-id="actionType.id" action-type-params="cityHasRole.action_types_params[actionType.id]" edit-mode="!city.started_at"></action-type-params> </td>
+                                    </tr>
+                                </table>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </tab>
+            </tabset>
+
+
         </tab>
 
 

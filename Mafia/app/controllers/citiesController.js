@@ -164,6 +164,9 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
     }
 
     $scope.$watch("user", function (newUser) {
+        if (!newUser)
+            return;
+
         if (newUser.app_permissions) {
             $scope.appPermissionCreateGamesGranted = newUser.app_permissions[APP_PERMISSION_CREATE_GAMES];
         } else {

@@ -65,10 +65,13 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
 
             $scope.generalMessages = [{type: 'success', msg: "Successfullty created '" + createdCity.name + "'."}];
         }, function(reason) {
-            var message = 'Failed to start city.';
-            angular.forEach(reason.httpObj.responseJSON, function(error) {
-                message += error + ". ";
-            });
+            var message = 'Failed to start city. ';
+            for (var key in reason.httpObj.responseJSON) {
+                if (reason.httpObj.responseJSON.hasOwnProperty(key)) {
+                    message += key + " " + reason.httpObj.responseJSON[key] + ". ";
+                }
+            }
+
             $scope.generalMessages = [{type: 'danger', msg: message }];
         });
     }
@@ -699,8 +702,17 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
                 if (!last_city_has_role) {
                     last_city_has_role = {
                         city_id : $scope.city.id,
-                        role : someRoleQuantity.role
+                        role : someRoleQuantity.role,
+                        action_types_params : {}
                     };
+                    angular.forEach(someRoleQuantity.role.action_types, function(someActionType) {
+                        if (Object.getOwnPropertyNames(someActionType.action_type_params).length != 0) {
+                            last_city_has_role.action_types_params[someActionType.id] = someActionType.action_type_params;
+                        }
+
+
+                    });
+
                 }
                 var new_city_has_role = angular.copy(last_city_has_role);
                 new_city_has_role.id = null;
@@ -909,4 +921,49 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
         $scope.toggleSelfGeneratedResultType = toggleSelfGeneratedResultType;
     }
 
-});
+}).filter('defaultActionTypeParamsPresentFilter', function() {
+    return function(actionTypes) {
+        var filteredActionTypes = [];
+
+        angular.forEach(actionTypes, function(actionType) {
+            "use strict";
+
+            if (actionType.action_type_params) {
+                if (Object.keys(actionType.action_type_params).length === 0) {
+                } else {
+                    filteredActionTypes.push(actionType);
+                }
+            }
+
+
+        });
+
+        return filteredActionTypes;
+    };
+}).filter('cityHasRolesWithActionTypesParamsFilter', function() {
+    return function(cityHasRoles) {
+        var filteredCityHasRoles = [];
+
+        angular.forEach(cityHasRoles, function(cityHasRole) {
+            var role = cityHasRole.role;
+            "use strict";
+            var roleProcessed = false;
+
+            angular.forEach(role.action_types, function(someActionType) {
+                if (!roleProcessed) {
+                    if (someActionType.action_type_params) {
+                        if (Object.keys(someActionType.action_type_params).length === 0) {
+                        } else {
+                            filteredCityHasRoles.push(cityHasRole);
+                        }
+                    }
+                }
+            });
+
+
+
+        });
+
+        return filteredCityHasRoles;
+    };
+});;

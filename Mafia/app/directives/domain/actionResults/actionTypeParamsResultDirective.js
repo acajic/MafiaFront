@@ -1,4 +1,4 @@
-app.directive('actionTypeParamsResult', function(actionsService, actionResultsService) {
+app.directive('actionTypeParamsResult', function(actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -9,16 +9,14 @@ app.directive('actionTypeParamsResult', function(actionsService, actionResultsSe
             actionResults: '=',
             actionTypeId: '=',
             roleId: '=',
-            editMode: '=',
             isNew: '='
         },
         templateUrl: 'app/directiveTemplates/domain/actionResults/actionTypeParamsResult.html',
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.actionTypeIds = actionsService.actionTypeIds;
-
             scope.actionTypeParams = {};
+            scope.editMode = false;
 
             scope.$watch('[actionResult]', function(values) {
                 var actionResult = values[0];
@@ -41,6 +39,23 @@ app.directive('actionTypeParamsResult', function(actionsService, actionResultsSe
 
             }, true);
 
+            scope.toggleMode = function() {
+                if (scope.city.finished_at)
+                    return;
+
+                scope.editMode = !scope.editMode;
+            };
+
+            scope.deleteActionResult = function() {
+                var modifiedActionResult = {};
+                angular.copy(scope.actionResult, modifiedActionResult);
+
+                modifiedActionResult.result.action_types_params[scope.roleId.toString()][scope.actionTypeId.toString()] = null;
+
+                postActionResult(modifiedActionResult);
+            };
+
+            /*
             scope.deleteActionResult = function() {
                 var deleteActionResultPromise = actionResultsService.deleteActionResult(scope.actionResult.id);
                 deleteActionResultPromise.then(function() {
@@ -75,8 +90,31 @@ app.directive('actionTypeParamsResult', function(actionsService, actionResultsSe
 
                     scope.actionResults.splice(index, 1, createdActionResult);
                 });
+            };*/
+
+            function postActionResult(actionResult) {
+                var postActionResultPromise = actionResultsService.postActionResult(
+                    scope.city.id,
+                    null, // role id
+                    actionResult.action_result_type,
+                    null, // action id
+                    actionResult.day_id,
+                    actionResult.result
+                );
+
+                postActionResultPromise.then(function(createdActionResult) {
+                    var index = scope.actionResults.indexOfMatchFunction(function(someActionResult) {
+                        return someActionResult.id == scope.actionResult.id;
+                    });
+
+                    scope.actionResults.splice(index, 1, createdActionResult);
+                    scope.editMode = false;
+                });
             };
 
+            scope.submitActionResult = function() {
+                postActionResult(scope.actionResult);
+            };
 
         }
     };

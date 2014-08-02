@@ -50,7 +50,7 @@ app.factory('citiesService', function($q, serverService) {
     }
 
     var getNewCity = function() {
-        if (!$.isEmptyObject(newCity)) {
+        if (newCity.user_creator_id) {
             var deferred = $q.defer();
             deferred.resolve(newCity);
             return deferred.promise;

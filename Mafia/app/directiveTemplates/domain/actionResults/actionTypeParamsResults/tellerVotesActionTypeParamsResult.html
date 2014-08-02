@@ -1,4 +1,4 @@
-<div ng-if="!editMode" ng-dblclick="toggleMode()">
+<div ng-if="!editMode">
     <div ng-if="actionTypeParams.number_of_actions_available == 0">
         No more actions of this type avaialable.
     </div>
@@ -9,9 +9,7 @@
         Unlimited.
     </div>
 </div>
-<div ng-if="editMode" ng-dblclick="toggleMode()">
-    Number of actions available: <input type="number" ng-model="modifiedActionTypeParamsDictionary.numberOfActionsAvailable">
-
-    <button ng-click="deleteActionResult()"><i class="glyphicon glyphicon-trash"></i></button>
-    <button ng-click="submitActionResult()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+<div ng-if="editMode">
+    Number of actions available: <input type="number" ng-model="actionTypeParams.number_of_actions_available" ng-change="validateInput()" ng-hide="isInfinite">
+    <input type="checkbox" ng-model="isInfinite" ng-change="isInfiniteChanged()"> Infinite?
 </div>

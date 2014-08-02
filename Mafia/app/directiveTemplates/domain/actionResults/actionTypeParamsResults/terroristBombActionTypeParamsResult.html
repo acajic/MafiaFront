@@ -1,13 +1,19 @@
-<div ng-if="!editMode" ng-dblclick="toggleMode()">
+<div ng-if="!editMode">
     Detonation delay: {{ actionTypeParams.detonation_delay }}
     Number of collateral victims: {{ actionTypeParams.number_of_collaterals  }}
 
 </div>
-<div ng-if="editMode" ng-dblclick="toggleMode()">
+<div ng-if="editMode">
 
-    Detonation delay: <input type="number" ng-model="detonationDelaySeconds">
-    Number of collateral victims: <input type="number" ng-model="numberOfCollateralVictims">
 
-    <button ng-click="deleteActionResult()"><i class="glyphicon glyphicon-trash"></i></button>
-    <button ng-click="submitActionResult()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+    Detonation delay: <input type="number" ng-model="detonationProps.detonationNumber">
+    <select ng-model="detonationProps.detonationTimeInterval">
+        <option value="s"> seconds </option>
+        <option value="m"> minutes </option>
+        <option value="h"> hours </option>
+    </select>
+
+    <br/>
+
+    Number of collateral victims: <input type="number" ng-model="actionTypeParams.number_of_collaterals">
 </div>
