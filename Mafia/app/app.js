@@ -103,6 +103,20 @@ app.config(function ($routeProvider, $locationProvider) {
             }
         }
 
+    }).when('/admin', {
+        controller: 'AdminController',
+        templateUrl: 'app/partials/admin/admin.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READONLY] && !userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_RW]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
     }).otherwise({redirectTo:'/cities'})
 
 

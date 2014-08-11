@@ -40,9 +40,21 @@ app.factory('rolesService', function(serverService, $q) {
         return deferred.promise;
     };
 
+    var getAllRolesByIds = function(refresh) {
+        var allRolesPromise = getAllRoles(refresh);
+        return allRolesPromise.then(function(allRolesResult) {
+            var allRolesByIds = {};
+            angular.forEach(allRolesResult, function(someRole) {
+                allRolesByIds[someRole.id] = someRole;
+            });
+            return allRolesByIds;
+        });
+    };
+
     return {
         roleIds : roleIds,
         allRoles : allRoles,
-        getAllRoles : getAllRoles
+        getAllRoles : getAllRoles,
+        getAllRolesByIds : getAllRolesByIds
     };
 });

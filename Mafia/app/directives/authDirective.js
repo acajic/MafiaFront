@@ -8,8 +8,20 @@ app.directive('auth', function($routeParams, authService, $location, layoutServi
 
             scope.homeButtonVisible = layoutService.homeButtonVisible;
 
+            scope.adminButtonVisible = function() {
+                if (scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_RW] || scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_READONLY]) {
+                    return layoutService.adminButtonVisible();
+                } else {
+                    return false;
+                }
+            };
+
             scope.setLocationHome = function () {
                 $location.path('');
+            };
+
+            scope.setLocationAdmin = function () {
+                $location.path('/admin');
             };
 
             scope.user = {
@@ -80,9 +92,6 @@ app.directive('auth', function($routeParams, authService, $location, layoutServi
             scope.signOut = function() {
                 authService.signOut();
                 scope.user = {};
-                /*scope.user.username = "";
-                scope.user.password = "";
-                scope.user.signedIn = false;*/
                 $location.path('/cities');
             };
 

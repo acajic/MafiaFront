@@ -13,8 +13,22 @@ app.factory('layoutService', function() {
         homeButton.visible = visible;
     };
 
+    var adminButton = {
+        visible: true
+    };
+
+    var adminButtonVisible = function() {
+        return adminButton.visible;
+    };
+
+    var setAdminButtonVisible = function(visible) {
+        adminButton.visible = visible;
+    };
+
     return {
         homeButtonVisible: homeButtonVisible,
-        setHomeButtonVisible: setHomeButtonVisible
+        setHomeButtonVisible: setHomeButtonVisible,
+        adminButtonVisible: adminButtonVisible,
+        setAdminButtonVisible: setAdminButtonVisible
     }
 });

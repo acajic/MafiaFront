@@ -1,0 +1,309 @@
+<div style="clear: both">
+    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+</div>
+
+<div class="col-md-12 nopadding">
+    <tabset>
+        <tab select="tabSelected(0)">
+            <tab-heading>
+                Users
+            </tab-heading>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Username</td>
+                    <td>Email</td>
+                    <td>App Role</td>
+                    <td>Email Confirmed</td>
+                    <td>Created At</td>
+                    <td>Updated At</td>
+                    <td>Details</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in filteredUsers">
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.app_role.name }}</td>
+                    <td>{{ user.created_at }}</td>
+                    <td>{{ user.updated_at }}</td>
+                    <td style="text-align: center;"><img-bool boolean-value="user.email_confirmed"></img-bool></td>
+                    <td><button class="btn btn-info">Details</button></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </tab>
+
+        <tab select="tabSelected(1)">
+            <tab-heading>
+                Cities
+            </tab-heading>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>User Creator</td>
+                    <td>Timezone</td>
+                    <td>Started At</td>
+                    <td>Paused At</td>
+                    <td>Finished At</td>
+                    <td>Created At</td>
+                    <td>Updated At</td>
+                    <td>Details</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="city in filteredCities">
+                    <td>{{ city.id }}</td>
+                    <td>{{ city.name }}</td>
+                    <td>id: {{ city.user_creator_id }}; username: {{ city.user_creator_username }}</td>
+                    <td>{{ city.timezone }}</td>
+                    <td>{{ city.started_at }}</td>
+                    <td>{{ city.paused ? city.last_paused_at : null }}</td>
+                    <td>{{ city.finished_at }}</td>
+                    <td>{{ city.created_at }}</td>
+                    <td>{{ city.updated_at }}</td>
+                    <td><button class="btn btn-info">Details</button></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </tab>
+
+
+        <tab select="tabSelected(2)">
+            <tab-heading>
+                Residents
+            </tab-heading>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>User</td>
+                    <td>City</td>
+                    <td>Role</td>
+                    <td>Saved Role</td>
+                    <td>Role Seen</td>
+                    <td>Died At</td>
+                    <td>Updated At</td>
+                    <td>Details</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="resident in filteredResidents">
+                    <td>{{ resident.id }}</td>
+                    <td>user_id: {{ resident.user_id }}; username: {{ resident.username }}</td>
+                    <td>city_id: {{ resident.city_id }}; city_name: {{ resident.city_name }}</td>
+                    <td>{{ resident.role.name }}</td>
+                    <td>{{ allRolesByIds[resident.saved_role_id].name }}</td>
+                    <td style="text-align: center;"><img-bool boolean-value="resident.role_seen"></img-bool></td>
+                    <td>{{ resident.died_at}}</td>
+                    <td>{{ resident.updated_at}}</td>
+                    <td><button class="btn btn-info">Details</button></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </tab>
+
+
+        <tab select="tabSelected(3)">
+            <tab-heading>
+                Actions
+            </tab-heading>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Resident</td>
+                    <td>Role</td>
+                    <td>Action Type</td>
+                    <td>Day</td>
+                    <td>Resident Alive</td>
+                    <td>Is Processed</td>
+                    <td>Input</td>
+                    <td>Created At</td>
+                    <td>Details</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="action in filteredActions">
+                    <td>{{ action.id }}</td>
+                    <td>resident_id: {{ action.resident.id }}; <br/>
+                        resident_username: {{ action.resident.username }}; <br/>
+                        resident_city_id: {{ action.resident.city_id }}; <br/>
+                        resident_city_name: {{ action.resident.city_name }}
+                    </td>
+                    <td>{{ action.role.name }}</td>
+                    <td>{{ action.action_type.name }}</td>
+                    <td ng-if="action.day.id">
+                        day_id: {{ action.day.id }}; <br/>
+                        day_number: {{ action.day.number }}
+                    </td>
+                    <td ng-if="!action.day.id"></td>
+
+                    <td style="text-align: center;"><img-bool boolean-value="action.resident_alive"></img-bool></td>
+                    <td style="text-align: center;"><img-bool boolean-value="action.is_processed"></img-bool></td>
+                    <td>{{ action.input_json }}</td>
+                    <td>{{ action.created_at}}</td>
+                    <td><button class="btn btn-info">Details</button></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </tab>
+
+
+
+        <tab select="tabSelected(4)">
+            <tab-heading>
+                Action Results
+            </tab-heading>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Resident</td>
+                    <td>Role</td>
+                    <td>Action Type</td>
+                    <td>Day</td>
+                    <td>Resident Alive</td>
+                    <td>Is Processed</td>
+                    <td>Input</td>
+                    <td>Created At</td>
+                    <td>Details</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="actionResult in filteredActionResults">
+                    <td>{{ action.id }}</td>
+                    <td>resident_id: {{ action.resident.id }}; <br/>
+                        resident_username: {{ action.resident.username }}; <br/>
+                        resident_city_id: {{ action.resident.city_id }}; <br/>
+                        resident_city_name: {{ action.resident.city_name }}
+                    </td>
+                    <td>{{ action.role.name }}</td>
+                    <td>{{ action.action_type.name }}</td>
+                    <td ng-if="action.day.id">
+                        day_id: {{ action.day.id }}; <br/>
+                        day_number: {{ action.day.number }}
+                    </td>
+                    <td ng-if="!action.day.id"></td>
+
+                    <td style="text-align: center;"><img-bool boolean-value="action.resident_alive"></img-bool></td>
+                    <td style="text-align: center;"><img-bool boolean-value="action.is_processed"></img-bool></td>
+                    <td>{{ action.input_json }}</td>
+                    <td>{{ action.created_at}}</td>
+                    <td><button class="btn btn-info">Details</button></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </tab>
+
+
+        <tab select="tabSelected(5)">
+            <tab-heading>
+                Days
+            </tab-heading>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Resident</td>
+                    <td>Role</td>
+                    <td>Action Type</td>
+                    <td>Day</td>
+                    <td>Resident Alive</td>
+                    <td>Is Processed</td>
+                    <td>Input</td>
+                    <td>Created At</td>
+                    <td>Details</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="day in filteredDays">
+                    <td>{{ action.id }}</td>
+                    <td>resident_id: {{ action.resident.id }}; <br/>
+                        resident_username: {{ action.resident.username }}; <br/>
+                        resident_city_id: {{ action.resident.city_id }}; <br/>
+                        resident_city_name: {{ action.resident.city_name }}
+                    </td>
+                    <td>{{ action.role.name }}</td>
+                    <td>{{ action.action_type.name }}</td>
+                    <td ng-if="action.day.id">
+                        day_id: {{ action.day.id }}; <br/>
+                        day_number: {{ action.day.number }}
+                    </td>
+                    <td ng-if="!action.day.id"></td>
+
+                    <td style="text-align: center;"><img-bool boolean-value="action.resident_alive"></img-bool></td>
+                    <td style="text-align: center;"><img-bool boolean-value="action.is_processed"></img-bool></td>
+                    <td>{{ action.input_json }}</td>
+                    <td>{{ action.created_at}}</td>
+                    <td><button class="btn btn-info">Details</button></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </tab>
+
+
+        <tab select="tabSelected(6)">
+            <tab-heading>
+                Initial App Roles
+            </tab-heading>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Resident</td>
+                    <td>Role</td>
+                    <td>Action Type</td>
+                    <td>Day</td>
+                    <td>Resident Alive</td>
+                    <td>Is Processed</td>
+                    <td>Input</td>
+                    <td>Created At</td>
+                    <td>Details</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="initialAppRole in initialAppRoles">
+                    <td>{{ action.id }}</td>
+                    <td>resident_id: {{ action.resident.id }}; <br/>
+                        resident_username: {{ action.resident.username }}; <br/>
+                        resident_city_id: {{ action.resident.city_id }}; <br/>
+                        resident_city_name: {{ action.resident.city_name }}
+                    </td>
+                    <td>{{ action.role.name }}</td>
+                    <td>{{ action.action_type.name }}</td>
+                    <td ng-if="action.day.id">
+                        day_id: {{ action.day.id }}; <br/>
+                        day_number: {{ action.day.number }}
+                    </td>
+                    <td ng-if="!action.day.id"></td>
+
+                    <td style="text-align: center;"><img-bool boolean-value="action.resident_alive"></img-bool></td>
+                    <td style="text-align: center;"><img-bool boolean-value="action.is_processed"></img-bool></td>
+                    <td>{{ action.input_json }}</td>
+                    <td>{{ action.created_at}}</td>
+                    <td><button class="btn btn-info">Details</button></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </tab>
+    </tabset>
+</div>

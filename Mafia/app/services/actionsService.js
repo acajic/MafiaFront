@@ -25,6 +25,10 @@ app.factory('actionsService', function($q, serverService) {
         ACTION_TYPE_ID_AMBIVALENT_VOTE : ACTION_TYPE_ID_AMBIVALENT_VOTE
     };
 
+    var getAllActions = function() {
+        return serverService.get('actions');
+    };
+
     var postAction = function(cityId, roleId, actionTypeId, dayId, input) {
         return serverService.post('actions', {
             action_instance : {
@@ -47,6 +51,7 @@ app.factory('actionsService', function($q, serverService) {
 
     return {
         actionTypeIds: actionTypeIds,
+        getAllActions: getAllActions,
         postAction: postAction,
         cancelUnprocessedActions: cancelUnprocessedActions
     };

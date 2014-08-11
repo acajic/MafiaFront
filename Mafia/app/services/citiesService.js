@@ -18,8 +18,6 @@ app.factory('citiesService', function($q, serverService) {
             deferred.resolve(cities);
             return deferred.promise;
         }
-
-
     };
 
     var getCity = function(city_id, refresh) {

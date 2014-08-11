@@ -377,13 +377,14 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <td colspan="2">Self generated result types</td>
+                    <td colspan="3">Self generated result types</td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="selfGeneratedResultType in allSelfGeneratedResultTypes">
                     <td class="col-sm-1"><input type="checkbox" ng-model="checkedSelfGeneratedResultTypes[selfGeneratedResultType.id]" ng-change="toggleSelfGeneratedResultType(selfGeneratedResultType.id)" disabled></td> <!-- ng-disabled="city.started_at" -->
-                    <td>{{selfGeneratedResultType.name}}</td>
+                    <td> {{ selfGeneratedResultType.name }} </td>
+                    <td> {{ selfGeneratedResultType.description }} </td>
                 </tr>
                 </tbody>
             </table>

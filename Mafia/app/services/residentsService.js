@@ -1,6 +1,10 @@
 app.factory('residentsService', function($q, serverService) {
     "use strict";
 
+    var getAllResidents = function() {
+        return serverService.get('residents/', {});
+    };
+
     var getResidentMeForCityId = function(cityId) {
         return serverService.get('residents/me', {city_id : cityId});
     };
@@ -13,6 +17,7 @@ app.factory('residentsService', function($q, serverService) {
     };
 
     return {
+        getAllResidents : getAllResidents,
         getResidentMeForCityId : getResidentMeForCityId,
         saveRoleForCityId : saveRoleForCityId
     };

@@ -1,9 +1,6 @@
 app.controller('CitiesController',function ($scope, $routeParams, citiesService, authService, modalService, $location, layoutService) {
     "use strict";
 
-    layoutService.setHomeButtonVisible(false);
-
-
     $scope.refreshCities = function () {
         var citiesPromise = citiesService.getCities(true);
 
@@ -167,8 +164,8 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
         if (!newUser)
             return;
 
-        if (newUser.app_permissions) {
-            $scope.appPermissionCreateGamesGranted = newUser.app_permissions[APP_PERMISSION_CREATE_GAMES];
+        if (newUser.app_role && newUser.app_role.app_permissions) {
+            $scope.appPermissionCreateGamesGranted = newUser.app_role.app_permissions[APP_PERMISSION_CREATE_GAMES];
         } else {
             $scope.appPermissionCreateGamesGranted = null;
         }
@@ -179,6 +176,9 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
     init();
 
     function init() {
+        layoutService.setHomeButtonVisible(false);
+        layoutService.setAdminButtonVisible(true);
+
         var emailConfirmationCode = $routeParams["emailConfirmationCode"];
         if (emailConfirmationCode) {
             if ($scope.user) {
