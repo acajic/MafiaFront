@@ -1,4 +1,4 @@
-app.controller('UserProfileController', function ($scope, $location, usersService, authService) {
+app.controller('UserProfileController', function ($scope, $location, usersService, authService, layoutService) {
     "use strict";
 
     var user = {
@@ -11,10 +11,6 @@ app.controller('UserProfileController', function ($scope, $location, usersServic
     };
 
 
-
-    var home = function() {
-        $location.path('');
-    };
 
     var save = function() {
         var user = $scope.user;
@@ -55,6 +51,10 @@ app.controller('UserProfileController', function ($scope, $location, usersServic
     init();
 
     function init() {
+        layoutService.setHomeButtonVisible(true);
+        layoutService.setAdminButtonVisible(true);
+
+
         authService.userMe(false).then(function(userMe) {
             user = angular.copy(userMe);
             $scope.user = user;
@@ -62,7 +62,7 @@ app.controller('UserProfileController', function ($scope, $location, usersServic
             $location.path('');
         });
 
-        $scope.home = home;
+
         $scope.save = save;
         $scope.infos = [];
     }
