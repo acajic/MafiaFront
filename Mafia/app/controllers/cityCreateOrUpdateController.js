@@ -117,7 +117,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
     }
 
     function showDeleteButton(city) {
-        return !isNew(city) && amIOwner(city) && !isStartedAndOngoing(city) && !isStartedAndPaused(city);
+        return !isNew(city) && amIOwner(city);
     }
 
     function deleteCity() {

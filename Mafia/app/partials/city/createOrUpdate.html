@@ -4,10 +4,10 @@
         <alert ng-repeat="alert in generalMessages" type="alert.type" close="closeGeneralMessage($index)">{{alert.msg}}</alert>
     </div>
 
-    <button ng-click="back()" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
-    <button ng-if="showCreateButton(city)" ng-click="create()" class="btn btn-default"><i class="glyphicon glyphicon-bullhorn"></i>Create</button>
-    <button ng-if="showStartButton(city)" ng-click="start()" class="btn btn-default" ng-disabled="!isCityModified(city)"><i class="glyphicon glyphicon-play"></i>Start</button>
-    <button ng-if="showSaveButton(city)" ng-click="saveCity()" class="btn btn-default" ng-disabled="isCityModified(city)"><i class="glyphicon glyphicon-floppy-disk"></i>Save</button>
+    <button ng-click="back()" class="btn btn-primary"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
+    <button ng-if="showCreateButton(city)" ng-click="create()" class="btn btn-success"><i class="glyphicon glyphicon-bullhorn"></i>Create</button>
+    <button ng-if="showStartButton(city)" ng-click="start()" class="btn btn-success" ng-disabled="!isCityModified(city)"><i class="glyphicon glyphicon-play"></i>Start</button>
+    <button ng-if="showSaveButton(city)" ng-click="saveCity()" class="btn btn-success" ng-disabled="isCityModified(city)"><i class="glyphicon glyphicon-floppy-disk"></i>Save</button>
 
     <script type="text/ng-template" id="deleteModalContent.html">
         <div class="modal-header">
@@ -21,10 +21,10 @@
         <button ng-click="ok()">Confirm</button>
     </script>
 
-    <button ng-if="showDeleteButton(city)" ng-click="deleteCity()" class="btn btn-default"><i class="glyphicon glyphicon-trash"></i>Delete</button>
+    <button ng-if="showDeleteButton(city)" ng-click="deleteCity()" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Delete</button>
 
-    <button ng-if="showPauseButton(city)" ng-click="pause()" class="btn btn-default"><i class="glyphicon glyphicon-pause"></i>Pause</button>
-    <button ng-if="showResumeButton(city)" ng-click="resume()" class="btn btn-default"><i class="glyphicon glyphicon-play"></i>Resume</button>
+    <button ng-if="showPauseButton(city)" ng-click="pause()" class="btn btn-warning"><i class="glyphicon glyphicon-pause"></i>Pause</button>
+    <button ng-if="showResumeButton(city)" ng-click="resume()" class="btn btn-success"><i class="glyphicon glyphicon-play"></i>Resume</button>
 
 
     <tabset>

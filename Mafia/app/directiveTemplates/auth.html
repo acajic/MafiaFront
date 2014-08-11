@@ -9,7 +9,7 @@
     <div ng-if="!loader.isLoading">
 
         <div ng-if="!user.signedIn">
-            <button ng-if="homeButtonVisible()" ng-click="setLocationHome()" class="btn btn-default"><img src="content/img/home-icon.png" style="width: 20px;"/></button>
+            <button ng-if="homeButtonVisible()" ng-click="setLocationHome()" class="btn btn-primary"><i class="glyphicon glyphicon-home"></i>Home</button>
 
             <input type="text" ng-model="user.username">
             <input id="password" type="password" ng-model="user.password">
@@ -17,7 +17,7 @@
             <button ng-click="register()" class="btn btn-default">Register</button>
         </div>
         <div ng-if="user.signedIn">
-            <button ng-if="homeButtonVisible()" ng-click="setLocationHome()" class="btn btn-default"><img src="content/img/home-icon.png" style="width: 20px;"/></button>
+            <button ng-if="homeButtonVisible()" ng-click="setLocationHome()" class="btn btn-primary"><i class="glyphicon glyphicon-home"></i>Home</button>
 
             Hello, <a href="#/profile" >{{user.username}}</a>!
             <button ng-click="signOut()" class="btn btn-default"><i class="glyphicon glyphicon-log-out"></i> Sign out</button>

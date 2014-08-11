@@ -1,4 +1,4 @@
-<button ng-click="home()" class="btn btn-default"><i class="glyphicon glyphicon-home"></i>Home</button>
+<button ng-click="home()" class="btn btn-primary"><i class="glyphicon glyphicon-home"></i>Home</button>
 
 <div id="info-box">
     <alert ng-repeat="alert in infos" type="alert.type" close="closeInfoAlert($index)">{{alert.msg}}</alert>
@@ -27,8 +27,8 @@
             <td><input type="password" ng-model="user.repeat_new_password"></td>
         </tr>
         <tr>
-            <td></td>
-            <td><button ng-click="save()" class="btn btn-default">Save</button></td>
+            <td><button ng-click="delete()" class="btn btn-danger">Delete</button></td>
+            <td><button ng-click="save()" class="btn btn-success">Save</button></td>
         </tr>
     </table>
     <br>
