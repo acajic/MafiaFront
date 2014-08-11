@@ -58,6 +58,8 @@ app.factory('actionResultsService', function($q, serverService) {
 
     var publicActionResultTypeIds = function(city) {
         // for create public news feed result
+        if (!city)
+            return [];
 
 
         var publicActionResultTypeIds = [

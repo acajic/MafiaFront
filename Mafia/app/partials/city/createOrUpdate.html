@@ -104,7 +104,7 @@
             <tab-heading>
                 <i class="glyphicon glyphicon-user"></i> Residents
             </tab-heading>
-
+            After a satisfactory number of players are joined/added to the game, proceed to Role Distribution in the <b>Roles</b> tab before starting the game.
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -178,6 +178,8 @@
                 <alert ng-repeat="alert in dayCycleValidationErrors" type="alert.type" close="closeDayCycleValidationAlert($index)">{{alert.msg}}</alert>
             </div>
 
+            Minimum duration of a day/night phase is 4 minutes. <br/>
+            In an attempt to evenly distribute the server workload, try setting unexpected minute values for time: 09:43, 15:11, 23:39, ...
             <table class="table">
                 <thead>
                     <tr>
@@ -257,15 +259,13 @@
                 <i class="glyphicon glyphicon-tower"></i> Roles
             </tab-heading>
 
-            <div id="instruction">
-                You should have a targeted number of players join your game before proceeding to role distribution step.
-            </div>
 
             <tabset>
                 <tab>
                     <tab-heading>
                         <i class="glyphicon glyphicon-tasks"></i> Distribution
                     </tab-heading>
+                    You should distribute roles right before starting the game beacause the number of roles assigned should be equal to the number of players in the game.
                     <table class="table sidetable">
                         <tbody>
                         <tr>
@@ -299,6 +299,9 @@
                     <tab-heading>
                         <i class="glyphicon glyphicon-cog"></i> Action Type Parameters
                     </tab-heading>
+                    To achieve optimal gameplay, some roles can be tweaked by modifying their action type parameters.
+                    <i>For example, the number of collateral victims that terrorist causes can be set to 0, 1 or 2. This means that when a terrorist performs a bombing attack, both target resident and himself are killed but there will be additional 0, 1 or 2 random collateral victims.</i>
+
                     <table class="table sidetable">
                         <thead>
                             <tr>
@@ -356,13 +359,14 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <td colspan="2">End conditions</td>
+                    <td colspan="3">End conditions</td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="gameEndCondition in allGameEndConditions">
-                    <td class="col-sm-1"><input type="checkbox" ng-model="checkedGameEndConditions[gameEndCondition.id]" ng-change="toggleGameEndCondition(gameEndCondition.id)" ng-disabled="city.started_at"></td>
-                    <td>{{gameEndCondition.name}}</td>
+                    <td class="col-sm-1"><input type="checkbox" ng-model="checkedGameEndConditions[gameEndCondition.id]" ng-change="toggleGameEndCondition(gameEndCondition.id)" disabled></td> <!-- ng-disabled="city.started_at" -->
+                    <td>{{ gameEndCondition.name }}</td>
+                    <td>{{ gameEndCondition.description }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -375,7 +379,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="selfGeneratedResultType in allSelfGeneratedResultTypes">
-                    <td class="col-sm-1"><input type="checkbox" ng-model="checkedSelfGeneratedResultTypes[selfGeneratedResultType.id]" ng-change="toggleSelfGeneratedResultType(selfGeneratedResultType.id)" ng-disabled="city.started_at"></td>
+                    <td class="col-sm-1"><input type="checkbox" ng-model="checkedSelfGeneratedResultTypes[selfGeneratedResultType.id]" ng-change="toggleSelfGeneratedResultType(selfGeneratedResultType.id)" disabled></td> <!-- ng-disabled="city.started_at" -->
                     <td>{{selfGeneratedResultType.name}}</td>
                 </tr>
                 </tbody>

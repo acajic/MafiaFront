@@ -23,6 +23,7 @@ app.directive('createPublicNewsFeedResult', function(actionResultsService) {
             scope.supportedActionResultTypeIds = actionResultsService.publicActionResultTypeIds(scope.city);
 
 
+
             scope.toggleMode = function() {
                 if (scope.city.finished_at)
                     return;
