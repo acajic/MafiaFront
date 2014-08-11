@@ -319,8 +319,12 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
             if (!invitedUsers)
                 return;
 
+            $scope.isInvitingUsers = true;
+
             var invitePromise = citiesService.inviteUsers($scope.city.id, invitedUsers);
             invitePromise.then(function(result) {
+                $scope.isInvitingUsers = false;
+
                 var updatedCityResidents = result.updated_city_residents;
                 originalCity.residents = updatedCityResidents;
                 $scope.city.residents = updatedCityResidents;
@@ -360,10 +364,12 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
 
                 $scope.remainingRoles = remainingRoleCount($scope.city);
             }, function(reason) {
+                $scope.isInvitingUsers = false;
                 $scope.generalMessages.push({type: 'danger', msg: "Server error, users not invited." });
             });
 
         }, function () {
+            $scope.isInvitingUsers = false;
         });
     }
 

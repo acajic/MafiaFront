@@ -105,7 +105,10 @@
                 <i class="glyphicon glyphicon-user"></i> Residents
             </tab-heading>
             After a satisfactory number of players are joined/added to the game, proceed to Role Distribution in the <b>Roles</b> tab before starting the game.
-            <table class="table table-striped">
+            <div>
+                <loader ng-if="isInvitingUsers"></loader>
+            </div>
+            <table class="table table-striped" ng-if="!isInvitingUsers">
                 <thead>
                     <tr>
                         <td>Resident Id</td>
