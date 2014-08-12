@@ -81,11 +81,16 @@ app.factory('actionResultsService', function($q, serverService) {
         return publicActionResultTypeIds;
     };
 
+
+    var getAllActionResults = function() {
+        return serverService.get('action_results', {});
+    };
+
     var actionResultsForCities = {};
 
     var getActionResults = function(cityId, roleId, refresh) {
         if (refresh || !actionResultsForCities[cityId]) {
-            var actionResultsPromise = serverService.get('action_results', { city_id : cityId, role_id: roleId });
+            var actionResultsPromise = serverService.get('action_results/city/'+ cityId + '/role/' + roleId, {});
             return actionResultsPromise.then(function(result) {
                 actionResultsForCities[cityId] = result;
                 return result;
@@ -184,6 +189,7 @@ app.factory('actionResultsService', function($q, serverService) {
         actionResultsForCities : actionResultsForCities,
         privateActionResultTypesForRole : privateActionResultTypesForRole,
         publicActionResultTypeIds : publicActionResultTypeIds,
+        getAllActionResults : getAllActionResults,
         getActionResults : getActionResults,
         postActionResult : postActionResult,
         deleteActionResult : deleteActionResult,

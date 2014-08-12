@@ -1,0 +1,40 @@
+<table class="table">
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>User Creator</td>
+        <td>Timezone</td>
+        <td>Started At</td>
+        <td>Paused At</td>
+        <td>Finished At</td>
+        <td>Created At</td>
+        <td>Updated At</td>
+        <td>Details</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="city in cities">
+        <td>{{ city.id }}</td>
+        <td>{{ city.name }}</td>
+        <td>id: {{ city.user_creator_id }}; username: {{ city.user_creator_username }}</td>
+        <td>{{ city.timezone }}</td>
+        <td>{{ city.started_at }}</td>
+        <td>{{ city.paused ? city.last_paused_at : null }}</td>
+        <td>{{ city.finished_at }}</td>
+        <td>{{ city.created_at }}</td>
+        <td>{{ city.updated_at }}</td>
+        <td><button class="btn btn-info">Details</button></td>
+    </tr>
+    <tr ng-if="isLoadingContent">
+        <td colspan="10" style="text-align: center">
+            <loader size='small'></loader>
+        </td>
+    </tr>
+    <tr ng-hide="isLoadingContent">
+        <td colspan="10">
+            <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
+        </td>
+    </tr>
+    </tbody>
+</table>

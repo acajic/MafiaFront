@@ -1,0 +1,38 @@
+<table class="table">
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>User</td>
+        <td>City</td>
+        <td>Role</td>
+        <td>Saved Role</td>
+        <td>Role Seen</td>
+        <td>Died At</td>
+        <td>Updated At</td>
+        <td>Details</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="resident in residents">
+        <td>{{ resident.id }}</td>
+        <td>user_id: {{ resident.user_id }}; username: {{ resident.username }}</td>
+        <td>city_id: {{ resident.city_id }}; city_name: {{ resident.city_name }}</td>
+        <td>{{ resident.role.name }}</td>
+        <td>{{ allRolesByIds[resident.saved_role_id].name }}</td>
+        <td style="text-align: center;"><img-bool boolean-value="resident.role_seen"></img-bool></td>
+        <td>{{ resident.died_at}}</td>
+        <td>{{ resident.updated_at}}</td>
+        <td><button class="btn btn-info">Details</button></td>
+    </tr>
+    <tr ng-if="isLoadingContent">
+        <td colspan="9" style="text-align: center">
+            <loader size='small'></loader>
+        </td>
+    </tr>
+    <tr ng-hide="isLoadingContent">
+        <td colspan="9">
+            <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
+        </td>
+    </tr>
+    </tbody>
+</table>

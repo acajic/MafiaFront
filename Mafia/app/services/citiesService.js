@@ -4,18 +4,70 @@ app.factory('citiesService', function($q, serverService) {
     var cities = [];
     var newCity = {};
 
-    var getCities = function(refresh) {
-        if (refresh || this.cities == null || this.cities.length == 0) {
-            return serverService.get('cities', {}).then(function(citiesResult) {
+    var getAllCities = function(queryModel, pageIndex, pageSize) {
+        if (!queryModel)
+            queryModel = {};
+
+        var citiesPromise = serverService.get('cities', {
+            page_index: pageIndex,
+            page_size: pageSize,
+            name: queryModel.name,
+            description: queryModel.description,
+            user_creator: queryModel.userCreator,
+            timezone: queryModel.timezone,
+            active: queryModel.active,
+            paused: queryModel.paused,
+            paused_during_day: queryModel.pausedDuringDay,
+            last_paused_at_min: queryModel.lastPausedAtMin,
+            last_paused_at_max: queryModel.lastPausedAtMax,
+            started_at_min: queryModel.startedAtMin,
+            started_at_max: queryModel.startedAtMax,
+            finished_at_min: queryModel.finishedAtMin,
+            finished_at_max: queryModel.finishedAtMax,
+            created_at_min: queryModel.createdAtMin,
+            created_at_max: queryModel.createdAtMax,
+            updated_at_min: queryModel.updatedAtMin,
+            updated_at_max: queryModel.updatedAtMax
+        });
+
+
+        return citiesPromise.then(function(citiesResult) {
+            return citiesResult;
+        }, function(reason) {
+            return reason;
+        });
+
+    };
+
+    var getCities = function(refresh, pageIndex, pageSize) {
+        if (refresh || this.cities == null || this.cities.length == 0 || (pageIndex*pageSize !== NaN && (pageIndex+1)*pageSize > this.cities.length ) ) {
+            var citiesPromise = serverService.get('cities', {
+                page_index: pageIndex,
+                page_size: pageSize
+            });
+
+            return citiesPromise.then(function(citiesResult) {
                 // refresh value of cities variable
-                angular.copy(citiesResult, cities);
+                if (pageIndex !== undefined && pageSize) {
+                    if (cities.length > pageIndex*pageSize) {
+                        cities.splice(pageIndex*pageSize, Math.min(pageSize, cities.length - pageIndex*pageSize), citiesResult);
+                    } else {
+                        cities.push.apply(cities, citiesResult);
+                    }
+                } else {
+                    angular.copy(citiesResult, cities);
+                }
                 return citiesResult;
             }, function(reason) {
                 return reason;
             });
         } else {
             var deferred = $q.defer();
-            deferred.resolve(cities);
+            if (pageIndex !== undefined && pageSize) {
+                deferred.resolve(cities.slice(pageIndex*pageSize, (pageIndex+1)*pageSize));
+            } else {
+                deferred.resolve(cities);
+            }
             return deferred.promise;
         }
     };

@@ -1,0 +1,36 @@
+<table class="table">
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>Username</td>
+        <td>Email</td>
+        <td>App Role</td>
+        <td>Email Confirmed</td>
+        <td>Created At</td>
+        <td>Updated At</td>
+        <td>Details</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.app_role.name }}</td>
+        <td style="text-align: center;"><img-bool boolean-value="user.email_confirmed"></img-bool></td>
+        <td>{{ user.created_at }}</td>
+        <td>{{ user.updated_at }}</td>
+        <td><button class="btn btn-info">Details</button></td>
+    </tr>
+    <tr ng-if="isLoadingContent">
+        <td colspan="8" style="text-align: center">
+            <loader size='small'></loader>
+        </td>
+    </tr>
+    <tr ng-hide="isLoadingContent">
+        <td colspan="8">
+            <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
+        </td>
+    </tr>
+    </tbody>
+</table>

@@ -9,8 +9,23 @@ app.factory('usersService', function($q, serverService) {
 
     var allUsers = [];
 
-    var getAllUsers = function() {
-        var allUsersPromise = serverService.get('users');
+
+    var getAllUsers = function(queryModel, pageIndex, pageSize) {
+        if (!queryModel)
+            queryModel = {};
+
+        var allUsersPromise = serverService.get('users', {
+            page_index: pageIndex,
+            page_size: pageSize,
+            username: queryModel.username,
+            email: queryModel.email,
+            app_role_id : queryModel.appRoleId,
+            email_confirmed: queryModel.emailConfirmed,
+            created_at_min: queryModel.createdAtMin,
+            created_at_max: queryModel.createdAtMax,
+            updated_at_min: queryModel.updatedAtMin,
+            updated_at_max: queryModel.updatedAtMax
+        });
         allUsersPromise.then(function(allUsersResult) {
             allUsers = allUsersResult;
         });
