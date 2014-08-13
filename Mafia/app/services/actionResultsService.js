@@ -82,8 +82,30 @@ app.factory('actionResultsService', function($q, serverService) {
     };
 
 
-    var getAllActionResults = function() {
-        return serverService.get('action_results', {});
+    var getAllActionResults = function(queryModel, pageIndex, pageSize) {
+        if (!queryModel)
+            queryModel = {};
+
+        return serverService.get('action_results', {
+            page_index: pageIndex,
+            page_size: pageSize,
+            action_ids: queryModel.actionIds,
+            action_result_type_ids: queryModel.actionResultTypeIds,
+            result: queryModel.result,
+            is_automatically_generated: queryModel.isAutomaticallyGenerated,
+            city_ids: queryModel.cityIds,
+            city_name: queryModel.cityName,
+            day_number_min: queryModel.dayNumberMin,
+            day_number_max: queryModel.dayNumberMax,
+            resident_ids: queryModel.residentIds,
+            resident_username: queryModel.residentUsername,
+            role_ids: queryModel.roleIds,
+            deleted: queryModel.deleted,
+            created_at_min: queryModel.createdAtMin,
+            created_at_max: queryModel.createdAtMax,
+            updated_at_min: queryModel.updatedAtMin,
+            updated_at_max: queryModel.updatedAtMax
+        });
     };
 
     var actionResultsForCities = {};

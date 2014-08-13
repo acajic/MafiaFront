@@ -19,7 +19,7 @@ app.factory('usersService', function($q, serverService) {
             page_size: pageSize,
             username: queryModel.username,
             email: queryModel.email,
-            app_role_id : queryModel.appRoleId,
+            app_role_ids : queryModel.appRoleIds,
             email_confirmed: queryModel.emailConfirmed,
             created_at_min: queryModel.createdAtMin,
             created_at_max: queryModel.createdAtMax,

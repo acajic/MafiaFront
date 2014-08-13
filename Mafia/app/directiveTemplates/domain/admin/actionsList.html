@@ -1,0 +1,49 @@
+<table class="table">
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>Resident</td>
+        <td>Role</td>
+        <td>Action Type</td>
+        <td>Day</td>
+        <td>Resident Alive</td>
+        <td>Is Processed</td>
+        <td>Input</td>
+        <td>Created At</td>
+        <td>Details</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="action in actions">
+        <td>{{ action.id }}</td>
+        <td>resident_id: {{ action.resident.id }}; <br/>
+            resident_username: {{ action.resident.username }}; <br/>
+            resident_city_id: {{ action.resident.city_id }}; <br/>
+            resident_city_name: {{ action.resident.city_name }}
+        </td>
+        <td>{{ action.role.name }}</td>
+        <td>{{ action.action_type.name }}</td>
+        <td ng-if="action.day.id">
+            day_id: {{ action.day.id }}; <br/>
+            day_number: {{ action.day.number }}
+        </td>
+        <td ng-if="!action.day.id"></td>
+
+        <td style="text-align: center;"><img-bool boolean-value="action.resident_alive"></img-bool></td>
+        <td style="text-align: center;"><img-bool boolean-value="action.is_processed"></img-bool></td>
+        <td>{{ action.input_json }}</td>
+        <td>{{ action.created_at}}</td>
+        <td><button class="btn btn-info">Details</button></td>
+    </tr>
+    <tr ng-if="isLoadingContent">
+        <td colspan="10" style="text-align: center">
+            <loader size='small'></loader>
+        </td>
+    </tr>
+    <tr ng-hide="isLoadingContent">
+        <td colspan="10">
+            <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
+        </td>
+    </tr>
+    </tbody>
+</table>

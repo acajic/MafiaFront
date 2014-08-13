@@ -38,45 +38,7 @@
                 Actions
             </tab-heading>
 
-            <table class="table">
-                <thead>
-                <tr>
-                    <td>Id</td>
-                    <td>Resident</td>
-                    <td>Role</td>
-                    <td>Action Type</td>
-                    <td>Day</td>
-                    <td>Resident Alive</td>
-                    <td>Is Processed</td>
-                    <td>Input</td>
-                    <td>Created At</td>
-                    <td>Details</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="action in filteredActions">
-                    <td>{{ action.id }}</td>
-                    <td>resident_id: {{ action.resident.id }}; <br/>
-                        resident_username: {{ action.resident.username }}; <br/>
-                        resident_city_id: {{ action.resident.city_id }}; <br/>
-                        resident_city_name: {{ action.resident.city_name }}
-                    </td>
-                    <td>{{ action.role.name }}</td>
-                    <td>{{ action.action_type.name }}</td>
-                    <td ng-if="action.day.id">
-                        day_id: {{ action.day.id }}; <br/>
-                        day_number: {{ action.day.number }}
-                    </td>
-                    <td ng-if="!action.day.id"></td>
-
-                    <td style="text-align: center;"><img-bool boolean-value="action.resident_alive"></img-bool></td>
-                    <td style="text-align: center;"><img-bool boolean-value="action.is_processed"></img-bool></td>
-                    <td>{{ action.input_json }}</td>
-                    <td>{{ action.created_at}}</td>
-                    <td><button class="btn btn-info">Details</button></td>
-                </tr>
-                </tbody>
-            </table>
+            <actions-list query-model="actionsQueryModel"></actions-list>
 
         </tab>
 
@@ -87,54 +49,7 @@
                 Action Results
             </tab-heading>
 
-            <table class="table">
-                <thead>
-                <tr>
-                    <td>Id</td>
-                    <td>City</td>
-                    <td>Day</td>
-                    <td>Resident</td>
-                    <td>Role</td>
-                    <td>Action Id</td>
-                    <td>Action Result Type</td>
-                    <td>Result</td>
-                    <td>Is Automatically Generated</td>
-                    <td>Deleted</td>
-                    <td>Created At</td>
-                    <td>Updated At</td>
-                    <td>Details</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="actionResult in filteredActionResults">
-                    <td>{{ actionResult.id }}</td>
-                    <td>
-                        city_id: {{ actionResult.city_id }}; <br/>
-                        city_name: {{ actionResult.city_name }}
-                    </td>
-                    <td ng-if="action.day.id">
-                        day_id: {{ actionResult.day_id }}; <br/>
-                        day_number: {{ actionResult.day_number }}
-                    </td>
-                    <td ng-if="!action.day.id"></td>
-                    <td>resident_id: {{ actionResult.resident.id }}; <br/>
-                        resident_username: {{ actionResult.resident.username }}; <br/>
-                        resident_city_id: {{ actionResult.resident.city_id }}; <br/>
-                        resident_city_name: {{ actionResult.resident.city_name }}
-                    </td>
-                    <td>{{ actionResult.role.name }}</td>
-                    <td>{{ actionResult.action_id }}</td>
-                    <td>{{ actionResult.action_result_type.name }}</td>
-                    <td>{{ actionResult.result_json }}</td>
-
-                    <td style="text-align: center;"><img-bool boolean-value="actionResult.is_automatically_generated"></img-bool></td>
-                    <td style="text-align: center;"><img-bool boolean-value="actionResult.deleted"></img-bool></td>
-                    <td>{{ action.created_at}}</td>
-                    <td>{{ action.updated_at}}</td>
-                    <td><button class="btn btn-info">Details</button></td>
-                </tr>
-                </tbody>
-            </table>
+            <action-results-list query-model="actionResultsQueryModel"></action-results-list>
 
         </tab>
 

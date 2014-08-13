@@ -10,12 +10,6 @@ app.controller('AdminController',function ($scope, $q, usersService, citiesServi
         layoutService.setAdminButtonVisible(false);
 
 
-        var actionsPromise = actionsService.getAllActions();
-        actionsPromise.then(function(actionsResult) {
-            $scope.actions = actionsResult;
-            $scope.filteredActions = angular.copy(actionsResult);
-        });
-
 
         var actionResultsPromise = actionResultsService.getAllActionResults();
         actionResultsPromise.then(function(actionResultsResult) {

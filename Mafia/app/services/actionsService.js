@@ -25,8 +25,23 @@ app.factory('actionsService', function($q, serverService) {
         ACTION_TYPE_ID_AMBIVALENT_VOTE : ACTION_TYPE_ID_AMBIVALENT_VOTE
     };
 
-    var getAllActions = function() {
-        return serverService.get('actions');
+    var getAllActions = function(queryModel, pageIndex, pageSize) {
+        if (!queryModel)
+            queryModel = {};
+
+        return serverService.get('actions', {
+            page_index: pageIndex,
+            page_size: pageSize,
+            resident_username: queryModel.residentUsername,
+            role_ids: queryModel.roleIds,
+            action_type_ids: queryModel.actionTypeIds,
+            day_min: queryModel.dayMin,
+            day_max: queryModel.dayMax,
+            resident_alive: queryModel.residentAlive,
+            is_processed: queryModel.isProcessed,
+            created_at_min: queryModel.createdAtMin,
+            created_at_max: queryModel.createdAtMax
+        });
     };
 
     var postAction = function(cityId, roleId, actionTypeId, dayId, input) {
