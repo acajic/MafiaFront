@@ -36,6 +36,10 @@ app.factory('rolesService', function(serverService, $q) {
         if (!allRoles || refresh) {
             if (!allRolesPromise) {
                 allRolesPromise = serverService.get('roles',{});
+                allRolesPromise = allRolesPromise.then(function(allRolesResult) {
+                    allRoles = allRolesResult;
+                    return allRolesResult;
+                });
             }
             return allRolesPromise;
         } else {

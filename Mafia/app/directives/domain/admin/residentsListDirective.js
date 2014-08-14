@@ -21,6 +21,30 @@ app.directive('residentsList', function($q, residentsService, rolesService) {
                 };
             }
 
+            scope.toggleRoleSelection = function(role) {
+                if (!scope.queryModel.roleIds)
+                    return;
+
+                var index = scope.queryModel.roleIds.indexOf(role.id);
+                if (index == -1) {
+                    scope.queryModel.roleIds.push(role.id);
+                } else {
+                    scope.queryModel.roleIds.splice(index, 1);
+                }
+            };
+
+            scope.toggleSavedRoleSelection = function(role) {
+                if (!scope.queryModel.savedRoleIds)
+                    return;
+
+                var index = scope.queryModel.savedRoleIds.indexOf(role.id);
+                if (index == -1) {
+                    scope.queryModel.savedRoleIds.push(role.id);
+                } else {
+                    scope.queryModel.savedRoleIds.splice(index, 1);
+                }
+            };
+
             var reloadData = function(refresh) {
                 scope.isLoadingContent = true;
 
@@ -36,15 +60,26 @@ app.directive('residentsList', function($q, residentsService, rolesService) {
                 if (!scope.allRolesByIds) {
                     var allRolesByIdsPromise = rolesService.getAllRolesByIds(false);
                     promises.push(allRolesByIdsPromise);
+                    var allRolesPromise = rolesService.getAllRoles(false);
+                    promises.push(allRolesPromise);
                 }
 
                 $q.all(promises).then(function(results) {
-                    var residentsResult = results[0];
 
                     if (results[1]) {
                         scope.allRolesByIds = results[1];
+
+                    }
+                    if (results[2]) {
+                        scope.roles = results[2];
+                        var allRoleIds = $.map(scope.roles, function(role) {
+                            return role.id;
+                        });
+                        scope.queryModel.roleIds = allRoleIds;
+                        scope.queryModel.savedRoleIds = angular.copy(allRoleIds);
                     }
 
+                    var residentsResult = results[0];
                     scope.isLoadingContent = false;
                     if (residentsResult.length < pageSize) {
                         scope.noMoreContent = true;
