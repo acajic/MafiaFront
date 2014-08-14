@@ -16,6 +16,21 @@ app.directive('citiesList', function(citiesService) {
 
             scope.cities = [];
             scope.noMoreContent = false;
+            if (!scope.queryModel) {
+                scope.queryModel = {
+                    timezoneDate: new Date(0, 0, 0, 0, 0, 0, 0),
+                    timezoneSign: 1,
+                    anyTimezone: true
+                };
+            }
+
+            scope.$watch("queryModel.timezoneDate", function(newDate, oldDate) {
+                if (newDate) {
+                    if (newDate.getHours() > 12) {
+                        scope.queryModel.timezoneDate = 12;
+                    }
+                }
+            });
 
             var reloadData = function(refresh) {
                 scope.isLoadingContent = true;
@@ -25,7 +40,7 @@ app.directive('citiesList', function(citiesService) {
                     scope.cities = [];
                 }
 
-                var citiesPromise = citiesService.getCities(scope.queryModel, pageIndex, pageSize);
+                var citiesPromise = citiesService.getAllCities(scope.queryModel, pageIndex, pageSize);
 
 
                 citiesPromise.then(function(citiesResult) {

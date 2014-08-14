@@ -14,7 +14,7 @@ app.factory('citiesService', function($q, serverService) {
             name: queryModel.name,
             description: queryModel.description,
             user_creator: queryModel.userCreator,
-            timezone: queryModel.timezone,
+            timezone: queryModel.timezoneDate ? (queryModel.timezoneSign *(queryModel.timezoneDate.getHours() * 60 + queryModel.timezoneDate.getMinutes())) : null,
             active: queryModel.active,
             paused: queryModel.paused,
             paused_during_day: queryModel.pausedDuringDay,
@@ -182,6 +182,7 @@ app.factory('citiesService', function($q, serverService) {
     };
 
     return {
+        getAllCities : getAllCities,
         cities : cities,
         getCity : getCity,
         getCities : getCities,

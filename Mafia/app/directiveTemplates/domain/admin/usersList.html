@@ -9,9 +9,9 @@
         <input ng-model="queryModel.email">
     </div>
 
-    <div style="clear: both" class="row-odd">
-        <p class="col-md-1">App Roles</p> <br>
-        <div ng-repeat="appRole in appRoles" style="display: inline;" class="col-md-1">
+    <div style="clear: both; overflow: hidden;" class="row-odd">
+        <p class="col-md-1">App Roles</p>
+        <div ng-repeat="appRole in appRoles" class="col-md-1">
             <input type="checkbox"  ng-checked="queryModel.appRoleIds.indexOf(appRole.id) > -1" ng-click="toggleAppRoleSelection(appRole)">{{ appRole.name }}
         </div>
     </div>

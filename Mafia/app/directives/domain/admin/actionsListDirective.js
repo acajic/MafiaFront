@@ -16,6 +16,10 @@ app.directive('actionsList', function(actionsService) {
 
             scope.actions = [];
             scope.noMoreContent = false;
+            if (!scope.queryModel) {
+                scope.queryModel = {
+                };
+            }
 
             var reloadData = function(refresh) {
                 scope.isLoadingContent = true;

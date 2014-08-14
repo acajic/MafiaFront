@@ -17,7 +17,7 @@ app.directive('usersList', function($q, usersService, appRolesService) {
 
 
             scope.users = [];
-
+            scope.noMoreContent = false;
             if (!scope.queryModel) {
                 scope.queryModel = {
                 };
@@ -34,9 +34,6 @@ app.directive('usersList', function($q, usersService, appRolesService) {
                     scope.queryModel.appRoleIds.splice(index, 1);
                 }
             };
-
-
-            scope.noMoreContent = false;
 
             var reloadData = function(refresh) {
                 scope.isLoadingContent = true;

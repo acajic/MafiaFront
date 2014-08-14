@@ -70,10 +70,7 @@
                             <select ng-model="timezone.sign" ng-options="i for i in ['+', '-']" ng-change="timezoneChanged()">
                             </select>
 
-                            <!-- <div ng-model="timezone.timeDate" ng-change="timezoneChanged()" style="display:inline-block;"> -->
-
                             <timepicker style="display: inline-block" ng-model="timezone.timeDate" ng-change="timezoneChanged()" hour-step="1" minute-step="15" show-meridian="false"></timepicker>
-                            <!-- </div> -->
                         </td>
                     </tr>
                     <tr ng-if="city.started_at">

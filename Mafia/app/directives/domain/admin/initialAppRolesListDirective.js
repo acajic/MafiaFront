@@ -16,6 +16,10 @@ app.directive('initialAppRolesList', function($q, appRolesService) {
 
             scope.initialAppRoles = [];
             scope.noMoreContent = false;
+            if (!scope.queryModel) {
+                scope.queryModel = {
+                };
+            }
 
 
             var reloadData = function(refresh) {
