@@ -25,6 +25,32 @@ app.factory('actionsService', function($q, serverService) {
         ACTION_TYPE_ID_AMBIVALENT_VOTE : ACTION_TYPE_ID_AMBIVALENT_VOTE
     };
 
+
+    var actionTypes;
+    var allActionTypesPromise;
+    var getAllActionTypes = function(refresh) {
+        if (refresh || !allActionTypesPromise) {
+            allActionTypesPromise = serverService.get('action_type', {});
+            allActionTypesPromise = allActionTypesPromise.then(function(allActionTypesResult) {
+                actionTypes = allActionTypesResult;
+                return actionTypes;
+            });
+        } else {
+
+        }
+        return allActionTypesPromise;
+    };
+
+    var getAllActionTypesByIds = function(refresh) {
+        return getAllActionTypes(refresh).then(function(actionTypesResult) {
+            var actionTypesByIds = {};
+            angular.forEach(actionTypesResult, function(someActionType) {
+                actionTypesByIds[someActionType.id] = someActionType;
+            });
+            return actionTypesByIds;
+        });
+    };
+
     var getAllActions = function(queryModel, pageIndex, pageSize) {
         if (!queryModel)
             queryModel = {};
@@ -33,14 +59,16 @@ app.factory('actionsService', function($q, serverService) {
             page_index: pageIndex,
             page_size: pageSize,
             resident_username: queryModel.residentUsername,
+            city_name: queryModel.cityName,
+            input_json: queryModel.inputJson,
             role_ids: queryModel.roleIds,
             action_type_ids: queryModel.actionTypeIds,
             day_min: queryModel.dayMin,
             day_max: queryModel.dayMax,
             resident_alive: queryModel.residentAlive,
             is_processed: queryModel.isProcessed,
-            created_at_min: queryModel.createdAtMin,
-            created_at_max: queryModel.createdAtMax
+            created_at_min: queryModel.createdAtMin ? queryModel.createdAtMin.getTime()/1000 : null,
+            created_at_max: queryModel.createdAtMax ? queryModel.createdAtMax.getTime()/1000 : null
         });
     };
 
@@ -65,6 +93,9 @@ app.factory('actionsService', function($q, serverService) {
     };
 
     return {
+        actionTypes: actionTypes,
+        getAllActionTypes: getAllActionTypes,
+        getAllActionTypesByIds: getAllActionTypesByIds,
         actionTypeIds: actionTypeIds,
         getAllActions: getAllActions,
         postAction: postAction,
