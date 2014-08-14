@@ -18,16 +18,16 @@ app.factory('citiesService', function($q, serverService) {
             active: queryModel.active,
             paused: queryModel.paused,
             paused_during_day: queryModel.pausedDuringDay,
-            last_paused_at_min: queryModel.lastPausedAtMin,
-            last_paused_at_max: queryModel.lastPausedAtMax,
-            started_at_min: queryModel.startedAtMin,
-            started_at_max: queryModel.startedAtMax,
-            finished_at_min: queryModel.finishedAtMin,
-            finished_at_max: queryModel.finishedAtMax,
-            created_at_min: queryModel.createdAtMin,
-            created_at_max: queryModel.createdAtMax,
-            updated_at_min: queryModel.updatedAtMin,
-            updated_at_max: queryModel.updatedAtMax
+            last_paused_at_min: queryModel.lastPausedAtMin ? queryModel.lastPausedAtMin.getTime()/1000 : null,
+            last_paused_at_max: queryModel.lastPausedAtMax ? queryModel.lastPausedAtMax.getTime()/1000 : null,
+            started_at_min: queryModel.startedAtMin ? queryModel.startedAtMin.getTime()/1000 : null,
+            started_at_max: queryModel.startedAtMax ? queryModel.startedAtMax.getTime()/1000 : null,
+            finished_at_min: queryModel.finishedAtMin ? queryModel.finishedAtMin.getTime()/1000 : null,
+            finished_at_max: queryModel.finishedAtMax ? queryModel.finishedAtMax.getTime()/1000 : null,
+            created_at_min: queryModel.createdAtMin ? queryModel.createdAtMin.getTime()/1000 : null,
+            created_at_max: queryModel.createdAtMax ? queryModel.createdAtMax.getTime()/1000 : null,
+            updated_at_min: queryModel.updatedAtMin ? queryModel.updatedAtMin.getTime()/1000 : null,
+            updated_at_max: queryModel.updatedAtMax ? queryModel.updatedAtMax.getTime()/1000 : null
         });
 
 

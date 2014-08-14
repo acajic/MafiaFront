@@ -17,25 +17,49 @@
         <timepicker style="display: inline-block" ng-model="queryModel.timezoneDate" hour-step="1" minute-step="15" show-meridian="false" ng-hide="queryModel.anyTimezone" readonly-input="true"></timepicker>
         <input type="checkbox" ng-model="queryModel.anyTimezone"> Any Timezone?
     </div>
-    <div style="clear: both" class="query-model row-even">
-        <p class="col-md-1">Started</p>
-        <quick-datepicker ng-model='queryModel.startedAtMin' date-format='dd/MM/yyyy' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.startedAtMax' date-format='dd/MM/yyyy' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+    <div style="clear: both" class="row-even">
+        <p class="col-md-1">Active</p>
+        <select ng-model="queryModel.active">
+            <option value="">All</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
     </div>
-    <div style="clear: both" class="query-model row-odd">
+    <div style="clear: both" class="row-odd">
         <p class="col-md-1">Paused</p>
-        <quick-datepicker ng-model='queryModel.pauseddAtMin' date-format='dd/MM/yyyy' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.pausedAtMax' date-format='dd/MM/yyyy' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+        <select ng-model="queryModel.paused">
+            <option value="">All</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
     </div>
-    <div style="clear: both" class="query-model row-even">
-        <p class="col-md-1">Finished</p>
-        <quick-datepicker ng-model='queryModel.finishedAtMin' date-format='dd/MM/yyyy' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.finishedAtMax' date-format='dd/MM/yyyy' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+    <div style="clear: both; overflow: hidden;" class="row-even">
+        <p class="col-md-1">Paused During Day</p>
+        <select ng-model="queryModel.pausedDuringDay">
+            <option value="">All</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
     </div>
     <div style="clear: both" class="query-model row-odd">
-        <p class="col-md-1">Created</p>
-        <quick-datepicker ng-model='queryModel.createdAtMin' date-format='dd/MM/yyyy' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.createdAtMax' date-format='dd/MM/yyyy' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+        <p class="col-md-1">Started</p>
+        <quick-datepicker ng-model='queryModel.startedAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.startedAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
     </div>
     <div style="clear: both" class="query-model row-even">
+        <p class="col-md-1">Paused</p>
+        <quick-datepicker ng-model='queryModel.pauseddAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.pausedAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+    </div>
+    <div style="clear: both" class="query-model row-odd">
+        <p class="col-md-1">Finished</p>
+        <quick-datepicker ng-model='queryModel.finishedAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.finishedAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+    </div>
+    <div style="clear: both" class="query-model row-even">
+        <p class="col-md-1">Created</p>
+        <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+    </div>
+    <div style="clear: both" class="query-model row-odd">
         <p class="col-md-1">Updated</p>
-        <quick-datepicker ng-model='queryModel.updatedAtMin' date-format='dd/MM/yyyy' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.updatedAtMax' date-format='dd/MM/yyyy' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+        <quick-datepicker ng-model='queryModel.updatedAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.updatedAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
     </div>
 
     <button class="btn btn-success" ng-click="reloadData(true)">Search</button>

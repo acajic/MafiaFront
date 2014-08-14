@@ -25,11 +25,11 @@
     </div>
     <div style="clear: both" class="query-model row-odd">
         <p class="col-md-1">Created</p>
-        <quick-datepicker ng-model='queryModel.createdAtMin' date-format='dd/MM/yyyy' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.createdAtMax' date-format='dd/MM/yyyy' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+        <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
     </div>
     <div style="clear: both" class="query-model row-even">
         <p class="col-md-1">Updated</p>
-        <quick-datepicker ng-model='queryModel.updatedAtMin' date-format='dd/MM/yyyy' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.updatedAtMax' date-format='dd/MM/yyyy' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+        <quick-datepicker ng-model='queryModel.updatedAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.updatedAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
     </div>
 
     <button class="btn btn-success" ng-click="reloadData(true)">Search</button>
