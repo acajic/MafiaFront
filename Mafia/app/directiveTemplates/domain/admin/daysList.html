@@ -1,0 +1,30 @@
+<table class="table">
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>City</td>
+        <td>Number</td>
+        <td>Created At</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="day in days">
+        <td>{{ day.id }}</td>
+        <td>day_city_id: {{ day.city_id }}; <br/>
+            day_city_name: {{ day.city.name }};
+        </td>
+        <td>{{ day.number }}</td>
+        <td>{{ day.created_at }}</td>
+    </tr>
+    <tr ng-if="isLoadingContent">
+        <td colspan="4" style="text-align: center">
+            <loader size='small'></loader>
+        </td>
+    </tr>
+    <tr ng-hide="isLoadingContent">
+        <td colspan="4">
+            <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
