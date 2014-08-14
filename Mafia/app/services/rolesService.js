@@ -28,12 +28,16 @@ app.factory('rolesService', function(serverService, $q) {
     };
 
     var allRoles;
+    var allRolesPromise;
 
     var getAllRoles = function(refresh) {
         var deferred = $q.defer();
 
         if (!allRoles || refresh) {
-            return serverService.get('roles',{});
+            if (!allRolesPromise) {
+                allRolesPromise = serverService.get('roles',{});
+            }
+            return allRolesPromise;
         } else {
             deferred.resolve(allRoles);
         }

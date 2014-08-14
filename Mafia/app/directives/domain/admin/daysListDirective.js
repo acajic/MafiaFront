@@ -3,7 +3,8 @@ app.directive('daysList', function(daysService) {
     return {
         restrict : 'E',
         scope: {
-            queryModel: '='
+            queryModel: '=',
+            queryable: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/daysList.html',
         link: function(scope, element, attrs) {

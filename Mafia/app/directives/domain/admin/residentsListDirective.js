@@ -3,7 +3,8 @@ app.directive('residentsList', function($q, residentsService, rolesService) {
     return {
         restrict : 'E',
         scope: {
-            queryModel: '='
+            queryModel: '=',
+            queryable: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/residentsList.html',
         link: function(scope, element, attrs) {
@@ -29,7 +30,7 @@ app.directive('residentsList', function($q, residentsService, rolesService) {
 
                 var promises = [residentsPromise];
                 if (!scope.allRolesByIds) {
-                    var allRolesByIdsPromise = rolesService.getAllRolesByIds(true);
+                    var allRolesByIdsPromise = rolesService.getAllRolesByIds(false);
                     promises.push(allRolesByIdsPromise);
                 }
 

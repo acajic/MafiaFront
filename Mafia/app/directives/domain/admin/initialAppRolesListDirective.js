@@ -3,7 +3,8 @@ app.directive('initialAppRolesList', function($q, appRolesService) {
     return {
         restrict : 'E',
         scope: {
-            queryModel: '='
+            queryModel: '=',
+            queryable: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/initialAppRolesList.html',
         link: function(scope, element, attrs) {

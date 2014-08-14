@@ -3,7 +3,8 @@ app.directive('citiesList', function(citiesService) {
     return {
         restrict : 'E',
         scope: {
-            queryModel: '='
+            queryModel: '=',
+            queryable: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/citiesList.html',
         link: function(scope, element, attrs) {

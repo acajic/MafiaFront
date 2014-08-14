@@ -1,4 +1,4 @@
-var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.pointsAssign', 'timer', 'ui.minLengthNumber', 'uniqque_filter']);
+var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.pointsAssign', 'timer', 'ui.minLengthNumber', 'uniqque_filter', 'ngQuickDate']);
 
 app.config(function ($routeProvider, $locationProvider) {
     'use strict';
@@ -111,7 +111,7 @@ app.config(function ($routeProvider, $locationProvider) {
                 var userMePromise = authService.userMe(false);
 
                 return userMePromise.then(function(userMe) {
-                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READONLY]) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
                         $location.path('/cities');
                     }
                 });

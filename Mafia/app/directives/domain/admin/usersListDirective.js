@@ -1,9 +1,10 @@
-app.directive('usersList', function(usersService) {
+app.directive('usersList', function($q, usersService, appRolesService) {
     "use strict";
     return {
         restrict : 'E',
         scope: {
-            queryModel: '='
+            queryModel: '=',
+            queryable: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/usersList.html',
         link: function(scope, element, attrs) {
@@ -13,7 +14,28 @@ app.directive('usersList', function(usersService) {
             var pageSize = 10;
 
 
+
+
             scope.users = [];
+
+            if (!scope.queryModel) {
+                scope.queryModel = {
+                };
+            }
+
+            scope.toggleAppRoleSelection = function(appRole) {
+                if (!scope.queryModel.appRoleIds)
+                    return;
+
+                var index = scope.queryModel.appRoleIds.indexOf(appRole.id);
+                if (index == -1) {
+                    scope.queryModel.appRoleIds.push(appRole.id);
+                } else {
+                    scope.queryModel.appRoleIds.splice(index, 1);
+                }
+            };
+
+
             scope.noMoreContent = false;
 
             var reloadData = function(refresh) {
@@ -25,9 +47,28 @@ app.directive('usersList', function(usersService) {
                 }
 
                 var usersPromise = usersService.getAllUsers(scope.queryModel, pageIndex, pageSize);
+                var promises = [usersPromise];
+
+                if (!scope.appRolesByIds) {
+                    var appRolesPromise = appRolesService.getAllAppRoles(false);
+                    promises.push(appRolesPromise);
+                }
 
 
-                usersPromise.then(function(usersResult) {
+                $q.all(promises).then(function(results) {
+                    if (results[1]) {
+                        scope.appRoles = results[1];
+                        if (!scope.queryModel.appRoleIds) {
+                            var appRoleIds = [];
+                            angular.forEach(scope.appRoles, function(someAppRole) {
+                                appRoleIds.push(someAppRole.id);
+                            });
+                            scope.queryModel.appRoleIds = appRoleIds;
+                        }
+                    }
+
+                    var usersResult = results[0];
+
                     scope.isLoadingContent = false;
                     if (usersResult.length < pageSize) {
                         scope.noMoreContent = true;

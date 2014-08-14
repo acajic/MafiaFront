@@ -9,7 +9,7 @@ app.directive('auth', function($routeParams, authService, $location, layoutServi
             scope.homeButtonVisible = layoutService.homeButtonVisible;
 
             scope.adminButtonVisible = function() {
-                if (scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_RW] || scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_READONLY]) {
+                if (scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE] || scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
                     return layoutService.adminButtonVisible();
                 } else {
                     return false;

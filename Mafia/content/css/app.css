@@ -106,6 +106,20 @@ td {
 
 /* END invite players to your game */
 
+
+/* BEGIN even/odd rows */
+
+.row-odd {
+    background-color: rgba(204, 208, 239, 0.32);
+}
+
+.row-even {
+}
+
+
+/* END even/odd rows */
+
+
 /* BEGIN */
 
 .resident-dead {
@@ -156,23 +170,6 @@ td {
 .city-row-active {
     background-color: rgba(52, 252, 72, 0.23);
 }
-
-/*.city-not-started-overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: #14171c;
-    opacity: 0.8;
-    z-index: 30;
-}
-
-.city-not-started-message-box {
-    width: 300px;
-    height: 50px;
-    margin: auto auto;
-    color: #ffffff;
-    font-size: 22px;
-}*/
 
 .popover {
     font-size: 14px;

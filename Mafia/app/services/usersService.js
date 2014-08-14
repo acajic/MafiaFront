@@ -1,7 +1,7 @@
 var APP_PERMISSION_PARTICIPATE = 1;
 var APP_PERMISSION_CREATE_GAMES = 2;
-var APP_PERMISSION_ADMIN_READONLY = 3;
-var APP_PERMISSION_ADMIN_RW = 4;
+var APP_PERMISSION_ADMIN_READ = 3;
+var APP_PERMISSION_ADMIN_WRITE = 4;
 
 app.factory('usersService', function($q, serverService) {
     "use strict";
@@ -21,10 +21,10 @@ app.factory('usersService', function($q, serverService) {
             email: queryModel.email,
             app_role_ids : queryModel.appRoleIds,
             email_confirmed: queryModel.emailConfirmed,
-            created_at_min: queryModel.createdAtMin,
-            created_at_max: queryModel.createdAtMax,
-            updated_at_min: queryModel.updatedAtMin,
-            updated_at_max: queryModel.updatedAtMax
+            created_at_min: queryModel.createdAtMin ? queryModel.createdAtMin.getTime()/1000 : null,
+            created_at_max: queryModel.createdAtMax ? queryModel.createdAtMax.getTime()/1000 : null,
+            updated_at_min: queryModel.updatedAtMin ? queryModel.updatedAtMin.getTime()/1000 : null,
+            updated_at_max: queryModel.updatedAtMax ? queryModel.updatedAtMax.getTime()/1000 : null
         });
         allUsersPromise.then(function(allUsersResult) {
             allUsers = allUsersResult;
