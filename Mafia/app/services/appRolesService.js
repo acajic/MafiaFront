@@ -39,10 +39,12 @@ app.factory('appRolesService', function($q, serverService) {
             page_index: pageIndex,
             page_size: pageSize,
             description: queryModel.description,
-            created_at_min: queryModel.createdAtMin,
-            created_at_max: queryModel.createdAtMax,
-            updated_at_min: queryModel.updatedAtMin,
-            updated_at_max: queryModel.updatedAtMax
+            email: queryModel.email,
+            email_pattern: queryModel.emailPattern,
+            created_at_min: queryModel.createdAtMin ? queryModel.createdAtMin.getTime()/1000 : null,
+            created_at_max: queryModel.createdAtMax ? queryModel.createdAtMax.getTime()/1000 : null,
+            updated_at_min: queryModel.updatedAtMin ? queryModel.updatedAtMin.getTime()/1000 : null,
+            updated_at_max: queryModel.updatedAtMax ? queryModel.updatedAtMax.getTime()/1000 : null
         });
 
 
