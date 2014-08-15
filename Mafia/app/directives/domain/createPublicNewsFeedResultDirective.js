@@ -7,12 +7,11 @@ app.directive('createPublicNewsFeedResult', function(actionResultsService) {
             "use strict";
 
             scope.actionTypeLabel = "Fake news";
-            scope.actionResultTypes = actionResultsService.actionResultTypes;
-            actionResultsService.getActionResultTypes(false).then(function(actionResultTypes) {
-                 scope.actionResultTypes = actionResultTypes;
+            actionResultsService.getAllActionResultTypesByIds(false).then(function(actionResultTypesByIds) {
+                 scope.actionResultTypes = actionResultTypesByIds;
 
                 scope.newActionResult = {
-                    action_result_type : actionResultTypes[0],
+                    action_result_type : {},
                     result : {}
                 };
             });

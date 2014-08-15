@@ -12,7 +12,9 @@ app.directive('privateNewsFeed', function(actionResultsService) {
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.actionResultTypes = actionResultsService.actionResultTypes;
+            actionResultsService.getAllActionResultTypesByIds(false).then(function(actionResultTypesByIdsResult) {
+                scope.actionResultTypes = actionResultTypesByIdsResult;
+            });
 
             scope.$watch('[actionResults, city.rolesById]', function(values) {
                 var actionResults = values[0];

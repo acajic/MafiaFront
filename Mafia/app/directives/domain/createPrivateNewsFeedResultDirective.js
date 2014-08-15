@@ -7,9 +7,8 @@ app.directive('createPrivateNewsFeedResult', function(actionResultsService) {
             "use strict";
 
             scope.actionTypeLabel = "Fake a notification";
-            scope.actionResultTypes = actionResultsService.actionResultTypes;
-            actionResultsService.getActionResultTypes(false).then(function(actionResultTypes) {
-                scope.actionResultTypes = actionResultTypes;
+            actionResultsService.getAllActionResultTypesByIds(false).then(function(actionResultTypesByIds) {
+                scope.actionResultTypes = actionResultTypesByIds;
             });
             scope.actionTypes = [];
 

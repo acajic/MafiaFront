@@ -1,58 +1,128 @@
-<table class="table">
-    <thead>
-    <tr>
-        <td>Id</td>
-        <td>City</td>
-        <td>Day</td>
-        <td>Resident</td>
-        <td>Role</td>
-        <td>Action Id</td>
-        <td>Action Result Type</td>
-        <td>Result</td>
-        <td>Is Automatically Generated</td>
-        <td>Deleted</td>
-        <td>Created At</td>
-        <td>Updated At</td>
-        <td>Details</td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="actionResult in actionResults">
-        <td>{{ actionResult.id }}</td>
-        <td>
-            city_id: {{ actionResult.city_id }}; <br/>
-            city_name: {{ actionResult.city_name }}
-        </td>
-        <td ng-if="action.day.id">
-            day_id: {{ actionResult.day_id }}; <br/>
-            day_number: {{ actionResult.day_number }}
-        </td>
-        <td ng-if="!action.day.id"></td>
-        <td>resident_id: {{ actionResult.resident.id }}; <br/>
-            resident_username: {{ actionResult.resident.username }}; <br/>
-            resident_city_id: {{ actionResult.resident.city_id }}; <br/>
-            resident_city_name: {{ actionResult.resident.city_name }}
-        </td>
-        <td>{{ actionResult.role.name }}</td>
-        <td>{{ actionResult.action_id }}</td>
-        <td>{{ actionResult.action_result_type.name }}</td>
-        <td>{{ actionResult.result_json }}</td>
+<div ng-if="queryable">
 
-        <td style="text-align: center;"><img-bool boolean-value="actionResult.is_automatically_generated"></img-bool></td>
-        <td style="text-align: center;"><img-bool boolean-value="actionResult.deleted"></img-bool></td>
-        <td>{{ action.created_at}}</td>
-        <td>{{ action.updated_at}}</td>
-        <td><button class="btn btn-info">Details</button></td>
-    </tr>
-    <tr ng-if="isLoadingContent">
-        <td colspan="13" style="text-align: center">
-            <loader size='small'></loader>
-        </td>
-    </tr>
-    <tr ng-hide="isLoadingContent">
-        <td colspan="13">
-            <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
-        </td>
-    </tr>
-    </tbody>
-</table>
+    <div style="clear: both" class="row-odd">
+        <p class="col-md-1" ng-hide="queryModel.forAllResidents">Username</p>
+        <input ng-model="queryModel.residentUsername" ng-hide="queryModel.forAllResidents">
+        <input type="checkbox" ng-model="queryModel.forAllResidents"> All Residents?
+    </div>
+
+    <div style="clear: both" class="row-even">
+        <p class="col-md-1">City Name</p>
+        <input ng-model="queryModel.cityName">
+    </div>
+
+    <div style="clear: both" class="row-odd">
+        <p class="col-md-1">Result JSON</p>
+        <textarea ng-model="queryModel.resultJson"></textarea>
+    </div>
+
+    <div style="clear: both; overflow: hidden;" class="row-even">
+        <p class="col-md-1">Roles</p>
+        <div ng-repeat="role in roles" class="col-md-1">
+            <input type="checkbox"  ng-checked="queryModel.roleIds.indexOf(role.id) > -1" ng-click="toggleRoleSelection(role)">{{ role.name }}
+        </div>
+    </div>
+
+    <div style="clear: both; overflow: hidden;" class="row-odd">
+        <p class="col-md-1">Action Result Types</p>
+        <div ng-repeat="actionResultType in actionResultTypes" class="col-md-1">
+            <input type="checkbox"  ng-checked="queryModel.actionResultTypeIds.indexOf(actionResultType.id) > -1" ng-click="toggleActionResultTypeSelection(actionResultType)">{{ actionResultType.name }}
+        </div>
+    </div>
+
+    <div style="clear: both" class="row-even">
+        <p class="col-md-1">Day</p>
+        <input type="number" ng-model="queryModel.dayNumberMin"> - <input type="number" ng-model="queryModel.dayNumberMax">
+    </div>
+
+
+
+    <div style="clear: both" class="row-even">
+        <p class="col-md-1">Is Automatically Generated</p>
+        <select ng-model="queryModel.isAutomaticallyGenerated">
+            <option value="">All</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+    </div>
+
+    <div style="clear: both" class="row-even">
+        <p class="col-md-1">Deleted</p>
+        <select ng-model="queryModel.deleted">
+            <option value="">All</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+    </div>
+
+    <div style="clear: both" class="query-model row-odd">
+        <p class="col-md-1">Created</p>
+        <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+    </div>
+
+    <div style="clear: both" class="query-model row-odd">
+        <p class="col-md-1">Updated</p>
+        <quick-datepicker ng-model='queryModel.updatedAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.updatedAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+    </div>
+
+    <button class="btn btn-success" ng-click="reloadData(true)">Search</button>
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>City</td>
+            <td>Day</td>
+            <td>Resident</td>
+            <td>Role</td>
+            <td>Action Id</td>
+            <td>Action Result Type</td>
+            <td>Result</td>
+            <td>Is Automatically Generated</td>
+            <td>Deleted</td>
+            <td>Created At</td>
+            <td>Updated At</td>
+            <td>Details</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="actionResult in actionResults">
+            <td>{{ actionResult.id }}</td>
+            <td>
+                city_id: {{ actionResult.city_id }}; <br/>
+                city_name: {{ actionResult.city_name }}
+            </td>
+            <td ng-if="action.day.id">
+                day_id: {{ actionResult.day_id }}; <br/>
+                day_number: {{ actionResult.day_number }}
+            </td>
+            <td ng-if="!action.day.id"></td>
+            <td>resident_id: {{ actionResult.resident_id }}; <br/>
+                resident_username: {{ actionResult.resident_username }};
+            </td>
+            <td>{{ actionResult.role.name }}</td>
+            <td>{{ actionResult.action_id }}</td>
+            <td>{{ actionResult.action_result_type.name }}</td>
+            <td>{{ actionResult.result_json }}</td>
+
+            <td style="text-align: center;"><img-bool boolean-value="actionResult.is_automatically_generated"></img-bool></td>
+            <td style="text-align: center;"><img-bool boolean-value="actionResult.deleted"></img-bool></td>
+            <td>{{ actionResult.created_at}}</td>
+            <td>{{ actionResult.updated_at}}</td>
+            <td><button class="btn btn-info">Details</button></td>
+        </tr>
+        <tr ng-if="isLoadingContent">
+            <td colspan="13" style="text-align: center">
+                <loader size='small'></loader>
+            </td>
+        </tr>
+        <tr ng-hide="isLoadingContent">
+            <td colspan="13">
+                <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

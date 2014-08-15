@@ -8,7 +8,9 @@ app.directive('silentSheriffIdentities', function(actionsService, actionResultsS
 
             scope.actionTypeIds = actionsService.actionTypeIds;
 
-            scope.actionResultTypes = actionResultsService.actionResultTypes;
+            actionResultsService.getAllActionResultTypesByIds(false).then(function(actionResultTypesByIdsResult) {
+                scope.actionResultTypes = actionResultTypesByIdsResult;
+            });
 
             scope.actionTypeParamsResult = {};
 

@@ -81,6 +81,31 @@ app.factory('actionResultsService', function($q, serverService) {
         return publicActionResultTypeIds;
     };
 
+    var actionResultTypes;
+    var allActionResultTypesPromise;
+
+    var getAllActionResultTypes = function(refresh) {
+        if (refresh || !allActionResultTypesPromise) {
+            allActionResultTypesPromise = serverService.get('action_result_types', {});
+            allActionResultTypesPromise = allActionResultTypesPromise.then(function(allActionResultTypesResult) {
+                actionResultTypes = allActionResultTypesResult;
+                return actionResultTypes;
+            });
+        } else {
+
+        }
+        return allActionResultTypesPromise;
+    };
+
+    var getAllActionResultTypesByIds = function(refresh) {
+          return getAllActionResultTypes(refresh).then(function(allActionResultTypesResult) {
+              var actionResultTypesByIds = {};
+              angular.forEach(allActionResultTypesResult, function(someActionResultType) {
+                  actionResultTypesByIds[someActionResultType.id] = someActionResultType;
+              });
+              return actionResultTypesByIds;
+          });
+    };
 
     var getAllActionResults = function(queryModel, pageIndex, pageSize) {
         if (!queryModel)
@@ -91,7 +116,7 @@ app.factory('actionResultsService', function($q, serverService) {
             page_size: pageSize,
             action_ids: queryModel.actionIds,
             action_result_type_ids: queryModel.actionResultTypeIds,
-            result: queryModel.result,
+            result_json: queryModel.resultJson,
             is_automatically_generated: queryModel.isAutomaticallyGenerated,
             city_ids: queryModel.cityIds,
             city_name: queryModel.cityName,
@@ -99,12 +124,13 @@ app.factory('actionResultsService', function($q, serverService) {
             day_number_max: queryModel.dayNumberMax,
             resident_ids: queryModel.residentIds,
             resident_username: queryModel.residentUsername,
+            for_all_residents: queryModel.forAllResidents,
             role_ids: queryModel.roleIds,
             deleted: queryModel.deleted,
-            created_at_min: queryModel.createdAtMin,
-            created_at_max: queryModel.createdAtMax,
-            updated_at_min: queryModel.updatedAtMin,
-            updated_at_max: queryModel.updatedAtMax
+            created_at_min: queryModel.createdAtMin ? queryModel.createdAtMin.getTime()/1000 : null,
+            created_at_max: queryModel.createdAtMax ? queryModel.createdAtMax.getTime()/1000 : null,
+            updated_at_min: queryModel.updatedAtMin ? queryModel.updatedAtMin.getTime()/1000 : null,
+            updated_at_max: queryModel.updatedAtMax ? queryModel.updatedAtMax.getTime()/1000 : null
         });
     };
 
@@ -204,20 +230,21 @@ app.factory('actionResultsService', function($q, serverService) {
         }
     };
 
-    getActionResultTypes();
+    // getAllActionResultTypes();
 
     return {
         actionResultTypeIds : actionResultTypeIds,
         actionResultsForCities : actionResultsForCities,
         privateActionResultTypesForRole : privateActionResultTypesForRole,
         publicActionResultTypeIds : publicActionResultTypeIds,
+        actionResultTypes : actionResultTypes,
+        getAllActionResultTypes : getAllActionResultTypes,
+        getAllActionResultTypesByIds : getAllActionResultTypesByIds,
         getAllActionResults : getAllActionResults,
         getActionResults : getActionResults,
         postActionResult : postActionResult,
         deleteActionResult : deleteActionResult,
         publicActionResults : publicActionResults,
-        privateActionResults : privateActionResults,
-        actionResultTypes : actionResultTypes,
-        getActionResultTypes : getActionResultTypes
+        privateActionResults : privateActionResults
     };
 });

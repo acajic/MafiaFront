@@ -8,7 +8,9 @@ app.directive('sheriffIdentities', function(actionsService, actionResultsService
 
             scope.actionTypeIds = actionsService.actionTypeIds;
 
-            scope.actionResultTypes = actionResultsService.actionResultTypes;
+            actionResultsService.getAllActionResultTypesByIds(false).then(function(actionResultTypesByIdsResult) {
+                scope.actionResultTypes = actionResultTypesByIdsResult;
+            });
 
             scope.actionTypeParamsResult = {};
 
