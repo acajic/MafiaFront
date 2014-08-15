@@ -14,8 +14,8 @@ app.factory('daysService', function($q, serverService) {
             city_name: queryModel.cityName,
             number_min: queryModel.numberMin,
             number_max: queryModel.numberMax,
-            created_at_min: queryModel.createdAtMin,
-            created_at_max: queryModel.createdAtMax
+            created_at_min: queryModel.createdAtMin ? queryModel.createdAtMin.getTime()/1000 : null,
+            created_at_max: queryModel.createdAtMax ? queryModel.createdAtMax.getTime()/1000 : null
         });
 
 

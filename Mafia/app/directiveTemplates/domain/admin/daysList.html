@@ -1,30 +1,51 @@
-<table class="table">
-    <thead>
-    <tr>
-        <td>Id</td>
-        <td>City</td>
-        <td>Number</td>
-        <td>Created At</td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="day in days">
-        <td>{{ day.id }}</td>
-        <td>day_city_id: {{ day.city_id }}; <br/>
-            day_city_name: {{ day.city.name }};
-        </td>
-        <td>{{ day.number }}</td>
-        <td>{{ day.created_at }}</td>
-    </tr>
-    <tr ng-if="isLoadingContent">
-        <td colspan="4" style="text-align: center">
-            <loader size='small'></loader>
-        </td>
-    </tr>
-    <tr ng-hide="isLoadingContent">
-        <td colspan="4">
-            <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div ng-if="queryable">
+    <div style="clear: both" class="row-odd">
+        <p class="col-md-1">City</p>
+        <input ng-model="queryModel.cityName">
+    </div>
+
+    <div style="clear: both" class="row-even">
+        <p class="col-md-1">Number</p>
+        <input type="number" ng-model="queryModel.numberMin"> - <input type="number" ng-model="queryModel.numberMax">
+    </div>
+
+    <div style="clear: both" class="query-model row-odd">
+        <p class="col-md-1">Created</p>
+        <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+    </div>
+
+    <button class="btn btn-success" ng-click="reloadData(true)">Search</button>
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>City</td>
+            <td>Number</td>
+            <td>Created At</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="day in days">
+            <td>{{ day.id }}</td>
+            <td>day_city_id: {{ day.city_id }}; <br/>
+                day_city_name: {{ day.city_name }};
+            </td>
+            <td>{{ day.number }}</td>
+            <td>{{ day.created_at }}</td>
+        </tr>
+        <tr ng-if="isLoadingContent">
+            <td colspan="4" style="text-align: center">
+                <loader size='small'></loader>
+            </td>
+        </tr>
+        <tr ng-hide="isLoadingContent">
+            <td colspan="4">
+                <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
