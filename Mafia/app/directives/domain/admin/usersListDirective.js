@@ -41,6 +41,16 @@ app.directive('usersList', function($q, usersService, appRolesService) {
                 if (refresh) {
                     pageIndex = 0;
                     scope.users = [];
+
+                    if (scope.queryable) {
+                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        if (queryModelJson.length < 4000) {
+                            var expirationDate = new Date();
+                            expirationDate.setDate(expirationDate.getDate() + 7);
+                            setCookie(kAdminQueryModelUsers, queryModelJson, expirationDate);
+                        }
+
+                    }
                 }
 
                 var usersPromise = usersService.getAllUsers(scope.queryModel, pageIndex, pageSize);

@@ -27,6 +27,16 @@ app.directive('daysList', function(daysService) {
                 if (refresh) {
                     pageIndex = 0;
                     scope.days = [];
+
+                    if (scope.queryable) {
+                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        if (queryModelJson.length < 4000) {
+                            var expirationDate = new Date();
+                            expirationDate.setDate(expirationDate.getDate() + 7);
+                            setCookie(kAdminQueryModelDays, queryModelJson, expirationDate);
+                        }
+
+                    }
                 }
 
                 var usersPromise = daysService.getAllDays(scope.queryModel, pageIndex, pageSize);

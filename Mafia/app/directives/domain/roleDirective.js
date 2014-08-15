@@ -7,7 +7,8 @@ app.directive('role', function(rolesService) {
             resident : '=',
             actionResults: '=',
             actionResultsByType: '=',
-            isLoading: '='
+            isLoading: '=',
+            tabActive: '='
         },
         templateUrl: 'app/directiveTemplates/domain/role.html',
         link: function(scope, element, attrs) {

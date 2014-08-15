@@ -1,20 +1,20 @@
 app.controller('CityController', function ($scope, $routeParams, $q, citiesService, actionResultsService, residentsService, authService, layoutService) {
     "use strict";
 
-/*
-    var earliestMoment = {
-        time : 24*60,
-        isDayStart : true
-    };
-    var previousTickNextMoment = {};
-*/
-
 
     layoutService.setHomeButtonVisible(true);
 
     $scope.nextMoment = {};
 
+
+
     function initCity(cityId) {
+        var tabActive = getCookie(kCitySelectedTabIndexCookieKey);
+        if (!tabActive) {
+            tabActive = {0: true, 1: false, 2: false};
+        }
+        $scope.tabActive = tabActive;
+
         var cityPromise = citiesService.getCity(cityId);
 
         var userMePromise = authService.userMe();
@@ -70,6 +70,10 @@ app.controller('CityController', function ($scope, $routeParams, $q, citiesServi
                 $scope.roleChooserEditMode = true;
                 $scope.isLoading = false;
             }
+
+
+
+
 
         });
     }
@@ -199,14 +203,15 @@ app.controller('CityController', function ($scope, $routeParams, $q, citiesServi
         return 'city' + cityId + 'UserId' + userId + 'RoleId';
     }
 
-    function tabSelected(index) {
 
-    }
+    var kCitySelectedTabIndexCookieKey;
 
     init();
 
     function init() {
         var cityId = $routeParams["cityId"];
+
+        kCitySelectedTabIndexCookieKey = 'city_' + cityId + '_active_tabs';
 
         initCity(cityId);
 
@@ -217,7 +222,6 @@ app.controller('CityController', function ($scope, $routeParams, $q, citiesServi
         $scope.closeBasicValidationAlert = closeBasicValidationAlert;
         $scope.roleSelected = roleSelected;
 
-        $scope.tabSelected = tabSelected;
 
     }
 

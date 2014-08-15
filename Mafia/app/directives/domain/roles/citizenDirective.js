@@ -8,6 +8,8 @@ app.directive('citizen', function() {
 
             scope.roleId = ROLE_ID_CITIZEN;
 
+
+
         }
     };
 });

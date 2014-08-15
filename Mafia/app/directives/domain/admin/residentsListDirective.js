@@ -51,6 +51,16 @@ app.directive('residentsList', function($q, residentsService, rolesService) {
                 if (refresh) {
                     pageIndex = 0;
                     scope.residents = [];
+
+                    if (scope.queryable) {
+                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        if (queryModelJson.length < 4000) {
+                            var expirationDate = new Date();
+                            expirationDate.setDate(expirationDate.getDate() + 7);
+                            setCookie(kAdminQueryModelResidents, queryModelJson, expirationDate);
+                        }
+
+                    }
                 }
 
 

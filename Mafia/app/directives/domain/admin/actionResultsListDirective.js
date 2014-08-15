@@ -52,6 +52,16 @@ app.directive('actionResultsList', function($q, actionResultsService, rolesServi
                 if (refresh) {
                     pageIndex = 0;
                     scope.actionResults = [];
+
+                    if (scope.queryable) {
+                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        if (queryModelJson.length < 4000) {
+                            var expirationDate = new Date();
+                            expirationDate.setDate(expirationDate.getDate() + 7);
+                            setCookie(kAdminQueryModelActionResults, queryModelJson, expirationDate);
+                        }
+
+                    }
                 }
 
                 var actionResultsPromise = actionResultsService.getAllActionResults(scope.queryModel, pageIndex, pageSize);

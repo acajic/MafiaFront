@@ -38,6 +38,16 @@ app.directive('citiesList', function(citiesService) {
                 if (refresh) {
                     pageIndex = 0;
                     scope.cities = [];
+
+                    if (scope.queryable) {
+                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        if (queryModelJson.length < 4000) {
+                            var expirationDate = new Date();
+                            expirationDate.setDate(expirationDate.getDate() + 7);
+                            setCookie(kAdminQueryModelCities, queryModelJson, expirationDate);
+                        }
+
+                    }
                 }
 
                 var citiesPromise = citiesService.getAllCities(scope.queryModel, pageIndex, pageSize);

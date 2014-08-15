@@ -28,6 +28,16 @@ app.directive('initialAppRolesList', function($q, appRolesService) {
                 if (refresh) {
                     pageIndex = 0;
                     scope.initialAppRoles = [];
+
+                    if (scope.queryable) {
+                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        if (queryModelJson.length < 4000) {
+                            var expirationDate = new Date();
+                            expirationDate.setDate(expirationDate.getDate() + 7);
+                            setCookie(kAdminQueryModelInitialAppRoles, queryModelJson, expirationDate);
+                        }
+
+                    }
                 }
 
                 var initialAppRolesPromise = appRolesService.getAllInitialAppRoles(scope.queryModel, pageIndex, pageSize);
