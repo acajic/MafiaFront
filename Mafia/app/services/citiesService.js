@@ -13,7 +13,8 @@ app.factory('citiesService', function($q, serverService) {
             page_size: pageSize,
             name: queryModel.name,
             description: queryModel.description,
-            user_creator: queryModel.userCreator,
+            resident_user_ids: queryModel.residentUserIds,
+            user_creator: queryModel.userCreator, // this is userCreator username, not working atm
             timezone: queryModel.timezoneDate ? (queryModel.timezoneSign *(queryModel.timezoneDate.getHours() * 60 + queryModel.timezoneDate.getMinutes())) : null,
             active: queryModel.active,
             paused: queryModel.paused,
@@ -72,31 +73,35 @@ app.factory('citiesService', function($q, serverService) {
         }
     };
 
-    var getCity = function(city_id, refresh) {
-        if (!refresh) {
-            var city = $.grep(cities, function(someCity) {
-                return someCity.id == city_id;
-            })[0];
-            if (city) {
-                var deferred = $q.defer();
-                deferred.resolve(city);
-                return deferred.promise;
-            }
+    var getCityPromisesByCityIds = {};
+
+    var getCity = function(cityId, refresh) {
+        if (!refresh && getCityPromisesByCityIds[cityId]) {
+            return getCityPromisesByCityIds[cityId];
         }
 
-        var cityPromise = serverService.get('cities/' + city_id);
+        var cityPromise = serverService.get('cities/' + cityId);
         return cityPromise.then(function(cityResult) {
-            updateCityInCollection(cityResult);
+            cacheCity(cityResult);
             return cityResult;
         });
     };
 
-    function updateCityInCollection(cityUpdated) {
+    function cacheCity(cityUpdated) {
+        var deferred = $q.defer();
+        getCityPromisesByCityIds[cityUpdated.id] = deferred.promise;
+        deferred.resolve(cityUpdated);
+
         var city = $.grep(cities, function(someCity) {
             return someCity.id == cityUpdated.id;
         });
-        var index = cities.indexOf(city);
-        cities.splice(index, 1, cityUpdated);
+        if (city) {
+            var index = cities.indexOf(city);
+            if (index >= 0)
+                cities.splice(index, 1, cityUpdated);
+            else
+                cities.push(cityUpdated);
+        }
     }
 
     var getNewCity = function() {
@@ -118,6 +123,9 @@ app.factory('citiesService', function($q, serverService) {
     var createCity = function(city) {
         return serverService.post('cities', {
             city : city
+        }).then(function(createdCity) {
+            cacheCity(createdCity);
+            return createdCity;
         });
     };
 
@@ -135,14 +143,17 @@ app.factory('citiesService', function($q, serverService) {
     };
 
     var updateCity = function (city) {
-        return serverService.put('cities/' + city.id, {city : city});
+        return serverService.put('cities/' + city.id, {city : city}).then(function(updatedCity) {
+
+            return updatedCity;
+        });
     };
 
     var joinCity = function(city_id) {
         var joinCityPromise = serverService.post('cities/' + city_id + '/join');
 
         joinCityPromise.then(function(cityUpdated) {
-            updateCityInCollection(cityUpdated);
+            cacheCity(cityUpdated);
             return cityUpdated;
         });
 
@@ -152,7 +163,7 @@ app.factory('citiesService', function($q, serverService) {
     var leaveCity = function(city_id) {
         var leaveCityPromise = serverService.post('cities/' + city_id + '/leave');
         leaveCityPromise.then(function(cityUpdated) {
-            updateCityInCollection(cityUpdated);
+            cacheCity(cityUpdated);
         });
 
         return leaveCityPromise;
@@ -161,7 +172,7 @@ app.factory('citiesService', function($q, serverService) {
     var startCity = function(city_id) {
         var startCityPromise = serverService.post('cities/' + city_id + '/start');
         return startCityPromise.then(function(cityUpdated) {
-            updateCityInCollection(cityUpdated);
+            cacheCity(cityUpdated);
             return cityUpdated;
         });
     };
@@ -169,17 +180,20 @@ app.factory('citiesService', function($q, serverService) {
     var pauseCity = function(city_id) {
         var pauseCityPromise = serverService.post('cities/' + city_id + '/pause');
         return pauseCityPromise.then(function(cityUpdated) {
-            updateCityInCollection(cityUpdated);
+            cacheCity(cityUpdated);
             return cityUpdated;
         });
     };
 
     var resumeCity = function(city_id) {
         return serverService.post('cities/' + city_id + "/resume").then(function(cityUpdated) {
-            updateCityInCollection(cityUpdated);
+            cacheCity(cityUpdated);
             return cityUpdated;
         });
     };
+
+    var isNewCityCreated = false;
+    // var isCityStarted = false;
 
     return {
         getAllCities : getAllCities,
@@ -196,6 +210,8 @@ app.factory('citiesService', function($q, serverService) {
         leaveCity : leaveCity,
         startCity : startCity,
         pauseCity : pauseCity,
-        resumeCity : resumeCity
+        resumeCity : resumeCity,
+        isNewCityCreated : isNewCityCreated
+        // isCityStarted : isCityStarted
     };
 });

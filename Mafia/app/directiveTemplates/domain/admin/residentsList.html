@@ -60,7 +60,6 @@
             <td>Role Seen</td>
             <td>Died At (UTC)</td>
             <td>Updated At (UTC)</td>
-            <td>Details</td>
         </tr>
         </thead>
         <tbody>
@@ -73,15 +72,14 @@
             <td style="text-align: center;"><img-bool boolean-value="resident.role_seen"></img-bool></td>
             <td>{{ resident.died_at}}</td>
             <td>{{ resident.updated_at}}</td>
-            <td><button class="btn btn-info">Details</button></td>
         </tr>
         <tr ng-if="isLoadingContent">
-            <td colspan="9" style="text-align: center">
+            <td colspan="8" style="text-align: center">
                 <loader size='small'></loader>
             </td>
         </tr>
         <tr ng-hide="isLoadingContent">
-            <td colspan="9">
+            <td colspan="8">
                 <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
             </td>
         </tr>

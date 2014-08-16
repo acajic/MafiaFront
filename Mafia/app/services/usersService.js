@@ -7,8 +7,7 @@ app.factory('usersService', function($q, serverService) {
     "use strict";
 
 
-    var allUsers = [];
-
+    // var allUsersByIds = {};
 
     var getAllUsers = function(queryModel, pageIndex, pageSize) {
         if (!queryModel)
@@ -26,9 +25,14 @@ app.factory('usersService', function($q, serverService) {
             updated_at_min: queryModel.updatedAtMin ? queryModel.updatedAtMin.getTime()/1000 : null,
             updated_at_max: queryModel.updatedAtMax ? queryModel.updatedAtMax.getTime()/1000 : null
         });
+        /*
         allUsersPromise.then(function(allUsersResult) {
-            allUsers = allUsersResult;
+            angular.forEach(allUsersResult, function(someUser) {
+                allUsersByIds[someUser.id] = someUser;
+            });
+            return allUsersResult;
         });
+        */
         return allUsersPromise;
     };
 
@@ -61,7 +65,7 @@ app.factory('usersService', function($q, serverService) {
     };
 
     return {
-        allUsers: allUsers,
+        // allUsersByIds: allUsersByIds,
         getAllUsers: getAllUsers,
         createUser : createUser,
         updateUser : updateUser,

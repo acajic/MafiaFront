@@ -17,7 +17,7 @@
                 </tab-heading>
 
                 <div class="col-md-6 nopadding">
-                <table interactive-table selected-row-id="selected.rowId" class="table">
+                <table interactive-table selected-row-id="selectedMyCities.rowId" class="table">
                     <thead>
                     <tr>
                         <td>Name</td>
@@ -25,11 +25,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="city in cities | myCityFilter" ng-class="classNameForCityRow(city)">
+                    <tr ng-repeat="city in myCities" ng-class="classNameForCityRow(city)">
                         <input type="hidden" name="id" value="{{ city.id }}">
                         <td>{{city.name}}</td>
                         <td style="text-align: center;">
                             <img-bool boolean-value="city.started_at"></img-bool>
+                        </td>
+                    </tr>
+                    <tr ng-if="isLoadingContentMyCities">
+                        <td colspan="2" style="text-align: center">
+                            <loader size='small'></loader>
+                        </td>
+                    </tr>
+                    <tr ng-hide="isLoadingContentMyCities">
+                        <td colspan="2">
+                            <button class="btn btn-block" ng-click="reloadMyCities()" ng-hide="noMoreContentMyCities">More</button>
                         </td>
                     </tr>
                     </tbody>
@@ -44,7 +54,7 @@
             </tab-heading>
 
             <div class="col-md-6 nopadding">
-            <table interactive-table selected-row-id="selected.rowId" class="table">
+            <table interactive-table selected-row-id="selectedAllCities.rowId" class="table">
                 <thead>
                 <tr>
                     <td>Name</td>
@@ -52,11 +62,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="city in cities" ng-class="classNameForCityRow(city)">
+                <tr ng-repeat="city in allCities" ng-class="classNameForCityRow(city)">
                     <input type="hidden" name="id" value="{{ city.id }}">
                     <td>{{city.name}}</td>
                     <td style="text-align: center;">
                         <img-bool boolean-value="city.started_at"></img-bool>
+                    </td>
+                </tr>
+                <tr ng-if="isLoadingContentAllCities">
+                    <td colspan="2" style="text-align: center">
+                        <loader size='small'></loader>
+                    </td>
+                </tr>
+                <tr ng-hide="isLoadingContentAllCities">
+                    <td colspan="2">
+                        <button class="btn btn-block" ng-click="reloadAllCities()" ng-hide="noMoreContentAllCities">More</button>
                     </td>
                 </tr>
                 </tbody>

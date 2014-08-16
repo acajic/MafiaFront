@@ -1,13 +1,73 @@
 app.controller('CitiesController',function ($scope, $routeParams, citiesService, authService, modalService, $location, layoutService) {
     "use strict";
 
-    $scope.refreshCities = function () {
-        var citiesPromise = citiesService.getCities(true);
 
-        citiesPromise.then(function(cities) {
-            $scope.cities = cities;
+    var pageIndexAllCities = 0;
+    var pageSizeAllCities = 10;
+
+    $scope.reloadAllCities = function(refresh) {
+
+        $scope.isLoadingContentAllCities = true;
+
+        if (refresh) {
+            pageIndexAllCities = 0;
+            $scope.allCities = [];
+        }
+
+        var citiesPromise = citiesService.getAllCities({}, pageIndexAllCities, pageSizeAllCities);
+
+
+        citiesPromise.then(function(citiesResult) {
+            $scope.isLoadingContentAllCities = false;
+            if (citiesResult.length < pageSizeAllCities) {
+                $scope.noMoreContentAllCities = true;
+            } else {
+                $scope.noMoreContentAllCities = false;
+            }
+
+            pageIndexAllCities++;
+            $scope.allCities.push.apply($scope.allCities, citiesResult);
+        }, function(reason) {
+            $scope.isLoadingContentAllCities = false;
         });
+
+
     };
+
+    var pageIndexMyCities = 0;
+    var pageSizeMyCities = 10;
+
+    $scope.reloadMyCities = function(refresh) {
+
+        $scope.isLoadingContentMyCities = true;
+
+        if (refresh) {
+            pageIndexMyCities = 0;
+            $scope.myCities = [];
+        }
+
+        authService.userMe().then(function(userMe) {
+            var citiesPromise = citiesService.getAllCities({residentUserIds : [userMe.id]}, pageIndexMyCities, pageSizeMyCities);
+
+
+            citiesPromise.then(function(citiesResult) {
+                $scope.isLoadingContentMyCities = false;
+                if (citiesResult.length < pageSizeAllCities) {
+                    $scope.noMoreContentMyCities = true;
+                } else {
+                    $scope.noMoreContentMyCities = false;
+                }
+
+                pageIndexMyCities++;
+                $scope.myCities.push.apply($scope.myCities, citiesResult);
+            }, function(reason) {
+                $scope.isLoadingContentMyCities = false;
+            });
+        });
+
+    };
+
+
 
 
     $scope.newCity = function () {
@@ -39,13 +99,8 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
             var city = $.grep($scope.cities, function(someCity) {
                 return someCity.id == updatedCity.id;
             });
-            var index = $scope.cities.indexOf(city);
 
-            if (index < 0) {
-                $scope.refreshCities();
-            } else {
-                $scope.cities.splice(index, 1, updatedCity);
-            }
+            refreshCity(city, updatedCity);
 
         }, function(reason) {
             $scope.alerts.push({type: "danger", msg: "Failed to join '" + city.name + "'."});
@@ -60,39 +115,58 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
             var city = $.grep($scope.cities, function(someCity) {
                 return someCity.id == updatedCity.id;
             });
-            var index = $scope.cities.indexOf(city);
 
-            if (index < 0) {
-                $scope.refreshCities();
-            } else {
-                $scope.cities.splice(index, 1, updatedCity);
-            }
+            refreshCity(city, updatedCity);
         }, function(reason) {
             $scope.alerts.push({type: "danger", msg: "Failed to leave '" + city.name + "'."});
         });
     };
 
-    $scope.$watch("selected.rowId", function (newValue) {
-        $scope.citySelected(newValue);
+    var refreshCity = function(oldCity, newCity) {
+        var indexMyCities = $scope.myCities.indexOf(oldCity);
+
+        if (indexMyCities < 0) {
+            $scope.reloadMyCities(true);
+        } else {
+            $scope.myCities.splice(indexMyCities, 1, newCity);
+        }
+
+        var indexAllCities = $scope.allCities.indexOf(oldCity);
+
+        if (indexAllCities < 0) {
+            $scope.reloadAllCities(true);
+        } else {
+            $scope.allCities.splice(indexAllCities, 1, newCity);
+        }
+    };
+
+    $scope.$watch("selectedMyCities.rowId", function (newValue) {
+        if (!$scope.myCities)
+            return;
+
+        var selectedCity = $.grep($scope.myCities, function (city) {
+            return city.id == newValue;
+        })[0];
+        $scope.citySelected(selectedCity);
     });
 
-    $scope.citySelected = function (id) {
-        if (id === undefined) {
+    $scope.$watch("selectedAllCities.rowId", function (newValue) {
+        if (!$scope.allCities)
             return;
-        }
 
-        if (!$scope.cities) {
-            return;
-        }
-
-        var selectedCity = $.grep($scope.cities, function (city) {
-            return city.id == id;
+        var selectedCity = $.grep($scope.allCities, function (city) {
+            return city.id == newValue;
         })[0];
+        $scope.citySelected(selectedCity);
+    });
+
+    $scope.citySelected = function (selectedCity) {
         $scope.selectedCity = selectedCity;
     };
 
     $scope.tabSelected = function (tabIndex) {
-        $scope.selected.rowId = 0;
+        $scope.selectedAllCities.rowId = 0;
+        $scope.selectedMyCities.rowId = 0;
     };
 
     function amICreatorOfCity(city) {
@@ -117,13 +191,7 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
         if (!city)
             return {};
 
-      /*  return {
-            cityRowCreated: !city.started_at,
-            cityRowFinished: city.finished_at,
-            cityRowPaused: city.paused,
-            cityRowActive: city.started_at && !city.paused && !city.finished_at
-        }*/
-       if (!city.started_at)
+        if (!city.started_at)
             return "city-row-created";
         if (city.finished_at)
             return "city-row-finished";
@@ -173,11 +241,16 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
 
     });
 
+
+
     init();
 
     function init() {
         layoutService.setHomeButtonVisible(false);
         layoutService.setAdminButtonVisible(true);
+
+        $scope.allCities = [];
+        $scope.myCities = [];
 
         var emailConfirmationCode = $routeParams["emailConfirmationCode"];
         if (emailConfirmationCode) {
@@ -189,8 +262,10 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
             $location.path('/cities');
         }
 
-        $scope.selected = {rowId: 0};
-        $scope.refreshCities();
+        $scope.selectedAllCities = {rowId: 0};
+        $scope.selectedMyCities = {rowId: 0};
+        $scope.reloadAllCities();
+        $scope.reloadMyCities();
 
         $scope.classNameForCityRow = classNameForCityRow;
         $scope.showEditButtonForCity = showEditButtonForCity;

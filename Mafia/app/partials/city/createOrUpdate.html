@@ -17,8 +17,8 @@
             Enter password: <input type="password" ng-model="credentials.password">
         </div>
 
-        <button ng-click="cancel()">Cancel</button>
-        <button ng-click="ok()">Confirm</button>
+        <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+        <button ng-click="ok()" class="btn btn-danger">Confirm</button>
     </script>
 
     <button ng-if="showDeleteButton(city)" ng-click="deleteCity()" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Delete</button>
@@ -149,13 +149,24 @@
                     </tr>
                     <tr class="invite-adding-row">
                         <td>
+                            <input type="text" ng-model="newInvitedUser.username" placeholder="Username" typeahead="user.username for user in getUsersByUsername($viewValue)" typeahead-loading="loadingUsers" typeahead-on-select="setNewInvitedUser($item)" typeahead-wait-ms="300" typeahead-min-length=2 class="form-control">
+                            <!--
                             <input ng-if="allUsers" type="text" typeahead-on-select="setNewInvitedUser($item)" ng-model="newInvitedUser.username" typeahead="user.username for user in allUsers | filter:$viewValue" class="form-control">
+                            -->
                         </td>
                         <td>
+                            <input type="text" ng-model="newInvitedUser.email" placeholder="Email" typeahead="user.email for user in getUsersByEmail($viewValue)" typeahead-loading="loadingUsers" typeahead-on-select="setNewInvitedUser($item)" typeahead-wait-ms="300" typeahead-min-length=2 class="form-control">
+                            <!--
                             <input ng-if="allUsers" type="text" typeahead-on-select="setNewInvitedUser($item)" ng-model="newInvitedUser.email" typeahead="user.email for user in allUsers | filter:$viewValue" class="form-control">
+                            -->
                         </td>
                         <td>
                             <button ng-click="addInvitedUser()" popover="Add player to the list" popover-trigger="mouseenter" popover-placement="right"><i class="glyphicon glyphicon-plus"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="text-align: center">
+                            <loader ng-if="loadingUsers" size="small"></loader>
                         </td>
                     </tr>
                     </tbody>

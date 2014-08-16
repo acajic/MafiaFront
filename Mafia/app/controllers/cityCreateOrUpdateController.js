@@ -11,14 +11,6 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
         $location.path('/cities');
     }
 
-    function refreshCity() {
-        var cityPromise = citiesService.getCity($scope.city.id, true);
-        cityPromise.then(function(city) {
-            init(city);
-        });
-        return cityPromise;
-    }
-
     function amIOwner(city) {
         var userMe = $scope.userMe;
 
@@ -60,10 +52,8 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
 
         var createCityPromise = citiesService.createCity(city);
         createCityPromise.then(function(createdCity) {
-            init(createdCity);
-
-
-            $scope.generalMessages = [{type: 'success', msg: "Successfullty created '" + createdCity.name + "'."}];
+            citiesService.isNewCityCreated = true;
+            $location.path('/cities/'+ createdCity.id +'/update');
         }, function(reason) {
             var message = 'Failed to start city. ';
             for (var key in reason.httpObj.responseJSON) {
@@ -89,9 +79,12 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
         var startCityPromise = citiesService.startCity($scope.city.id);
         startCityPromise.then(function(city) {
             initDayCycles(city);
+            angular.copy(city, originalCity);
             $scope.city = city;
 
-            $location.path('/cities');
+            $scope.generalMessages = [{type: 'success', msg: "Successfully started '" + city.name + "'."}];
+
+            // $location.path('/cities/'+ city.id +'/update');
         }, function(reason) {
             $scope.generalMessages = [{type: 'danger', msg: 'Failed to start city.' }];
         });
@@ -376,15 +369,13 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
 
 
     var InviteModalInstanceCtrl = function ($scope, $modalInstance, usersService, residents) {
+        $scope.getUsersByUsername = function(username) {
+            return usersService.getAllUsers({username: username});
+        };
 
-        if (usersService.allUsers.length > 0) {
-
-            $scope.allUsers = usersNotJoined(usersService.allUsers, residents);
-        } else {
-            usersService.getAllUsers().then(function(allUsersResult) {
-                $scope.allUsers = usersNotJoined(allUsersResult, residents);
-            });
-        }
+        $scope.getUsersByEmail = function(email) {
+            return usersService.getAllUsers({email: email});
+        };
 
         $scope.invitedUsers = [];
 
@@ -813,20 +804,35 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
 
     init();
 
-    function init(city) {
-        var cityId = $routeParams["cityId"];
+    function init() {
+        var cityId = parseInt($routeParams["cityId"]);
 
-        var citiesPromise = citiesService.getCities(true);
+        var cityPromise;
+        if (cityId) {
+            if (citiesService.isNewCityCreated) {
+                citiesService.isNewCityCreated = false;
+
+                cityPromise = citiesService.getCity(cityId, false).then(function(city) {
+                    $scope.generalMessages = [{type: 'success', msg: "Successfully created '" + city.name + "'."}];
+                    return city;
+                });
+            } /* else if (citiesService.isCityStarted) {
+                citiesService.isCityStarted = false;
+                cityPromise = citiesService.getCity(cityId, false).then(function(city) {
+                    $scope.generalMessages = [{type: 'success', msg: "Successfully started '" + city.name + "'."}];
+                    return city;
+                });
+            } */ else {
+                cityPromise = citiesService.getCity(cityId, true);
+            }
+        } else
+            cityPromise = citiesService.getNewCity();
+
         var allRolesPromise = rolesService.getAllRoles(false);
         var userMePromise = authService.userMe(false);
 
-        var promises = [allRolesPromise, userMePromise];
-        if (!city)
-            promises.push(citiesPromise);
+        var promises = [allRolesPromise, userMePromise, cityPromise];
 
-        if (!cityId) {
-            promises.push(citiesService.getNewCity());
-        }
 
         $q.all(promises).then(function(result) {
             var allRoles = result[0];
@@ -838,11 +844,10 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
             if (city) {
 
             } else {
-                var cities = result[2];
+                var city = result[2];
                 if (cityId) {
-                    city = $.grep(cities, function(c){ return c.id == cityId; })[0];
+
                 } else {
-                    city = result[3];
                 }
             }
 

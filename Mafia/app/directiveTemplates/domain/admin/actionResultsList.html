@@ -84,7 +84,6 @@
             <td>Deleted</td>
             <td>Created At (UTC)</td>
             <td>Updated At (UTC)</td>
-            <td>Details</td>
         </tr>
         </thead>
         <tbody>
@@ -111,15 +110,14 @@
             <td style="text-align: center;"><img-bool boolean-value="actionResult.deleted"></img-bool></td>
             <td>{{ actionResult.created_at}}</td>
             <td>{{ actionResult.updated_at}}</td>
-            <td><button class="btn btn-info">Details</button></td>
         </tr>
         <tr ng-if="isLoadingContent">
-            <td colspan="13" style="text-align: center">
+            <td colspan="12" style="text-align: center">
                 <loader size='small'></loader>
             </td>
         </tr>
         <tr ng-hide="isLoadingContent">
-            <td colspan="13">
+            <td colspan="12">
                 <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
             </td>
         </tr>

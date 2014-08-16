@@ -117,6 +117,20 @@ app.config(function ($routeProvider, $locationProvider) {
                 });
             }
         }
+    }).when('/admin/user/:user_id', {
+        controller: 'AdminUserController',
+        templateUrl: 'app/partials/admin/user.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
     }).otherwise({redirectTo:'/cities'})
 
 

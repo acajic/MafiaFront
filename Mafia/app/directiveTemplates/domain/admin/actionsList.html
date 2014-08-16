@@ -76,7 +76,6 @@
             <td>Is Processed</td>
             <td>Input</td>
             <td>Created At (UTC)</td>
-            <td>Details</td>
         </tr>
         </thead>
         <tbody>
@@ -99,15 +98,14 @@
             <td style="text-align: center;"><img-bool boolean-value="action.is_processed"></img-bool></td>
             <td>{{ action.input_json }}</td>
             <td>{{ action.created_at}}</td>
-            <td><button class="btn btn-info">Details</button></td>
         </tr>
         <tr ng-if="isLoadingContent">
-            <td colspan="10" style="text-align: center">
+            <td colspan="9" style="text-align: center">
                 <loader size='small'></loader>
             </td>
         </tr>
         <tr ng-hide="isLoadingContent">
-            <td colspan="10">
+            <td colspan="9">
                 <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
             </td>
         </tr>
