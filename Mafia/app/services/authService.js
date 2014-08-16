@@ -38,6 +38,14 @@ app.factory('authService', function(serverService, $q) {
         }
     };
 
+    var impersonationAuthenticate = function(userId) {
+        return serverService.get('impersonate_login/'+userId).then(function(impersonatedUser) {
+            angular.copy(impersonatedUser, user);
+            serverService.setAuthToken(impersonatedUser.auth_token.token_string, impersonatedUser.auth_token.expiration_date);
+            return impersonatedUser;
+        });;
+    };
+
     var exchangeEmailConfirmationCode = function(emailConfirmationCode) {
         var userMePromise = serverService.post('exchange_email_confirmation_code', {email_confirmation_code : emailConfirmationCode});
 
@@ -49,6 +57,7 @@ app.factory('authService', function(serverService, $q) {
 
         return userMePromise;
     };
+
 
     var userMe = function(refresh) {
         var deferred = $q.defer();
@@ -79,7 +88,8 @@ app.factory('authService', function(serverService, $q) {
     };
 
     var notifications = {
-        shouldSignOut: false
+        shouldSignOut: false,
+        shouldSignIn: false
     };
 
     var signOut = function() {
@@ -90,6 +100,7 @@ app.factory('authService', function(serverService, $q) {
     return {
         user: user,
         authenticate: authenticate,
+        impersonationAuthenticate: impersonationAuthenticate,
         exchangeEmailConfirmationCode: exchangeEmailConfirmationCode,
         userMe: userMe,
         notifications: notifications,

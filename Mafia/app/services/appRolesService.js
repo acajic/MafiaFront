@@ -1,3 +1,8 @@
+var APP_ROLE_SUPER_ADMIN = 1;
+var APP_ROLE_ADMIN = 2;
+var APP_ROLE_GAME_CREATOR = 3;
+var APP_ROLE_USER = 4;
+
 app.factory('appRolesService', function($q, serverService) {
     "use strict";
 

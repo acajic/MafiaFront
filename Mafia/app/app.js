@@ -125,7 +125,7 @@ app.config(function ($routeProvider, $locationProvider) {
                 var userMePromise = authService.userMe(false);
 
                 return userMePromise.then(function(userMe) {
-                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE]) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
                         $location.path('/cities');
                     }
                 });

@@ -98,6 +98,13 @@ app.directive('auth', function($routeParams, authService, $location, layoutServi
                 }
             });
 
+            scope.$watch('notifications.shouldSignIn', function(newValue, oldValue) {
+                if (newValue && !oldValue) {
+                    authService.notifications.shouldSignIn = false;
+                    signIn();
+                }
+            });
+
             scope.signOut = function() {
                 authService.signOut();
                 scope.user = {};

@@ -52,7 +52,7 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
 
             citiesPromise.then(function(citiesResult) {
                 $scope.isLoadingContentMyCities = false;
-                if (citiesResult.length < pageSizeAllCities) {
+                if (citiesResult.length < pageSizeMyCities) {
                     $scope.noMoreContentMyCities = true;
                 } else {
                     $scope.noMoreContentMyCities = false;
@@ -229,7 +229,7 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
     }
 
     $scope.$watch("user", function (newUser, oldUser) {
-        if (oldUser && (newUser ? newUser.id : 0) != oldUser.id) {
+        if (oldUser && (newUser ? newUser.id : 0) != oldUser.id && !$scope.isLoadingContentMyCities) {
             $scope.reloadMyCities(true);
         }
 
