@@ -58,7 +58,7 @@
             <td style="text-align: center;"><img-bool boolean-value="user.email_confirmed"></img-bool></td>
             <td>{{ user.created_at }}</td>
             <td>{{ user.updated_at }}</td>
-            <td><button class="btn btn-info">Details</button></td>
+            <td><button class="btn btn-info" ng-click="showDetails(user)">Details</button></td>
         </tr>
         <tr ng-if="isLoadingContent">
             <td colspan="8" style="text-align: center">

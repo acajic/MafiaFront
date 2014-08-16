@@ -1,4 +1,4 @@
-app.directive('usersList', function($q, usersService, appRolesService) {
+app.directive('usersList', function($q, $location, usersService, appRolesService) {
     "use strict";
     return {
         restrict : 'E',
@@ -33,6 +33,10 @@ app.directive('usersList', function($q, usersService, appRolesService) {
                 } else {
                     scope.queryModel.appRoleIds.splice(index, 1);
                 }
+            };
+
+            scope.showDetails = function(user) {
+                $location.path('admin/user/'+user.id);
             };
 
             var reloadData = function(refresh) {
@@ -93,6 +97,7 @@ app.directive('usersList', function($q, usersService, appRolesService) {
             scope.reloadData = reloadData;
 
             reloadData();
+
 
         }
     };

@@ -36,6 +36,10 @@ app.factory('usersService', function($q, serverService) {
         return allUsersPromise;
     };
 
+    var getUserById = function(userId) {
+        return serverService.get('users/'+userId, {});
+    };
+
     var createUser = function(user) {
         return serverService.post('users', {user: user});
     };
@@ -44,6 +48,10 @@ app.factory('usersService', function($q, serverService) {
         return serverService.put('users/'+user.id, {
             user: user
         });
+    };
+
+    var deleteUserById = function(userId) {
+        return serverService.delete('users/'+userId);
     };
 
     var allowedEmailPatterns = [];
@@ -64,12 +72,18 @@ app.factory('usersService', function($q, serverService) {
         }
     };
 
+    var userDeleted;
+
     return {
         // allUsersByIds: allUsersByIds,
         getAllUsers: getAllUsers,
+        getUserById: getUserById,
         createUser : createUser,
         updateUser : updateUser,
+        deleteUserById : deleteUserById,
+        userDeleted : userDeleted,
         allowedEmailPatterns: allowedEmailPatterns,
         getAllowedEmailPatterns : getAllowedEmailPatterns
+
     };
 });
