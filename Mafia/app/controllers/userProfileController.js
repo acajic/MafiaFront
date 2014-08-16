@@ -1,4 +1,4 @@
-app.controller('UserProfileController', function ($scope, $location, usersService, authService, layoutService) {
+app.controller('UserProfileController', function ($scope, $location, $modal, usersService, authService, layoutService) {
     "use strict";
 
     var user = {
@@ -46,6 +46,49 @@ app.controller('UserProfileController', function ($scope, $location, usersServic
 
     $scope.closeInfoAlert = function(index) {
         $scope.infos.splice(index, 1);
+    };
+
+    $scope.deleteUser = function() {
+        openDeletionModal();
+    };
+
+    var openDeletionModal = function() {
+        var modalInstance = $modal.open({
+            templateUrl: 'deleteModalContent.html',
+            controller: DeleteUserModalInstanceCtrl,
+            resolve: {
+            }
+        });
+
+        modalInstance.result.then(function (password) {
+            if (!password)
+                return;
+
+            var deleteUserPromise = usersService.deleteUserById($scope.user.id, password);
+            deleteUserPromise.then(function() {
+                authService.notifications.shouldSignOut = true;
+                usersService.userDeleted = $scope.user;
+                $location.path('');
+            }, function(reason) {
+                $scope.infos.push({type: 'danger', msg: "User is not deleted." });
+            });
+
+        }, function () {
+        });
+    };
+
+    var DeleteUserModalInstanceCtrl = function ($scope, $modalInstance) {
+        $scope.credentials = {
+            password: ''
+        };
+
+        $scope.ok = function () {
+            $modalInstance.close($scope.credentials.password);
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
     };
 
     init();

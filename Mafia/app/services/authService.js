@@ -78,6 +78,10 @@ app.factory('authService', function(serverService, $q) {
         return deferred.promise;
     };
 
+    var notifications = {
+        shouldSignOut: false
+    };
+
     var signOut = function() {
         angular.copy({}, user);
         serverService.setAuthToken("", null);
@@ -88,6 +92,7 @@ app.factory('authService', function(serverService, $q) {
         authenticate: authenticate,
         exchangeEmailConfirmationCode: exchangeEmailConfirmationCode,
         userMe: userMe,
+        notifications: notifications,
         signOut: signOut
     };
 });

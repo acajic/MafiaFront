@@ -228,9 +228,14 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
             return false;
     }
 
-    $scope.$watch("user", function (newUser) {
+    $scope.$watch("user", function (newUser, oldUser) {
+        if (oldUser && (newUser ? newUser.id : 0) != oldUser.id) {
+            $scope.reloadMyCities(true);
+        }
+
         if (!newUser)
             return;
+
 
         if (newUser.app_role && newUser.app_role.app_permissions) {
             $scope.appPermissionCreateGamesGranted = newUser.app_role.app_permissions[APP_PERMISSION_CREATE_GAMES];

@@ -109,6 +109,7 @@
                 <thead>
                     <tr>
                         <td>Resident Id</td>
+                        <td>Name</td>
                         <td>User Id</td>
                         <td>Username</td>
                         <td ng-if="amIOwner(city) && !city.started_at">Kick</td>
@@ -117,6 +118,7 @@
                 <tbody>
                     <tr ng-repeat="(index, resident) in city.residents">
                         <td>{{ resident.id }}</td>
+                        <td>{{ resident.name }}</td>
                         <td>{{resident.user_id}}</td>
                         <td>{{resident.username}}</td>
                         <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-default" ng-if="!isUserOwner(resident.user_id)" ng-click="kickResident(index)"><img src="content/img/kick-icon.png" style="width: 40px;" /></button></td>

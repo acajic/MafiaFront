@@ -53,6 +53,7 @@
         <thead>
         <tr>
             <td>Id</td>
+            <td>Name</td>
             <td>User</td>
             <td>City</td>
             <td>Role</td>
@@ -65,6 +66,7 @@
         <tbody>
         <tr ng-repeat="resident in residents">
             <td>{{ resident.id }}</td>
+            <td>{{ resident.name }}</td>
             <td>user_id: {{ resident.user_id }}; username: {{ resident.username }}</td>
             <td>city_id: {{ resident.city_id }}; city_name: {{ resident.city_name }}</td>
             <td>{{ resident.role.name }}</td>
@@ -74,12 +76,12 @@
             <td>{{ resident.updated_at}}</td>
         </tr>
         <tr ng-if="isLoadingContent">
-            <td colspan="8" style="text-align: center">
+            <td colspan="9" style="text-align: center">
                 <loader size='small'></loader>
             </td>
         </tr>
         <tr ng-hide="isLoadingContent">
-            <td colspan="8">
+            <td colspan="9">
                 <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
             </td>
         </tr>

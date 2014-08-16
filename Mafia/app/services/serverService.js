@@ -15,7 +15,7 @@ app.service('serverService', function ($q) {
     };
     this.setAuthToken = function (authToken, expirationDate) {
         setCookie(authTokenCookieKey, authToken, expirationDate);
-    }
+    };
 
     this.get = function (url, params) {
         params = params || {};

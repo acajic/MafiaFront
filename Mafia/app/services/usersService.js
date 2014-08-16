@@ -50,8 +50,8 @@ app.factory('usersService', function($q, serverService) {
         });
     };
 
-    var deleteUserById = function(userId) {
-        return serverService.delete('users/'+userId);
+    var deleteUserById = function(userId, password) {
+        return serverService.delete('users/'+userId, {password: password});
     };
 
     var allowedEmailPatterns = [];
