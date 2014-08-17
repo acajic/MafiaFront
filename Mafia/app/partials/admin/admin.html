@@ -4,7 +4,7 @@
 
 <div class="col-md-12 nopadding">
     <tabset>
-        <tab active="tabActive[0]">
+        <tab active="tabActive[0]" select="tabSelected()">
             <tab-heading>
                 Users
             </tab-heading>
@@ -13,7 +13,7 @@
 
         </tab>
 
-        <tab active="tabActive[1]">
+        <tab active="tabActive[1]" select="tabSelected()">
             <tab-heading>
                 Cities
             </tab-heading>
@@ -23,7 +23,7 @@
         </tab>
 
 
-        <tab active="tabActive[2]">
+        <tab active="tabActive[2]" select="tabSelected()">
             <tab-heading>
                 Residents
             </tab-heading>
@@ -33,7 +33,7 @@
         </tab>
 
 
-        <tab active="tabActive[3]">
+        <tab active="tabActive[3]" select="tabSelected()">
             <tab-heading>
                 Actions
             </tab-heading>
@@ -44,7 +44,7 @@
 
 
 
-        <tab active="tabActive[4]">
+        <tab active="tabActive[4]" select="tabSelected()">
             <tab-heading>
                 Action Results
             </tab-heading>
@@ -54,7 +54,7 @@
         </tab>
 
 
-        <tab active="tabActive[5]">
+        <tab active="tabActive[5]" select="tabSelected()">
             <tab-heading>
                 Days
             </tab-heading>
@@ -64,12 +64,12 @@
         </tab>
 
 
-        <tab active="tabActive[6]">
+        <tab active="tabActive[6]" select="tabSelected()">
             <tab-heading>
                 Initial App Roles
             </tab-heading>
 
-            <initial-app-roles-list query-model="initialAppRolesQueryModel" queryable="true"></initial-app-roles-list>
+            <initial-app-roles-list query-model="initialAppRolesQueryModel" queryable="true" enable-creating="true"></initial-app-roles-list>
 
         </tab>
     </tabset>

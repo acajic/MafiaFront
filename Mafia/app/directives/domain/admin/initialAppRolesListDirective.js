@@ -1,10 +1,11 @@
-app.directive('initialAppRolesList', function($q, appRolesService) {
+app.directive('initialAppRolesList', function($q, $location, appRolesService) {
     "use strict";
     return {
         restrict : 'E',
         scope: {
             queryModel: '=',
-            queryable: '='
+            queryable: '=',
+            enableCreating: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/initialAppRolesList.html',
         link: function(scope, element, attrs) {
@@ -21,6 +22,13 @@ app.directive('initialAppRolesList', function($q, appRolesService) {
                 };
             }
 
+            scope.showDetails = function(initialAppRole) {
+                $location.path('admin/initial_app_role/' + initialAppRole.id);
+            };
+
+            scope.newInitialAppRole = function() {
+                $location.path('admin/initial_app_role/new');
+            };
 
             var reloadData = function(refresh) {
                 scope.isLoadingContent = true;

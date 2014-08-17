@@ -217,7 +217,7 @@ app.factory('citiesService', function($q, serverService) {
     };
 
     var isNewCityCreated = false;
-    // var isCityStarted = false;
+    var cityDeleted = null;
 
     return {
         getAllCities : getAllCities,
@@ -238,7 +238,7 @@ app.factory('citiesService', function($q, serverService) {
         triggerDayStart : triggerDayStart,
         triggerNightStart : triggerNightStart,
         minutesToString : minutesToString,
-        isNewCityCreated : isNewCityCreated
-        // isCityStarted : isCityStarted
+        isNewCityCreated : isNewCityCreated,
+        cityDeleted : cityDeleted
     };
 });

@@ -8,7 +8,7 @@ var kAdminQueryModelActionResults = 'admin_query_model_action_results';
 var kAdminQueryModelDays = 'admin_query_model_days';
 var kAdminQueryModelInitialAppRoles = 'admin_query_model_initial_app_roles';
 
-app.controller('AdminController',function ($scope, $q, usersService, citiesService, residentsService, actionsService, rolesService, actionResultsService, authService, modalService, $location, layoutService) {
+app.controller('AdminController',function ($scope, $q, $location, usersService, layoutService, citiesService, authService, appRolesService) {
     "use strict";
 
     init();
@@ -19,7 +19,7 @@ app.controller('AdminController',function ($scope, $q, usersService, citiesServi
 
         $scope.alerts = [];
 
-        var tabActive = getCookie(kAdminSelectedTabIndexCookieKey);
+        var tabActive = layoutService.adminTabsActive;
         if (!tabActive) {
             tabActive = {0: true, 1: false, 2: false, 3: false, 4: false, 5: false, 6: false};
         }
@@ -71,8 +71,25 @@ app.controller('AdminController',function ($scope, $q, usersService, citiesServi
         }
         if (citiesService.cityDeleted) {
             $scope.alerts.push({type: 'success', msg: "Successfully deleted city '" + citiesService.cityDeleted.name + "'"});
-            usersService.cityDeleted = null;
+            citiesService.cityDeleted = null;
+        }
+
+        if (appRolesService.notifications.initialAppRoleDeleted) {
+            if (appRolesService.notifications.initialAppRoleDeleted.email) {
+                $scope.alerts.push({type: 'success', msg: "Successfully deleted initial app role for user with email '" + appRolesService.notifications.initialAppRoleDeleted.email + "'"});
+            } else if (appRolesService.notifications.initialAppRoleDeleted.email_pattern) {
+                $scope.alerts.push({type: 'success', msg: "Successfully deleted initial app role for users using emails that match '" + appRolesService.notifications.initialAppRoleDeleted.email_pattern + "'"});
+            } else {
+                $scope.alerts.push({type: 'success', msg: "Successfully deleted initial app role."});
+            }
+
+            appRolesService.notifications.initialAppRoleDeleted = null;
         }
     }
+
+
+    $scope.tabSelected = function() {
+        layoutService.adminTabsActive = $scope.tabActive;
+    };
 
 });

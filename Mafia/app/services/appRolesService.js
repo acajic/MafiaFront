@@ -61,9 +61,52 @@ app.factory('appRolesService', function($q, serverService) {
 
     };
 
+    var getInitialAppRoleByIdPromisesByIds = {};
+
+    var getInitialAppRoleById = function(initialAppRoleId, refresh) {
+        if (!refresh && getInitialAppRoleByIdPromisesByIds[initialAppRoleId]) {
+            return getInitialAppRoleByIdPromisesByIds[initialAppRoleId];
+        }
+
+        var initialAppRolePromise = serverService.get('initial_app_roles/' + initialAppRoleId);
+        getInitialAppRoleByIdPromisesByIds[initialAppRoleId] = initialAppRolePromise;
+        return initialAppRolePromise.then(function(initialAppRoleResult) {
+            return initialAppRoleResult;
+        });
+    };
+
+    var getNewInitialAppRole = function() {
+        return serverService.get('initial_app_roles/new');
+    };
+
+    var postCreateInitialAppRole = function(initialAppRole) {
+        return serverService.post('initial_app_roles', {initial_app_role : initialAppRole});
+    };
+
+    var putUpdateInitialAppRole = function(initialAppRole) {
+        return serverService.put('initial_app_roles/' + initialAppRole.id, {
+            initial_app_role: initialAppRole
+        });
+    };
+
+    var deleteInitialAppRole = function(initialAppRoleId) {
+        return serverService.delete('initial_app_roles/' + initialAppRoleId);
+    };
+
+    var notifications = {
+        initialAppRoleCreated : null,
+        initialAppRoleDeleted : null
+    };
+
     return {
         getAllAppRoles : getAllAppRoles,
         getAllAppRolesByIds: getAllAppRolesByIds,
-        getAllInitialAppRoles : getAllInitialAppRoles
+        getAllInitialAppRoles : getAllInitialAppRoles,
+        getInitialAppRoleById : getInitialAppRoleById,
+        getNewInitialAppRole : getNewInitialAppRole,
+        postCreateInitialAppRole : postCreateInitialAppRole,
+        putUpdateInitialAppRole : putUpdateInitialAppRole,
+        deleteInitialAppRole: deleteInitialAppRole,
+        notifications: notifications
     };
 });
