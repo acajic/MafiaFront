@@ -69,6 +69,10 @@ app.controller('AdminController',function ($scope, $q, usersService, citiesServi
             $scope.alerts.push({type: 'success', msg: "Successfully deleted user '" + usersService.userDeleted.username + "'"});
             usersService.userDeleted = null;
         }
+        if (citiesService.cityDeleted) {
+            $scope.alerts.push({type: 'success', msg: "Successfully deleted city '" + citiesService.cityDeleted.name + "'"});
+            usersService.cityDeleted = null;
+        }
     }
 
 });
