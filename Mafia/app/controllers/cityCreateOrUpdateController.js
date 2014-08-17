@@ -560,15 +560,6 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
         return isValid;
     }
 
-    function minutesToString(minutes) {
-        return pad(Math.floor(minutes / 60.0), 2) + ":" + pad(minutes%60, 2);
-    }
-
-    function pad(num, size) {
-        var s = "000000000" + num;
-        return s.substr(s.length-size);
-    }
-
     function dayCycleChanged(index) {
         var dayCycle = $scope.city.day_cycles[index];
         var day_start = dayCycle.day_start;
@@ -919,7 +910,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
 
         $scope.removeDayCycle = removeDayCycle;
         $scope.addDayCycle = addDayCycle;
-        $scope.minutesToString = minutesToString;
+        $scope.minutesToString = citiesService.minutesToString;
         $scope.dayCycleChanged = dayCycleChanged;
         $scope.dayCycleValidationErrors = [];
         $scope.closeDayCycleValidationAlert = closeDayCycleValidationAlert;

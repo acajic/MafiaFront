@@ -129,15 +129,15 @@ app.factory('citiesService', function($q, serverService) {
         });
     };
 
-    var inviteUsers = function(city_id, invitedUsers) {
-        return serverService.post('cities/' + city_id + '/invite', {
+    var inviteUsers = function(cityId, invitedUsers) {
+        return serverService.post('cities/' + cityId + '/invite', {
             invited_users: invitedUsers
         });
     };
 
 
-    var deleteCity = function (city_id, password) {
-        return serverService.delete('cities/'+city_id, {
+    var deleteCity = function (cityId, password) {
+        return serverService.delete('cities/'+cityId, {
             password: password
         });
     };
@@ -149,8 +149,8 @@ app.factory('citiesService', function($q, serverService) {
         });
     };
 
-    var joinCity = function(city_id) {
-        var joinCityPromise = serverService.post('cities/' + city_id + '/join');
+    var joinCity = function(cityId) {
+        var joinCityPromise = serverService.post('cities/' + cityId + '/join');
 
         joinCityPromise.then(function(cityUpdated) {
             cacheCity(cityUpdated);
@@ -160,8 +160,8 @@ app.factory('citiesService', function($q, serverService) {
         return joinCityPromise;
     };
 
-    var leaveCity = function(city_id) {
-        var leaveCityPromise = serverService.post('cities/' + city_id + '/leave');
+    var leaveCity = function(cityId) {
+        var leaveCityPromise = serverService.post('cities/' + cityId + '/leave');
         leaveCityPromise.then(function(cityUpdated) {
             cacheCity(cityUpdated);
         });
@@ -169,27 +169,51 @@ app.factory('citiesService', function($q, serverService) {
         return leaveCityPromise;
     };
 
-    var startCity = function(city_id) {
-        var startCityPromise = serverService.post('cities/' + city_id + '/start');
+    var startCity = function(cityId) {
+        var startCityPromise = serverService.post('cities/' + cityId + '/start');
         return startCityPromise.then(function(cityUpdated) {
             cacheCity(cityUpdated);
             return cityUpdated;
         });
     };
 
-    var pauseCity = function(city_id) {
-        var pauseCityPromise = serverService.post('cities/' + city_id + '/pause');
+    var pauseCity = function(cityId) {
+        var pauseCityPromise = serverService.post('cities/' + cityId + '/pause');
         return pauseCityPromise.then(function(cityUpdated) {
             cacheCity(cityUpdated);
             return cityUpdated;
         });
     };
 
-    var resumeCity = function(city_id) {
-        return serverService.post('cities/' + city_id + "/resume").then(function(cityUpdated) {
+    var resumeCity = function(cityId) {
+        return serverService.post('cities/' + cityId + "/resume").then(function(cityUpdated) {
             cacheCity(cityUpdated);
             return cityUpdated;
         });
+    };
+
+    var triggerDayStart = function(cityId) {
+        return serverService.post('cities/' + cityId + '/trigger_day_start').then(function(cityUpdated) {
+            cacheCity(cityUpdated);
+            return cityUpdated;
+        });;
+    };
+
+    var triggerNightStart = function(cityId) {
+        return serverService.post('cities/' + cityId + '/trigger_night_start').then(function(cityUpdated) {
+            cacheCity(cityUpdated);
+            return cityUpdated;
+        });;
+    };
+
+
+    var minutesToString = function(minutes) {
+        return pad(Math.floor(minutes / 60.0), 2) + ":" + pad(minutes%60, 2);
+    };
+
+    var pad = function(num, size) {
+        var s = "000000000" + num;
+        return s.substr(s.length-size);
     };
 
     var isNewCityCreated = false;
@@ -211,6 +235,9 @@ app.factory('citiesService', function($q, serverService) {
         startCity : startCity,
         pauseCity : pauseCity,
         resumeCity : resumeCity,
+        triggerDayStart : triggerDayStart,
+        triggerNightStart : triggerNightStart,
+        minutesToString : minutesToString,
         isNewCityCreated : isNewCityCreated
         // isCityStarted : isCityStarted
     };

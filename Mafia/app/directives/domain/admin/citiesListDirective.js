@@ -1,4 +1,4 @@
-app.directive('citiesList', function(citiesService) {
+app.directive('citiesList', function($location, citiesService, authService) {
     "use strict";
     return {
         restrict : 'E',
@@ -31,6 +31,12 @@ app.directive('citiesList', function(citiesService) {
                     }
                 }
             });
+
+            scope.showDetails = function(city) {
+                $location.path('admin/city/'+city.id);
+            };
+
+
 
             var reloadData = function(refresh) {
                 scope.isLoadingContent = true;
@@ -70,7 +76,17 @@ app.directive('citiesList', function(citiesService) {
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            init();
+
+            function init() {
+                reloadData();
+
+                authService.userMe(false).then(function(userMeResult) {
+                    scope.userMe = userMeResult;
+                    // scope.canEditCities = userMeResult.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE];
+                });
+            }
+
 
         }
     };

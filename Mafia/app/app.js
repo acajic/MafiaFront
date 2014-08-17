@@ -131,6 +131,20 @@ app.config(function ($routeProvider, $locationProvider) {
                 });
             }
         }
+    }).when('/admin/city/:city_id', {
+        controller: 'AdminCityController',
+        templateUrl: 'app/partials/admin/city.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
     }).otherwise({redirectTo:'/cities'})
 
 

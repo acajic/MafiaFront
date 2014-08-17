@@ -92,7 +92,7 @@
             <td>{{ city.finished_at }}</td>
             <td>{{ city.created_at }}</td>
             <td>{{ city.updated_at }}</td>
-            <td><button class="btn btn-info">Details</button></td>
+            <td><button class="btn btn-info" ng-click="showDetails(city)">Details</button></td>
         </tr>
         <tr ng-if="isLoadingContent">
             <td colspan="10" style="text-align: center">
