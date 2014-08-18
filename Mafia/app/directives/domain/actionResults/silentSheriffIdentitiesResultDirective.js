@@ -62,6 +62,7 @@ app.directive('silentSheriffIdentitiesResult', function(actionResultsService) {
                 angular.forEach(result.dead_residents_roles, function(deadResidentRole) {
                     deadResidentRoles.push( {
                         residentId : deadResidentRole.resident_id,
+                        residentName : city.residentsById[deadResidentRole.resident_id].name,
                         residentUsername : city.residentsById[deadResidentRole.resident_id].username,
                         residentRoleName : city.rolesById[deadResidentRole.role_id].role.name,
                         residentRoleId : deadResidentRole.role_id
@@ -110,6 +111,7 @@ app.directive('silentSheriffIdentitiesResult', function(actionResultsService) {
 
                 var selectedResident = {
                     residentId : resident.id,
+                    residentName : resident.name,
                     residentUsername : resident.username,
                     residentRoleName : roleId ? scope.city.rolesById[roleId].role.name : null,
                     residentRoleId : roleId

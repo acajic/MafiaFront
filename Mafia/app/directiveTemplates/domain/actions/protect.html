@@ -11,7 +11,7 @@
         <button ng-click="cancelUnprocessedActions()" popover="Cancel all unprocessed actions of this type" popover-trigger="mouseenter" popover-placement="right"><img src="content/img/delete-unprocessed-actions-icon.png"  style="width: 25px;" /></button>
     </div>
     <div class="col-md-11">
-        <input ng-if="city.residents" type="text" typeahead-on-select="protectOnSelect($item)" ng-model="selected" typeahead="otherResident.username for otherResident in city.residents | filter:$viewValue" class="form-control" popover="Select a player you wish to protect in the upcoming night" popover-trigger="focus">
+        <input ng-if="city.residents" type="text" typeahead-on-select="protectOnSelect($item)" ng-model="selected" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control" popover="Select a player you wish to protect in the upcoming night" popover-trigger="focus">
     </div>
 
 </div>

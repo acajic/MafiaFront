@@ -40,9 +40,9 @@ app.directive('protectResult', function(actionResultsService) {
                 var protectedResident = scope.city.residentsById[result.target_id];
                 if (protectedResident) {
                     if (result.success) {
-                        scope.interpretation = "You saved the day! Resident " + protectedResident.username + " was targeted by mafia last night. Luckily, you saved them.";
+                        scope.interpretation = "You saved the day! Resident " + protectedResident.name + " was targeted by mafia last night. Luckily, you saved them.";
                     } else {
-                        scope.interpretation = "Mafia did not target " + protectedResident.username + " last night.";
+                        scope.interpretation = "Mafia did not target " + protectedResident.name + " last night.";
                     }
                 } else {
                     scope.interpretation = "Error: ActionResult::Protect -> result missing target_id.";

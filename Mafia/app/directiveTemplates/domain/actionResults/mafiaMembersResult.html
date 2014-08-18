@@ -4,13 +4,13 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <td>Username</td>
+            <td>Name</td>
             <td>Alive</td>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="mafiaMember in mafiaMembers">
-            <td>{{ mafiaMember.username }}</td>
+            <td>{{ mafiaMember.name }}</td>
             <td><img-alive boolean-value="mafiaMember.alive"></img-alive></td>
         </tr>
         </tbody>
@@ -23,20 +23,20 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <td>Username</td>
+            <td>Name</td>
             <td>Alive</td>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="(index, mafiaMember) in mafiaMembers">
-            <td><input ng-if="city.residents" type="text" typeahead-on-select="selectResidentForIndex(index, $item)" ng-model="mafiaMember.username" typeahead="otherResident.username for otherResident in city.residents | filter:$viewValue" class="form-control"><a ng-click="removeMafiaMemberAtIndex(index)">-</a></td>
+            <td><input ng-if="city.residents" type="text" typeahead-on-select="selectResidentForIndex(index, $item)" ng-model="mafiaMember.name" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control"><a ng-click="removeMafiaMemberAtIndex(index)">-</a></td>
             <td><img-alive boolean-value="mafiaMember.alive"></img-alive></td>
         </tr>
 
         </tbody>
     </table>
     Add a new mafia member
-    <input ng-if="city.residents" type="text" typeahead-on-select="selectResidentToAdd($item)" ng-model="newMafiaMember" typeahead="otherResident.username for otherResident in city.residents | filter:$viewValue" class="form-control">
+    <input ng-if="city.residents" type="text" typeahead-on-select="selectResidentToAdd($item)" ng-model="newMafiaMember" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control">
 
 
     <button ng-if="isNew" ng-click="hide()"><i class="glyphicon glyphicon-ban-circle"></i></button>

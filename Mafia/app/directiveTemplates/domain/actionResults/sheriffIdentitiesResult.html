@@ -43,7 +43,7 @@
 
             <td>
                 <a ng-click="addToDeadResidents()">+</a>
-                <input ng-if="city.residents" type="text" typeahead-on-select="selectedToAddDeadResident($item)" ng-model="selectedResident.residentUsername" typeahead="otherResident.username for otherResident in city.residents | filter:$viewValue" class="form-control">
+                <input ng-if="city.residents" type="text" typeahead-on-select="selectedToAddDeadResident($item)" ng-model="selectedResident.residentName" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control">
             </td>
             <td><role-chooser city="city" role-id="selectedResident.residentRoleId" role-selected="" lock-to-edit-mode="true" edit-mode="true"></role-chooser></td>
         </tr>

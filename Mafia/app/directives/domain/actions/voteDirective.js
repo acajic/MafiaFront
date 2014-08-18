@@ -18,7 +18,7 @@ app.directive('vote', function(actionsService) {
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {
-                    scope.infos = [{type:"success", msg: "Voted for " + selectedResident.username + "."}];
+                    scope.infos = [{type:"success", msg: "Voted for " + selectedResident.name + "."}];
                 }, function(reason, ee) {
                     scope.infos = [{type:"danger", msg: reason}];
                 })

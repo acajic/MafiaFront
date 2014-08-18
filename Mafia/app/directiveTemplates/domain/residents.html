@@ -9,7 +9,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="resident in residents">
-            <td>{{ resident.username }}</td>
+            <td>{{ resident.name }}</td>
             <td><img-alive boolean-value="resident.alive"></img-alive></td>
         </tr>
         </tbody>
@@ -23,13 +23,13 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <td>Username</td>
+            <td>Name</td>
             <td>Alive</td>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="resident in residentsCopied">
-            <td>{{ resident.username }}</td>
+            <td>{{ resident.name }}</td>
             <td><input type="checkbox" ng-model="resident.alive"></td>
         </tr>
         </tbody>

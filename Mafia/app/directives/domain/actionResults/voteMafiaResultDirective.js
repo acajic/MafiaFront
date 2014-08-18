@@ -48,7 +48,7 @@ app.directive('voteMafiaResult', function(actionResultsService) {
 
                 scope.killedResident = angular.copy(city.residentsById[killedResidentId]);
                 if (success)
-                    scope.interpretation = scope.killedResident.username + " was killed by mafia.";
+                    scope.interpretation = scope.killedResident.name + " was killed by mafia.";
                 else
                     scope.interpretation = "Mafia did not manage to kill a citizen last night. Hurray!";
 

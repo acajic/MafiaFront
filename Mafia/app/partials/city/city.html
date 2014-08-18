@@ -12,7 +12,7 @@
             <img ng-if="refreshCountdownTicks > 0" src="content/img/ajax-loader-32.gif" />
         </div>
 
-        <div ng-if="nextMoment">
+        <div ng-if="nextMoment.time">
             {{nextMoment.isDayStart ? "Day starts at: " : "Night starts at: "}}
             {{(nextMoment.time / 60) | minLength:2}}:{{(nextMoment.time % 60) | minLength:2}}
         </div>

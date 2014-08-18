@@ -10,7 +10,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="someResidentVoteCount in votesCountPerResident">
-                <td>{{ someResidentVoteCount.resident.username }}</td>
+                <td>{{ someResidentVoteCount.resident.name }}</td>
                 <td>{{ someResidentVoteCount.voteCount }}</td>
             </tr>
         </tbody>
@@ -30,11 +30,11 @@
         </thead>
         <tbody>
         <tr ng-repeat="(index, someResidentVoteCount) in votesCountPerResidentCopied">
-            <td>{{ someResidentVoteCount.resident.username }}</td>
+            <td>{{ someResidentVoteCount.resident.name }}</td>
             <td>{{ someResidentVoteCount.voteCount }}<a ng-click="removeVoteCount(index)">-</a></td>
         </tr>
         <tr>
-            <td><input ng-if="city.residents" type="text" typeahead-on-select="selectResident($item)" ng-model="addedResidentVoteCount.resident.username" typeahead="otherResident.username for otherResident in city.residents | filter:$viewValue" class="form-control"></td>
+            <td><input ng-if="city.residents" type="text" typeahead-on-select="selectResident($item)" ng-model="addedResidentVoteCount.resident.name" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control"></td>
             <td><input type="number" ng-model="addedResidentVoteCount.voteCount"><a ng-click="addVoteCountForResident()">+</a></td>
         </tr>
         </tbody>

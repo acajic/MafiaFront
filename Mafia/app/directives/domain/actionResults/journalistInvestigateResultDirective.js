@@ -42,9 +42,9 @@ app.directive('journalistInvestigateResult', function(actionResultsService) {
                 var investigatedResident = angular.copy(scope.city.residentsById[result.target_id]);
                 if (investigatedResident) {
                     if (result.success) {
-                        scope.interpretation = "Resident " + investigatedResident.username + " is a mafia member.";
+                        scope.interpretation = "Resident " + investigatedResident.name + " is a mafia member.";
                     } else {
-                        scope.interpretation = "Resident " + investigatedResident.username + " is not a mafia member.";
+                        scope.interpretation = "Resident " + investigatedResident.name + " is not a mafia member.";
                     }
                 } else {
                     scope.interpretation = "Error: ActionResult::JournalistInvestigate -> result missing target_id.";

@@ -11,7 +11,7 @@ Day {{ actionResult.day_number }} <img src="content/img/terrorist-bomb-result-ic
     Collaterals
     <div ng-repeat="(index, collateral) in collaterals">
         <a ng-click="deleteCollateralResidentAtIndex(index)">-</a>
-        <input ng-if="city.residents" type="text" typeahead-on-select="selectCollateralResident(index, $item)" ng-model="collateral.username" typeahead="otherResident.username for otherResident in city.residents | filter:$viewValue" class="form-control">
+        <input ng-if="city.residents" type="text" typeahead-on-select="selectCollateralResident(index, $item)" ng-model="collateral.name" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control">
     </div>
     <a ng-click="addCollateralResident()">+</a>
 

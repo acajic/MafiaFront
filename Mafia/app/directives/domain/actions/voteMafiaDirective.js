@@ -18,7 +18,7 @@ app.directive('voteMafia', function(actionsService) {
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {
-                    scope.infos = [{type:"success", msg: "Voted for " + selectedResident.username + "."}];
+                    scope.infos = [{type:"success", msg: "Voted for " + selectedResident.name + "."}];
                 }, function(reason) {
                     angular.forEach(reason.httpObj.responseJSON, function(error) {
                         scope.infos.push({type : 'danger', msg: error })

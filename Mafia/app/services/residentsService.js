@@ -10,6 +10,7 @@ app.factory('residentsService', function($q, serverService) {
             page_size: pageSize,
             user_ids: queryModel.userIds,
             username: queryModel.username,
+            name: queryModel.name,
             city_ids: queryModel.cityIds,
             city_name: queryModel.cityName,
             role_ids: queryModel.roleIds,

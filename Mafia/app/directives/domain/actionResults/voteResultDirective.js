@@ -38,7 +38,7 @@ app.directive('voteResult', function(actionResultsService) {
 
                 var votedResident = scope.city.residentsById[result.target_id];
                 if (votedResident) {
-                    scope.interpretation = votedResident.username + " was executed via public voting.";
+                    scope.interpretation = votedResident.name + " was executed via public voting.";
                 } else {
                     scope.interpretation = "Public voting ended with no decision.";
                 }

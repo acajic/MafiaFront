@@ -59,7 +59,7 @@ app.directive('terroristBombResult', function(actionResultsService) {
                 var killedResidents = "";
                 var collaterals = [];
                 angular.forEach(result.target_ids, function(residentId) {
-                    killedResidents += scope.city.residentsById[residentId].username + ", ";
+                    killedResidents += scope.city.residentsById[residentId].name + ", ";
                     collaterals.push(angular.copy(scope.city.residentsById[residentId]));
                 });
                 scope.collaterals = collaterals;

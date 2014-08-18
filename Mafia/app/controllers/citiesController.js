@@ -61,8 +61,13 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
                 pageIndexMyCities++;
                 $scope.myCities.push.apply($scope.myCities, citiesResult);
             }, function(reason) {
+
                 $scope.isLoadingContentMyCities = false;
             });
+        }, function(reason) {
+            $scope.myCities = [];
+            $scope.noMoreContentMyCities = true;
+            $scope.isLoadingContentMyCities = false;
         });
 
     };
@@ -229,12 +234,14 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
     }
 
     $scope.$watch("user", function (newUser, oldUser) {
-        if (oldUser && (newUser ? newUser.id : 0) != oldUser.id && !$scope.isLoadingContentMyCities) {
-            $scope.reloadMyCities(true);
+        if (!newUser || !newUser.id) {
+            $scope.myCities = [];
+            return;
         }
 
-        if (!newUser)
-            return;
+        if (newUser.id != (oldUser ? oldUser.id : 0) && !$scope.isLoadingContentMyCities) {
+            $scope.reloadMyCities(true);
+        }
 
 
         if (newUser.app_role && newUser.app_role.app_permissions) {

@@ -17,7 +17,7 @@ app.directive('protect', function(actionsService) {
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {
-                    scope.infos = [{type:"success", msg: "Protecting " + selectedResident.username + ". Mafia will not be able to kill this resident this night."}];
+                    scope.infos = [{type:"success", msg: "Protecting " + selectedResident.name + ". Mafia will not be able to kill this resident this night."}];
                 }, function(reason) {
                     angular.forEach(reason.httpObj.responseJSON, function(error) {
                         scope.infos.push({type : 'danger', msg: error })

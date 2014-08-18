@@ -22,6 +22,8 @@ app.controller('CityController', function ($scope, $routeParams, $q, citiesServi
 
         $scope.isLoading = true;
         $q.all([cityPromise, userMePromise, roleIdPromise]).then(function(result) {
+
+
             var city = result[0];
 
             initCityHasRoles(city);
@@ -31,7 +33,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, citiesServi
             var residentsById = {};
             angular.forEach(city.residents, function(someResident) {
                 residentsById[someResident.id] = someResident;
-            })
+            });
             city.residentsById = residentsById;
 
             var daysById = {};
@@ -70,11 +72,8 @@ app.controller('CityController', function ($scope, $routeParams, $q, citiesServi
                 $scope.roleChooserEditMode = true;
                 $scope.isLoading = false;
             }
-
-
-
-
-
+        }, function(reason) {
+            $scope.isLoading = false;
         });
     }
 
@@ -137,8 +136,6 @@ app.controller('CityController', function ($scope, $routeParams, $q, citiesServi
             angular.forEach(reason.httpObj.responseJSON, function(error) {
                 $scope.basicValidationErrors.push({type : 'danger', msg: error });
             });
-        }, function() {
-            $scope.isLoading = false;
         });
     }
 
