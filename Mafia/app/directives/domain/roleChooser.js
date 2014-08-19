@@ -8,7 +8,8 @@ app.directive('roleChooser', function(residentsService) {
             roleSelected: '=',
             lockToEditMode: '=',
             editMode: '=',
-            enableRoleSaving: '='
+            enableRoleSaving: '=',
+            disableWarning: '='
         },
         templateUrl: 'app/directiveTemplates/domain/roleChooser.html',
         link: function(scope, element, attrs) {
@@ -32,10 +33,6 @@ app.directive('roleChooser', function(residentsService) {
                 scope.roleLabel = ((scope.city && scope.roleId) ? scope.city.rolesById[scope.roleId].role : {}).name || "Select a role";
             }
 
-//            scope.rolePresentInCity = function (cityHasRole) {
-//                return cityHasRole.quantity > 0;
-//            };
-
             scope.toggleMode = function() {
                 if (!scope.lockToEditMode)
                     scope.editMode = !scope.editMode;
@@ -43,7 +40,9 @@ app.directive('roleChooser', function(residentsService) {
 
             scope.optionSelected = function(selectedOption) {
                 scope.roleId = selectedOption;
-                scope.infos.push({msg: 'Only actions conducted while your true role is selected will be deemed valid.'});
+                if (!scope.disableWarning) {
+                    scope.infos.push({msg: 'Only actions conducted while your true role is selected will be deemed valid.'});
+                }
                 if (scope.roleSelected)
                     scope.roleSelected(selectedOption);
             };
