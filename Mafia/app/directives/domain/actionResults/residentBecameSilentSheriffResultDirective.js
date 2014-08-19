@@ -16,7 +16,7 @@ app.directive('residentBecameSilentSheriffResult', function(actionResultsService
                 if (!city)
                     return;
 
-                scope.interpretation = "Silent Sheriff has died and you became the new Silent Sheriff. Congratulations!";
+                scope.interpretation = "Silent Sheriff has died and you became the new Silent Sheriff. Congratulations!  You should change your acting role to 'Silent Sheriff' if you want your future actions to take effect.";
 
                 if (!actionResult.id) {
                     scope.actionResultCopied = {
