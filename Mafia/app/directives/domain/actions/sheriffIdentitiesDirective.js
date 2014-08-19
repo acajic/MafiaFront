@@ -1,4 +1,4 @@
-app.directive('sheriffIdentities', function(actionsService, actionResultsService) {
+app.directive('sheriffIdentities', function($timeout, actionsService, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -44,7 +44,9 @@ app.directive('sheriffIdentities', function(actionsService, actionResultsService
                     { });
 
                 postActionPromise.then(function() {
-                    scope.infos = [{type:"success", msg: "On the next morning, the true identities of all deceased residents will be revealed."}];
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "On the next morning, the true identities of all deceased residents will be revealed."}];
+                    });
                 }, function(reason) {
                     angular.forEach(reason.httpObj.responseJSON, function(error) {
                         scope.infos.push({type : 'danger', msg: error })

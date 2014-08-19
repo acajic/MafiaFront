@@ -1,4 +1,4 @@
-app.directive('tellerVotes', function(actionsService, actionResultsService) {
+app.directive('tellerVotes', function($timeout, actionsService, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -49,7 +49,10 @@ app.directive('tellerVotes', function(actionsService, actionResultsService) {
                     { });
 
                 postActionPromise.then(function() {
-                    scope.infos = [{type:"success", msg: "You will be informed of the vote count after the following public voting."}];
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "You will be informed of the vote count after the following public voting."}];
+                    });
+
                 }, function(reason) {
                     angular.forEach(reason.httpObj.responseJSON, function(error) {
                         scope.infos.push({type : 'danger', msg: error })

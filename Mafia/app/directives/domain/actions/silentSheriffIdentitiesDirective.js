@@ -1,4 +1,4 @@
-app.directive('silentSheriffIdentities', function(actionsService, actionResultsService) {
+app.directive('silentSheriffIdentities', function($timeout, actionsService, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -44,7 +44,10 @@ app.directive('silentSheriffIdentities', function(actionsService, actionResultsS
                     { });
 
                 postActionPromise.then(function() {
-                    scope.infos = [{type:"success", msg: "On the next morning, you will see the true roles of all residents that died since you became the Sheriff."}];
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "On the next morning, you will see the true roles of all residents that died since you became the Sheriff."}];
+                    });
+
                 }, function(reason) {
                     angular.forEach(reason.httpObj.responseJSON, function(error) {
                         scope.infos.push({type : 'danger', msg: error })

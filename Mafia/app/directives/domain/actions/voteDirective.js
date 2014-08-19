@@ -1,4 +1,4 @@
-app.directive('vote', function(actionsService) {
+app.directive('vote', function($timeout, actionsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -18,7 +18,9 @@ app.directive('vote', function(actionsService) {
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {
-                    scope.infos = [{type:"success", msg: "Voted for " + selectedResident.name + "."}];
+                    $timeout(function() { // without $timeout, alert sometimes don't appear at all until some action is made with mouse
+                        scope.infos = [{type:"success", msg: "Voted for " + selectedResident.name + "."}];
+                    });
                 }, function(reason, ee) {
                     scope.infos = [{type:"danger", msg: reason}];
                 })

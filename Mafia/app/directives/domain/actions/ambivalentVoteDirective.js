@@ -1,4 +1,4 @@
-app.directive('ambivalentVote', function(actionsService) {
+app.directive('ambivalentVote', function($timeout, actionsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -18,7 +18,9 @@ app.directive('ambivalentVote', function(actionsService) {
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {
-                    scope.infos = [{type:"success", msg: "Voted for " + selectedResident.name + "."}];
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "Voted for " + selectedResident.name + "."}];
+                    });
                 }, function(reason, ee) {
                     scope.infos = [{type:"danger", msg: reason}];
                 })

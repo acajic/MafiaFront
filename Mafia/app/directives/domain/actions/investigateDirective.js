@@ -1,4 +1,4 @@
-app.directive('investigate', function(actionsService) {
+app.directive('investigate', function($timeout, actionsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -18,7 +18,10 @@ app.directive('investigate', function(actionsService) {
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {
-                    scope.infos = [{type:"success", msg: "Investigating " + selectedResident.name + ". Results of investigation available on the next morning."}];
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "Investigating " + selectedResident.name + ". Results of investigation available on the next morning."}];
+                    });
+
                 }, function(reason) {
                     angular.forEach(reason.httpObj.responseJSON, function(error) {
                         scope.infos.push({type : 'danger', msg: error })

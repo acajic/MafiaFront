@@ -1,4 +1,4 @@
-app.directive('terroristBomb', function(actionsService) {
+app.directive('terroristBomb', function($timeout, actionsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -46,7 +46,10 @@ app.directive('terroristBomb', function(actionsService) {
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {
-                    scope.infos = [{type:"success", msg: "Bombing " + selectedResident.name + " in " + scope.actionTypeParamsDictionary.detonation_delay + "."}];
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "Bombing " + selectedResident.name + " in " + scope.actionTypeParamsDictionary.detonation_delay + "."}];
+                    });
+
                 }, function(reason) {
                     angular.forEach(reason.httpObj.responseJSON, function(error) {
                         scope.infos.push({type : 'danger', msg: error })
