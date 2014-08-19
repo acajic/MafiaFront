@@ -37,7 +37,9 @@ app.directive('journalistInvestigate', function($timeout, actionsService) {
             scope.cancelUnprocessedActions = function() {
                 var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.roleId, ACTION_TYPE_ID_JOURNALIST_INVESTIGATE);
                 cancelUnprocessedActionsPromise.then(function() {
-                    scope.infos = [{type:"success", msg: "Canceled unprocessed actions."}];
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "Canceled unprocessed actions."}];
+                    });
                 }, function(reason) {
                     angular.forEach(reason.httpObj.responseJSON, function(error) {
                         scope.infos.push({type : 'danger', msg: error })

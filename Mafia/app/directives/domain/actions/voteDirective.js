@@ -36,7 +36,9 @@ app.directive('vote', function($timeout, actionsService) {
 
 
                 cancelUnprocessedActionsPromise.then(function() {
-                    scope.infos = [{type:"success", msg: "Canceled unprocessed actions."}];
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "Canceled unprocessed actions."}];
+                    });
                 }, function(reason) {
                     if (reason.httpObj.responseJSON) {
                         angular.forEach(reason.httpObj.responseJSON, function(error) {

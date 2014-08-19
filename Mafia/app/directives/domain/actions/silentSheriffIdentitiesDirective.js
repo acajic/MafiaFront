@@ -64,7 +64,9 @@ app.directive('silentSheriffIdentities', function($timeout, actionsService, acti
                 var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.roleId, ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES);
 
                 cancelUnprocessedActionsPromise.then(function() {
-                    scope.infos = [{type:"success", msg: "Canceled unprocessed actions."}];
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "Canceled unprocessed actions."}];
+                    });
                 }, function(reason) {
                     angular.forEach(reason.httpObj.responseJSON, function(error) {
                         scope.infos.push({type : 'danger', msg: error })
