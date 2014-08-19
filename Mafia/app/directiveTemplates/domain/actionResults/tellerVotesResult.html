@@ -1,0 +1,47 @@
+<div ng-if="!editMode" ng-dblclick="toggleMode()">
+    Day {{ actionResult.day_number }} <img src="content/img/teller-votes-result-icon.png" style="width: 25px;"/> {{ interpretation }}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Resident</td>
+                <td># of votes</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="someResidentVoteCount in votesCountPerResident">
+                <td>{{ someResidentVoteCount.resident.name }}</td>
+                <td>{{ someResidentVoteCount.voteCount }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div ng-if="editMode" ng-dblclick="toggleMode()">
+    Day <select ng-model="actionResultCopied.day" ng-options="day.number for day in city.days"></select>
+    <!--
+    {{ actionResult.day_number !== undefined ? actionResult.day_number : city.current_day_number }}
+    -->
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>Resident</td>
+            <td># of votes</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(index, someResidentVoteCount) in votesCountPerResidentCopied">
+            <td>{{ someResidentVoteCount.resident.name }}</td>
+            <td>{{ someResidentVoteCount.voteCount }}<a ng-click="removeVoteCount(index)">-</a></td>
+        </tr>
+        <tr>
+            <td><input ng-if="city.residents" type="text" typeahead-on-select="selectResident($item)" ng-model="addedResidentVoteCount.resident.name" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control"></td>
+            <td><input type="number" ng-model="addedResidentVoteCount.voteCount"><a ng-click="addVoteCountForResident()">+</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <button ng-if="isNew" ng-click="hide()"><i class="glyphicon glyphicon-ban-circle"></i></button>
+    <button ng-if="!isNew" ng-click="deleteActionResult()"><i class="glyphicon glyphicon-trash"></i></button>
+    <button ng-click="submitActionResult()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+</div>

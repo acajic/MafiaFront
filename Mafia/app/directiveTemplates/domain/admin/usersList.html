@@ -1,0 +1,75 @@
+<div ng-if="queryable">
+
+    <div style="clear: both" class="row-odd">
+        <p class="col-md-1">Username</p>
+        <input ng-model="queryModel.username">
+    </div>
+    <div style="clear: both" class="row-even">
+        <p class="col-md-1">Email</p>
+        <input ng-model="queryModel.email">
+    </div>
+
+    <div style="clear: both; overflow: hidden;" class="row-odd">
+        <p class="col-md-1">App Roles</p>
+        <div ng-repeat="appRole in appRoles" class="col-md-1">
+            <input type="checkbox"  ng-checked="queryModel.appRoleIds.indexOf(appRole.id) > -1" ng-click="toggleAppRoleSelection(appRole)">{{ appRole.name }}
+        </div>
+    </div>
+    <div style="clear: both" class="row-even">
+        <p class="col-md-1">Email Confirmed</p>
+        <select ng-model="queryModel.emailConfirmed">
+            <option value="">All</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+    </div>
+    <div style="clear: both" class="query-model row-odd">
+        <p class="col-md-1">Created</p>
+        <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+    </div>
+    <div style="clear: both" class="query-model row-even">
+        <p class="col-md-1">Updated</p>
+        <quick-datepicker ng-model='queryModel.updatedAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.updatedAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+    </div>
+
+    <button class="btn btn-success" ng-click="reloadData(true)">Search</button>
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>Username</td>
+            <td>Email</td>
+            <td>App Role</td>
+            <td>Email Confirmed</td>
+            <td>Created At (UTC)</td>
+            <td>Updated At (UTC)</td>
+            <td>Details</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="user in users">
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.app_role.name }}</td>
+            <td style="text-align: center;"><img-bool boolean-value="user.email_confirmed"></img-bool></td>
+            <td>{{ user.created_at }}</td>
+            <td>{{ user.updated_at }}</td>
+            <td><button class="btn btn-info" ng-click="showDetails(user)">Details</button></td>
+        </tr>
+        <tr ng-if="isLoadingContent">
+            <td colspan="8" style="text-align: center">
+                <loader size='small'></loader>
+            </td>
+        </tr>
+        <tr ng-hide="isLoadingContent">
+            <td colspan="8">
+                <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

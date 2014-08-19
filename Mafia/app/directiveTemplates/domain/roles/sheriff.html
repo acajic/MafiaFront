@@ -1,0 +1,43 @@
+<tabset>
+    <tab active="tabActive[0]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-eye-open"></i> Public
+        </tab-heading>
+
+        <public-tab city="city" role-id="roleId" resident="resident" action-results="actionResults" action-results-by-type="actionResultsByType"></public-tab>
+
+    </tab>
+
+    <tab active="tabActive[1]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-eye-close"></i> Special
+        </tab-heading>
+
+        <div class="col-md-6">
+            <special-actions city="city" role-id="roleId" resident="resident" action-results="actionResults"></special-actions>
+        </div>
+        <div class="col-md-6">
+            <private-news-feed city="city" role-id="roleId" resident="resident" action-results="actionResults"></private-news-feed>
+        </div>
+
+    </tab>
+
+    <tab active="tabActive[2]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-info-sign"></i> Info
+        </tab-heading>
+
+        <b>Sheriff</b> plays with citizens. <br/>
+
+        When a sheriff dies, a random ordinary citizen is selected to become the new sheriff. <br/>
+
+        Sheriff has a special ability to <b>reveal</b> exact roles of all residents that died during the time this user was sheriff.
+        After this ability is utilized, on the next morning, the true roles of
+        certain deceased resident will be revealed to the entire city.
+        <br/>
+
+        By default, Sheriff can only use his special ability once in a lifetime.
+
+
+    </tab>
+</tabset>

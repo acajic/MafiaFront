@@ -1,0 +1,45 @@
+<tabset>
+    <tab active="tabActive[0]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-eye-open"></i> Public
+        </tab-heading>
+
+        <public-tab city="city" role-id="roleId" resident="resident" action-results="actionResults" action-results-by-type="actionResultsByType"></public-tab>
+
+    </tab>
+
+    <tab active="tabActive[1]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-eye-close"></i> Special
+        </tab-heading>
+
+        <div class="col-md-6">
+            <special-actions city="city" role-id="roleId" resident="resident" action-results="actionResults"></special-actions>
+        </div>
+        <div class="col-md-6">
+            <private-news-feed city="city" role-id="roleId" resident="resident" action-results="actionResults"></private-news-feed>
+        </div>
+
+    </tab>
+
+    <tab active="tabActive[2]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-info-sign"></i> Info
+        </tab-heading>
+
+        <b>Journalist</b>, also known as <i>Weak Detective</i>, plays on board with citizens. <br/>
+
+        He has a special ability to <b>investigate</b> a single resident in a single night. <br/>
+
+        As a result, on the next morning, a journalist will be informed that the investigated resident is a
+        mafia member only if:
+        <ol>
+            <li>that resident is, in fact, a mafia member;</li>
+            <li>that resident took part in mafia voting on the night he was investigated.</li>
+        </ol>
+        <br/>
+        Both of the stated conditions must be met in order for a journalist to receive an affirmative response.
+        Otherwise, a journalist will be informed that the investigated resident is not a mafia member.
+
+    </tab>
+</tabset>

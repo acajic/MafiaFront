@@ -1,0 +1,78 @@
+<div>
+    <button ng-if="enableCreating" class="btn btn-success" ng-click="newInitialAppRole()">Create</button>
+</div>
+
+<div ng-if="queryable">
+
+    <div style="clear: both" class="row-odd">
+        <p class="col-md-1">Email</p>
+        <input ng-model="queryModel.email">
+    </div>
+
+    <div style="clear: both" class="row-even">
+        <p class="col-md-1">Email Pattern</p>
+        <input ng-model="queryModel.emailPattern">
+    </div>
+
+
+    <div style="clear: both" class="row-odd">
+        <p class="col-md-1">Description</p>
+        <input ng-model="queryModel.description">
+    </div>
+
+    <div style="clear: both" class="query-model row-even">
+        <p class="col-md-1">Created</p>
+        <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+    </div>
+
+    <div style="clear: both" class="query-model row-odd">
+        <p class="col-md-1">Updated</p>
+        <quick-datepicker ng-model='queryModel.updatedAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.updatedAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+    </div>
+
+    <button class="btn btn-success" ng-click="reloadData(true)">Search</button>
+</div>
+
+
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>Description</td>
+            <td>Email</td>
+            <td>Email Pattern</td>
+            <td>App Role</td>
+            <td>Priority</td>
+            <td>Enabled</td>
+            <td>Created At (UTC)</td>
+            <td>Updated At (UTC)</td>
+            <td>Details</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="initialAppRole in initialAppRoles">
+            <td>{{ initialAppRole.id }}</td>
+            <td>{{ initialAppRole.description }}</td>
+            <td>{{ initialAppRole.email }}</td>
+            <td>{{ initialAppRole.email_pattern }}</td>
+            <td>{{ initialAppRole.app_role.name }}</td>
+            <td>{{ initialAppRole.priority }}</td>
+            <td style="text-align: center;"><img-bool boolean-value="initialAppRole.enabled"></img-bool></td>
+            <td>{{ initialAppRole.created_at }}</td>
+            <td>{{ initialAppRole.updated_at }}</td>
+            <td><button class="btn btn-info" ng-click="showDetails(initialAppRole)">Details</button></td>
+        </tr>
+        <tr ng-if="isLoadingContent">
+            <td colspan="10" style="text-align: center">
+                <loader size='small'></loader>
+            </td>
+        </tr>
+        <tr ng-hide="isLoadingContent">
+            <td colspan="10">
+                <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

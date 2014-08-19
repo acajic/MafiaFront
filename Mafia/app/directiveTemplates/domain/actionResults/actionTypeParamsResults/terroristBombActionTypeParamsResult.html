@@ -1,0 +1,19 @@
+<div ng-if="!editMode">
+    Detonation delay: {{ actionTypeParams ? actionTypeParams.detonation_delay : '5m' }}
+    Number of collateral victims: {{ actionTypeParams ? actionTypeParams.number_of_collaterals : 1 }}
+
+</div>
+<div ng-if="editMode">
+
+
+    Detonation delay: <input type="number" ng-model="detonationProps.detonationNumber">
+    <select ng-model="detonationProps.detonationTimeInterval">
+        <option value="s"> seconds </option>
+        <option value="m"> minutes </option>
+        <option value="h"> hours </option>
+    </select>
+
+    <br/>
+
+    Number of collateral victims: <input type="number" ng-model="actionTypeParams.number_of_collaterals">
+</div>

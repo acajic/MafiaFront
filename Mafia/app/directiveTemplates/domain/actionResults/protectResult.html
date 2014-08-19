@@ -1,0 +1,13 @@
+<div ng-if="!editMode" ng-dblclick="toggleMode()">
+    Day {{ actionResult.day_number }} <img src="content/img/doctor-icon.png" style="width: 25px;"/> {{ interpretation }}
+</div>
+<div ng-if="editMode" ng-dblclick="toggleMode()">
+    Day <select ng-model="actionResultCopied.day" ng-options="day.number for day in city.days"></select>
+    Protected <input ng-if="city.residents" type="text" typeahead-on-select="selectProtectedResident($item)" ng-model="selected" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control">
+    <input type="checkbox" ng-model="outcome.success"> Success
+    {{ success }}
+
+    <button ng-if="isNew" ng-click="hide()"><i class="glyphicon glyphicon-ban-circle"></i></button>
+    <button ng-if="!isNew" ng-click="deleteActionResult()"><i class="glyphicon glyphicon-trash"></i></button>
+    <button ng-click="submitActionResult()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+</div>

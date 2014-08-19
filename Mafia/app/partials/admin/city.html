@@ -1,0 +1,136 @@
+<div>
+    <table class="table sidetable">
+        <tbody>
+        <tr>
+            <td></td>
+            <td colspan="2">
+                <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Name</td>
+            <td colspan="2">{{inspectedCity.name}}</td>
+        </tr>
+
+        <tr>
+            <td>Description</td>
+            <td colspan="2"> <textarea ng-model="inspectedCity.description"></textarea> </td>
+        </tr>
+
+        <tr>
+            <td>Timezone</td>
+            <td colspan="2"> {{ timezoneString }} </td>
+        </tr>
+
+        <tr>
+            <td>Day Cycles</td>
+            <td colspan="2">
+                <div ng-repeat="dayCycle in inspectedCity.day_cycles"> {{ minutesToString(dayCycle.day_start) }} - {{ minutesToString(dayCycle.night_start) }} <br/> </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Current Day</td>
+            <td colspan="2">{{ inspectedCity.current_day_number }}</td>
+        </tr>
+
+        <tr ng-if="canTriggerPhases">
+            <td>Trigger Phases</td>
+            <td>
+                <button ng-click="triggerDayStart()" class="btn btn-primary">Trigger Day Start</button>
+                <button ng-click="triggerNightStart()" class="btn btn-primary">Trigger Night Start</button>
+            </td>
+            <td> <loader size="small" ng-if="isTriggeringGamePhase"></loader> </td>
+        </tr>
+
+        <tr>
+            <td>User Creator</td>
+            <td colspan="2">user_id: {{ inspectedCity.user_creator_id }}, username: {{ inspectedCity.user_creator_username }}</td>
+        </tr>
+
+        <tr>
+            <td>Started</td>
+            <td style="text-align: center"><img-bool boolean-value="inspectedCity.active"></img-bool></td>
+            <td>{{ inspectedCity.started_at }}</td>
+        </tr>
+
+        <tr>
+            <td>Paused</td>
+            <td style="text-align: center"><img-bool boolean-value="inspectedCity.paused"></img-bool></td>
+            <td>{{ inspectedCity.last_paused_at }}</td>
+        </tr>
+
+        <tr ng-if="inspectedCity.paused">
+            <td>Paused During Game Phase</td>
+            <td colspan="2" ng-if="inspectedCity.paused_during_day"> <img src="content/img/day.png" style="width: 50px; height: 50px;" /> Day </td>
+            <td colspan="2" ng-hide="inspectedCity.paused_during_day"> <img src="content/img/night.png" style="width: 50px; height: 50px;" /> Night </td>
+        </tr>
+
+        <tr>
+            <td>Finished</td>
+            <td style="text-align: center"><img-bool boolean-value="inspectedCity.finished_at"></img-bool></td>
+            <td>{{ inspectedCity.finished_at }}</td>
+        </tr>
+
+        <tr>
+            <td>Created At</td>
+            <td colspan="2">{{ inspectedCity.created_at }}</td>
+        </tr>
+
+        <tr>
+            <td>Updated At</td>
+            <td colspan="2">{{ inspectedCity.updated_at }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td colspan="2">
+                <button class="btn btn-default" ng-click="cancel()">Back</button>
+                <button class="btn btn-success" ng-click="saveCity()" ng-if="canSave">Save</button>
+                <button class="btn btn-danger" ng-click="deleteCity()" ng-if="canDelete">Delete</button>
+                <loader size="small" ng-if="isProcessing"></loader>
+            </td>
+        </tr>
+
+
+        </tbody>
+    </table>
+</div>
+
+<script type="text/ng-template" id="deleteModalContent.html">
+    <div class="modal-header">
+        <div>
+        <h3 style="display: inline">Delete this city?</h3> <h3 style="display: inline; color: red;">*</h3>
+        </div>
+        <p style="color:red; display: inline"> * </p> - cannot be undone
+    </div>
+
+    <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+    <button ng-click="ok()" class="btn btn-danger">Confirm</button>
+</script>
+
+
+<script type="text/ng-template" id="triggerDayStartModal.html">
+    <div class="modal-header">
+        <div>
+            <h3 style="display: inline">Trigger day start? Operation may take a few moments to complete.</h3> <h3 style="display: inline; color: red;">*</h3>
+        </div>
+        <p style="color:red; display: inline"> * </p> - cannot be undone
+    </div>
+
+    <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+    <button ng-click="ok()" class="btn btn-danger">Confirm</button>
+</script>
+
+<script type="text/ng-template" id="triggerNightStartModal.html">
+    <div class="modal-header">
+        <div>
+            <h3 style="display: inline">Triggering night start? This will implicitly create a new Day record. Operation may take a few moments to complete.</h3> <h3 style="display: inline; color: red;">*</h3>
+        </div>
+        <p style="color:red; display: inline"> * </p> - cannot be undone
+    </div>
+
+    <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+    <button ng-click="ok()" class="btn btn-danger">Confirm</button>
+</script>

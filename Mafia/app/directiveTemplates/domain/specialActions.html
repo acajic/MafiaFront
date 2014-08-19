@@ -1,0 +1,16 @@
+<div ng-if="!city.finished_at">
+
+    <investigate ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_INVESTIGATE]"></investigate>
+    <protect ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_PROTECT]"></protect>
+
+    <teller-votes ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_TELLER_VOTES]"> </teller-votes>
+
+    <vote-mafia ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_VOTE_MAFIA]"></vote-mafia>
+
+    <sheriff-identities ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_SHERIFF_IDENTITIES]"></sheriff-identities>
+    <terrorist-bomb ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_TERRORIST_BOMB]"></terrorist-bomb>
+
+    <journalist-investigate ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_JOURNALIST_INVESTIGATE]"></journalist-investigate>
+
+    <silent-sheriff-identities ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES]"></silent-sheriff-identities>
+</div>

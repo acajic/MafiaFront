@@ -1,0 +1,12 @@
+<action-type-params-result city="city" resident="resident" action-result="actionTypeParamsResult" action-results="actionResults" action-type-id="actionTypeIds.ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES" role-id="roleId"></action-type-params-result>
+
+<div ng-if="actionTypeParamsDictionary.number_of_actions_available > 0">
+    <div id="info-box">
+        <alert ng-repeat="alert in infos" type="alert.type" close="closeInfoAlert($index)">{{alert.msg}}</alert>
+    </div>
+
+
+    <button ng-click="cancelUnprocessedActions()" popover="Cancel all unprocessed actions of this type" popover-trigger="mouseenter" popover-placement="right"><img src="content/img/delete-unprocessed-actions-icon.png"  style="width: 25px;" /></button>
+    <button ng-click="revealIdentities()" popover="Find out true roles of all players that died during the time you were the Sheriff." popover-trigger="mouseenter" popover-placement="right"><img src="content/img/sheriff-identities-icon.png" style="width: 25px;"/>Reveal identities</button>
+
+</div>

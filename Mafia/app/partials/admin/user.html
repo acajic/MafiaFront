@@ -1,0 +1,91 @@
+<div>
+    <table class="table sidetable">
+        <tbody>
+        <tr>
+            <td></td>
+            <td colspan="3">
+                <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Username</td>
+            <td colspan="3">{{inspectedUser.username}}</td>
+        </tr>
+
+        <tr>
+            <td>Email</td>
+            <td colspan="3">{{inspectedUser.email}}</td>
+        </tr>
+
+        <tr>
+            <td>Email Confirmed</td>
+            <td style="text-align: center"><img-bool boolean-value="inspectedUser.email_confirmed"></img-bool></td>
+            <td><button class="btn btn-primary" ng-click="resendConfirmationEmail()">Resend Confirmation Email</button></td>
+            <td><loader size="small" ng-if="isSendingConfirmationEmail"></loader> </td>
+        </tr>
+
+        <tr>
+            <td>Confirmation Code Used</td>
+            <td colspan="3" style="text-align: center"><img-bool boolean-value="inspectedUser.email_confirmation_code_exchanged"></img-bool></td>
+        </tr>
+
+        <tr>
+            <td>App Role</td>
+            <td colspan="3" ng-if="roleEditable">
+                <select ng-model="inspectedUser.app_role.id" ng-options="appRole.id as appRole.name for appRole in appRoles">
+                </select>
+            </td>
+            <td colspan="3" ng-hide="roleEditable">
+                {{ inspectedUser.app_role.name }}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Created At</td>
+            <td colspan="3">{{ inspectedUser.created_at }}</td>
+        </tr>
+
+        <tr>
+            <td>Updated At</td>
+            <td colspan="3">{{ inspectedUser.updated_at }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td colspan="3">
+                <button class="btn btn-default" ng-click="cancel()">Back</button>
+                <button class="btn btn-success" ng-click="saveUser()" ng-if="canSave">Save</button>
+                <button class="btn btn-danger" ng-click="deleteUser()" ng-if="canDelete">Delete</button>
+                <button class="btn btn-primary" ng-click="impersonate()" ng-if="roleEditable">Impersonate</button>
+                <loader size="small" ng-if="isProcessing"></loader>
+            </td>
+        </tr>
+
+
+        </tbody>
+    </table>
+</div>
+
+<script type="text/ng-template" id="deleteModalContent.html">
+    <div class="modal-header">
+        <div>
+        <h3 style="display: inline">Delete this user?</h3> <h3 style="display: inline; color: red;">*</h3>
+        </div>
+        <p style="color:red; display: inline"> * </p> - cannot be undone
+    </div>
+
+    <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+    <button ng-click="ok()" class="btn btn-danger">Confirm</button>
+</script>
+
+<script type="text/ng-template" id="impersonateModalContent.html">
+    <div class="modal-header">
+        <div>
+            <h3 style="display: inline">Impersonating this user means that you as admin will be automatically signed out in order for other user to be signed in. Is that OK?</h3>
+        </div>
+    </div>
+
+    <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+    <button ng-click="ok()" class="btn btn-danger">Confirm</button>
+</script>

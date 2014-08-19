@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html ng-app="mafiaApp">
+<head>
+
+    <link href="content/bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <link href="content/css/app.css" rel="stylesheet">
+
+
+    <link href="content/css/ngQuickDate/ng-quick-date.css" rel="stylesheet">
+    <link href="content/css/ngQuickDate/ng-quick-date-default-theme.css" rel="stylesheet">
+</head>
+
+<body ng-controller="AppController">
+
+<div id="header" class="col-md-12">
+    <auth></auth>
+</div>
+
+<div ng-view="" id="content" class="col-md-12"></div>
+
+<div id="footer" class="col-md-12">
+    2014 Andrija Cajic | ancajic@gmail.com
+</div>
+
+
+<script type="text/javascript" src="content/js/angular/angular.min.js"></script>
+<script type="text/javascript" src="content/js/angular/angular-route.js"></script>
+<script type="text/javascript" src="content/js/angular/angular-animate.js"></script>
+<script type="text/javascript" src="content/js/jquery-1.11.0.js"></script>
+<!-- <script type="text/javascript" src="content/bootstrap-3.1.1-dist/js/bootstrap.min.js"></script> -->
+<script type="text/javascript" src="content/js/ui-bootstrap-tpls-0.10.0.min.js"></script>
+<script type="text/javascript" src="content/js/array_extension/array_indexof.js"></script>
+<script type="text/javascript" src="content/js/email_validation/email_validation.js"></script>
+<script type="text/javascript" src="content/js/uniqque/uniqque_filter.js"></script>
+
+<script type="text/javascript" src="content/js/ngQuickDate/ng-quick-date.js"></script>
+<script type="text/javascript" src="content/js/date_utc_extension/date_utc_extension.js"></script>
+
+
+
+
+<script type="text/javascript" src="app/app.js"></script>
+<script type="text/javascript" src="content/js/ui/pointsAssign.js"></script>
+<script type="text/javascript" src="content/js/ui/minLengthNumber.js"></script>
+<script type="text/javascript" src="content/js/angular-timer-master/timer.js"></script>
+
+
+<!-- controllers -->
+<script type="text/javascript" src="app/controllers/appController.js"></script>
+<script type="text/javascript" src="app/controllers/citiesController.js"></script>
+<script type="text/javascript" src="app/controllers/registerController.js"></script>
+<script type="text/javascript" src="app/controllers/userProfileController.js"></script>
+<script type="text/javascript" src="app/controllers/cityCreateOrUpdateController.js"></script>
+<script type="text/javascript" src="app/controllers/cityController.js"></script>
+<script type="text/javascript" src="app/controllers/admin/adminController.js"></script>
+<script type="text/javascript" src="app/controllers/admin/adminUserController.js"></script>
+<script type="text/javascript" src="app/controllers/admin/adminCityController.js"></script>
+<script type="text/javascript" src="app/controllers/admin/adminInitialAppRoleController.js"></script>
+
+<!-- directives -->
+<script type="text/javascript" src="app/directives/authDirective.js"></script>
+<script type="text/javascript" src="app/directives/images/imgBoolDirective.js"></script>
+<script type="text/javascript" src="app/directives/images/imgAliveDirective.js"></script>
+<script type="text/javascript" src="app/directives/utility/interactiveTableDirective.js"></script>
+<script type="text/javascript" src="app/directives/utility/loaderDirective.js"></script>
+
+
+<script type="text/javascript" src="app/directives/domain/timezoneDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/currentDayDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/cityTimerDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/roleChooser.js"></script>
+<script type="text/javascript" src="app/directives/domain/roleDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/publicTabDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/specialActionsDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/roles/citizenDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/roles/doctorDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/roles/detectiveDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/roles/tellerDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/roles/mobDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/roles/terroristDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/roles/sheriffDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/roles/journalistDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/roles/fugitiveDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/roles/silentSheriffDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/roles/ambivalentCitizenDirective.js"></script>
+
+
+
+<script type="text/javascript" src="app/directives/domain/actions/voteDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actions/ambivalentVoteDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actions/investigateDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actions/protectDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actions/tellerVotesDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actions/voteMafiaDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actions/terroristBombDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actions/sheriffIdentitiesDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actions/journalistInvestigateDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actions/silentSheriffIdentitiesDirective.js"></script>
+
+<script type="text/javascript" src="app/directives/domain/residentsDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/publicNewsFeedDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/privateNewsFeedDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/createPrivateNewsFeedResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/createPublicNewsFeedResultDirective.js"></script>
+
+
+<script type="text/javascript" src="app/directives/domain/actionResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionTypeParamsDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/voteResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/terroristBombResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/voteMafiaResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/mafiaMembersResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/sheriffIdentitiesResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/protectResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/investigateResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/residentBecameSheriffResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/gameOverResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/journalistInvestigateResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/silentSheriffIdentitiesResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/residentBecameSilentSheriffResultDirective.js"></script>
+
+
+
+
+<script type="text/javascript" src="app/directives/domain/actionResults/tellerVotesResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/actionTypeParamsResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/actionTypeParamsResults/tellerVotesActionTypeParamsResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/actionTypeParamsResults/sheriffIdentitiesActionTypeParamsResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/actionTypeParamsResults/terroristBombActionTypeParamsResultDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/actionResults/actionTypeParamsResults/silentSheriffIdentitiesActionTypeParamsResultDirective.js"></script>
+
+<!-- admin domain directives -->
+<script type="text/javascript" src="app/directives/domain/admin/usersListDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/admin/citiesListDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/admin/residentsListDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/admin/actionsListDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/admin/actionResultsListDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/admin/daysListDirective.js"></script>
+<script type="text/javascript" src="app/directives/domain/admin/initialAppRolesListDirective.js"></script>
+
+
+
+
+
+<!-- services -->
+<script type="text/javascript" src="app/services/citiesService.js"></script>
+<script type="text/javascript" src="app/services/rolesService.js"></script>
+<script type="text/javascript" src="app/services/gameEndConditionsService.js"></script>
+<script type="text/javascript" src="app/services/selfGeneratedResultTypesService.js"></script>
+<script type="text/javascript" src="app/services/residentsService.js"></script>
+<script type="text/javascript" src="app/services/usersService.js"></script>
+<script type="text/javascript" src="app/services/authService.js"></script>
+<script type="text/javascript" src="app/services/layoutService.js"></script>
+<script type="text/javascript" src="app/services/daysService.js"></script>
+<script type="text/javascript" src="app/services/appRolesService.js"></script>
+
+
+<script type="text/javascript" src="app/services/serverService.js"></script>
+<script type="text/javascript" src="app/services/modalService.js"></script>
+<script type="text/javascript" src="app/services/actionsService.js"></script>
+<script type="text/javascript" src="app/services/actionResultsService.js"></script>
+
+
+<!-- views -->
+
+<!--
+<script type="text/ng-template" id="app/partials/cities.html">
+</script>
+-->
+
+</body>
+
+</html>

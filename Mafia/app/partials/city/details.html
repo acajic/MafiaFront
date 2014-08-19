@@ -1,0 +1,184 @@
+<div id="city">
+
+    <div id="general-messages">
+        <alert ng-repeat="alert in generalMessages" type="alert.type" close="closeGeneralMessage($index)">{{alert.msg}}</alert>
+    </div>
+
+    <button ng-click="back()" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
+    <button ng-if="showJoinButton(city)" ng-click="join()" class="btn btn-default"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
+    <button ng-if="showLeaveButton(city)" ng-click="leave()" class="btn btn-default"><i class="glyphicon glyphicon-road"></i>Leave</button>
+
+    <tabset>
+        <tab>
+            <tab-heading>
+                <i class="glyphicon glyphicon-info-sign"></i> Basic
+            </tab-heading>
+
+            <div id="basic-validation-error">
+                <alert ng-repeat="alert in basicValidationErrors" type="alert.type" close="closeDayCycleValidationAlert($index)">{{alert.msg}}</alert>
+            </div>
+
+            <table class="table sidetable">
+                <tbody>
+                    <tr>
+                        <td>Id</td>
+                        <td>{{city.id}}</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>{{city.name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Creator</td>
+                        <td>{{city.user_creator_username}}</td>
+                    </tr>
+                    <tr>
+                        <td>Timezone</td>
+                        <td><timezone minutes="city.timezone"></timezone></td>
+                    </tr>
+                    <tr>
+                        <td>Created at</td>
+                        <td>{{ city.created_at }}</td>
+                    </tr>
+                    <tr ng-if="city.started_at">
+                        <td>Started at</td>
+                        <td>{{ city.started_at }}</td>
+                    </tr>
+                    <tr ng-if="city.finished_at">
+                        <td>Finished at</td>
+                        <td>{{ city.finished_at }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </tab>
+
+
+        <tab>
+            <tab-heading>
+                <i class="glyphicon glyphicon-user"></i> Residents
+            </tab-heading>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Resident Id</td>
+                        <td>User Id</td>
+                        <td>Username</td>
+                        <td>Name</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="(index, resident) in city.residents">
+                        <td>{{ resident.id }}</td>
+                        <td>{{resident.user_id}}</td>
+                        <td>{{resident.username}}</td>
+                        <td>{{resident.name}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </tab>
+
+
+        <tab>
+            <tab-heading>
+                <i class="glyphicon glyphicon-time"></i> Day cycles
+            </tab-heading>
+
+            <div id="day-cycle-validation-error">
+                <alert ng-repeat="alert in dayCycleValidationErrors" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Day start</td>
+                        <td>Night start</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="(index, day_cycle) in city.day_cycles">
+                        <td><timezone minutes="day_cycle.day_start"></timezone></td>
+                        <td><timezone minutes="day_cycle.night_start"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </tab>
+
+
+
+
+        <tab>
+            <tab-heading>
+                <i class="glyphicon glyphicon-tower"></i> Roles
+            </tab-heading>
+
+            <table class="table sidetable">
+                <tbody>
+                    <tr>
+                        <td>Total residents</td>
+                        <td>{{ city.residents.length }}</td>
+                    </tr>
+                    <tr>
+                        <td>Roles undistributed</td>
+                        <td>{{ remainingRoles }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center">Citizens</td>
+                    </tr>
+                    <tr ng-repeat="city_has_role in city.city_has_roles | filter : {role_affiliation_id : 1}">
+                        <td>{{city_has_role.role_name}}</td>
+                        <td><b>{{ city_has_role.quantity }}</b> : <points-assign value="city_has_role.quantity" readonly="true" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'"></points-assign></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center">Mafia</td>
+                    </tr>
+                    <tr ng-repeat="city_has_role in city.city_has_roles | filter : {role_affiliation_id : 2} ">
+                        <td>{{city_has_role.role_name}}</td>
+                        <td><b>{{ city_has_role.quantity }}</b> : <points-assign value="city_has_role.quantity" readonly="true" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'"></points-assign></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </tab>
+
+
+        <tab>
+            <tab-heading>
+                <i class="glyphicon glyphicon-wrench"></i> Other
+            </tab-heading>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td colspan="2">End conditions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="gameEndCondition in allGameEndConditions">
+                        <td class="col-sm-1"><input disabled type="checkbox" ng-model="checkedGameEndConditions[gameEndCondition.id]" ng-change="toggleGameEndCondition(gameEndCondition.id)"></td>
+                        <td>{{gameEndCondition.name}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td colspan="2">Self generated result types</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="selfGeneratedResultType in allSelfGeneratedResultTypes">
+                        <td class="col-sm-1"><input disabled type="checkbox" ng-model="checkedSelfGeneratedResultTypes[selfGeneratedResultType.id]" ng-change="toggleSelfGeneratedResultType(selfGeneratedResultType.id)"></td>
+                        <td>{{selfGeneratedResultType.class_name}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </tab>
+    </tabset>
+
+
+</div>

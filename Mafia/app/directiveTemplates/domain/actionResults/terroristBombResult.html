@@ -1,0 +1,21 @@
+<div ng-dblclick="toggleMode()" ng-if="!editMode">
+Day {{ actionResult.day_number }} <img src="content/img/terrorist-bomb-result-icon.png" style="width: 25px;" />
+{{ interpretation }}
+</div>
+
+<div ng-dblclick="toggleMode()" ng-if="editMode">
+    Day <select ng-model="actionResultCopied.day" ng-options="day.number for day in city.days"></select>
+    <!--
+    {{ actionResult.day_number !== undefined ? actionResult.day_number : city.current_day_number }} <img src="content/img/terrorist-bomb-result-icon.png" style="width: 25px;" />
+    -->
+    Collaterals
+    <div ng-repeat="(index, collateral) in collaterals">
+        <a ng-click="deleteCollateralResidentAtIndex(index)">-</a>
+        <input ng-if="city.residents" type="text" typeahead-on-select="selectCollateralResident(index, $item)" ng-model="collateral.name" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control">
+    </div>
+    <a ng-click="addCollateralResident()">+</a>
+
+    <button ng-if="isNew" ng-click="hide()"><i class="glyphicon glyphicon-ban-circle"></i></button>
+    <button ng-if="!isNew" ng-click="deleteActionResult()"><i class="glyphicon glyphicon-trash"></i></button>
+    <button ng-click="submitActionResult()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+</div>

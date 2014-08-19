@@ -1,0 +1,36 @@
+<tabset>
+    <tab active="tabActive[0]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-eye-open"></i> Public
+        </tab-heading>
+
+        <public-tab city="city" role-id="roleId" resident="resident" action-results="actionResults" action-results-by-type="actionResultsByType"></public-tab>
+
+    </tab>
+
+    <tab active="tabActive[1]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-eye-close"></i> Special
+        </tab-heading>
+
+        <div class="col-md-6">
+            <special-actions city="city" role-id="roleId" resident="resident" action-results="actionResults"></special-actions>
+        </div>
+        <div class="col-md-6">
+            <private-news-feed city="city" role-id="roleId" resident="resident" action-results="actionResults"></private-news-feed>
+        </div>
+
+    </tab>
+
+    <tab active="tabActive[2]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-info-sign"></i> Info
+        </tab-heading>
+
+        Detective plays on board with citizens. <br/>
+
+        He has a special ability to <b>investigate</b> a single resident in a single night. <br/>
+
+        As a result, on the next morning, detective will be informed whether the investigated resident is a mafia member or not.
+    </tab>
+</tabset>

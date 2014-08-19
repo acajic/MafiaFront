@@ -1,0 +1,45 @@
+<div ng-dblclick="toggleMode()" ng-if="!editMode">
+    {{ interpretation }}
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>Name</td>
+            <td>Alive</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="mafiaMember in mafiaMembers">
+            <td>{{ mafiaMember.name }}</td>
+            <td><img-alive boolean-value="mafiaMember.alive"></img-alive></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+<div ng-dblclick="toggleMode()" ng-if="editMode">
+    {{ interpretation }}
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>Name</td>
+            <td>Alive</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(index, mafiaMember) in mafiaMembers">
+            <td><input ng-if="city.residents" type="text" typeahead-on-select="selectResidentForIndex(index, $item)" ng-model="mafiaMember.name" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control"><a ng-click="removeMafiaMemberAtIndex(index)">-</a></td>
+            <td><img-alive boolean-value="mafiaMember.alive"></img-alive></td>
+        </tr>
+
+        </tbody>
+    </table>
+    Add a new mafia member
+    <input ng-if="city.residents" type="text" typeahead-on-select="selectResidentToAdd($item)" ng-model="newMafiaMember" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control">
+
+
+    <button ng-if="isNew" ng-click="hide()"><i class="glyphicon glyphicon-ban-circle"></i></button>
+    <button ng-if="!isNew" ng-click="deleteActionResult()"><i class="glyphicon glyphicon-trash"></i></button>
+    <button ng-click="submitActionResult()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+</div>

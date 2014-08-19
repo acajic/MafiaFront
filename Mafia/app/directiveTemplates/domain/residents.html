@@ -1,0 +1,39 @@
+<div ng-if="!editMode" ng-dblclick="toggleMode()" class="col-md-12 nopadding">
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>Username</td>
+            <td>Alive</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="resident in residents">
+            <td>{{ resident.name }}</td>
+            <td><img-alive boolean-value="resident.alive"></img-alive></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+
+<div ng-if="editMode" ng-dblclick="toggleMode()" class="col-md-12 nopadding">
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>Name</td>
+            <td>Alive</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="resident in residentsCopied">
+            <td>{{ resident.name }}</td>
+            <td><input type="checkbox" ng-model="resident.alive"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button ng-click="submitActionResult()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+</div>

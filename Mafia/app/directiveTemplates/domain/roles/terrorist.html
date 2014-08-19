@@ -1,0 +1,40 @@
+<tabset>
+    <tab active="tabActive[0]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-eye-open"></i> Public
+        </tab-heading>
+
+        <public-tab city="city" role-id="roleId" resident="resident" action-results="actionResults" action-results-by-type="actionResultsByType"></public-tab>
+
+    </tab>
+
+    <tab active="tabActive[1]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-eye-close"></i> Special
+        </tab-heading>
+
+        <div class="col-md-6">
+            <special-actions city="city" role-id="roleId" resident="resident" action-results="actionResults"></special-actions>
+        </div>
+        <div class="col-md-6">
+            <private-news-feed city="city" role-id="roleId" resident="resident" action-results="actionResults"></private-news-feed>
+        </div>
+
+    </tab>
+
+    <tab active="tabActive[2]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-info-sign"></i> Info
+        </tab-heading>
+
+        <b>Terrorist</b> plays on board with mafia. <br/>
+
+        A Terrorist can see other mafia members and participate in mafia voting like an ordinary mafia member. <br/>
+
+        They have additional option to perform a <b>terrorist bomb</b>ing attack.
+        For this action, they target a single resident as a victim.
+        During the bombing attack they kill that victim, themselves and a number of random <b>collateral victims</b> in the process.
+        the default number of collateral victims is 1. <br/>
+        Terrorist bombing action is asynchronous - that means that it can be executed in the middle of the day, or in the middle of the night.
+    </tab>
+</tabset>

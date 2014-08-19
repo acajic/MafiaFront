@@ -1,0 +1,57 @@
+<div ng-if="!editMode" ng-dblclick="toggleMode()">
+    Day {{ actionResult.day_number }}
+
+    <img src="content/img/sheriff-identities-icon.png" style="width: 25px;"/>
+    {{ interpretation }}
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <td>Resident</td>
+        <td>Role</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="deadResidentRole in deadResidentRoles">
+        <td>{{ deadResidentRole.residentName }}</td>
+        <td>{{ deadResidentRole.residentRoleName }}</td>
+    </tr>
+    </tbody>
+    </table>
+</div>
+
+<div ng-if="editMode" ng-dblclick="toggleMode()">
+    Day <select ng-model="actionResultCopied.day" ng-options="day.number for day in city.days"></select>
+    <!--
+    {{ actionResult.day_number !== undefined ? actionResult.day_number : city.current_day_number}}
+-->
+
+    <img src="content/img/sheriff-identities-icon.png" style="width: 25px;"/>
+    {{ interpretation }}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>Resident</td>
+            <td>Role</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(index, deadResidentRole) in deadResidentRolesCopied">
+            <td> <a ng-click="removeFromDeadResidents(index)">x</a> {{ deadResidentRole.residentName }} </td>
+            <td><role-chooser city="city" role-id="deadResidentRole.residentRoleId" lock-to-edit-mode="true" edit-mode="true" disable-warning="true"></role-chooser> </td>
+        </tr>
+        <tr>
+
+            <td>
+                <a ng-click="addToDeadResidents()">+</a>
+                <input ng-if="city.residents" type="text" typeahead-on-select="selectedToAddDeadResident($item)" ng-model="selectedResident.residentName" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control">
+            </td>
+            <td><role-chooser city="city" role-id="selectedResident.residentRoleId" role-selected="" lock-to-edit-mode="true" edit-mode="true" disable-warning="true"></role-chooser></td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="checkbox" ng-model="outcome.success"> Success
+
+    <button ng-if="isNew" ng-click="hide()"><i class="glyphicon glyphicon-ban-circle"></i></button>
+    <button ng-if="!isNew" ng-click="deleteActionResult()"><i class="glyphicon glyphicon-trash"></i></button>
+    <button ng-click="submitActionResult()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+</div>

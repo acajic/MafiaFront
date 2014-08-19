@@ -1,0 +1,38 @@
+<tabset>
+    <tab active="tabActive[0]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-eye-open"></i> Public
+        </tab-heading>
+
+        <public-tab city="city" role-id="roleId" resident="resident" role-id="roleId" action-results="actionResults" action-results-by-type="actionResultsByType"></public-tab>
+
+    </tab>
+
+    <tab active="tabActive[1]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-eye-close"></i> Special
+        </tab-heading>
+
+        <div class="col-md-6">
+            <special-actions city="city" role-id="roleId" resident="resident" action-results="actionResults"></special-actions>
+        </div>
+        <div class="col-md-6">
+            <private-news-feed city="city" role-id="roleId" resident="resident" action-results="actionResults"></private-news-feed>
+        </div>
+
+    </tab>
+
+    <tab active="tabActive[2]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-info-sign"></i> Info
+        </tab-heading>
+
+        <b>Fugitive</b> plays on board with Mafia. <br/>
+        As any other mafia role, they can see who else belongs to the mafia. <br/>
+        Also, as any other mafia role, they can participate in <b>mafia voting</b>.
+        A resident that is selected during mafia voting will be killed during the following night. <br/>
+
+        A fugitive is a wanted criminal and, as such, he cannot appear on public events like public voting.
+        This means that fugitive <b>cannot participate in daytime voting</b>.
+    </tab>
+</tabset>

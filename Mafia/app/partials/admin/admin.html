@@ -1,0 +1,76 @@
+<div style="clear: both">
+    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+</div>
+
+<div class="col-md-12 nopadding">
+    <tabset>
+        <tab active="tabActive[0]" select="tabSelected()">
+            <tab-heading>
+                Users
+            </tab-heading>
+
+            <users-list query-model="usersQueryModel" queryable="true"></users-list>
+
+        </tab>
+
+        <tab active="tabActive[1]" select="tabSelected()">
+            <tab-heading>
+                Cities
+            </tab-heading>
+
+            <cities-list query-model="citiesQueryModel" queryable="true"></cities-list>
+
+        </tab>
+
+
+        <tab active="tabActive[2]" select="tabSelected()">
+            <tab-heading>
+                Residents
+            </tab-heading>
+
+            <residents-list query-model="residentsQueryModel" queryable="true"></residents-list>
+
+        </tab>
+
+
+        <tab active="tabActive[3]" select="tabSelected()">
+            <tab-heading>
+                Actions
+            </tab-heading>
+
+            <actions-list query-model="actionsQueryModel" queryable="true"></actions-list>
+
+        </tab>
+
+
+
+        <tab active="tabActive[4]" select="tabSelected()">
+            <tab-heading>
+                Action Results
+            </tab-heading>
+
+            <action-results-list query-model="actionResultsQueryModel" queryable="true"></action-results-list>
+
+        </tab>
+
+
+        <tab active="tabActive[5]" select="tabSelected()">
+            <tab-heading>
+                Days
+            </tab-heading>
+
+            <days-list query-model="daysQueryModel" queryable="true"></days-list>
+
+        </tab>
+
+
+        <tab active="tabActive[6]" select="tabSelected()">
+            <tab-heading>
+                Initial App Roles
+            </tab-heading>
+
+            <initial-app-roles-list query-model="initialAppRolesQueryModel" queryable="true" enable-creating="true"></initial-app-roles-list>
+
+        </tab>
+    </tabset>
+</div>

@@ -1,0 +1,6 @@
+<div class="city-time" ng-dblclick="toggleMode()" ng-hide="editMode">
+    Time: <timer ng-if="lastMidnight" start-time="lastMidnight" interval="500" autostart="false">{{hours | minLength:2}}:{{minutes | minLength:2}}:{{seconds | minLength:2}}</timer>
+</div>
+<div class="city-time-edit" ng-dblclick="toggleMode()" ng-if="editMode">
+    <input type="number" ng-model="time.hours"> : <input type="number" ng-model="time.minutes"> : <input type="number" ng-model="time.seconds">  <button ng-click="setTime()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+</div>
