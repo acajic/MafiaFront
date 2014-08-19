@@ -12,7 +12,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="deadResidentRole in deadResidentRoles">
-        <td>{{ deadResidentRole.residentUsername }}</td>
+        <td>{{ deadResidentRole.residentName }}</td>
         <td>{{ deadResidentRole.residentRoleName }}</td>
     </tr>
     </tbody>
@@ -36,7 +36,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="(index, deadResidentRole) in deadResidentRolesCopied">
-            <td> <a ng-click="removeFromDeadResidents(index)">x</a> {{ deadResidentRole.residentUsername }} </td>
+            <td> <a ng-click="removeFromDeadResidents(index)">x</a> {{ deadResidentRole.residentName }} </td>
             <td><role-chooser city="city" role-id="deadResidentRole.residentRoleId" lock-to-edit-mode="true" edit-mode="true"></role-chooser> </td>
         </tr>
         <tr>

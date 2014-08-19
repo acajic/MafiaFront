@@ -17,7 +17,7 @@ app.directive('auth', function($routeParams, authService, $location, layoutServi
             };
 
             scope.setLocationHome = function () {
-                $location.path('');
+                $location.path('/cities');
             };
 
             scope.setLocationAdmin = function () {

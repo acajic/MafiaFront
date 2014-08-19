@@ -1,4 +1,4 @@
-app.controller('CityController', function ($scope, $routeParams, $q, citiesService, actionResultsService, residentsService, authService, layoutService) {
+app.controller('CityController', function ($scope, $routeParams, $q, $timeout, citiesService, actionResultsService, residentsService, authService, layoutService) {
     "use strict";
 
 
@@ -130,7 +130,10 @@ app.controller('CityController', function ($scope, $routeParams, $q, citiesServi
 
         actionResultsService.getActionResults(cityId, roleId, true).then(function(result) {
             $scope.actionResults = result;
-            $scope.isLoading = false;
+            $timeout(function() {
+                $scope.isLoading = false;
+            });
+
         }, function(reason) {
             $scope.isLoading = false;
             angular.forEach(reason.httpObj.responseJSON, function(error) {
@@ -200,7 +203,6 @@ app.controller('CityController', function ($scope, $routeParams, $q, citiesServi
         return 'city' + cityId + 'UserId' + userId + 'RoleId';
     }
 
-
     var kCitySelectedTabIndexCookieKey;
 
     init();
@@ -213,7 +215,6 @@ app.controller('CityController', function ($scope, $routeParams, $q, citiesServi
         initCity(cityId);
 
         $scope.refreshCountdownTicks = 0;
-        // $scope.$on('timer-tick', timerTick);
 
         $scope.basicValidationErrors = [];
         $scope.closeBasicValidationAlert = closeBasicValidationAlert;
