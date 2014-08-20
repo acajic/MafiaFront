@@ -1,4 +1,4 @@
-app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, citiesService, rolesService,
+app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $timeout, citiesService, rolesService,
                                                          gameEndConditionsService, selfGeneratedResultTypesService,
                                                          authService, usersService, $location, $q, $modal) {
     "use strict";
@@ -51,10 +51,17 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
         var city = $scope.city;
 
         var createCityPromise = citiesService.createCity(city);
+        $scope.disableCityControls = true;
         createCityPromise.then(function(createdCity) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+            });
+
+
             citiesService.isNewCityCreated = true;
             $location.path('/cities/'+ createdCity.id +'/update');
         }, function(reason) {
+
             var message = 'Failed to start city. ';
             for (var key in reason.httpObj.responseJSON) {
                 if (reason.httpObj.responseJSON.hasOwnProperty(key)) {
@@ -62,7 +69,11 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
                 }
             }
 
-            $scope.generalMessages = [{type: 'danger', msg: message }];
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                $scope.generalMessages = [{type: 'danger', msg: message }];
+            });
+
         });
     }
 
@@ -76,17 +87,24 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
             return;
         }
 
+        $scope.disableCityControls = true;
         var startCityPromise = citiesService.startCity($scope.city.id);
         startCityPromise.then(function(city) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+            });
+
             initDayCycles(city);
             angular.copy(city, originalCity);
             $scope.city = city;
 
             $scope.generalMessages = [{type: 'success', msg: "Successfully started '" + city.name + "'."}];
-
-            // $location.path('/cities/'+ city.id +'/update');
         }, function(reason) {
-            $scope.generalMessages = [{type: 'danger', msg: 'Failed to start city.' }];
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to start city.' }];
+            });
+
         });
     }
 
@@ -96,12 +114,28 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
 
     function saveCity() {
         $scope.generalMessages = [];
+
+        $scope.disableCityControls = true;
         var updateCityPromise = citiesService.updateCity($scope.city);
         updateCityPromise.then(function(updateResult) {
-            $scope.generalMessages.push({type: 'success', msg: 'City successfully updated.' });
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                $scope.generalMessages.push({type: 'success', msg: 'City successfully updated.' });
+            });
+
+
             angular.copy($scope.city, originalCity);
         }, function(reason) {
-            $scope.generalMessages.push({type: 'danger', msg: JSON.stringify(reason) });
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                angular.forEach(reason.httpObj.responseJSON, function(errorArray) {
+                    angular.forEach(errorArray, function(error) {
+                        $scope.generalMessages.push({type: 'danger', msg: error + '. '});
+                    });
+
+                });
+            });
+
         });
     }
 
@@ -170,14 +204,24 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
     }
 
     function pause() {
+        $scope.disableCityControls = true;
         var pauseCityPromise = citiesService.pauseCity($scope.city.id);
         pauseCityPromise.then(function(cityUpdated) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                $scope.generalMessages = [{type: 'success', msg: 'City paused.' }];
+            });
+
             initDayCycles(cityUpdated);
             $scope.city = cityUpdated;
 
-            $scope.generalMessages = [{type: 'success', msg: 'City paused.' }];
+
         }, function(reason) {
-            $scope.generalMessages = [{type: 'danger', msg: 'Failed to pause city.' }];
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to pause city.' }];
+            });
+
         });
     }
 
@@ -194,19 +238,28 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
     }
 
     function resume() {
+        $scope.disableCityControls = true;
         var resumeCityPromise = citiesService.resumeCity($scope.city.id);
         resumeCityPromise.then(function(cityUpdated) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                $scope.generalMessages = [{type: 'success', msg: 'City resumed.' }];
+            });
+
+
             initDayCycles(cityUpdated);
             $scope.city = cityUpdated;
-
-            $scope.generalMessages = [{type: 'success', msg: 'City resumed.' }];
         }, function(reason) {
-            angular.forEach(reason.httpObj.responseJSON, function(errorArray) {
-                angular.forEach(errorArray, function(error) {
-                    $scope.generalMessages = [{type: 'danger', msg: 'Failed to resume city. ' + error }];
-                });
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                angular.forEach(reason.httpObj.responseJSON, function(errorArray) {
+                    angular.forEach(errorArray, function(error) {
+                        $scope.generalMessages.push({type: 'danger', msg: 'Failed to resume city. ' + error });
+                    });
 
+                });
             });
+
 
         });
     }
@@ -223,13 +276,22 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
     }
 
     function join() {
+        $scope.disableCityControls = true;
         var joinPromise = citiesService.joinCity($scope.city.id);
         joinPromise.then(function(cityUpdated) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+            });
+
             initDayCycles(cityUpdated);
             $scope.city = cityUpdated;
 
         }, function(reason) {
-            $scope.generalMessages = [{type: 'danger', msg: 'Failed to join city.' }];
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to join city.' }];
+            });
+
         });
     }
 
@@ -245,13 +307,22 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
     }
 
     function leave() {
+        $scope.disableCityControls = true;
         var leavePromise = citiesService.leaveCity($scope.city.id);
         leavePromise.then(function(cityUpdated) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+            });
+
             initDayCycles(cityUpdated);
             $scope.city = cityUpdated;
 
         }, function(reason) {
-            $scope.generalMessages = [{type: 'danger', msg: 'Failed to leave city.' }];
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to leave city.' }];
+            });
+
         });
 
     }
@@ -293,7 +364,24 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
     }
 
     function kickResident(index) {
-        $scope.city.residents.splice(index, 1);
+        var residentUserId = $scope.city.residents[index].user_id;
+        $scope.isChangingUsers = true;
+        citiesService.kickUser($scope.city.id, residentUserId).then(function(cityResult) {
+            $timeout(function() {
+                $scope.isChangingUsers = false;
+                $scope.generalMessages = [{type: 'success', msg: 'Successfully kicked "' + $scope.city.residents[index].username + '".' }];
+                $scope.city.residents.splice(index, 1);
+                $scope.remainingRoles = remainingRoleCount($scope.city);
+                angular.copy($scope.city, originalCity);
+            });
+        }, function(reason) {
+            $timeout(function() {
+                $scope.isChangingUsers = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to kick "' + $scope.city.residents[index].username + '".' }];
+            });
+
+        });
+
     }
 
     function openInviteModal() {
@@ -312,11 +400,14 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
             if (!invitedUsers)
                 return;
 
-            $scope.isInvitingUsers = true;
+            $scope.isChangingUsers = true;
 
             var invitePromise = citiesService.inviteUsers($scope.city.id, invitedUsers);
             invitePromise.then(function(result) {
-                $scope.isInvitingUsers = false;
+                $timeout(function() {
+                    $scope.isChangingUsers = false;
+                });
+
 
                 var updatedCityResidents = result.updated_city_residents;
                 originalCity.residents = updatedCityResidents;
@@ -357,12 +448,12 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, c
 
                 $scope.remainingRoles = remainingRoleCount($scope.city);
             }, function(reason) {
-                $scope.isInvitingUsers = false;
+                $scope.isChangingUsers = false;
                 $scope.generalMessages.push({type: 'danger', msg: "Server error, users not invited." });
             });
 
         }, function () {
-            $scope.isInvitingUsers = false;
+            $scope.isChangingUsers = false;
         });
     }
 

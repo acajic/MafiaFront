@@ -4,28 +4,32 @@
         <alert ng-repeat="alert in generalMessages" type="alert.type" close="closeGeneralMessage($index)">{{alert.msg}}</alert>
     </div>
 
-    <button ng-click="back()" class="btn btn-primary"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
-    <button ng-if="showCreateButton(city)" ng-click="create()" class="btn btn-success"><i class="glyphicon glyphicon-bullhorn"></i>Create</button>
-    <button ng-if="showStartButton(city)" ng-click="start()" class="btn btn-success" ng-disabled="!isCityModified(city)"><i class="glyphicon glyphicon-play"></i>Start</button>
-    <button ng-if="showSaveButton(city)" ng-click="saveCity()" class="btn btn-success" ng-disabled="isCityModified(city)"><i class="glyphicon glyphicon-floppy-disk"></i>Save</button>
+    <div ng-if="disableCityControls">
+        <loader></loader>
+    </div>
+    <div ng-hide="disableCityControls">
+        <button ng-click="back()" class="btn btn-primary"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
+        <button ng-if="showCreateButton(city)" ng-click="create()" class="btn btn-success"><i class="glyphicon glyphicon-bullhorn"></i>Create</button>
+        <button ng-if="showStartButton(city)" ng-click="start()" class="btn btn-success" ng-disabled="!isCityModified(city)"><i class="glyphicon glyphicon-play"></i>Start</button>
+        <button ng-if="showSaveButton(city)" ng-click="saveCity()" class="btn btn-success" ng-disabled="isCityModified(city)"><i class="glyphicon glyphicon-floppy-disk"></i>Save</button>
 
-    <script type="text/ng-template" id="deleteModalContent.html">
-        <div class="modal-header">
-            <h3>Delete this city?</h3>
-        </div>
-        <div class="modal-body">
-            Enter password: <input type="password" ng-model="credentials.password">
-        </div>
+        <script type="text/ng-template" id="deleteModalContent.html">
+            <div class="modal-header">
+                <h3>Delete this city?</h3>
+            </div>
+            <div class="modal-body">
+                Enter password: <input type="password" ng-model="credentials.password">
+            </div>
 
-        <button ng-click="cancel()" class="btn btn-default">Cancel</button>
-        <button ng-click="ok()" class="btn btn-danger">Confirm</button>
-    </script>
+            <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+            <button ng-click="ok()" class="btn btn-danger">Confirm</button>
+        </script>
 
-    <button ng-if="showDeleteButton(city)" ng-click="deleteCity()" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Delete</button>
+        <button ng-if="showDeleteButton(city)" ng-click="deleteCity()" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Delete</button>
 
-    <button ng-if="showPauseButton(city)" ng-click="pause()" class="btn btn-warning"><i class="glyphicon glyphicon-pause"></i>Pause</button>
-    <button ng-if="showResumeButton(city)" ng-click="resume()" class="btn btn-success"><i class="glyphicon glyphicon-play"></i>Resume</button>
-
+        <button ng-if="showPauseButton(city)" ng-click="pause()" class="btn btn-warning"><i class="glyphicon glyphicon-pause"></i>Pause</button>
+        <button ng-if="showResumeButton(city)" ng-click="resume()" class="btn btn-success"><i class="glyphicon glyphicon-play"></i>Resume</button>
+    </div>
 
     <tabset>
         <tab>
@@ -103,9 +107,9 @@
             </tab-heading>
             After a satisfactory number of players are joined/added to the game, proceed to Role Distribution in the <b>Roles</b> tab before starting the game.
             <div>
-                <loader ng-if="isInvitingUsers"></loader>
+                <loader ng-if="isChangingUsers"></loader>
             </div>
-            <table class="table table-striped" ng-if="!isInvitingUsers">
+            <table class="table table-striped" ng-if="!isChangingUsers">
                 <thead>
                     <tr>
                         <td>Resident Id</td>
