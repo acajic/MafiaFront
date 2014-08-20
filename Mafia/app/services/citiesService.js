@@ -135,6 +135,10 @@ app.factory('citiesService', function($q, serverService) {
         });
     };
 
+    var kickUser = function(cityId, userId) {
+        return serverService.delete('cities/' + cityId + '/kick_user', {user_id : userId});
+    };
+
 
     var deleteCity = function (cityId, password) {
         return serverService.delete('cities/'+cityId, {
@@ -228,6 +232,7 @@ app.factory('citiesService', function($q, serverService) {
         getNewCity : getNewCity,
         createCity : createCity,
         inviteUsers : inviteUsers,
+        kickUser : kickUser,
         deleteCity : deleteCity,
         updateCity : updateCity,
         joinCity : joinCity,

@@ -1,4 +1,4 @@
-app.controller('AdminUserController',function ($scope, $routeParams, $location, $modal, authService, layoutService, usersService, serverService, appRolesService) {
+app.controller('AdminUserController',function ($scope, $routeParams, $location, $modal, $timeout, authService, layoutService, usersService, serverService, appRolesService) {
     "use strict";
 
     init();
@@ -67,8 +67,12 @@ app.controller('AdminUserController',function ($scope, $routeParams, $location, 
     $scope.resendConfirmationEmail = function() {
         if ($scope.inspectedUser.id) {
             $scope.isSendingConfirmationEmail = true;
-            serverService.get('users/' + $scope.inspectedUser.id + '/resend_confirmation_email').then(function() {
-                $scope.alerts.push({type: 'success', msg: 'Successfully sent confirmation email.'});
+            serverService.get('users/' + $scope.inspectedUser.id + '/resend_confirmation_email').then(function(userResult) {
+                $scope.inspectedUser = userResult;
+
+                $timeout(function() {
+                    $scope.alerts.push({type: 'success', msg: 'Successfully sent confirmation email.'});
+                });
 
                 $scope.isSendingConfirmationEmail = false;
             }, function(reason) {
