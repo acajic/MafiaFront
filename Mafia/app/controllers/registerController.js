@@ -1,4 +1,4 @@
-app.controller('RegisterController', function ($scope, $location, usersService) {
+app.controller('RegisterController', function ($scope, $location, $timeout, usersService) {
     "use strict";
 
     var newUser = {
@@ -29,7 +29,9 @@ app.controller('RegisterController', function ($scope, $location, usersService) 
         var createUserPromise = usersService.createUser(newUser);
         $scope.isLoading = true;
         createUserPromise.then(function(createdUser) {
-            $scope.infos.push({type : 'success', msg: 'Successfully created user ' + createdUser.username + '.'});
+            $timeout(function() {
+                $scope.infos.push({type : 'success', msg: 'Successfully created user ' + createdUser.username + '. Check your email in order to confirm your email address.'});
+            });
             $scope.isLoading = false;
         }, function(reason) {
             $scope.isLoading = false;
