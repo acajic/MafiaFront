@@ -1,4 +1,4 @@
-app.directive('voteResult', function(actionResultsService) {
+app.directive('voteResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -71,7 +71,10 @@ app.directive('voteResult', function(actionResultsService) {
                     if (index < 0)
                         return;
 
-                    scope.actionResults.splice(index, 1);
+                    $timeout(function() {
+                        scope.actionResults.splice(index, 1);
+                    });
+
                 });
             };
 
@@ -95,9 +98,12 @@ app.directive('voteResult', function(actionResultsService) {
                     if (index < 0)
                         index = 0;
 
-                    scope.actionResults.splice(index, 1, createdActionResult);
-                    if (scope.isNew)
-                        scope.hide();
+                    $timeout(function() {
+                        scope.actionResults.splice(index, 1, createdActionResult);
+                        if (scope.isNew)
+                            scope.hide();
+                    });
+
 
                 });
             };

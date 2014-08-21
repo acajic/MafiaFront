@@ -1,4 +1,4 @@
-app.directive('residentBecameSilentSheriffResult', function(actionResultsService) {
+app.directive('residentBecameSilentSheriffResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -54,8 +54,11 @@ app.directive('residentBecameSilentSheriffResult', function(actionResultsService
                     if (index < 0)
                         return;
 
-                    scope.editMode = false;
-                    scope.actionResults.splice(index, 1);
+                    $timeout(function() {
+                        scope.editMode = false;
+                        scope.actionResults.splice(index, 1);
+                    });
+
 
                 });
             };
@@ -83,10 +86,14 @@ app.directive('residentBecameSilentSheriffResult', function(actionResultsService
                     } else {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
-                    if (scope.isNew)
-                        scope.hide();
-                    else
-                        scope.editMode = false;
+
+                    $timeout(function() {
+                        if (scope.isNew)
+                            scope.hide();
+                        else
+                            scope.editMode = false;
+                    });
+
 
                 });
             };
