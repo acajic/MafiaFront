@@ -1,4 +1,4 @@
-app.directive('terroristBombResult', function(actionResultsService) {
+app.directive('terroristBombResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -99,8 +99,11 @@ app.directive('terroristBombResult', function(actionResultsService) {
                     if (index < 0)
                         return;
 
-                    scope.actionResults.splice(index, 1);
-                    scope.editMode = false;
+                    $timeout(function() {
+                        scope.actionResults.splice(index, 1);
+                        scope.editMode = false;
+                    });
+
                 });
             };
 
@@ -130,10 +133,14 @@ app.directive('terroristBombResult', function(actionResultsService) {
                     } else {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
-                    if (scope.isNew)
-                        scope.hide();
-                    else
-                        scope.editMode = false;
+
+                    $timeout(function() {
+                        if (scope.isNew)
+                            scope.hide();
+                        else
+                            scope.editMode = false;
+                    });
+
 
                 });
             };

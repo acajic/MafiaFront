@@ -1,4 +1,4 @@
-app.directive('mafiaMembersResult', function(actionResultsService) {
+app.directive('mafiaMembersResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -62,7 +62,10 @@ app.directive('mafiaMembersResult', function(actionResultsService) {
                     if (index < 0)
                         return;
 
-                    scope.actionResults.splice(index, 1);
+                    $timeout(function() {
+                        scope.actionResults.splice(index, 1);
+                    });
+
                 });
             };
 
@@ -90,14 +93,18 @@ app.directive('mafiaMembersResult', function(actionResultsService) {
                         return someActionResult.id == scope.actionResult.id;
                     });
 
-                    if (index < 0) {
-                        index = 0;
-                        scope.actionResults.splice(0, 0, createdActionResult);
-                    } else {
-                        scope.actionResults.splice(index, 1, createdActionResult);
-                    }
-                    if (scope.isNew)
-                        scope.hide();
+                    $timeout(function() {
+                        if (index < 0) {
+                            index = 0;
+                            scope.actionResults.splice(0, 0, createdActionResult);
+                        } else {
+                            scope.actionResults.splice(index, 1, createdActionResult);
+                        }
+                        if (scope.isNew)
+                            scope.hide();
+                    });
+
+
                 });
             };
 

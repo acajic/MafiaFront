@@ -1,4 +1,4 @@
-app.directive('investigateResult', function(actionResultsService) {
+app.directive('investigateResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -78,8 +78,11 @@ app.directive('investigateResult', function(actionResultsService) {
                     if (index < 0)
                         return;
 
-                    scope.actionResults.splice(index, 1);
-                    scope.editMode = false;
+                    $timeout(function() {
+                        scope.actionResults.splice(index, 1);
+                        scope.editMode = false;
+                    });
+
                 });
             };
 
@@ -107,11 +110,14 @@ app.directive('investigateResult', function(actionResultsService) {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
 
-                    if (scope.isNew)
-                        scope.hide();
-                    else {
-                        scope.editMode = false;
-                    }
+                    $timeout(function() {
+                        if (scope.isNew)
+                            scope.hide();
+                        else {
+                            scope.editMode = false;
+                        }
+                    });
+
                 });
             };
 
