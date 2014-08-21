@@ -1,4 +1,4 @@
-app.directive('protectResult', function(actionResultsService) {
+app.directive('protectResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -76,7 +76,9 @@ app.directive('protectResult', function(actionResultsService) {
                     if (index < 0)
                         return;
 
-                    scope.actionResults.splice(index, 1);
+                    $timeout(function() {
+                        scope.actionResults.splice(index, 1);
+                    });
                 });
             };
 
@@ -104,10 +106,13 @@ app.directive('protectResult', function(actionResultsService) {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
 
-                    if (scope.isNew)
-                        scope.hide();
-                    else
-                        scope.editMode = false;
+                    $timeout(function() {
+                        if (scope.isNew)
+                            scope.hide();
+                        else
+                            scope.editMode = false;
+                    });
+
 
                 });
             };
