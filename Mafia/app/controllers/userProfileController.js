@@ -1,4 +1,4 @@
-app.controller('UserProfileController', function ($scope, $location, $modal, usersService, authService, layoutService) {
+app.controller('UserProfileController', function ($scope, $location, $modal, $timeout, usersService, authService, layoutService) {
     "use strict";
 
     var user = {
@@ -17,12 +17,8 @@ app.controller('UserProfileController', function ($scope, $location, $modal, use
         if (user.username.length == 0) {
             $scope.infos.push({type: 'danger', msg: 'Username must not be empty.'});
         }
-        if (!user.current_password || user.current_password.length == 0) {
-            $scope.infos.push({type: 'danger', msg: 'Current password must not be empty.'});
-            return;
-        }
         if (!user.new_password || user.new_password.length == 0) {
-            $scope.infos.push({type: 'danger', msg: 'Current password must not be empty.'});
+            $scope.infos.push({type: 'danger', msg: 'New password must not be empty.'});
             return;
         }
         if (user.repeat_new_password != user.new_password) {
@@ -30,18 +26,62 @@ app.controller('UserProfileController', function ($scope, $location, $modal, use
             return;
         }
 
-        var updateUserPromise = usersService.updateUser(user);
-        $scope.isLoading = true;
-        updateUserPromise.then(function() {
-            $scope.infos.push({type : 'success', msg: 'Successfully updated user ' + $scope.user.username + '.'});
-            $scope.isLoading = false;
-        }, function(reason) {
-            $scope.isLoading = false;
-            for (var key in reason.httpObj.responseJSON) {
-                if (reason.httpObj.responseJSON.hasOwnProperty(key))
-                    $scope.infos.push({type : 'danger', msg: key + " " + reason.httpObj.responseJSON[key] });
+        openSaveModal();
+
+
+
+
+    };
+
+
+    function openSaveModal() {
+
+        var modalInstance = $modal.open({
+            templateUrl: 'saveModalContent.html',
+            controller: SaveUserModalInstanceCtrl,
+            resolve: {
             }
         });
+
+        modalInstance.result.then(function (password) {
+            if (!password || password.length == 0) {
+                $scope.infos.push({type: 'danger', msg: 'Current password must not be empty.'});
+                return;
+            }
+
+            var user = $scope.user;
+            user['password'] = password;
+            var updateUserPromise = usersService.updateUser(user);
+            $scope.isLoading = true;
+            updateUserPromise.then(function() {
+                $timeout(function() {
+                    $scope.infos.push({type : 'success', msg: 'Successfully updated user ' + $scope.user.username + '.'});
+                    $scope.isLoading = false;
+                });
+
+            }, function(reason) {
+                $timeout(function() {
+                    $scope.isLoading = false;
+                    $scope.infos.push({type : 'danger', msg: reason.httpObj.responseText });
+                });
+            });
+
+        }, function () {
+        });
+    }
+
+    var SaveUserModalInstanceCtrl = function ($scope, $modalInstance) {
+        $scope.credentials = {
+            password : ""
+        };
+
+        $scope.ok = function () {
+            $modalInstance.close($scope.credentials.password);
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
     };
 
     $scope.closeInfoAlert = function(index) {
