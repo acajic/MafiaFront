@@ -184,6 +184,8 @@
             <button ng-if="showEnterButtonForCity(selectedCity)" ng-click="enterCity(selectedCity)" class="btn btn-success"><i class="glyphicon glyphicon-briefcase"></i>Enter</button>
             <button ng-if="showJoinButtonForCity(selectedCity)" ng-click="joinCity(selectedCity)" class="btn btn-success"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
             <button ng-if="showLeaveButtonForCity(selectedCity)" ng-click="leaveCity(selectedCity)" class="btn btn-danger"><i class="glyphicon glyphicon-road"></i>Leave</button>
+
+            <loader ng-if="isPerformingCityOperation" size="small"></loader>
         </div>
     </div>
 

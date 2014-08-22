@@ -20,14 +20,20 @@
 
         <tr>
             <td>Email Confirmed</td>
-            <td style="text-align: center"><img-bool boolean-value="inspectedUser.email_confirmed"></img-bool></td>
+            <td style="text-align: center">
+                <img-bool boolean-value="inspectedUser.email_confirmed" ng-hide="canAlterEmailConfirmed"></img-bool>
+                <input type="checkbox" ng-model="inspectedUser.email_confirmed" ng-if="canAlterEmailConfirmed">
+            </td>
             <td><button class="btn btn-primary" ng-click="resendConfirmationEmail()">Resend Confirmation Email</button></td>
             <td><loader size="small" ng-if="isSendingConfirmationEmail"></loader> </td>
         </tr>
 
         <tr>
             <td>Confirmation Code Used</td>
-            <td colspan="3" style="text-align: center"><img-bool boolean-value="inspectedUser.email_confirmation_code_exchanged"></img-bool></td>
+            <td colspan="3" style="text-align: center">
+                <img-bool boolean-value="inspectedUser.email_confirmation_code_exchanged" ng-hide="canAlterEmailConfirmed"></img-bool>
+                <input type="checkbox" ng-model="inspectedUser.email_confirmation_code_exchanged" ng-if="canAlterEmailConfirmed">
+            </td>
         </tr>
 
         <tr>

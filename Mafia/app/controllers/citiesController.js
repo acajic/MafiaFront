@@ -1,4 +1,4 @@
-app.controller('CitiesController',function ($scope, $routeParams, citiesService, authService, modalService, $location, layoutService) {
+app.controller('CitiesController',function ($scope, $routeParams, $timeout, citiesService, authService, modalService, $location, layoutService) {
     "use strict";
 
 
@@ -80,14 +80,17 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
     };
 
     $scope.editCity = function (city) {
+        $scope.isPerformingCityOperation = true;
         $location.path('/cities/' + city.id + '/update');
     };
 
     $scope.showCity = function(city) {
+        $scope.isPerformingCityOperation = true;
         $location.path('/cities/' + city.id + "/details");
     };
 
     $scope.enterCity = function(city) {
+        $scope.isPerformingCityOperation = true;
         $location.path('/cities/' + city.id);
     };
 
@@ -98,9 +101,15 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
     };
 
     $scope.joinCity = function(city) {
+        $scope.isPerformingCityOperation = true;
+
         var joinCityPromise = citiesService.joinCity(city.id);
         joinCityPromise.then(function(updatedCity) {
-            $scope.alerts.push({type: "success", msg: "Successfully joined '" + updatedCity.name + "'."});
+            $timeout(function() {
+                $scope.alerts.push({type: "success", msg: "Successfully joined '" + updatedCity.name + "'."});
+                $scope.isPerformingCityOperation = false;
+            });
+
             var city = $.grep($scope.cities, function(someCity) {
                 return someCity.id == updatedCity.id;
             });
@@ -108,14 +117,23 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
             refreshCity(city, updatedCity);
 
         }, function(reason) {
-            $scope.alerts.push({type: "danger", msg: "Failed to join '" + city.name + "'."});
+            $timeout(function() {
+                $scope.alerts.push({type: "danger", msg: "Failed to join '" + city.name + "'."});
+                $scope.isPerformingCityOperation = false;
+            });
+
         });
     };
 
     $scope.leaveCity = function(city) {
+        $scope.isPerformingCityOperation = true;
+
         var leaveCityPromise = citiesService.leaveCity(city.id);
         leaveCityPromise.then(function(updatedCity) {
-            $scope.alerts.push({type: "success", msg: "Successfully left '" + updatedCity.name + "'."});
+            $timeout(function() {
+                $scope.alerts.push({type: "success", msg: "Successfully left '" + updatedCity.name + "'."});
+                $scope.isPerformingCityOperation = false;
+            });
 
             var city = $.grep($scope.cities, function(someCity) {
                 return someCity.id == updatedCity.id;
@@ -123,7 +141,11 @@ app.controller('CitiesController',function ($scope, $routeParams, citiesService,
 
             refreshCity(city, updatedCity);
         }, function(reason) {
-            $scope.alerts.push({type: "danger", msg: "Failed to leave '" + city.name + "'."});
+            $timeout(function() {
+                $scope.alerts.push({type: "danger", msg: "Failed to leave '" + city.name + "'."});
+                $scope.isPerformingCityOperation = false;
+            });
+
         });
     };
 
