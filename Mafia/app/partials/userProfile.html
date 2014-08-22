@@ -13,10 +13,6 @@
             <td><input type="text" ng-model="user.email"></td>
         </tr>
         <tr>
-            <td>Current Password</td>
-            <td><input type="password" ng-model="user.current_password"></td>
-        </tr>
-        <tr>
             <td>New Password</td>
             <td><input type="password" ng-model="user.new_password"></td>
         </tr>
@@ -36,6 +32,20 @@
 <div ng-show="isLoading">
     <loader size="large"></loader>
 </div>
+
+<script type="text/ng-template" id="saveModalContent.html">
+    <div class="modal-header">
+        <div>
+            <h3 style="display: inline">Update user?</h3>
+        </div>
+    </div>
+    <div class="modal-body">
+        Enter password: <input type="password" ng-model="credentials.password">
+    </div>
+
+    <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+    <button ng-click="ok()" class="btn btn-danger">Confirm</button>
+</script>
 
 <script type="text/ng-template" id="deleteModalContent.html">
     <div class="modal-header">

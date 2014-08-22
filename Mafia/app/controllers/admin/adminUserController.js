@@ -42,8 +42,8 @@ app.controller('AdminUserController',function ($scope, $routeParams, $location, 
             return;
         }
 
-        $scope.roleEditable = inspectedUser.app_role.id != APP_ROLE_SUPER_ADMIN && userMe.app_role.id == APP_ROLE_SUPER_ADMIN;
-
+        $scope.roleEditable = inspectedUser.app_role.id != APP_ROLE_SUPER_ADMIN && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE];
+        $scope.canAlterEmailConfirmed = inspectedUser.app_role.id != APP_ROLE_SUPER_ADMIN && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE];
     }, true);
 
     $scope.saveUser = function() {
