@@ -78,7 +78,8 @@ app.directive('auth', function($routeParams, authService, $location, layoutServi
 
 
                     } else {
-                        scope.infos.push({type: 'danger', msg:'Server error'});
+                        // do nothing
+                        // no users stored in cookies, no username&password
                     }
                 });
             }
