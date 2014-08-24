@@ -28,7 +28,7 @@
         <button ng-if="showDeleteButton(city)" ng-click="deleteCity()" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Delete</button>
 
         <button ng-if="showPauseButton(city)" ng-click="pause()" class="btn btn-warning"><i class="glyphicon glyphicon-pause"></i>Pause</button>
-        <button ng-if="showResumeButton(city)" ng-click="resume()" class="btn btn-success"><i class="glyphicon glyphicon-play"></i>Resume</button>
+        <button ng-if="showResumeButton(city)" ng-click="resume()" class="btn btn-success" ng-disabled="!isCityModified(city)"><i class="glyphicon glyphicon-play"></i>Resume</button>
     </div>
 
     <tabset>
