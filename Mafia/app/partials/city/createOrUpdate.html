@@ -212,7 +212,7 @@
                             </div>
                         </td>
                         <td class="col-sm-1">
-                            <button class="btn btn-default" ng-if="city.day_cycles.length > 1 && !city.started_at" ng-click="removeDayCycle(index)"><i class="glyphicon glyphicon-minus"></i></button>
+                            <button class="btn btn-default" ng-if="city.day_cycles.length > 1" ng-click="removeDayCycle(index)"><i class="glyphicon glyphicon-minus"></i></button>
                         </td>
                     </tr>
                     <tr ng-if="!showAddDayCycle && (!city.started_at || city.paused)">
