@@ -28,7 +28,7 @@
         <button ng-if="showDeleteButton(city)" ng-click="deleteCity()" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Delete</button>
 
         <button ng-if="showPauseButton(city)" ng-click="pause()" class="btn btn-warning"><i class="glyphicon glyphicon-pause"></i>Pause</button>
-        <button ng-if="showResumeButton(city)" ng-click="resume()" class="btn btn-success"><i class="glyphicon glyphicon-play"></i>Resume</button>
+        <button ng-if="showResumeButton(city)" ng-click="resume()" class="btn btn-success" ng-disabled="!isCityModified(city)"><i class="glyphicon glyphicon-play"></i>Resume</button>
     </div>
 
     <tabset>
@@ -212,7 +212,7 @@
                             </div>
                         </td>
                         <td class="col-sm-1">
-                            <button class="btn btn-default" ng-if="city.day_cycles.length > 1 && !city.started_at" ng-click="removeDayCycle(index)"><i class="glyphicon glyphicon-minus"></i></button>
+                            <button class="btn btn-default" ng-if="city.day_cycles.length > 1" ng-click="removeDayCycle(index)"><i class="glyphicon glyphicon-minus"></i></button>
                         </td>
                     </tr>
                     <tr ng-if="!showAddDayCycle && (!city.started_at || city.paused)">

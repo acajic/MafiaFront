@@ -63,6 +63,7 @@
             <td>Role</td>
             <td>Saved Role</td>
             <td>Role Seen</td>
+            <td>Alive</td>
             <td>Died At (UTC)</td>
             <td>Updated At (UTC)</td>
         </tr>
@@ -76,16 +77,17 @@
             <td>{{ resident.role.name }}</td>
             <td>{{ allRolesByIds[resident.saved_role_id].name }}</td>
             <td style="text-align: center;"><img-bool boolean-value="resident.role_seen"></img-bool></td>
+            <td style="text-align: center;"><img-bool boolean-value="resident.alive"></img-bool></td>
             <td>{{ resident.died_at}}</td>
             <td>{{ resident.updated_at}}</td>
         </tr>
         <tr ng-if="isLoadingContent">
-            <td colspan="9" style="text-align: center">
+            <td colspan="10" style="text-align: center">
                 <loader size='small'></loader>
             </td>
         </tr>
         <tr ng-hide="isLoadingContent">
-            <td colspan="9">
+            <td colspan="10">
                 <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
             </td>
         </tr>
