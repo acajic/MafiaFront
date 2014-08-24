@@ -18,8 +18,7 @@ app.directive('actionTypeParamsResult', function(actionResultsService) {
             scope.actionTypeParams = {};
             scope.editMode = false;
 
-            scope.$watch('[actionResult]', function(values) {
-                var actionResult = values[0];
+            scope.$watch('actionResult', function(actionResult) {
                 if (!actionResult)
                     return;
 

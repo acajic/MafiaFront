@@ -1,4 +1,7 @@
-<div>
+<action-type-params-result city="city" resident="resident" action-result="actionTypeParamsResult" action-results="actionResults" action-type-id="actionTypeIds.ACTION_TYPE_ID_PROTECT" role-id="roleId"></action-type-params-result>
+
+
+<div ng-if="actionTypeParamsDictionary.number_of_actions_available != 0">
 
     <div id="info-box">
         <alert ng-repeat="alert in infos" type="alert.type" close="closeInfoAlert($index)">{{alert.msg}}</alert>

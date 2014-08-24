@@ -6,6 +6,13 @@ app.directive('investigate', function($timeout, actionsService) {
         link: function(scope, element, attrs) {
             "use strict";
 
+            scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
+                if (!actionTypeParamsResult)
+                    return;
+
+                scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_INVESTIGATE.toString()];
+            });
+
 
             scope.investigateOnSelect = function(selectedResident) {
                 if (!selectedResident)
