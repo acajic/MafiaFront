@@ -12,27 +12,13 @@ app.directive('silentSheriffIdentities', function($timeout, actionsService, acti
                 scope.actionResultTypes = actionResultTypesByIdsResult;
             });
 
-            scope.actionTypeParamsResult = {};
 
-            scope.$watch('actionResults', function(actionResults) {
-                if (!actionResults)
+            scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
+                if (!actionTypeParamsResult)
                     return;
 
-                // var actionResults = values[0];
-                var actionTypeParamsResultIndex = actionResults.indexOfMatchFunction(function (someActionResult) {
-                    return someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS;
-                });
-                if (actionTypeParamsResultIndex < 0) {
-                    return;
-                }
-
-                // var actionTypeParamsResult = actionResults[actionTypeParamsResultIndex].result.action_types_params;
-                scope.actionTypeParamsResult = actionResults[actionTypeParamsResultIndex];
-
-                scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES.toString()];
-
-
-            }, true);
+                scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES.toString()];
+            });
 
 
             scope.revealIdentities = function() {

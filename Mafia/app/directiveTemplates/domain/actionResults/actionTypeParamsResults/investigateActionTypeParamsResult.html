@@ -1,0 +1,15 @@
+<div ng-if="!editMode">
+    <div ng-if="actionTypeParams.number_of_actions_available == 0">
+        No more actions of this type avaialable.
+    </div>
+    <div ng-if="actionTypeParams.number_of_actions_available > 0">
+        {{ actionTypeParams.number_of_actions_available }} action{{ actionTypeParams.number_of_actions_available == 1 ? '' : 's' }} available.
+    </div>
+    <div ng-if="actionTypeParams.number_of_actions_available < 0">
+        Unlimited.
+    </div>
+</div>
+<div ng-if="editMode">
+    Number of actions available: <input type="number" ng-model="actionTypeParams.number_of_actions_available" ng-change="validateInput()" ng-hide="isInfinite">
+    <input type="checkbox" ng-model="isInfinite" ng-change="isInfiniteChanged()"> Infinite?
+</div>

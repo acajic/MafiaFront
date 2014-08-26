@@ -40,6 +40,24 @@ app.directive('specialActions', function(actionsService) {
 
             scope.actionTypeIds = actionsService.actionTypeIds;
 
+
+
+            scope.$watch('actionResults', function(actionResults) {
+                if (!actionResults)
+                    return;
+
+                // var actionResults = values[0];
+                var actionTypeParamsResultIndex = actionResults.indexOfMatchFunction(function (someActionResult) {
+                    return someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS;
+                });
+                if (actionTypeParamsResultIndex < 0) {
+                    return;
+                }
+
+                scope.actionTypeParamsResult = actionResults[actionTypeParamsResultIndex];
+
+            }, true);
+
         }
     };
 });
