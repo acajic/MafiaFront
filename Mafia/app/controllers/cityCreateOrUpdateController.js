@@ -214,6 +214,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
             initDayCycles(cityUpdated);
             $scope.city = cityUpdated;
+            originalCity = cityUpdated;
 
 
         }, function(reason) {
@@ -249,6 +250,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
             initDayCycles(cityUpdated);
             $scope.city = cityUpdated;
+            originalCity = cityUpdated;
         }, function(reason) {
             $timeout(function() {
                 $scope.disableCityControls = false;
