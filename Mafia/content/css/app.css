@@ -125,6 +125,10 @@ td {
     margin-top: 100px;
 }
 
+#role {
+    min-height: 300px;
+}
+
 /* END disqus */
 
 /* BEGIN */
