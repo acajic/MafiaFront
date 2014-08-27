@@ -119,6 +119,14 @@ td {
 
 /* END even/odd rows */
 
+/* BEGIN tabs */
+
+#disqus_thread {
+    margin-top: 100px;
+}
+
+/* END tabs */
+
 
 /* BEGIN */
 
