@@ -1,9 +1,11 @@
-app.controller('CitiesController',function ($scope, $routeParams, $timeout, citiesService, authService, modalService, $location, layoutService) {
+app.controller('CitiesController',function ($scope, $routeParams, $timeout, $location, citiesService, authService, modalService, layoutService) {
     "use strict";
 
 
     var pageIndexAllCities = 0;
     var pageSizeAllCities = 10;
+
+    $scope.url = $location.absUrl();
 
     $scope.reloadAllCities = function(refresh) {
 

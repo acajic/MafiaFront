@@ -119,14 +119,13 @@ td {
 
 /* END even/odd rows */
 
-/* BEGIN tabs */
+/* BEGIN disqus */
 
 #disqus_thread {
     margin-top: 100px;
 }
 
-/* END tabs */
-
+/* END disqus */
 
 /* BEGIN */
 
