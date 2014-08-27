@@ -7,7 +7,6 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, c
     $scope.nextMoment = {};
 
 
-
     function initCity(cityId) {
         var tabActive = getCookie(kCitySelectedTabIndexCookieKey);
         if (!tabActive) {
