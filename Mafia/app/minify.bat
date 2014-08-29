@@ -1,5 +1,5 @@
 @ECHO OFF
-set FILENAME=mafia_minified.js
+set FILENAME=mafia.js
 copy NUL %FILENAME%
 for /R . %%f in (*.js) do (
   echo. >> %FILENAME%

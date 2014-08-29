@@ -93,11 +93,11 @@
                 city_id: {{ actionResult.city_id }}; <br/>
                 city_name: {{ actionResult.city_name }}
             </td>
-            <td ng-if="action.day.id">
+            <td ng-if="action.day_id">
                 day_id: {{ actionResult.day_id }}; <br/>
                 day_number: {{ actionResult.day_number }}
             </td>
-            <td ng-if="!action.day.id"></td>
+            <td ng-hide="action.day_id"></td>
             <td>resident_id: {{ actionResult.resident_id }}; <br/>
                 resident_username: {{ actionResult.resident_username }};
             </td>
