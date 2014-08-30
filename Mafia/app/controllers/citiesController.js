@@ -86,22 +86,29 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
             $scope.isPerformingCityOperation = true;
         });
 
+
         $location.path('/cities/' + city.id + '/update');
+
+
     };
 
     $scope.showCity = function(city) {
         $timeout(function() {
             $scope.isPerformingCityOperation = true;
         });
+
         $location.path('/cities/' + city.id + "/details");
+
     };
 
     $scope.enterCity = function(city) {
+
         $timeout(function() {
             $scope.isPerformingCityOperation = true;
         });
 
         $location.path('/cities/' + city.id);
+
     };
 
     $scope.alerts = [];

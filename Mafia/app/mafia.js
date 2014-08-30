@@ -501,22 +501,29 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
             $scope.isPerformingCityOperation = true;
         });
 
+
         $location.path('/cities/' + city.id + '/update');
+
+
     };
 
     $scope.showCity = function(city) {
         $timeout(function() {
             $scope.isPerformingCityOperation = true;
         });
+
         $location.path('/cities/' + city.id + "/details");
+
     };
 
     $scope.enterCity = function(city) {
+
         $timeout(function() {
             $scope.isPerformingCityOperation = true;
         });
 
         $location.path('/cities/' + city.id);
+
     };
 
     $scope.alerts = [];
@@ -8083,7 +8090,8 @@ app.factory('actionResultsService', function($q, serverService) {
                     someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_VOTE_MAFIA ||
                     someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_TERRORIST_BOMB ||
                     (someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SHERIFF_IDENTITIES && shouldShowSheriffIdentitiesResult(someActionResult)) ||
-                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SHERIFF
+                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SHERIFF ||
+                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF
                 );
         });
     };
