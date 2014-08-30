@@ -12,7 +12,7 @@ app.directive('initialAppRolesList', function($q, $location, appRolesService) {
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 10;
+            var pageSize = 50;
 
 
             scope.initialAppRoles = [];
@@ -38,7 +38,12 @@ app.directive('initialAppRolesList', function($q, $location, appRolesService) {
                     scope.initialAppRoles = [];
 
                     if (scope.queryable) {
-                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        var queryModelForStorage = angular.copy(scope.queryModel);
+                        queryModelForStorage['createdAtMin'] = queryModelForStorage['createdAtMin'] ? queryModelForStorage['createdAtMin'].getTime() : null;
+                        queryModelForStorage['createdAtMax'] = queryModelForStorage['createdAtMax'] ? queryModelForStorage['createdAtMax'].getTime() : null;
+                        queryModelForStorage['updatedAtMin'] = queryModelForStorage['updatedAtMin'] ? queryModelForStorage['updatedAtMin'].getTime() : null;
+                        queryModelForStorage['updatedAtMax'] = queryModelForStorage['updatedAtMax'] ? queryModelForStorage['updatedAtMax'].getTime() : null;
+                        var queryModelJson = JSON.stringify(queryModelForStorage);
                         if (queryModelJson.length < 4000) {
                             var expirationDate = new Date();
                             expirationDate.setDate(expirationDate.getDate() + 7);

@@ -497,17 +497,25 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
     };
 
     $scope.editCity = function (city) {
-        $scope.isPerformingCityOperation = true;
+        $timeout(function() {
+            $scope.isPerformingCityOperation = true;
+        });
+
         $location.path('/cities/' + city.id + '/update');
     };
 
     $scope.showCity = function(city) {
-        $scope.isPerformingCityOperation = true;
+        $timeout(function() {
+            $scope.isPerformingCityOperation = true;
+        });
         $location.path('/cities/' + city.id + "/details");
     };
 
     $scope.enterCity = function(city) {
-        $scope.isPerformingCityOperation = true;
+        $timeout(function() {
+            $scope.isPerformingCityOperation = true;
+        });
+
         $location.path('/cities/' + city.id);
     };
 
@@ -518,7 +526,10 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
     };
 
     $scope.joinCity = function(city) {
-        $scope.isPerformingCityOperation = true;
+        $timeout(function() {
+            $scope.isPerformingCityOperation = true;
+        });
+
 
         var joinCityPromise = citiesService.joinCity(city.id);
         joinCityPromise.then(function(updatedCity) {
@@ -543,7 +554,10 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
     };
 
     $scope.leaveCity = function(city) {
-        $scope.isPerformingCityOperation = true;
+        $timeout(function() {
+            $scope.isPerformingCityOperation = true;
+        });
+
 
         var leaveCityPromise = citiesService.leaveCity(city.id);
         leaveCityPromise.then(function(updatedCity) {
@@ -2493,36 +2507,49 @@ app.controller('AdminController',function ($scope, $q, $location, usersService, 
         var usersQueryModelJson = getCookie(kAdminQueryModelUsers);
         if (usersQueryModelJson) {
             $scope.usersQueryModel = JSON.parse(usersQueryModelJson);
+            convertTimestampsToDates($scope.usersQueryModel);
         }
 
         var citiesQueryModelJson = getCookie(kAdminQueryModelCities);
         if (citiesQueryModelJson) {
             $scope.citiesQueryModel = JSON.parse(citiesQueryModelJson);
+            convertTimestampsToDates($scope.citiesQueryModel);
+            $scope.citiesQueryModel['startedAtMin'] = $scope.citiesQueryModel['startedAtMin'] ? new Date($scope.citiesQueryModel['startedAtMin']) : null;
+            $scope.citiesQueryModel['startedAtMax'] = $scope.citiesQueryModel['startedAtMax'] ? new Date($scope.citiesQueryModel['startedAtMax']) : null;
+            $scope.citiesQueryModel['lastPausedAtMin'] = $scope.citiesQueryModel['lastPausedAtMin'] ? new Date($scope.citiesQueryModel['lastPausedAtMin']) : null;
+            $scope.citiesQueryModel['lastPausedAtMax'] = $scope.citiesQueryModel['lastPausedAtMax'] ? new Date($scope.citiesQueryModel['lastPausedAtMax']) : null;
+            $scope.citiesQueryModel['finishedAtMin'] = $scope.citiesQueryModel['finishedAtMin'] ? new Date($scope.citiesQueryModel['finishedAtMin']) : null;
+            $scope.citiesQueryModel['finishedAtMax'] = $scope.citiesQueryModel['finishedAtMax'] ? new Date($scope.citiesQueryModel['finishedAtMax']) : null;
         }
 
         var residentsQueryModelJson = getCookie(kAdminQueryModelResidents);
         if (residentsQueryModelJson) {
             $scope.residentsQueryModel = JSON.parse(residentsQueryModelJson);
+            convertTimestampsToDates($scope.residentsQueryModel);
         }
 
         var actionsQueryModelJson = getCookie(kAdminQueryModelActions);
         if (actionsQueryModelJson) {
             $scope.actionsQueryModel = JSON.parse(actionsQueryModelJson);
+            convertTimestampsToDates($scope.actionsQueryModel);
         }
 
         var actionResultsQueryModelJson = getCookie(kAdminQueryModelActionResults);
         if (actionResultsQueryModelJson) {
             $scope.actionResultsQueryModel = JSON.parse(actionResultsQueryModelJson);
+            convertTimestampsToDates($scope.actionResultsQueryModel);
         }
 
         var daysQueryModelJson = getCookie(kAdminQueryModelDays);
         if (daysQueryModelJson) {
             $scope.daysQueryModel = JSON.parse(daysQueryModelJson);
+            convertTimestampsToDates($scope.daysQueryModel);
         }
 
         var initialAppRolesQueryModelJson = getCookie(kAdminQueryModelInitialAppRoles);
         if (initialAppRolesQueryModelJson) {
             $scope.initialAppRolesQueryModel = JSON.parse(initialAppRolesQueryModelJson);
+            convertTimestampsToDates($scope.initialAppRolesQueryModel);
         }
 
         $scope.closeAlert = function(index) {
@@ -2556,6 +2583,14 @@ app.controller('AdminController',function ($scope, $q, $location, usersService, 
     $scope.tabSelected = function() {
         layoutService.adminTabsActive = $scope.tabActive;
     };
+
+
+    function convertTimestampsToDates(queryModel) {
+        queryModel['createdAtMin'] = queryModel['createdAtMin'] ? new Date(queryModel['createdAtMin']) : null;
+        queryModel['createdAtMax'] = queryModel['createdAtMax'] ? new Date(queryModel['createdAtMax']) : null;
+        queryModel['updatedAtMin'] = queryModel['updatedAtMin'] ? new Date(queryModel['updatedAtMin']) : null;
+        queryModel['updatedAtMax'] = queryModel['updatedAtMax'] ? new Date(queryModel['updatedAtMax']) : null;
+    }
 
 }); 
  
@@ -6776,7 +6811,7 @@ app.directive('actionResultsList', function($q, actionResultsService, rolesServi
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 10;
+            var pageSize = 50;
 
 
             scope.actionResults = [];
@@ -6819,7 +6854,12 @@ app.directive('actionResultsList', function($q, actionResultsService, rolesServi
                     scope.actionResults = [];
 
                     if (scope.queryable) {
-                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        var queryModelForStorage = angular.copy(scope.queryModel);
+                        queryModelForStorage['createdAtMin'] = queryModelForStorage['createdAtMin'] ? queryModelForStorage['createdAtMin'].getTime() : null;
+                        queryModelForStorage['createdAtMax'] = queryModelForStorage['createdAtMax'] ? queryModelForStorage['createdAtMax'].getTime() : null;
+                        queryModelForStorage['updatedAtMin'] = queryModelForStorage['updatedAtMin'] ? queryModelForStorage['updatedAtMin'].getTime() : null;
+                        queryModelForStorage['updatedAtMax'] = queryModelForStorage['updatedAtMax'] ? queryModelForStorage['updatedAtMax'].getTime() : null;
+                        var queryModelJson = JSON.stringify(queryModelForStorage);
                         if (queryModelJson.length < 4000) {
                             var expirationDate = new Date();
                             expirationDate.setDate(expirationDate.getDate() + 7);
@@ -6899,7 +6939,7 @@ app.directive('actionsList', function($q, actionsService, rolesService) {
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 10;
+            var pageSize = 50;
 
 
             scope.actions = [];
@@ -6941,7 +6981,10 @@ app.directive('actionsList', function($q, actionsService, rolesService) {
                     pageIndex = 0;
                     scope.actions = [];
                     if (scope.queryable) {
-                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        var queryModelForStorage = angular.copy(scope.queryModel);
+                        queryModelForStorage['createdAtMin'] = queryModelForStorage['createdAtMin'] ? queryModelForStorage['createdAtMin'].getTime() : null;
+                        queryModelForStorage['createdAtMax'] = queryModelForStorage['createdAtMax'] ? queryModelForStorage['createdAtMax'].getTime() : null;
+                        var queryModelJson = JSON.stringify(queryModelForStorage);
                         if (queryModelJson.length < 4000) {
                             var expirationDate = new Date();
                             expirationDate.setDate(expirationDate.getDate() + 7);
@@ -7028,7 +7071,7 @@ app.directive('citiesList', function($location, citiesService, authService) {
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 10;
+            var pageSize = 20;
 
 
             scope.cities = [];
@@ -7063,7 +7106,18 @@ app.directive('citiesList', function($location, citiesService, authService) {
                     scope.cities = [];
 
                     if (scope.queryable) {
-                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        var queryModelForStorage = angular.copy(scope.queryModel);
+                        queryModelForStorage['createdAtMin'] = queryModelForStorage['createdAtMin'] ? queryModelForStorage['createdAtMin'].getTime() : null;
+                        queryModelForStorage['createdAtMax'] = queryModelForStorage['createdAtMax'] ? queryModelForStorage['createdAtMax'].getTime() : null;
+                        queryModelForStorage['updatedAtMin'] = queryModelForStorage['updatedAtMin'] ? queryModelForStorage['updatedAtMin'].getTime() : null;
+                        queryModelForStorage['updatedAtMax'] = queryModelForStorage['updatedAtMax'] ? queryModelForStorage['updatedAtMax'].getTime() : null;
+                        queryModelForStorage['startedAtMin'] = queryModelForStorage['startedAtMin'] ? queryModelForStorage['startedAtMin'].getTime() : null;
+                        queryModelForStorage['startedAtMax'] = queryModelForStorage['startedAtMax'] ? queryModelForStorage['startedAtMax'].getTime() : null;
+                        queryModelForStorage['lastPausedAtMin'] = queryModelForStorage['lastPausedAtMin'] ? queryModelForStorage['lastPausedAtMin'].getTime() : null;
+                        queryModelForStorage['lastPausedAtMax'] = queryModelForStorage['lastPausedAtMax'] ? queryModelForStorage['lastPausedAtMax'].getTime() : null;
+                        queryModelForStorage['finishedAtMin'] = queryModelForStorage['finishedAtMin'] ? queryModelForStorage['finishedAtMin'].getTime() : null;
+                        queryModelForStorage['finishedAtMax'] = queryModelForStorage['finishedAtMax'] ? queryModelForStorage['finishedAtMax'].getTime() : null;
+                        var queryModelJson = JSON.stringify(queryModelForStorage);
                         if (queryModelJson.length < 4000) {
                             var expirationDate = new Date();
                             expirationDate.setDate(expirationDate.getDate() + 7);
@@ -7124,7 +7178,7 @@ app.directive('daysList', function(daysService) {
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 10;
+            var pageSize = 50;
 
 
             scope.days = [];
@@ -7142,7 +7196,10 @@ app.directive('daysList', function(daysService) {
                     scope.days = [];
 
                     if (scope.queryable) {
-                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        var queryModelForStorage = angular.copy(scope.queryModel);
+                        queryModelForStorage['createdAtMin'] = queryModelForStorage['createdAtMin'] ? queryModelForStorage['createdAtMin'].getTime() : null;
+                        queryModelForStorage['createdAtMax'] = queryModelForStorage['createdAtMax'] ? queryModelForStorage['createdAtMax'].getTime() : null;
+                        var queryModelJson = JSON.stringify(queryModelForStorage);
                         if (queryModelJson.length < 4000) {
                             var expirationDate = new Date();
                             expirationDate.setDate(expirationDate.getDate() + 7);
@@ -7194,7 +7251,7 @@ app.directive('initialAppRolesList', function($q, $location, appRolesService) {
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 10;
+            var pageSize = 50;
 
 
             scope.initialAppRoles = [];
@@ -7220,7 +7277,12 @@ app.directive('initialAppRolesList', function($q, $location, appRolesService) {
                     scope.initialAppRoles = [];
 
                     if (scope.queryable) {
-                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        var queryModelForStorage = angular.copy(scope.queryModel);
+                        queryModelForStorage['createdAtMin'] = queryModelForStorage['createdAtMin'] ? queryModelForStorage['createdAtMin'].getTime() : null;
+                        queryModelForStorage['createdAtMax'] = queryModelForStorage['createdAtMax'] ? queryModelForStorage['createdAtMax'].getTime() : null;
+                        queryModelForStorage['updatedAtMin'] = queryModelForStorage['updatedAtMin'] ? queryModelForStorage['updatedAtMin'].getTime() : null;
+                        queryModelForStorage['updatedAtMax'] = queryModelForStorage['updatedAtMax'] ? queryModelForStorage['updatedAtMax'].getTime() : null;
+                        var queryModelJson = JSON.stringify(queryModelForStorage);
                         if (queryModelJson.length < 4000) {
                             var expirationDate = new Date();
                             expirationDate.setDate(expirationDate.getDate() + 7);
@@ -7290,7 +7352,7 @@ app.directive('residentsList', function($q, residentsService, rolesService) {
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 10;
+            var pageSize = 50;
 
 
             scope.residents = [];
@@ -7332,7 +7394,10 @@ app.directive('residentsList', function($q, residentsService, rolesService) {
                     scope.residents = [];
 
                     if (scope.queryable) {
-                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        var queryModelForStorage = angular.copy(scope.queryModel);
+                        queryModelForStorage['updatedAtMin'] = queryModelForStorage['updatedAtMin'] ? queryModelForStorage['updatedAtMin'].getTime() : null;
+                        queryModelForStorage['updatedAtMax'] = queryModelForStorage['updatedAtMax'] ? queryModelForStorage['updatedAtMax'].getTime() : null;
+                        var queryModelJson = JSON.stringify(queryModelForStorage);
                         if (queryModelJson.length < 4000) {
                             var expirationDate = new Date();
                             expirationDate.setDate(expirationDate.getDate() + 7);
@@ -7406,7 +7471,7 @@ app.directive('usersList', function($q, $location, usersService, appRolesService
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 10;
+            var pageSize = 50;
 
 
 
@@ -7442,7 +7507,12 @@ app.directive('usersList', function($q, $location, usersService, appRolesService
                     scope.users = [];
 
                     if (scope.queryable) {
-                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        var queryModelForStorage = angular.copy(scope.queryModel);
+                        queryModelForStorage['createdAtMin'] = queryModelForStorage['createdAtMin'] ? queryModelForStorage['createdAtMin'].getTime() : null;
+                        queryModelForStorage['createdAtMax'] = queryModelForStorage['createdAtMax'] ? queryModelForStorage['createdAtMax'].getTime() : null;
+                        queryModelForStorage['updatedAtMin'] = queryModelForStorage['updatedAtMin'] ? queryModelForStorage['updatedAtMin'].getTime() : null;
+                        queryModelForStorage['updatedAtMax'] = queryModelForStorage['updatedAtMax'] ? queryModelForStorage['updatedAtMax'].getTime() : null;
+                        var queryModelJson = JSON.stringify(queryModelForStorage);
                         if (queryModelJson.length < 4000) {
                             var expirationDate = new Date();
                             expirationDate.setDate(expirationDate.getDate() + 7);
