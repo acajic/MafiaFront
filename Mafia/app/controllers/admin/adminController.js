@@ -28,36 +28,49 @@ app.controller('AdminController',function ($scope, $q, $location, usersService, 
         var usersQueryModelJson = getCookie(kAdminQueryModelUsers);
         if (usersQueryModelJson) {
             $scope.usersQueryModel = JSON.parse(usersQueryModelJson);
+            convertTimestampsToDates($scope.usersQueryModel);
         }
 
         var citiesQueryModelJson = getCookie(kAdminQueryModelCities);
         if (citiesQueryModelJson) {
             $scope.citiesQueryModel = JSON.parse(citiesQueryModelJson);
+            convertTimestampsToDates($scope.citiesQueryModel);
+            $scope.citiesQueryModel['startedAtMin'] = $scope.citiesQueryModel['startedAtMin'] ? new Date($scope.citiesQueryModel['startedAtMin']) : null;
+            $scope.citiesQueryModel['startedAtMax'] = $scope.citiesQueryModel['startedAtMax'] ? new Date($scope.citiesQueryModel['startedAtMax']) : null;
+            $scope.citiesQueryModel['lastPausedAtMin'] = $scope.citiesQueryModel['lastPausedAtMin'] ? new Date($scope.citiesQueryModel['lastPausedAtMin']) : null;
+            $scope.citiesQueryModel['lastPausedAtMax'] = $scope.citiesQueryModel['lastPausedAtMax'] ? new Date($scope.citiesQueryModel['lastPausedAtMax']) : null;
+            $scope.citiesQueryModel['finishedAtMin'] = $scope.citiesQueryModel['finishedAtMin'] ? new Date($scope.citiesQueryModel['finishedAtMin']) : null;
+            $scope.citiesQueryModel['finishedAtMax'] = $scope.citiesQueryModel['finishedAtMax'] ? new Date($scope.citiesQueryModel['finishedAtMax']) : null;
         }
 
         var residentsQueryModelJson = getCookie(kAdminQueryModelResidents);
         if (residentsQueryModelJson) {
             $scope.residentsQueryModel = JSON.parse(residentsQueryModelJson);
+            convertTimestampsToDates($scope.residentsQueryModel);
         }
 
         var actionsQueryModelJson = getCookie(kAdminQueryModelActions);
         if (actionsQueryModelJson) {
             $scope.actionsQueryModel = JSON.parse(actionsQueryModelJson);
+            convertTimestampsToDates($scope.actionsQueryModel);
         }
 
         var actionResultsQueryModelJson = getCookie(kAdminQueryModelActionResults);
         if (actionResultsQueryModelJson) {
             $scope.actionResultsQueryModel = JSON.parse(actionResultsQueryModelJson);
+            convertTimestampsToDates($scope.actionResultsQueryModel);
         }
 
         var daysQueryModelJson = getCookie(kAdminQueryModelDays);
         if (daysQueryModelJson) {
             $scope.daysQueryModel = JSON.parse(daysQueryModelJson);
+            convertTimestampsToDates($scope.daysQueryModel);
         }
 
         var initialAppRolesQueryModelJson = getCookie(kAdminQueryModelInitialAppRoles);
         if (initialAppRolesQueryModelJson) {
             $scope.initialAppRolesQueryModel = JSON.parse(initialAppRolesQueryModelJson);
+            convertTimestampsToDates($scope.initialAppRolesQueryModel);
         }
 
         $scope.closeAlert = function(index) {
@@ -91,5 +104,13 @@ app.controller('AdminController',function ($scope, $q, $location, usersService, 
     $scope.tabSelected = function() {
         layoutService.adminTabsActive = $scope.tabActive;
     };
+
+
+    function convertTimestampsToDates(queryModel) {
+        queryModel['createdAtMin'] = queryModel['createdAtMin'] ? new Date(queryModel['createdAtMin']) : null;
+        queryModel['createdAtMax'] = queryModel['createdAtMax'] ? new Date(queryModel['createdAtMax']) : null;
+        queryModel['updatedAtMin'] = queryModel['updatedAtMin'] ? new Date(queryModel['updatedAtMin']) : null;
+        queryModel['updatedAtMax'] = queryModel['updatedAtMax'] ? new Date(queryModel['updatedAtMax']) : null;
+    }
 
 });

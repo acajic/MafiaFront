@@ -11,7 +11,7 @@ app.directive('citiesList', function($location, citiesService, authService) {
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 10;
+            var pageSize = 20;
 
 
             scope.cities = [];
@@ -46,7 +46,18 @@ app.directive('citiesList', function($location, citiesService, authService) {
                     scope.cities = [];
 
                     if (scope.queryable) {
-                        var queryModelJson = JSON.stringify(scope.queryModel);
+                        var queryModelForStorage = angular.copy(scope.queryModel);
+                        queryModelForStorage['createdAtMin'] = queryModelForStorage['createdAtMin'] ? queryModelForStorage['createdAtMin'].getTime() : null;
+                        queryModelForStorage['createdAtMax'] = queryModelForStorage['createdAtMax'] ? queryModelForStorage['createdAtMax'].getTime() : null;
+                        queryModelForStorage['updatedAtMin'] = queryModelForStorage['updatedAtMin'] ? queryModelForStorage['updatedAtMin'].getTime() : null;
+                        queryModelForStorage['updatedAtMax'] = queryModelForStorage['updatedAtMax'] ? queryModelForStorage['updatedAtMax'].getTime() : null;
+                        queryModelForStorage['startedAtMin'] = queryModelForStorage['startedAtMin'] ? queryModelForStorage['startedAtMin'].getTime() : null;
+                        queryModelForStorage['startedAtMax'] = queryModelForStorage['startedAtMax'] ? queryModelForStorage['startedAtMax'].getTime() : null;
+                        queryModelForStorage['lastPausedAtMin'] = queryModelForStorage['lastPausedAtMin'] ? queryModelForStorage['lastPausedAtMin'].getTime() : null;
+                        queryModelForStorage['lastPausedAtMax'] = queryModelForStorage['lastPausedAtMax'] ? queryModelForStorage['lastPausedAtMax'].getTime() : null;
+                        queryModelForStorage['finishedAtMin'] = queryModelForStorage['finishedAtMin'] ? queryModelForStorage['finishedAtMin'].getTime() : null;
+                        queryModelForStorage['finishedAtMax'] = queryModelForStorage['finishedAtMax'] ? queryModelForStorage['finishedAtMax'].getTime() : null;
+                        var queryModelJson = JSON.stringify(queryModelForStorage);
                         if (queryModelJson.length < 4000) {
                             var expirationDate = new Date();
                             expirationDate.setDate(expirationDate.getDate() + 7);

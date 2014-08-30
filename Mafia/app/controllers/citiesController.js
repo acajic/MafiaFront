@@ -82,17 +82,25 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
     };
 
     $scope.editCity = function (city) {
-        $scope.isPerformingCityOperation = true;
+        $timeout(function() {
+            $scope.isPerformingCityOperation = true;
+        });
+
         $location.path('/cities/' + city.id + '/update');
     };
 
     $scope.showCity = function(city) {
-        $scope.isPerformingCityOperation = true;
+        $timeout(function() {
+            $scope.isPerformingCityOperation = true;
+        });
         $location.path('/cities/' + city.id + "/details");
     };
 
     $scope.enterCity = function(city) {
-        $scope.isPerformingCityOperation = true;
+        $timeout(function() {
+            $scope.isPerformingCityOperation = true;
+        });
+
         $location.path('/cities/' + city.id);
     };
 
@@ -103,7 +111,10 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
     };
 
     $scope.joinCity = function(city) {
-        $scope.isPerformingCityOperation = true;
+        $timeout(function() {
+            $scope.isPerformingCityOperation = true;
+        });
+
 
         var joinCityPromise = citiesService.joinCity(city.id);
         joinCityPromise.then(function(updatedCity) {
@@ -128,7 +139,10 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
     };
 
     $scope.leaveCity = function(city) {
-        $scope.isPerformingCityOperation = true;
+        $timeout(function() {
+            $scope.isPerformingCityOperation = true;
+        });
+
 
         var leaveCityPromise = citiesService.leaveCity(city.id);
         leaveCityPromise.then(function(updatedCity) {
