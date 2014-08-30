@@ -9050,7 +9050,7 @@ app.service('serverService', function ($q) {
     var productionServer = 'http://188.226.245.205:3000';
     var developmentServer = 'http://localhost:3000';
 
-    this.serverHost = developmentServer;
+    this.serverHost = productionServer;
 
 
 
