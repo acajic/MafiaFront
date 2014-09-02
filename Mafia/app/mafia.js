@@ -99,16 +99,15 @@ app.config(function ($routeProvider, $locationProvider) {
                         $location.path('/cities');
                     }
 
-                    if (!city.active) {
-                        $location.path('/cities');
-                    }
-
                 }, function(reason) {
                     $location.path('/cities');
                 });
             }
         }
 
+    }).when('/cities/:cityId/discussion', {
+        controller: 'CityDiscussionController',
+        templateUrl: 'app/partials/city/cityDiscussion.html'
     }).when('/admin', {
         controller: 'AdminController',
         templateUrl: 'app/partials/admin/admin.html',
@@ -183,200 +182,6 @@ app.config(function ($routeProvider, $locationProvider) {
 
 
 }); 
- 
-// mafia 
- 
- 
- 
-// app 
- 
-var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.pointsAssign', 'timer', 'ui.minLengthNumber', 'uniqque_filter', 'ngQuickDate', 'angularUtils.directives.dirDisqus']);
-
-app.config(function ($routeProvider, $locationProvider) {
-    'use strict';
-
-    $locationProvider.hashPrefix('!');
-
-    $routeProvider.when('/cities/email_confirmation/:emailConfirmationCode', {
-        controller: 'CitiesController',
-        templateUrl: 'app/partials/cities.html'
-    }).when('/cities', {
-        controller: 'CitiesController',
-        templateUrl: 'app/partials/cities.html'
-    }).when('/register', {
-        controller: 'RegisterController',
-        templateUrl: 'app/partials/register.html'
-    }).when('/profile', {
-        controller: 'UserProfileController',
-        templateUrl: 'app/partials/userProfile.html',
-        resolve: {
-            validate: function($q, $location, $route, authService) {
-                var userMePromise = authService.userMe(false);
-
-                $q.all(userMePromise).then(function(userMe) {
-                    // everything ok
-                }, function(reason) {
-                    $location.path('/cities');
-                });
-
-            }
-        }
-    }).when('/cities/:cityId/details', {
-        controller: 'CityCreateOrUpdateController',
-        templateUrl: 'app/partials/city/details.html'
-    }).when('/cities/create', {
-        controller: 'CityCreateOrUpdateController',
-        templateUrl: 'app/partials/city/createOrUpdate.html'
-    }).when('/cities/:cityId/update', {
-        controller: 'CityCreateOrUpdateController',
-        templateUrl: 'app/partials/city/createOrUpdate.html',
-        resolve: {
-            validate: function($q, $location, $route, citiesService, authService) {
-                var cityId = $route.current.params['cityId'];
-
-                var citiesPromise = citiesService.getCities(false);
-                var userMePromise = authService.userMe(false);
-
-                $q.all([citiesPromise, userMePromise]).then(function(result) {
-                    var cities = result[0];
-                    var userMe = result[1];
-
-                    var city = $.grep(cities, function (city) {
-                        return city.id == cityId;
-                    })[0];
-
-                    if (city.user_creator_id == userMe.id) {
-                        // user is creator of selected city
-                    } else {
-                        // user is NOT creator of selected city
-                        $location.path('/cities');
-                    }
-                }, function(reason) {
-                    $location.path('/cities');
-                });
-
-            }
-        }
-    }).when('/cities/:cityId', {
-        controller: 'CityController',
-        templateUrl: 'app/partials/city/city.html',
-        resolve: {
-            validate: function($q, $location, $route, citiesService, authService) {
-                var cityId = $route.current.params['cityId'];
-
-                var citiesPromise = citiesService.getCities(false);
-                var userMePromise = authService.userMe(false);
-
-                return $q.all([citiesPromise, userMePromise], function(result) {
-                    var cities = result[0];
-                    var userMe = result[1];
-
-                    var city = $.grep(cities, function (someCity) {
-                        return someCity.id == cityId;
-                    })[0];
-
-                    if (!city) {
-                        $location.path('/cities');
-                    }
-
-                    var resident = $.grep(city.residents, function (someResident) {
-                        return someResident.user_id == userMe.id;
-                    })[0];
-
-                    if (!resident) {
-                        $location.path('/cities');
-                    }
-
-                    if (!city.active) {
-                        $location.path('/cities');
-                    }
-
-                }, function(reason) {
-                    $location.path('/cities');
-                });
-            }
-        }
-
-    }).when('/admin', {
-        controller: 'AdminController',
-        templateUrl: 'app/partials/admin/admin.html',
-        resolve: {
-            validate: function($q, $location, $route, authService) {
-                var userMePromise = authService.userMe(false);
-
-                return userMePromise.then(function(userMe) {
-                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
-                        $location.path('/cities');
-                    }
-                });
-            }
-        }
-    }).when('/admin/user/:user_id', {
-        controller: 'AdminUserController',
-        templateUrl: 'app/partials/admin/user.html',
-        resolve: {
-            validate: function($q, $location, $route, authService) {
-                var userMePromise = authService.userMe(false);
-
-                return userMePromise.then(function(userMe) {
-                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
-                        $location.path('/cities');
-                    }
-                });
-            }
-        }
-    }).when('/admin/city/:city_id', {
-        controller: 'AdminCityController',
-        templateUrl: 'app/partials/admin/city.html',
-        resolve: {
-            validate: function($q, $location, $route, authService) {
-                var userMePromise = authService.userMe(false);
-
-                return userMePromise.then(function(userMe) {
-                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
-                        $location.path('/cities');
-                    }
-                });
-            }
-        }
-    }).when('/admin/initial_app_role/new', {
-        controller: 'AdminInitialAppRoleController',
-        templateUrl: 'app/partials/admin/new_initial_app_role.html',
-        resolve: {
-            validate: function($q, $location, $route, authService) {
-                var userMePromise = authService.userMe(false);
-
-                return userMePromise.then(function(userMe) {
-                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE]) {
-                        $location.path('/cities');
-                    }
-                });
-            }
-        }
-    }).when('/admin/initial_app_role/:initial_app_role_id', {
-        controller: 'AdminInitialAppRoleController',
-        templateUrl: 'app/partials/admin/initial_app_role.html',
-        resolve: {
-            validate: function($q, $location, $route, authService) {
-                var userMePromise = authService.userMe(false);
-
-                return userMePromise.then(function(userMe) {
-                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE]) {
-                        $location.path('/cities');
-                    }
-                });
-            }
-        }
-    }).otherwise({redirectTo:'/cities'})
-
-
-}); 
- 
-// mafia 
- 
- 
- 
-// a 
  
 // appController 
  
@@ -386,27 +191,6 @@ app.controller('AppController', function ($scope) {
     init();
 
     function init() {
-       /*
-        $scope.roleIds = {
-            ROLE_ID_CITIZEN : ROLE_ID_CITIZEN,
-            ROLE_ID_DOCTOR : ROLE_ID_DOCTOR,
-            ROLE_ID_DETECTIVE : ROLE_ID_DETECTIVE,
-            ROLE_ID_MOB : ROLE_ID_MOB,
-            ROLE_ID_SHERIFF : ROLE_ID_SHERIFF,
-            ROLE_ID_TELLER : ROLE_ID_TELLER,
-            ROLE_ID_TERRORIST : ROLE_ID_TERRORIST
-        };
-
-        $scope.actionTypeIds = {
-            ACTION_TYPE_ID_VOTE : ACTION_TYPE_ID_VOTE,
-            ACTION_TYPE_ID_PROTECT : ACTION_TYPE_ID_PROTECT,
-            ACTION_TYPE_ID_INVESTIGATE : ACTION_TYPE_ID_INVESTIGATE,
-            ACTION_TYPE_ID_VOTE_MAFIA : ACTION_TYPE_ID_VOTE_MAFIA,
-            ACTION_TYPE_ID_SHERIFF_IDENTITIES : ACTION_TYPE_ID_SHERIFF_IDENTITIES,
-            ACTION_TYPE_ID_TELLER_VOTES : ACTION_TYPE_ID_TELLER_VOTES,
-            ACTION_TYPE_ID_TERRORIST_BOMB : ACTION_TYPE_ID_TERRORIST_BOMB
-        };
-        */
     }
 
 }); 
@@ -776,7 +560,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
  
 // cityController 
  
-app.controller('CityController', function ($scope, $routeParams, $q, $timeout, citiesService, actionResultsService, residentsService, authService, layoutService) {
+app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $location, citiesService, actionResultsService, residentsService, authService, layoutService) {
     "use strict";
 
 
@@ -929,19 +713,6 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, c
             deferred.reject(reason);
         });
 
-        /*
-        var roleId = getCookie(cityRoleIdCookieKey(cityId, authService.user.id));
-        if (roleId) {
-            deferred.resolve(roleId);
-        } else {
-            residentsService.getResidentMeForCityId(cityId).then(function(residentMeResult) {
-                roleId = residentMeResult.saved_role_id;
-                if (roleId)
-                    setCookieRoleId(cityId, authService.user.id, roleId);
-                deferred.resolve(roleId);
-            });
-        }
-        */
         return deferred.promise;
     }
 
@@ -982,6 +753,10 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, c
 
     var kCitySelectedTabIndexCookieKey;
 
+    function joinDiscussion() {
+        $location.path('cities/'+ $scope.city.id + '/discussion');
+    }
+
     init();
 
     function init() {
@@ -996,7 +771,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, c
         $scope.basicValidationErrors = [];
         $scope.closeBasicValidationAlert = closeBasicValidationAlert;
         $scope.roleSelected = roleSelected;
-
+        $scope.joinDiscussion = joinDiscussion;
 
     }
 
@@ -2069,6 +1844,28 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         return filteredCityHasRoles;
     };
 });; 
+ 
+// cityDiscussionController 
+ 
+app.controller('CityDiscussionController', function ($scope, $routeParams, $location) {
+    "use strict";
+
+    var backToCity = function () {
+        $location.path('/cities/' + $scope.cityId);
+    };
+
+    init();
+
+    function init() {
+        var cityId = parseInt($routeParams["cityId"]);
+        $scope.cityId = cityId;
+
+        $scope.url = $location.absUrl();
+
+        $scope.backToCity = backToCity;
+    }
+
+}); 
  
 // registerController 
  
@@ -9083,7 +8880,7 @@ app.service('serverService', function ($q) {
         });
 
         return deferred.promise;
-    }
+    };
 
     this.post = function (url, params) {
         params = params || {};
@@ -9106,7 +8903,7 @@ app.service('serverService', function ($q) {
         });
 
         return deferred.promise;
-    }
+    };
 
     this.put = function (url, params) {
         params = params || {};
@@ -9129,7 +8926,7 @@ app.service('serverService', function ($q) {
         });
 
         return deferred.promise;
-    }
+    };
 
     this.delete = function (url, params) {
         params = params || {};
@@ -9152,7 +8949,7 @@ app.service('serverService', function ($q) {
         });
 
         return deferred.promise;
-    }
+    };
 
 
     function handleUnauthorized(httpObj) {

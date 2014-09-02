@@ -1,4 +1,4 @@
-app.controller('CityController', function ($scope, $routeParams, $q, $timeout, citiesService, actionResultsService, residentsService, authService, layoutService) {
+app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $location, citiesService, actionResultsService, residentsService, authService, layoutService) {
     "use strict";
 
 
@@ -191,6 +191,10 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, c
 
     var kCitySelectedTabIndexCookieKey;
 
+    function joinDiscussion() {
+        $location.path('cities/'+ $scope.city.id + '/discussion');
+    }
+
     init();
 
     function init() {
@@ -205,7 +209,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, c
         $scope.basicValidationErrors = [];
         $scope.closeBasicValidationAlert = closeBasicValidationAlert;
         $scope.roleSelected = roleSelected;
-
+        $scope.joinDiscussion = joinDiscussion;
 
     }
 
