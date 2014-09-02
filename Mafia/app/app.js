@@ -95,16 +95,15 @@ app.config(function ($routeProvider, $locationProvider) {
                         $location.path('/cities');
                     }
 
-                    if (!city.active) {
-                        $location.path('/cities');
-                    }
-
                 }, function(reason) {
                     $location.path('/cities');
                 });
             }
         }
 
+    }).when('/cities/:cityId/discussion', {
+        controller: 'CityDiscussionController',
+        templateUrl: 'app/partials/city/cityDiscussion.html'
     }).when('/admin', {
         controller: 'AdminController',
         templateUrl: 'app/partials/admin/admin.html',

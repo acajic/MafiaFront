@@ -119,17 +119,13 @@ td {
 
 /* END even/odd rows */
 
-/* BEGIN disqus */
-
-#disqus_thread {
-    margin-top: 100px;
-}
+/* BEGIN role */
 
 #role {
     min-height: 300px;
 }
 
-/* END disqus */
+/* END role */
 
 /* BEGIN */
 

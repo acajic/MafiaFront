@@ -38,7 +38,7 @@ app.service('serverService', function ($q) {
         });
 
         return deferred.promise;
-    }
+    };
 
     this.post = function (url, params) {
         params = params || {};
@@ -61,7 +61,7 @@ app.service('serverService', function ($q) {
         });
 
         return deferred.promise;
-    }
+    };
 
     this.put = function (url, params) {
         params = params || {};
@@ -84,7 +84,7 @@ app.service('serverService', function ($q) {
         });
 
         return deferred.promise;
-    }
+    };
 
     this.delete = function (url, params) {
         params = params || {};
@@ -107,7 +107,7 @@ app.service('serverService', function ($q) {
         });
 
         return deferred.promise;
-    }
+    };
 
 
     function handleUnauthorized(httpObj) {
