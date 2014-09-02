@@ -929,19 +929,6 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, c
             deferred.reject(reason);
         });
 
-        /*
-        var roleId = getCookie(cityRoleIdCookieKey(cityId, authService.user.id));
-        if (roleId) {
-            deferred.resolve(roleId);
-        } else {
-            residentsService.getResidentMeForCityId(cityId).then(function(residentMeResult) {
-                roleId = residentMeResult.saved_role_id;
-                if (roleId)
-                    setCookieRoleId(cityId, authService.user.id, roleId);
-                deferred.resolve(roleId);
-            });
-        }
-        */
         return deferred.promise;
     }
 

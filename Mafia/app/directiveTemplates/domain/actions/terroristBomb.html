@@ -10,5 +10,5 @@
 <button ng-click="cancelUnprocessedActions()" popover="Cancel all unprocessed actions of this type" popover-trigger="mouseenter" popover-placement="right"><img src="content/img/delete-unprocessed-actions-icon.png" style="width: 25px;" /></button>
         </div>
         <div class="col-md-11">
-<input ng-if="city.residents" type="text" typeahead-on-select="bombOnSelect($item)" ng-model="selectedResident.name" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control" popover="Select a player to perform a suicide bombing attack on." popover-trigger="focus">
+<input ng-if="city.residents" type="text" typeahead-on-select="bombOnSelect($item)" ng-model="selectedResident.name" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" typeahead-wait-ms="200" class="form-control" popover="Select a player to perform a suicide bombing attack on." popover-trigger="focus">
         </div>
