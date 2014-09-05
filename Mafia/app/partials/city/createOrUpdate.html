@@ -74,7 +74,7 @@
                             <select ng-model="timezone.sign" ng-options="i for i in ['+', '-']" ng-change="timezoneChanged()">
                             </select>
 
-                            <timepicker style="display: inline-block" ng-model="timezone.timeDate" ng-change="timezoneChanged()" hour-step="1" minute-step="15" show-meridian="false"></timepicker>
+                            <timepicker style="display: inline-block" ng-model="timezone.timeDate" ng-change="timezoneChanged()" hour-step="1" minute-step="15" show-meridian="false" mousewheel="false"></timepicker>
                         </td>
                     </tr>
                     <tr ng-if="city.started_at">
@@ -203,12 +203,12 @@
                     <tr ng-if="!city.started_at || city.paused" ng-repeat="(index, day_cycle) in city.day_cycles">
                         <td>
                             <div ng-model="day_cycle.day_start_date" ng-change="dayCycleChanged(index)" style="display:inline-block;">
-                                <timepicker hour-step="1" minute-step="1" show-meridian="false"></timepicker>
+                                <timepicker hour-step="1" minute-step="1" show-meridian="false" mousewheel="false"></timepicker>
                             </div>
                         </td>
                         <td>
                             <div ng-model="day_cycle.night_start_date" ng-change="dayCycleChanged(index)" style="display:inline-block;">
-                                <timepicker hour-step="1" minute-step="1" show-meridian="false"></timepicker>
+                                <timepicker hour-step="1" minute-step="1" show-meridian="false" mousewheel="false"></timepicker>
                             </div>
                         </td>
                         <td class="col-sm-1">
@@ -231,12 +231,12 @@
                     <tr ng-if="showAddDayCycle && (!city.started_at || city.paused)" class="new-day-cycle-row">
                         <td>
                             <div ng-model="newDayCycle.day_start_date" style="display:inline-block;">
-                                <timepicker hour-step="1" minute-step="1" show-meridian="false"></timepicker>
+                                <timepicker hour-step="1" minute-step="1" show-meridian="false" mousewheel="false"></timepicker>
                             </div>
                         </td>
                         <td>
                             <div ng-model="newDayCycle.night_start_date" style="display:inline-block;">
-                                <timepicker hour-step="1" minute-step="1" show-meridian="false"></timepicker>
+                                <timepicker hour-step="1" minute-step="1" show-meridian="false" mousewheel="false"></timepicker>
                             </div>
                         </td>
                         <td class="col-sm-1">

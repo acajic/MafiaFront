@@ -14,7 +14,7 @@
         <select ng-model="queryModel.timezoneSign" ng-options="sign.value as sign.name for sign in [{value: 1, name: '+'}, {value: -1, name: '-'}]" ng-hide="queryModel.anyTimezone">
         </select>
 
-        <timepicker style="display: inline-block" ng-model="queryModel.timezoneDate" hour-step="1" minute-step="15" show-meridian="false" ng-hide="queryModel.anyTimezone" readonly-input="true"></timepicker>
+        <timepicker style="display: inline-block" ng-model="queryModel.timezoneDate" hour-step="1" minute-step="15" mousewheel="false" show-meridian="false" ng-hide="queryModel.anyTimezone" readonly-input="true"></timepicker>
         <input type="checkbox" ng-model="queryModel.anyTimezone"> Any Timezone?
     </div>
     <div style="clear: both" class="row-even">

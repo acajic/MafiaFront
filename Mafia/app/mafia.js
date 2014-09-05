@@ -844,10 +844,10 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             $location.path('/cities/'+ createdCity.id +'/update');
         }, function(reason) {
 
-            var message = 'Failed to start city. ';
+            var message = 'Failed to create city. ';
             for (var key in reason.httpObj.responseJSON) {
                 if (reason.httpObj.responseJSON.hasOwnProperty(key)) {
-                    message += key + " " + reason.httpObj.responseJSON[key] + ". ";
+                    message += key + " " + reason.httpObj.responseJSON[key];
                 }
             }
 
