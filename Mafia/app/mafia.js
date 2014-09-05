@@ -7,6 +7,7 @@ var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'u
 app.config(function ($routeProvider, $locationProvider) {
     'use strict';
 
+    $locationProvider.html5Mode(true);
     $locationProvider.hashPrefix('!');
 
     $routeProvider.when('/cities/email_confirmation/:emailConfirmationCode', {
