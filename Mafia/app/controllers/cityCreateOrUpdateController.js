@@ -891,6 +891,8 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
     function init() {
         var cityId = parseInt($routeParams["cityId"]);
 
+        $scope.affiliationIds = rolesService.affiliationIds;
+
         var cityPromise;
         if (cityId) {
             if (citiesService.isNewCityCreated) {

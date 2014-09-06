@@ -198,7 +198,7 @@ app.controller('AppController', function ($scope) {
  
 // citiesController 
  
-app.controller('CitiesController',function ($scope, $routeParams, $timeout, $location, citiesService, authService, modalService, layoutService) {
+app.controller('CitiesController',function ($scope, $routeParams, $timeout, $location, citiesService, authService, modalService, layoutService, rolesService) {
     "use strict";
 
 
@@ -530,6 +530,12 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         $scope.showJoinButtonForCity = showJoinButtonForCity;
         $scope.showLeaveButtonForCity = showLeaveButtonForCity;
 
+
+        rolesService.getAllRoles().then(function(allRolesResult) {
+            $scope.allRoles = allRolesResult;
+        });
+
+        $scope.affiliationIds = rolesService.affiliationIds;
     }
 
 }).filter('myCityFilter', function (authService) {
@@ -1673,6 +1679,8 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
     function init() {
         var cityId = parseInt($routeParams["cityId"]);
+
+        $scope.affiliationIds = rolesService.affiliationIds;
 
         var cityPromise;
         if (cityId) {
@@ -3712,7 +3720,7 @@ app.directive('gameOverResult', function(actionResultsService) {
                     residentsById = {};
 
                 angular.forEach(residents, function(someResident) {
-                    var affiliationId = someResident.role.affiliation_id;
+                    var affiliationId = someResident.role.affiliation.id;
                     var winningAffiliation = $.grep(scope.winnerAffiliations, function(someAffiliation) {
                         return someAffiliation.id == affiliationId;
                     })[0];
@@ -7487,6 +7495,25 @@ app.directive('mob', function() {
     };
 }); 
  
+// roleDescriptionDirective 
+ 
+app.directive('roleDescription', function(rolesService) {
+    "use strict";
+    return {
+        restrict : 'E',
+        scope: {
+            roleId: '='
+        },
+        templateUrl: 'app/directiveTemplates/domain/roles/roleDescription.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            scope.roleIds = rolesService.roleIds;
+
+        }
+    };
+}); 
+ 
 // sheriffDirective 
  
 app.directive('sheriff', function() {
@@ -7628,6 +7655,172 @@ app.directive('terrorist', function() {
 
             scope.roleId = ROLE_ID_TERRORIST;
 
+        }
+    };
+}); 
+ 
+// ambivalentCitizenDescriptionDirective 
+ 
+app.directive('ambivalentCitizenDescription', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/ambivalentCitizen.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+
+
+        }
+    };
+}); 
+ 
+// citizenDescriptionDirective 
+ 
+app.directive('citizenDescription', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/citizen.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+
+        }
+    };
+}); 
+ 
+// detectiveDescriptionDirective 
+ 
+app.directive('detectiveDescription', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/detective.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            
+        }
+    };
+}); 
+ 
+// doctorDescriptionDirective 
+ 
+app.directive('doctorDescription', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/doctor.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+
+        }
+    };
+}); 
+ 
+// fugitiveDescriptionDirective 
+ 
+app.directive('fugitiveDescription', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/fugitive.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            
+        }
+    };
+}); 
+ 
+// journalistDescriptionDirective 
+ 
+app.directive('journalistDescription', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/journalist.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            
+        }
+    };
+}); 
+ 
+// mobDescriptionDirective 
+ 
+app.directive('mobDescription', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/mob.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            
+        }
+    };
+}); 
+ 
+// sheriffDescriptionDirective 
+ 
+app.directive('sheriffDescription', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/sheriff.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            
+        }
+    };
+}); 
+ 
+// silentSheriffDescriptionDirective 
+ 
+app.directive('silentSheriffDescription', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/silentSheriff.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            
+        }
+    };
+}); 
+ 
+// tellerDescriptionDirective 
+ 
+app.directive('tellerDescription', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/teller.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            
+        }
+    };
+}); 
+ 
+// terroristDescriptionDirective 
+ 
+app.directive('terroristDescription', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/terrorist.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            
         }
     };
 }); 
@@ -8739,6 +8932,9 @@ app.factory('residentsService', function($q, serverService) {
  
 // rolesService 
  
+var AFFILIATION_ID_CITIZENS = 1;
+var AFFILIATION_ID_MAFIA = 2;
+
 var ROLE_ID_CITIZEN = 1;
 var ROLE_ID_DOCTOR = 2;
 var ROLE_ID_DETECTIVE = 3;
@@ -8753,6 +8949,11 @@ var ROLE_ID_AMBIVALENT_CITIZEN = 11;
 
 app.factory('rolesService', function(serverService, $q) {
     "use strict";
+
+    var affiliationIds = {
+        AFFILIATION_ID_CITIZENS : AFFILIATION_ID_CITIZENS,
+        AFFILIATION_ID_MAFIA : AFFILIATION_ID_MAFIA
+    };
 
     var roleIds = {
          ROLE_ID_CITIZEN : ROLE_ID_CITIZEN,
@@ -8801,6 +9002,7 @@ app.factory('rolesService', function(serverService, $q) {
     };
 
     return {
+        affiliationIds : affiliationIds,
         roleIds : roleIds,
         allRoles : allRoles,
         getAllRoles : getAllRoles,

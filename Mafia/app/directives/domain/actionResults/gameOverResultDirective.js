@@ -37,7 +37,7 @@ app.directive('gameOverResult', function(actionResultsService) {
                     residentsById = {};
 
                 angular.forEach(residents, function(someResident) {
-                    var affiliationId = someResident.role.affiliation_id;
+                    var affiliationId = someResident.role.affiliation.id;
                     var winningAffiliation = $.grep(scope.winnerAffiliations, function(someAffiliation) {
                         return someAffiliation.id == affiliationId;
                     })[0];

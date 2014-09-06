@@ -1,4 +1,4 @@
-app.controller('CitiesController',function ($scope, $routeParams, $timeout, $location, citiesService, authService, modalService, layoutService) {
+app.controller('CitiesController',function ($scope, $routeParams, $timeout, $location, citiesService, authService, modalService, layoutService, rolesService) {
     "use strict";
 
 
@@ -330,6 +330,12 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         $scope.showJoinButtonForCity = showJoinButtonForCity;
         $scope.showLeaveButtonForCity = showLeaveButtonForCity;
 
+
+        rolesService.getAllRoles().then(function(allRolesResult) {
+            $scope.allRoles = allRolesResult;
+        });
+
+        $scope.affiliationIds = rolesService.affiliationIds;
     }
 
 }).filter('myCityFilter', function (authService) {
