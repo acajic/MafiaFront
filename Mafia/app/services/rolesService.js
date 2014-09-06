@@ -1,3 +1,6 @@
+var AFFILIATION_ID_CITIZENS = 1;
+var AFFILIATION_ID_MAFIA = 2;
+
 var ROLE_ID_CITIZEN = 1;
 var ROLE_ID_DOCTOR = 2;
 var ROLE_ID_DETECTIVE = 3;
@@ -12,6 +15,11 @@ var ROLE_ID_AMBIVALENT_CITIZEN = 11;
 
 app.factory('rolesService', function(serverService, $q) {
     "use strict";
+
+    var affiliationIds = {
+        AFFILIATION_ID_CITIZENS : AFFILIATION_ID_CITIZENS,
+        AFFILIATION_ID_MAFIA : AFFILIATION_ID_MAFIA
+    };
 
     var roleIds = {
          ROLE_ID_CITIZEN : ROLE_ID_CITIZEN,
@@ -60,6 +68,7 @@ app.factory('rolesService', function(serverService, $q) {
     };
 
     return {
+        affiliationIds : affiliationIds,
         roleIds : roleIds,
         allRoles : allRoles,
         getAllRoles : getAllRoles,

@@ -290,14 +290,14 @@
                         <tr>
                             <td colspan="2" style="text-align: center">Citizens</td>
                         </tr>
-                        <tr ng-repeat="role_quantity in roleQuantities | filter : {role : {affiliation_id : 1}}">
+                        <tr ng-repeat="role_quantity in roleQuantities | filter : {role : {affiliation: {id : affiliationIds.AFFILIATION_ID_CITIZENS}}}">
                             <td>{{role_quantity.role.name}}</td>
                             <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'" readonly="city.started_at"></points-assign></td>
                         </tr>
                         <tr>
                             <td colspan="2" style="text-align: center">Mafia</td>
                         </tr>
-                        <tr ng-repeat="role_quantity in roleQuantities | filter : {role: {affiliation_id : 2}} ">
+                        <tr ng-repeat="role_quantity in roleQuantities | filter : {role: {affiliation: {id : affiliationIds.AFFILIATION_ID_MAFIA}}} ">
                             <td>{{role_quantity.role.name}}</td>
                             <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'" readonly="city.started_at"></points-assign></td>
                         </tr>
@@ -325,7 +325,7 @@
                         <tr>
                             <td colspan="3" style="text-align: center">Citizens</td>
                         </tr>
-                        <tr ng-repeat="cityHasRole in city.city_has_roles | filter : {role : {affiliation_id : 1}} | cityHasRolesWithActionTypesParamsFilter">
+                        <tr ng-repeat="cityHasRole in city.city_has_roles | filter : {role : {affiliation: {id : affiliationIds.AFFILIATION_ID_CITIZENS}}} | cityHasRolesWithActionTypesParamsFilter">
                             <td class="col-md-1">{{cityHasRole.role.name}}</td>
                             <td colspan="2" class="col-md-11">
                                 <table>
@@ -340,7 +340,7 @@
                         <tr>
                             <td colspan="3" style="text-align: center">Mafia</td>
                         </tr>
-                        <tr ng-repeat="cityHasRole in city.city_has_roles | filter : {role: {affiliation_id : 2}} | cityHasRolesWithActionTypesParamsFilter">
+                        <tr ng-repeat="cityHasRole in city.city_has_roles | filter : {role: {affiliation: {id : affiliationIds.AFFILIATION_ID_MAFIA }}} | cityHasRolesWithActionTypesParamsFilter">
                             <td class="col-md-1">{{cityHasRole.role.name}}</td>
                             <td colspan="2" class="col-md-11">
                                 <table>
