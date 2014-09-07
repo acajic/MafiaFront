@@ -8,6 +8,8 @@ app.directive('auth', function($routeParams, authService, $location, layoutServi
 
             scope.homeButtonVisible = layoutService.homeButtonVisible;
 
+            scope.profileUrl = "#!/profile";
+
             scope.adminButtonVisible = function() {
                 if (scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE] || scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
                     return layoutService.adminButtonVisible();

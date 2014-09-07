@@ -20,7 +20,8 @@
             <button ng-if="adminButtonVisible()" ng-click="setLocationAdmin()" class="btn btn-danger"><i class="glyphicon glyphicon-star"></i>Admin</button>
             <button ng-if="homeButtonVisible()" ng-click="setLocationHome()" class="btn btn-primary"><i class="glyphicon glyphicon-home"></i>Home</button>
 
-            Hello, <a href="#/profile" >{{user.username}}</a>!
+
+            Hello, <a href="{{profileUrl}}" >{{user.username}}</a>!
             <button ng-click="signOut()" class="btn btn-default"><i class="glyphicon glyphicon-log-out"></i> Sign out</button>
         </div>
     </div>

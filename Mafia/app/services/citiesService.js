@@ -135,8 +135,20 @@ app.factory('citiesService', function($q, serverService) {
         });
     };
 
+    var cancelInvitation = function(cityId, userId) {
+        return serverService.delete('cities/' + cityId + '/invitation/' + userId);
+    };
+
+    var acceptJoinRequest = function(cityId, userId) {
+        return serverService.post('cities/' + cityId + '/join_request/' + userId);
+    };
+
+    var rejectJoinRequest = function(cityId, userId) {
+        return serverService.delete('cities/' + cityId + '/join_request/' + userId);
+    };
+
     var kickUser = function(cityId, userId) {
-        return serverService.delete('cities/' + cityId + '/kick_user', {user_id : userId});
+        return serverService.delete('cities/' + cityId + '/user/' + userId);
     };
 
 
@@ -232,6 +244,9 @@ app.factory('citiesService', function($q, serverService) {
         getNewCity : getNewCity,
         createCity : createCity,
         inviteUsers : inviteUsers,
+        cancelInvitation : cancelInvitation,
+        acceptJoinRequest : acceptJoinRequest,
+        rejectJoinRequest : rejectJoinRequest,
         kickUser : kickUser,
         deleteCity : deleteCity,
         updateCity : updateCity,

@@ -124,9 +124,16 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
 
         var joinCityPromise = citiesService.joinCity(city.id);
-        joinCityPromise.then(function(updatedCity) {
+        joinCityPromise.then(function(result) {
+            var updatedCity = result.city;
             $timeout(function() {
-                $scope.alerts.push({type: "success", msg: "Successfully joined '" + updatedCity.name + "'."});
+                if (result.outcome == 1) {
+                    $scope.alerts.push({type: "success", msg: "Successfully joined '" + updatedCity.name + "'."});
+                } else if (result.outcome == 2) {
+                    $scope.alerts.push({type: "success", msg: "Submitted request to join '" + updatedCity.name + "'. Game creator must approve your request."});
+                } else if (result.outcome == 3) {
+                    $scope.alerts.push({type: "success", msg: "You have already requested to join '" + updatedCity.name + "'. Game creator must approve your request."});
+                }
                 $scope.isPerformingCityOperation = false;
             });
 

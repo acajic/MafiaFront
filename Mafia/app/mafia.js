@@ -1199,10 +1199,28 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
                     $scope.isChangingUsers = false;
                 });
 
-
+                /*
                 var updatedCityResidents = result.updated_city_residents;
                 originalCity.residents = updatedCityResidents;
                 $scope.city.residents = updatedCityResidents;
+                */
+                $scope.city.residents = result.city.residents;
+                $scope.city.invitations = result.city.invitations;
+                $scope.city.join_requests = result.city.join_requests;
+                originalCity = result.city;
+
+
+
+                if (result.existing_users_joined && result.existing_users_joined.length > 0) {
+                    var existingUsersJoined = result.existing_users_joined;
+                    var plural = existingUsersJoined.length == 1 ? '' : 's';
+                    var existingUsersJoinedMessage = 'Existing user'+plural+' ';
+                    angular.forEach(existingUsersJoined, function(someUser) {
+                        existingUsersJoinedMessage += someUser.username + ', ';
+                    });
+                    existingUsersJoinedMessage = existingUsersJoinedMessage.substring(0, existingUsersJoinedMessage.length - 2) + ' invited and automatically joined the game.';
+                    $scope.generalMessages.push({type: 'success', msg: existingUsersJoinedMessage });
+                }
 
                 if (result.existing_users_invited && result.existing_users_invited.length > 0) {
                     var existingUsersInvited = result.existing_users_invited;
@@ -1211,19 +1229,19 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
                     angular.forEach(existingUsersInvited, function(someUser) {
                         existingUsersInvitedMessage += someUser.username + ', ';
                     });
-                    existingUsersInvitedMessage = existingUsersInvitedMessage.substring(0, existingUsersInvitedMessage.length - 2) + ' added to the game.';
+                    existingUsersInvitedMessage = existingUsersInvitedMessage.substring(0, existingUsersInvitedMessage.length - 2) + ' invited to the game.';
                     $scope.generalMessages.push({type: 'success', msg: existingUsersInvitedMessage });
                 }
 
-                if (result.new_users_invited && result.new_users_invited.length > 0) {
-                    var newUsersInvited = result.new_users_invited;
-                    var plural = newUsersInvited.length == 1 ? '' : 's';
-                    var newUsersInvitedMessage = 'New user' + plural + ' ';
-                    angular.forEach(newUsersInvited, function(someUser) {
-                        newUsersInvitedMessage += someUser.username + ', ';
+                if (result.new_users_joined && result.new_users_joined.length > 0) {
+                    var newUsersJoined = result.new_users_joined;
+                    var plural = newUsersJoined.length == 1 ? '' : 's';
+                    var newUsersJoinedMessage = 'New user' + plural + ' ';
+                    angular.forEach(newUsersJoined, function(someUser) {
+                        newUsersJoinedMessage += someUser.username + ', ';
                     });
-                    newUsersInvitedMessage = newUsersInvitedMessage.substring(0, newUsersInvitedMessage.length - 2) + ' created and added to the game.';
-                    $scope.generalMessages.push({type: 'success', msg: newUsersInvitedMessage });
+                    newUsersJoinedMessage = newUsersJoinedMessage.substring(0, newUsersJoinedMessage.length - 2) + ' created and added to the game.';
+                    $scope.generalMessages.push({type: 'success', msg: newUsersJoinedMessage });
                 }
 
                 if (result.new_users_invalid && result.new_users_invalid.length > 0 ) {
