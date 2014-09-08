@@ -39,10 +39,12 @@ app.controller('AdminUserController',function ($scope, $routeParams, $location, 
         var userMe = newValues[1];
         if (!inspectedUser || !userMe) {
             $scope.roleEditable = false;
+            $scope.userPreferenceEditable = false;
             return;
         }
 
         $scope.roleEditable = inspectedUser.app_role.id != APP_ROLE_SUPER_ADMIN && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE];
+        $scope.userPreferenceEditable = (userMe.app_role.id == APP_ROLE_SUPER_ADMIN) || (inspectedUser.app_role.id != APP_ROLE_SUPER_ADMIN && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]);
         $scope.canAlterEmailConfirmed = inspectedUser.app_role.id != APP_ROLE_SUPER_ADMIN && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE];
     }, true);
 

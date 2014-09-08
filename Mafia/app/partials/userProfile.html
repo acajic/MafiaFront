@@ -6,23 +6,37 @@
     <table class="table">
         <tr>
             <td>Username</td>
-            <td>{{ user.username }}</td>
+            <td colspan="2">{{ user.username }}</td>
         </tr>
         <tr>
             <td>Email</td>
-            <td><input type="text" ng-model="user.email"></td>
+            <td colspan="2"><input type="text" ng-model="user.email"></td>
         </tr>
         <tr>
             <td>New Password</td>
             <td><input type="password" ng-model="user.new_password"></td>
+            <td><i>(Leave blank to leave password unchanged)</i></td>
         </tr>
         <tr>
             <td>Repeat new password</td>
             <td><input type="password" ng-model="user.repeat_new_password"></td>
+            <td><i>(Leave blank to leave password unchanged)</i></td>
+        </tr>
+        <tr ng-if="user.id">
+            <td>Automatically join the game when invited</td>
+            <td colspan="2"><input type="checkbox" ng-model="user.user_preference.automatically_join_when_invited"></td>
+        </tr>
+        <tr ng-if="user.id">
+            <td>Receive email when invited/added to the game</td>
+            <td colspan="2"><input type="checkbox" ng-model="user.user_preference.receive_notifications_when_added_to_game"></td>
         </tr>
         <tr>
-            <td><button ng-click="deleteUser()" class="btn btn-danger">Delete</button></td>
-            <td><button ng-click="save()" class="btn btn-success">Save</button></td>
+            <td></td>
+            <td>
+                <button ng-click="deleteUser()" class="btn btn-danger">Delete</button>
+                <button ng-click="save()" class="btn btn-success">Save</button>
+            </td>
+            <td></td>
         </tr>
     </table>
     <br>

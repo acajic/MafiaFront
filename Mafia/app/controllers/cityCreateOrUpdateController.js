@@ -274,13 +274,14 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             return $scope.userMe.id == someResident.user_id;
         })[0];
 
-        return !isNew(city) && !amIOwner(city) && !isStartedAndOngoing(city) && !isStartedAndPaused(city) && !resident && !city.finished_at;
+        return !isNew(city) && !city.is_owner && !city.started_at && !city.is_member && !city.is_join_requested && !city.is_invited && !city.finished_at;
     }
 
     function join() {
         $scope.disableCityControls = true;
         var joinPromise = citiesService.joinCity($scope.city.id);
-        joinPromise.then(function(cityUpdated) {
+        joinPromise.then(function(result) {
+            var cityUpdated = result.city;
             $timeout(function() {
                 $scope.disableCityControls = false;
             });
@@ -296,6 +297,62 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
         });
     }
+
+    function showCancelJoinRequest(city) {
+        if (!city)
+            return false;
+
+        return !isNew(city) && !city.is_owner && !city.started_at && !city.is_member && city.is_join_requested;
+    }
+
+    function cancelJoinRequest() {
+        $scope.disableCityControls = true;
+        var cancelJoinRequestPromise = citiesService.cancelJoinRequest($scope.city.id);
+        cancelJoinRequestPromise.then(function(cityUpdated) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+            });
+
+            initDayCycles(cityUpdated);
+            $scope.city = cityUpdated;
+
+        }, function(reason) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to cancel join request.' }];
+            });
+
+        });
+    }
+
+
+    function showAcceptInvitation(city) {
+        if (!city)
+            return false;
+
+        return !isNew(city) && !city.is_owner && !city.started_at && !city.is_member && city.is_invited;
+    }
+
+    function acceptInvitation() {
+        $scope.disableCityControls = true;
+        var acceptInvitationPromise = citiesService.acceptInvitation($scope.city.id);
+        acceptInvitationPromise.then(function(cityUpdated) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+            });
+
+            initDayCycles(cityUpdated);
+            $scope.city = cityUpdated;
+
+        }, function(reason) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to accept invitation.' }];
+            });
+
+        });
+    }
+
 
     function showLeaveButton(city) {
         if (!city)
@@ -1104,6 +1161,13 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
         $scope.showJoinButton = showJoinButton;
         $scope.join = join;
+
+        $scope.showCancelJoinRequest = showCancelJoinRequest;
+        $scope.cancelJoinRequest = cancelJoinRequest;
+
+        $scope.showAcceptInvitation = showAcceptInvitation;
+        $scope.acceptInvitation = acceptInvitation;
+
         $scope.showLeaveButton = showLeaveButton;
         $scope.leave = leave;
 

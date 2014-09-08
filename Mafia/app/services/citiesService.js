@@ -40,6 +40,13 @@ app.factory('citiesService', function($q, serverService) {
 
     };
 
+    var getMyCities = function(pageIndex, pageSize) {
+        return serverService.get('cities/me', {
+            page_index: pageIndex,
+            page_size: pageSize
+        });
+    };
+
     var getCities = function(refresh, pageIndex, pageSize) {
         if (refresh || this.cities == null || this.cities.length == 0 || (pageIndex*pageSize !== NaN && (pageIndex+1)*pageSize > this.cities.length ) ) {
             var citiesPromise = serverService.get('cities', {
@@ -139,6 +146,10 @@ app.factory('citiesService', function($q, serverService) {
         return serverService.delete('cities/' + cityId + '/invitation/' + userId);
     };
 
+    var acceptInvitation = function(cityId) {
+        return serverService.post('cities/' + cityId + '/accept_invitation');
+    };
+
     var acceptJoinRequest = function(cityId, userId) {
         return serverService.post('cities/' + cityId + '/join_request/' + userId);
     };
@@ -183,6 +194,15 @@ app.factory('citiesService', function($q, serverService) {
         });
 
         return leaveCityPromise;
+    };
+
+    var cancelJoinRequest = function(cityId) {
+        var cancelJoinRequestPromise = serverService.delete('cities/' + cityId + '/join_request');
+        cancelJoinRequestPromise.then(function(cityUpdated) {
+            cacheCity(cityUpdated);
+        });
+
+        return cancelJoinRequestPromise;
     };
 
     var startCity = function(cityId) {
@@ -237,6 +257,7 @@ app.factory('citiesService', function($q, serverService) {
 
     return {
         getAllCities : getAllCities,
+        getMyCities : getMyCities,
         cities : cities,
         getCity : getCity,
         getCities : getCities,
@@ -245,6 +266,7 @@ app.factory('citiesService', function($q, serverService) {
         createCity : createCity,
         inviteUsers : inviteUsers,
         cancelInvitation : cancelInvitation,
+        acceptInvitation : acceptInvitation,
         acceptJoinRequest : acceptJoinRequest,
         rejectJoinRequest : rejectJoinRequest,
         kickUser : kickUser,
@@ -252,6 +274,7 @@ app.factory('citiesService', function($q, serverService) {
         updateCity : updateCity,
         joinCity : joinCity,
         leaveCity : leaveCity,
+        cancelJoinRequest : cancelJoinRequest,
         startCity : startCity,
         pauseCity : pauseCity,
         resumeCity : resumeCity,

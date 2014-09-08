@@ -21,15 +21,15 @@
                     <thead>
                     <tr>
                         <td>Name</td>
-                        <td>Started</td>
+                        <td>Status</td>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="city in myCities" ng-class="classNameForCityRow(city)">
+                    <tr ng-repeat="city in myCities" ng-class="classNameForMyCitiesRow(city)">
                         <input type="hidden" name="id" value="{{ city.id }}">
                         <td>{{city.name}}</td>
                         <td style="text-align: center;">
-                            <img-bool boolean-value="city.started_at"></img-bool>
+                            <img-city-status city="city"></img-city-status>
                         </td>
                     </tr>
                     <tr ng-if="isLoadingContentMyCities">
@@ -58,15 +58,15 @@
                 <thead>
                 <tr>
                     <td>Name</td>
-                    <td>Started</td>
+                    <td>Status</td>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="city in allCities" ng-class="classNameForCityRow(city)">
+                <tr ng-repeat="city in allCities" ng-class="classNameForAllCitiesRow(city)">
                     <input type="hidden" name="id" value="{{ city.id }}">
                     <td>{{city.name}}</td>
                     <td style="text-align: center;">
-                        <img-bool boolean-value="city.started_at"></img-bool>
+                        <img-city-status city="city"></img-city-status>
                     </td>
                 </tr>
                 <tr ng-if="isLoadingContentAllCities">
@@ -299,7 +299,11 @@
             <button ng-if="!showEditButtonForCity(selectedCity)" ng-click="showCity(selectedCity)" class="btn btn-info"><i class="glyphicon glyphicon-dashboard"></i>Details</button>
             <button ng-if="showEnterButtonForCity(selectedCity)" ng-click="enterCity(selectedCity)" class="btn btn-success"><i class="glyphicon glyphicon-briefcase"></i>Enter</button>
             <button ng-if="showJoinButtonForCity(selectedCity)" ng-click="joinCity(selectedCity)" class="btn btn-success"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
+            <button ng-if="showAcceptInvitationButtonForCity(selectedCity)" ng-click="acceptInvitationForCity(selectedCity)" class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i>Accept Invitation</button>
+
             <button ng-if="showLeaveButtonForCity(selectedCity)" ng-click="leaveCity(selectedCity)" class="btn btn-danger"><i class="glyphicon glyphicon-road"></i>Leave</button>
+            <button ng-if="showCancelJoinRequestForCity(selectedCity)" ng-click="cancelJoinRequestForCity(selectedCity)" class="btn btn-danger"><i class="glyphicon glyphicon-remove-circle"></i>Cancel Join Request</button>
+
 
             <loader ng-if="isPerformingCityOperation" size="small"></loader>
         </div>
