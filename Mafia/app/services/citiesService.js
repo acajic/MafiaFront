@@ -13,6 +13,7 @@ app.factory('citiesService', function($q, serverService) {
             page_size: pageSize,
             name: queryModel.name,
             description: queryModel.description,
+            public: queryModel.public,
             resident_user_ids: queryModel.residentUserIds,
             user_creator: queryModel.userCreator, // this is userCreator username, not working atm
             timezone: queryModel.timezoneDate ? (queryModel.timezoneSign *(queryModel.timezoneDate.getHours() * 60 + queryModel.timezoneDate.getMinutes())) : null,

@@ -70,7 +70,8 @@ app.controller('AdminCityController',function ($scope, $routeParams, $location, 
             return;
         }
 
-        $scope.canTriggerPhases = inspectedCity.started_at && !inspectedCity.finished_at && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE];
+        $scope.canTriggerPhases = inspectedCity.started_at && !inspectedCity.finished_at && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ];
+        $scope.canChangeAvailability = !inspectedCity.started_at && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ];
     }, true);
 
 

@@ -35,6 +35,7 @@ app.controller('AdminController',function ($scope, $q, $location, usersService, 
         if (citiesQueryModelJson) {
             $scope.citiesQueryModel = JSON.parse(citiesQueryModelJson);
             convertTimestampsToDates($scope.citiesQueryModel);
+            $scope.citiesQueryModel['timezoneDate'] = $scope.citiesQueryModel['timezoneDate'] ? new Date($scope.citiesQueryModel['startedAtMin']) : null;
             $scope.citiesQueryModel['startedAtMin'] = $scope.citiesQueryModel['startedAtMin'] ? new Date($scope.citiesQueryModel['startedAtMin']) : null;
             $scope.citiesQueryModel['startedAtMax'] = $scope.citiesQueryModel['startedAtMax'] ? new Date($scope.citiesQueryModel['startedAtMax']) : null;
             $scope.citiesQueryModel['lastPausedAtMin'] = $scope.citiesQueryModel['lastPausedAtMin'] ? new Date($scope.citiesQueryModel['lastPausedAtMin']) : null;

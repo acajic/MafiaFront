@@ -427,7 +427,17 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         layoutService.setHomeButtonVisible(false);
         layoutService.setAdminButtonVisible(true);
 
+        $scope.allCitiesFilterModel = {
+            public: true,
+            private: true
+        };
         $scope.allCities = [];
+
+        $scope.myCitiesFilterModel = {
+            isMember: true,
+            isJoinRequested: true,
+            isInvited: true
+        };
         $scope.myCities = [];
 
         var emailConfirmationCode = $routeParams["emailConfirmationCode"];
@@ -462,29 +472,38 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         $scope.affiliationIds = rolesService.affiliationIds;
     }
 
-}).filter('myCityFilter', function (authService) {
-        return function (cities) {
-            var myCities = [];
+}).filter('filterMyCities', function () {
+    return function (cities, myCitiesFilterModel) {
+        var myCities = [];
 
-            var userMe = authService.user;
-            angular.forEach(cities, function (city) {
-                "use strict";
-                var isMine = false;
-                if (!city.residents)
-                    return false;
+        angular.forEach(cities, function (city) {
+            "use strict";
 
-                for (var residentIndex = 0; residentIndex<city.residents.length; residentIndex++) {
-                    var resident = city.residents[residentIndex];
-                    if (resident.user_id == userMe.id) {
-                        isMine = true;
-                        break;
-                    }
-                }
-                if (isMine) {
-                    myCities.push(city);
-                }
-            });
+            if ((myCitiesFilterModel.isMember && city.is_member) ||
+                (myCitiesFilterModel.isJoinRequested && city.is_join_requested) ||
+                (myCitiesFilterModel.isInvited && city.is_invited)) {
 
-            return myCities;
-        }
-    });
+                myCities.push(city);
+            }
+
+        });
+
+        return myCities;
+    }
+}).filter('filterAllCities', function () {
+    return function (cities, allCitiesFilterModel) {
+        var allCities = [];
+
+        angular.forEach(cities, function (city) {
+            "use strict";
+
+            if ((allCitiesFilterModel.public && city.public) ||
+                (allCitiesFilterModel.private && !city.public)) {
+                allCities.push(city);
+            }
+
+        });
+
+        return allCities;
+    }
+});

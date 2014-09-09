@@ -116,7 +116,6 @@ td {
 .row-even {
 }
 
-
 /* END even/odd rows */
 
 /* BEGIN role */
@@ -163,25 +162,24 @@ td {
 }
 
 .city-row-join-requested {
-    background-color: rgba(239, 241, 51, 0.25);
+    background-color: rgba(239, 241, 51, 0.3);
 }
 
 .city-row-invited {
-    background-color: rgba(35, 22, 55, 0.51);
-    color: rgb(255, 255, 255);
+    background-color: rgba(9, 0, 204, 0.30);
 }
 
 .city-row-member {
-    background-color: rgba(52, 252, 72, 0.23);
+    background-color: rgba(0, 224, 42, 0.30);
 }
 
 
 .city-row-public {
-    background-color: rgba(89, 187, 121, 0.25);
+    background-color: rgba(89, 187, 121, 0.3);
 }
 
 .city-row-private {
-    background-color: rgba(187, 107, 136, 0.25);
+    background-color: rgba(187, 179, 0, 0.3);
 }
 
 .popover {

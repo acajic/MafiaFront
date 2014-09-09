@@ -18,6 +18,16 @@
             <td colspan="2"> <textarea ng-model="inspectedCity.description"></textarea> </td>
         </tr>
 
+        <tr ng-if="canChangeAvailability">
+            <td>Public</td>
+            <td colspan="2"> <input type="checkbox" ng-model="inspectedCity.public"> </td>
+        </tr>
+
+        <tr ng-hide="canChangeAvailability">
+            <td>Public</td>
+            <td colspan="2"> <img-bool boolean-value="inspectedCity.public"></img-bool> </td>
+        </tr>
+
         <tr>
             <td>Timezone</td>
             <td colspan="2"> {{ timezoneString }} </td>
