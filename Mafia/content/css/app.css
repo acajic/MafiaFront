@@ -116,7 +116,6 @@ td {
 .row-even {
 }
 
-
 /* END even/odd rows */
 
 /* BEGIN role */
@@ -162,20 +161,25 @@ td {
     font-size: 16px;
 }
 
-.city-row-created {
-    background-color: rgba(239, 241, 51, 0.25);
+.city-row-join-requested {
+    background-color: rgba(239, 241, 51, 0.3);
 }
 
-.city-row-finished {
-    background-color: rgba(187, 20, 0, 0.25);
+.city-row-invited {
+    background-color: rgba(9, 0, 204, 0.30);
 }
 
-.city-row-paused {
-    background-color: rgba(104, 156, 248, 0.24);
+.city-row-member {
+    background-color: rgba(0, 224, 42, 0.30);
 }
 
-.city-row-active {
-    background-color: rgba(52, 252, 72, 0.23);
+
+.city-row-public {
+    background-color: rgba(89, 187, 121, 0.3);
+}
+
+.city-row-private {
+    background-color: rgba(187, 179, 0, 0.3);
 }
 
 .popover {

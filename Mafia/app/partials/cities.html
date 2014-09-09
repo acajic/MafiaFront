@@ -17,33 +17,39 @@
                 </tab-heading>
 
                 <div class="col-md-6 nopadding">
-                <table interactive-table selected-row-id="selectedMyCities.rowId" class="table">
-                    <thead>
-                    <tr>
-                        <td>Name</td>
-                        <td>Started</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="city in myCities" ng-class="classNameForCityRow(city)">
-                        <input type="hidden" name="id" value="{{ city.id }}">
-                        <td>{{city.name}}</td>
-                        <td style="text-align: center;">
-                            <img-bool boolean-value="city.started_at"></img-bool>
-                        </td>
-                    </tr>
-                    <tr ng-if="isLoadingContentMyCities">
-                        <td colspan="2" style="text-align: center">
-                            <loader size='small'></loader>
-                        </td>
-                    </tr>
-                    <tr ng-hide="isLoadingContentMyCities">
-                        <td colspan="2">
-                            <button class="btn btn-block" ng-click="reloadMyCities()" ng-hide="noMoreContentMyCities">More</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                    <div class="btn-group" style="width: 100%">
+                        <label class="btn btn-success" style="width: 34%" ng-model="myCitiesFilterModel.isMember" btn-checkbox>Already a Member</label>
+                        <label class="btn btn-warning" style="width: 33%" ng-model="myCitiesFilterModel.isJoinRequested" btn-checkbox>Requested to Join</label>
+                        <label class="btn btn-primary" style="width: 33%" ng-model="myCitiesFilterModel.isInvited" btn-checkbox>Invited</label>
+                    </div>
+
+                    <table interactive-table selected-row-id="selectedMyCities.rowId" class="table">
+                        <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td style="text-align: center;">Status</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="city in myCities | filterMyCities:myCitiesFilterModel" ng-class="classNameForMyCitiesRow(city)">
+                            <input type="hidden" name="id" value="{{ city.id }}">
+                            <td>{{city.name}}</td>
+                            <td style="text-align: center;">
+                                <img-city-status city="city"></img-city-status>
+                            </td>
+                        </tr>
+                        <tr ng-if="isLoadingContentMyCities">
+                            <td colspan="2" style="text-align: center">
+                                <loader size='small'></loader>
+                            </td>
+                        </tr>
+                        <tr ng-hide="isLoadingContentMyCities">
+                            <td colspan="2">
+                                <button class="btn btn-block" ng-click="reloadMyCities()" ng-hide="noMoreContentMyCities">More</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
 
             </tab>
@@ -54,33 +60,37 @@
             </tab-heading>
 
             <div class="col-md-6 nopadding">
-            <table interactive-table selected-row-id="selectedAllCities.rowId" class="table">
-                <thead>
-                <tr>
-                    <td>Name</td>
-                    <td>Started</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="city in allCities" ng-class="classNameForCityRow(city)">
-                    <input type="hidden" name="id" value="{{ city.id }}">
-                    <td>{{city.name}}</td>
-                    <td style="text-align: center;">
-                        <img-bool boolean-value="city.started_at"></img-bool>
-                    </td>
-                </tr>
-                <tr ng-if="isLoadingContentAllCities">
-                    <td colspan="2" style="text-align: center">
-                        <loader size='small'></loader>
-                    </td>
-                </tr>
-                <tr ng-hide="isLoadingContentAllCities">
-                    <td colspan="2">
-                        <button class="btn btn-block" ng-click="reloadAllCities()" ng-hide="noMoreContentAllCities">More</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                <div class="btn-group" style="width: 100%">
+                    <label class="btn btn-info" style="width: 50%" ng-model="allCitiesFilterModel.public" btn-checkbox>Public</label>
+                    <label class="btn btn-warning" style="width: 50%" ng-model="allCitiesFilterModel.private" btn-checkbox>Private</label>
+                </div>
+                <table interactive-table selected-row-id="selectedAllCities.rowId" class="table">
+                    <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td style="text-align: center">Status</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="city in allCities | filterAllCities:allCitiesFilterModel" ng-class="classNameForAllCitiesRow(city)">
+                        <input type="hidden" name="id" value="{{ city.id }}">
+                        <td>{{city.name}}</td>
+                        <td style="text-align: center;">
+                            <img-city-status city="city"></img-city-status>
+                        </td>
+                    </tr>
+                    <tr ng-if="isLoadingContentAllCities">
+                        <td colspan="2" style="text-align: center">
+                            <loader size='small'></loader>
+                        </td>
+                    </tr>
+                    <tr ng-hide="isLoadingContentAllCities">
+                        <td colspan="2">
+                            <button class="btn btn-block" ng-click="reloadAllCities()" ng-hide="noMoreContentAllCities">More</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
 
         </tab>
@@ -299,7 +309,11 @@
             <button ng-if="!showEditButtonForCity(selectedCity)" ng-click="showCity(selectedCity)" class="btn btn-info"><i class="glyphicon glyphicon-dashboard"></i>Details</button>
             <button ng-if="showEnterButtonForCity(selectedCity)" ng-click="enterCity(selectedCity)" class="btn btn-success"><i class="glyphicon glyphicon-briefcase"></i>Enter</button>
             <button ng-if="showJoinButtonForCity(selectedCity)" ng-click="joinCity(selectedCity)" class="btn btn-success"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
+            <button ng-if="showAcceptInvitationButtonForCity(selectedCity)" ng-click="acceptInvitationForCity(selectedCity)" class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i>Accept Invitation</button>
+
             <button ng-if="showLeaveButtonForCity(selectedCity)" ng-click="leaveCity(selectedCity)" class="btn btn-danger"><i class="glyphicon glyphicon-road"></i>Leave</button>
+            <button ng-if="showCancelJoinRequestForCity(selectedCity)" ng-click="cancelJoinRequestForCity(selectedCity)" class="btn btn-danger"><i class="glyphicon glyphicon-remove-circle"></i>Cancel Join Request</button>
+
 
             <loader ng-if="isPerformingCityOperation" size="small"></loader>
         </div>

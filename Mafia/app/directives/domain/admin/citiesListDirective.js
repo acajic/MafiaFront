@@ -47,6 +47,7 @@ app.directive('citiesList', function($location, citiesService, authService) {
 
                     if (scope.queryable) {
                         var queryModelForStorage = angular.copy(scope.queryModel);
+                        queryModelForStorage['timezoneDate'] = queryModelForStorage['timezoneDate'] ? queryModelForStorage['timezoneDate'].getTime() : null;
                         queryModelForStorage['createdAtMin'] = queryModelForStorage['createdAtMin'] ? queryModelForStorage['createdAtMin'].getTime() : null;
                         queryModelForStorage['createdAtMax'] = queryModelForStorage['createdAtMax'] ? queryModelForStorage['createdAtMax'].getTime() : null;
                         queryModelForStorage['updatedAtMin'] = queryModelForStorage['updatedAtMin'] ? queryModelForStorage['updatedAtMin'].getTime() : null;

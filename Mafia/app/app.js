@@ -43,16 +43,13 @@ app.config(function ($routeProvider, $locationProvider) {
             validate: function($q, $location, $route, citiesService, authService) {
                 var cityId = $route.current.params['cityId'];
 
-                var citiesPromise = citiesService.getCities(false);
+                var cityPromise = citiesService.getCity(cityId);
                 var userMePromise = authService.userMe(false);
 
-                $q.all([citiesPromise, userMePromise]).then(function(result) {
-                    var cities = result[0];
+                $q.all([cityPromise, userMePromise]).then(function(result) {
+                    var city = result[0];
                     var userMe = result[1];
 
-                    var city = $.grep(cities, function (city) {
-                        return city.id == cityId;
-                    })[0];
 
                     if (city.user_creator_id == userMe.id) {
                         // user is creator of selected city
@@ -73,16 +70,13 @@ app.config(function ($routeProvider, $locationProvider) {
             validate: function($q, $location, $route, citiesService, authService) {
                 var cityId = $route.current.params['cityId'];
 
-                var citiesPromise = citiesService.getCities(false);
+                var cityPromise = citiesService.getCity(cityId);
                 var userMePromise = authService.userMe(false);
 
-                return $q.all([citiesPromise, userMePromise], function(result) {
-                    var cities = result[0];
+                return $q.all([cityPromise, userMePromise], function(result) {
+                    var city = result[0];
                     var userMe = result[1];
 
-                    var city = $.grep(cities, function (someCity) {
-                        return someCity.id == cityId;
-                    })[0];
 
                     if (!city) {
                         $location.path('/cities');

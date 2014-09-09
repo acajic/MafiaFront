@@ -274,13 +274,14 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             return $scope.userMe.id == someResident.user_id;
         })[0];
 
-        return !isNew(city) && !amIOwner(city) && !isStartedAndOngoing(city) && !isStartedAndPaused(city) && !resident && !city.finished_at;
+        return !isNew(city) && !city.is_owner && !city.started_at && !city.is_member && !city.is_join_requested && !city.is_invited && !city.finished_at;
     }
 
     function join() {
         $scope.disableCityControls = true;
         var joinPromise = citiesService.joinCity($scope.city.id);
-        joinPromise.then(function(cityUpdated) {
+        joinPromise.then(function(result) {
+            var cityUpdated = result.city;
             $timeout(function() {
                 $scope.disableCityControls = false;
             });
@@ -296,6 +297,62 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
         });
     }
+
+    function showCancelJoinRequest(city) {
+        if (!city)
+            return false;
+
+        return !isNew(city) && !city.is_owner && !city.started_at && !city.is_member && city.is_join_requested;
+    }
+
+    function cancelJoinRequest() {
+        $scope.disableCityControls = true;
+        var cancelJoinRequestPromise = citiesService.cancelJoinRequest($scope.city.id);
+        cancelJoinRequestPromise.then(function(cityUpdated) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+            });
+
+            initDayCycles(cityUpdated);
+            $scope.city = cityUpdated;
+
+        }, function(reason) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to cancel join request.' }];
+            });
+
+        });
+    }
+
+
+    function showAcceptInvitation(city) {
+        if (!city)
+            return false;
+
+        return !isNew(city) && !city.is_owner && !city.started_at && !city.is_member && city.is_invited;
+    }
+
+    function acceptInvitation() {
+        $scope.disableCityControls = true;
+        var acceptInvitationPromise = citiesService.acceptInvitation($scope.city.id);
+        acceptInvitationPromise.then(function(cityUpdated) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+            });
+
+            initDayCycles(cityUpdated);
+            $scope.city = cityUpdated;
+
+        }, function(reason) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to accept invitation.' }];
+            });
+
+        });
+    }
+
 
     function showLeaveButton(city) {
         if (!city)
@@ -365,6 +422,71 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.basicValidationErrors.splice(index, 1);
     }
 
+    function cancelInvitation(index) {
+        var invitedUserId = $scope.city.invitations[index].user_id;
+        $scope.isChangingUsers = true;
+        citiesService.cancelInvitation($scope.city.id, invitedUserId).then(function(cityResult) {
+            $timeout(function() {
+                $scope.isChangingUsers = false;
+                $scope.generalMessages = [{type: 'success', msg: 'Cancelled invitation for "' + $scope.city.invitations[index].username + '".' }];
+                $scope.city.invitations.splice(index, 1);
+                angular.copy($scope.city, originalCity);
+            });
+        }, function(reason) {
+            $timeout(function() {
+                $scope.isChangingUsers = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to cancel invitation for "' + $scope.city.invitations[index].username + '".' }];
+            });
+
+        });
+
+    }
+
+
+    function acceptJoinRequest(index) {
+        var joinRequestUserId = $scope.city.join_requests[index].user_id;
+        $scope.isChangingUsers = true;
+        citiesService.acceptJoinRequest($scope.city.id, joinRequestUserId).then(function(cityResult) {
+            $timeout(function() {
+                $scope.isChangingUsers = false;
+                $scope.generalMessages = [{type: 'success', msg: 'Accepted "' + $scope.city.join_requests[index].username + '".' }];
+
+                $scope.city.residents = cityResult.residents;
+                $scope.city.join_requests = cityResult.join_requests;
+
+                angular.copy($scope.city, originalCity);
+            });
+        }, function(reason) {
+            $timeout(function() {
+                $scope.isChangingUsers = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to accept "' + $scope.city.join_requests[index].username + '".' }];
+            });
+
+        });
+
+    }
+
+    function rejectJoinRequest(index) {
+        var joinRequestUserId = $scope.city.join_requests[index].user_id;
+        $scope.isChangingUsers = true;
+        citiesService.rejectJoinRequest($scope.city.id, joinRequestUserId).then(function(cityResult) {
+            $timeout(function() {
+                $scope.isChangingUsers = false;
+                $scope.generalMessages = [{type: 'success', msg: 'Rejected "' + $scope.city.join_requests[index].username + '".' }];
+                $scope.city.join_requests.splice(index, 1);
+                angular.copy($scope.city, originalCity);
+            });
+        }, function(reason) {
+            $timeout(function() {
+                $scope.isChangingUsers = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to reject "' + $scope.city.join_requests[index].username + '".' }];
+            });
+
+        });
+
+    }
+
+
     function kickResident(index) {
         var residentUserId = $scope.city.residents[index].user_id;
         $scope.isChangingUsers = true;
@@ -410,10 +532,50 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
                     $scope.isChangingUsers = false;
                 });
 
+                /*
+                 var updatedCityResidents = result.updated_city_residents;
+                 originalCity.residents = updatedCityResidents;
+                 $scope.city.residents = updatedCityResidents;
+                 */
+                $scope.city.residents = result.city.residents;
+                $scope.city.invitations = result.city.invitations;
+                $scope.city.join_requests = result.city.join_requests;
+                originalCity = result.city;
 
-                var updatedCityResidents = result.updated_city_residents;
-                originalCity.residents = updatedCityResidents;
-                $scope.city.residents = updatedCityResidents;
+
+                if (result.already_joined_users && result.already_joined_users.length > 0) {
+                    var alreadyJoinedUsers = result.already_joined_users;
+                    var plural = alreadyJoinedUsers.length == 1 ? '' : 's';
+                    var alreadyJoinedUsersMessage = 'User'+plural+' ';
+                    angular.forEach(alreadyJoinedUsers, function(someUser) {
+                        alreadyJoinedUsersMessage += someUser.username + ', ';
+                    });
+                    alreadyJoinedUsersMessage = alreadyJoinedUsersMessage.substring(0, alreadyJoinedUsersMessage.length - 2) + (alreadyJoinedUsers.length == 1 ? ' is ' : ' are ') + 'already joined to the game.';
+                    $scope.generalMessages.push({type: 'success', msg: alreadyJoinedUsersMessage });
+                }
+
+
+                if (result.existing_users_joined && result.existing_users_joined.length > 0) {
+                    var existingUsersJoined = result.existing_users_joined;
+                    var plural = existingUsersJoined.length == 1 ? '' : 's';
+                    var existingUsersJoinedMessage = 'Existing user'+plural+' ';
+                    angular.forEach(existingUsersJoined, function(someUser) {
+                        existingUsersJoinedMessage += someUser.username + ', ';
+                    });
+                    existingUsersJoinedMessage = existingUsersJoinedMessage.substring(0, existingUsersJoinedMessage.length - 2) + ' invited and automatically joined the game.';
+                    $scope.generalMessages.push({type: 'success', msg: existingUsersJoinedMessage });
+                }
+
+                if (result.already_invited_users && result.already_invited_users.length > 0) {
+                    var alreadyInvitedUsers = result.already_invited_users;
+                    var plural = alreadyInvitedUsers.length == 1 ? '' : 's';
+                    var alreadyInvitedUsersMessage = 'User'+plural+' ';
+                    angular.forEach(alreadyInvitedUsers, function(someUser) {
+                        alreadyInvitedUsersMessage += someUser.username + ', ';
+                    });
+                    alreadyInvitedUsersMessage = alreadyInvitedUsersMessage.substring(0, alreadyInvitedUsersMessage.length - 2) + (alreadyInvitedUsers.length == 1 ? ' is ' : ' are ') + 'already invited to the game.';
+                    $scope.generalMessages.push({type: 'success', msg: alreadyInvitedUsersMessage });
+                }
 
                 if (result.existing_users_invited && result.existing_users_invited.length > 0) {
                     var existingUsersInvited = result.existing_users_invited;
@@ -422,19 +584,19 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
                     angular.forEach(existingUsersInvited, function(someUser) {
                         existingUsersInvitedMessage += someUser.username + ', ';
                     });
-                    existingUsersInvitedMessage = existingUsersInvitedMessage.substring(0, existingUsersInvitedMessage.length - 2) + ' added to the game.';
+                    existingUsersInvitedMessage = existingUsersInvitedMessage.substring(0, existingUsersInvitedMessage.length - 2) + ' invited to the game.';
                     $scope.generalMessages.push({type: 'success', msg: existingUsersInvitedMessage });
                 }
 
-                if (result.new_users_invited && result.new_users_invited.length > 0) {
-                    var newUsersInvited = result.new_users_invited;
-                    var plural = newUsersInvited.length == 1 ? '' : 's';
-                    var newUsersInvitedMessage = 'New user' + plural + ' ';
-                    angular.forEach(newUsersInvited, function(someUser) {
-                        newUsersInvitedMessage += someUser.username + ', ';
+                if (result.new_users_joined && result.new_users_joined.length > 0) {
+                    var newUsersJoined = result.new_users_joined;
+                    var plural = newUsersJoined.length == 1 ? '' : 's';
+                    var newUsersJoinedMessage = 'New user' + plural + ' ';
+                    angular.forEach(newUsersJoined, function(someUser) {
+                        newUsersJoinedMessage += someUser.username + ', ';
                     });
-                    newUsersInvitedMessage = newUsersInvitedMessage.substring(0, newUsersInvitedMessage.length - 2) + ' created and added to the game.';
-                    $scope.generalMessages.push({type: 'success', msg: newUsersInvitedMessage });
+                    newUsersJoinedMessage = newUsersJoinedMessage.substring(0, newUsersJoinedMessage.length - 2) + ' created and added to the game.';
+                    $scope.generalMessages.push({type: 'success', msg: newUsersJoinedMessage });
                 }
 
                 if (result.new_users_invalid && result.new_users_invalid.length > 0 ) {
@@ -556,17 +718,30 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         };
     };
 
-    var usersNotJoined = function(users, residents) {
+
+    /*
+    var usersNotJoined = function(users, residents, invitations) {
         var usersNotJoined = angular.copy(users);
         angular.forEach(residents, function(someResident) {
             var index = usersNotJoined.indexOfMatchFunction(function(someUser) {
                 return someUser.id == someResident.user_id;
             });
-            if (index >= 0)
+            if (index >= 0) {
                 usersNotJoined.splice(index, 1);
+            }
+        });
+        angular.forEach(invitations, function(someInvitation) {
+            var index = usersNotJoined.indexOfMatchFunction(function(someUser) {
+                return someUser.id == someInvitation.user_id;
+            });
+            if (index >= 0) {
+                usersNotJoined.splice(index, 1);
+            }
         });
         return usersNotJoined;
     };
+    */
+
 
     function toggleShowAddDayCycle() {
         $scope.showAddDayCycle = !$scope.showAddDayCycle;
@@ -986,6 +1161,13 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
         $scope.showJoinButton = showJoinButton;
         $scope.join = join;
+
+        $scope.showCancelJoinRequest = showCancelJoinRequest;
+        $scope.cancelJoinRequest = cancelJoinRequest;
+
+        $scope.showAcceptInvitation = showAcceptInvitation;
+        $scope.acceptInvitation = acceptInvitation;
+
         $scope.showLeaveButton = showLeaveButton;
         $scope.leave = leave;
 
@@ -995,6 +1177,9 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.timezoneChanged = timezoneChanged;
 
 
+        $scope.cancelInvitation = cancelInvitation;
+        $scope.acceptJoinRequest = acceptJoinRequest;
+        $scope.rejectJoinRequest = rejectJoinRequest;
         $scope.kickResident = kickResident;
         $scope.openInviteModal = openInviteModal;
 

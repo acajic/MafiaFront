@@ -47,6 +47,16 @@
             </td>
         </tr>
 
+        <tr colspan="3" ng-if="userPreferenceEditable">
+            <td>Automatically join the game when invited</td>
+            <td> <input type="checkbox" ng-model="inspectedUser.user_preference.automatically_join_when_invited"> </td>
+        </tr>
+
+        <tr colspan="3" ng-if="userPreferenceEditable">
+            <td>Receive email when invited/added to the game</td>
+            <td> <input type="checkbox" ng-model="inspectedUser.user_preference.receive_notifications_when_added_to_game"> </td>
+        </tr>
+
         <tr>
             <td>Created At</td>
             <td colspan="3">{{ inspectedUser.created_at }}</td>

@@ -47,16 +47,13 @@ app.config(function ($routeProvider, $locationProvider) {
             validate: function($q, $location, $route, citiesService, authService) {
                 var cityId = $route.current.params['cityId'];
 
-                var citiesPromise = citiesService.getCities(false);
+                var cityPromise = citiesService.getCity(cityId);
                 var userMePromise = authService.userMe(false);
 
-                $q.all([citiesPromise, userMePromise]).then(function(result) {
-                    var cities = result[0];
+                $q.all([cityPromise, userMePromise]).then(function(result) {
+                    var city = result[0];
                     var userMe = result[1];
 
-                    var city = $.grep(cities, function (city) {
-                        return city.id == cityId;
-                    })[0];
 
                     if (city.user_creator_id == userMe.id) {
                         // user is creator of selected city
@@ -77,16 +74,13 @@ app.config(function ($routeProvider, $locationProvider) {
             validate: function($q, $location, $route, citiesService, authService) {
                 var cityId = $route.current.params['cityId'];
 
-                var citiesPromise = citiesService.getCities(false);
+                var cityPromise = citiesService.getCity(cityId);
                 var userMePromise = authService.userMe(false);
 
-                return $q.all([citiesPromise, userMePromise], function(result) {
-                    var cities = result[0];
+                return $q.all([cityPromise, userMePromise], function(result) {
+                    var city = result[0];
                     var userMe = result[1];
 
-                    var city = $.grep(cities, function (someCity) {
-                        return someCity.id == cityId;
-                    })[0];
 
                     if (!city) {
                         $location.path('/cities');
@@ -249,7 +243,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         }
 
         authService.userMe().then(function(userMe) {
-            var citiesPromise = citiesService.getAllCities({residentUserIds : [userMe.id]}, pageIndexMyCities, pageSizeMyCities);
+            var citiesPromise = citiesService.getMyCities(pageIndexMyCities, pageSizeMyCities);
 
 
             citiesPromise.then(function(citiesResult) {
@@ -324,18 +318,22 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
 
         var joinCityPromise = citiesService.joinCity(city.id);
-        joinCityPromise.then(function(updatedCity) {
+        joinCityPromise.then(function(result) {
+            var updatedCity = result.city;
             $timeout(function() {
-                $scope.alerts.push({type: "success", msg: "Successfully joined '" + updatedCity.name + "'."});
+                if (result.outcome == 1) {
+                    $scope.alerts.push({type: "success", msg: "Successfully joined '" + updatedCity.name + "'."});
+                } else if (result.outcome == 2) {
+                    $scope.alerts.push({type: "success", msg: "Submitted request to join '" + updatedCity.name + "'. Game creator must approve your request."});
+                } else if (result.outcome == 3) {
+                    $scope.alerts.push({type: "success", msg: "You have already requested to join '" + updatedCity.name + "'. Game creator must approve your request."});
+                }
                 $scope.isPerformingCityOperation = false;
             });
 
-            var city = $.grep($scope.cities, function(someCity) {
-                return someCity.id == updatedCity.id;
-            });
+            refreshCityId(city.id, updatedCity);
 
-            refreshCity(city, updatedCity);
-
+            $scope.selectedCity = updatedCity;
         }, function(reason) {
             $timeout(function() {
                 $scope.alerts.push({type: "danger", msg: "Failed to join '" + city.name + "'."});
@@ -343,6 +341,35 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
             });
 
         });
+    };
+
+    $scope.acceptInvitationForCity = function(city) {
+        $timeout(function() {
+            $scope.isPerformingCityOperation = true;
+        });
+
+
+        var acceptInvitationPromise = citiesService.acceptInvitation(city.id);
+        acceptInvitationPromise.then(function(result) {
+            var updatedCity = result;
+            $timeout(function() {
+                $scope.alerts.push({type: "success", msg: "Accepted invitation to join '" + updatedCity.name + "'."});
+                $scope.isPerformingCityOperation = false;
+            });
+
+
+
+            refreshCityId(city.id, updatedCity);
+
+            $scope.selectedCity = updatedCity;
+        }, function(reason) {
+            $timeout(function() {
+                $scope.alerts.push({type: "danger", msg: "Failed to accept invitation to join '" + city.name + "'."});
+                $scope.isPerformingCityOperation = false;
+            });
+
+        });
+
     };
 
     $scope.leaveCity = function(city) {
@@ -358,11 +385,21 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
                 $scope.isPerformingCityOperation = false;
             });
 
-            var city = $.grep($scope.cities, function(someCity) {
-                return someCity.id == updatedCity.id;
+
+            var indexMyCities = $scope.myCities.indexOfMatchFunction(function(someCity) {
+                return someCity.id == city.id;
+            });
+            $scope.myCities.splice(indexMyCities, 1);
+
+            var indexAllCities = $scope.allCities.indexOfMatchFunction(function(someCity) {
+                return someCity.id == city.id;
             });
 
-            refreshCity(city, updatedCity);
+            if (indexAllCities < 0) {
+                $scope.reloadAllCities(true);
+            } else {
+                $scope.allCities.splice(indexAllCities, 1, updatedCity);
+            }
         }, function(reason) {
             $timeout(function() {
                 $scope.alerts.push({type: "danger", msg: "Failed to leave '" + city.name + "'."});
@@ -372,8 +409,49 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         });
     };
 
-    var refreshCity = function(oldCity, newCity) {
-        var indexMyCities = $scope.myCities.indexOf(oldCity);
+    $scope.cancelJoinRequestForCity = function(city) {
+        $timeout(function() {
+            $scope.isPerformingCityOperation = true;
+        });
+
+
+        var cancelJoinRequestPromise = citiesService.cancelJoinRequest(city.id);
+        cancelJoinRequestPromise.then(function(updatedCity) {
+            $timeout(function() {
+                $scope.alerts.push({type: "success", msg: "No longer requesting to join '" + updatedCity.name + "'."});
+                $scope.isPerformingCityOperation = false;
+            });
+
+
+            var indexMyCities = $scope.myCities.indexOfMatchFunction(function(someCity) {
+                return someCity.id == city.id;
+            });
+            $scope.myCities.splice(indexMyCities, 1);
+
+            var indexAllCities = $scope.allCities.indexOfMatchFunction(function(someCity) {
+                return someCity.id == city.id;
+            });
+
+            if (indexAllCities < 0) {
+                $scope.reloadAllCities(true);
+            } else {
+                $scope.allCities.splice(indexAllCities, 1, updatedCity);
+            }
+
+            $scope.selectedCity = updatedCity;
+        }, function(reason) {
+            $timeout(function() {
+                $scope.alerts.push({type: "danger", msg: "Failed to cancel join request to '" + city.name + "'."});
+                $scope.isPerformingCityOperation = false;
+            });
+
+        });
+    };
+
+    var refreshCityId = function(cityId, newCity) {
+        var indexMyCities = $scope.myCities.indexOfMatchFunction(function(city) {
+            return city.id == cityId;
+        });
 
         if (indexMyCities < 0) {
             $scope.reloadMyCities(true);
@@ -381,7 +459,9 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
             $scope.myCities.splice(indexMyCities, 1, newCity);
         }
 
-        var indexAllCities = $scope.allCities.indexOf(oldCity);
+        var indexAllCities = $scope.allCities.indexOfMatchFunction(function(city) {
+            return city.id == cityId;
+        });
 
         if (indexAllCities < 0) {
             $scope.reloadAllCities(true);
@@ -389,6 +469,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
             $scope.allCities.splice(indexAllCities, 1, newCity);
         }
     };
+
 
     $scope.$watch("selectedMyCities.rowId", function (newValue) {
         if (!$scope.myCities)
@@ -437,48 +518,81 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         return residentMe;
     }
 
-    function classNameForCityRow(city) {
+    function classNameForMyCitiesRow(city) {
         if (!city)
-            return {};
+            return "";
 
-        if (!city.started_at)
-            return "city-row-created";
-        if (city.finished_at)
-            return "city-row-finished";
-        if (city.paused)
-            return "city-row-paused";
-        return "city-row-active";
+        if (city.is_member)
+            return "city-row-member";
+        if (city.is_invited)
+            return "city-row-invited";
+        if (city.is_join_requested)
+            return "city-row-join-requested";
+
+    }
+
+    function classNameForAllCitiesRow(city) {
+        if (!city)
+            return "";
+
+        if (city.public)
+            return "city-row-public";
+        else
+            return "city-row-private";
     }
 
     function showEditButtonForCity(city) {
+        return city.is_owner;
+        /*
         if (city)
             return amICreatorOfCity(city);
         else
             return false;
+        */
     }
 
     function showEnterButtonForCity(city) {
-        if (city && city.started_at)
+        return city && city.started_at && city.is_member;
+
+        /*if (city && city.started_at)
             return amIMemberOfCity(city);
         else
             return false;
+        */
     }
 
     function showJoinButtonForCity(city) {
-        if (city && !city.started_at)
+        return city && !city.started_at && !city.is_join_requested && !city.is_member && !city.is_invited && !city.is_owner;
+
+        /*if (city && !city.started_at)
             return !amIMemberOfCity(city);
         else
-            return false;
+            return false;*/
+    }
+
+    function showAcceptInvitationButtonForCity(city) {
+        return city && !city.started_at && city.is_invited && !city.is_member;
     }
 
     function showLeaveButtonForCity(city) {
+        return city && !city.started_at && city.is_member && !city.is_owner;
+        /*
         if (city && !city.started_at)
             return amIMemberOfCity(city) && !amICreatorOfCity(city);
         else
             return false;
+        */
+    }
+
+    function showCancelJoinRequestForCity(city) {
+        return city && city.is_join_requested && !city.is_member;
     }
 
     $scope.$watch("user", function (newUser, oldUser) {
+        $scope.selectedCity = null;
+        $scope.selectedAllCities = {};
+        $scope.selectedMyCities = {};
+
         if (!newUser || !newUser.id) {
             $scope.myCities = [];
             return;
@@ -486,6 +600,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
         if (newUser.id != (oldUser ? oldUser.id : 0) && !$scope.isLoadingContentMyCities) {
             $scope.reloadMyCities(true);
+            $scope.reloadAllCities(true);
         }
 
 
@@ -506,7 +621,17 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         layoutService.setHomeButtonVisible(false);
         layoutService.setAdminButtonVisible(true);
 
+        $scope.allCitiesFilterModel = {
+            public: true,
+            private: true
+        };
         $scope.allCities = [];
+
+        $scope.myCitiesFilterModel = {
+            isMember: true,
+            isJoinRequested: true,
+            isInvited: true
+        };
         $scope.myCities = [];
 
         var emailConfirmationCode = $routeParams["emailConfirmationCode"];
@@ -524,11 +649,14 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         $scope.reloadAllCities();
         $scope.reloadMyCities();
 
-        $scope.classNameForCityRow = classNameForCityRow;
+        $scope.classNameForMyCitiesRow = classNameForMyCitiesRow;
+        $scope.classNameForAllCitiesRow = classNameForAllCitiesRow;
         $scope.showEditButtonForCity = showEditButtonForCity;
         $scope.showEnterButtonForCity = showEnterButtonForCity;
         $scope.showJoinButtonForCity = showJoinButtonForCity;
+        $scope.showAcceptInvitationButtonForCity = showAcceptInvitationButtonForCity;
         $scope.showLeaveButtonForCity = showLeaveButtonForCity;
+        $scope.showCancelJoinRequestForCity = showCancelJoinRequestForCity;
 
 
         rolesService.getAllRoles().then(function(allRolesResult) {
@@ -538,32 +666,41 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         $scope.affiliationIds = rolesService.affiliationIds;
     }
 
-}).filter('myCityFilter', function (authService) {
-        return function (cities) {
-            var myCities = [];
+}).filter('filterMyCities', function () {
+    return function (cities, myCitiesFilterModel) {
+        var myCities = [];
 
-            var userMe = authService.user;
-            angular.forEach(cities, function (city) {
-                "use strict";
-                var isMine = false;
-                if (!city.residents)
-                    return false;
+        angular.forEach(cities, function (city) {
+            "use strict";
 
-                for (var residentIndex = 0; residentIndex<city.residents.length; residentIndex++) {
-                    var resident = city.residents[residentIndex];
-                    if (resident.user_id == userMe.id) {
-                        isMine = true;
-                        break;
-                    }
-                }
-                if (isMine) {
-                    myCities.push(city);
-                }
-            });
+            if ((myCitiesFilterModel.isMember && city.is_member) ||
+                (myCitiesFilterModel.isJoinRequested && city.is_join_requested) ||
+                (myCitiesFilterModel.isInvited && city.is_invited)) {
 
-            return myCities;
-        }
-    }); 
+                myCities.push(city);
+            }
+
+        });
+
+        return myCities;
+    }
+}).filter('filterAllCities', function () {
+    return function (cities, allCitiesFilterModel) {
+        var allCities = [];
+
+        angular.forEach(cities, function (city) {
+            "use strict";
+
+            if ((allCitiesFilterModel.public && city.public) ||
+                (allCitiesFilterModel.private && !city.public)) {
+                allCities.push(city);
+            }
+
+        });
+
+        return allCities;
+    }
+}); 
  
 // cityController 
  
@@ -1063,13 +1200,14 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             return $scope.userMe.id == someResident.user_id;
         })[0];
 
-        return !isNew(city) && !amIOwner(city) && !isStartedAndOngoing(city) && !isStartedAndPaused(city) && !resident && !city.finished_at;
+        return !isNew(city) && !city.is_owner && !city.started_at && !city.is_member && !city.is_join_requested && !city.is_invited && !city.finished_at;
     }
 
     function join() {
         $scope.disableCityControls = true;
         var joinPromise = citiesService.joinCity($scope.city.id);
-        joinPromise.then(function(cityUpdated) {
+        joinPromise.then(function(result) {
+            var cityUpdated = result.city;
             $timeout(function() {
                 $scope.disableCityControls = false;
             });
@@ -1085,6 +1223,62 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
         });
     }
+
+    function showCancelJoinRequest(city) {
+        if (!city)
+            return false;
+
+        return !isNew(city) && !city.is_owner && !city.started_at && !city.is_member && city.is_join_requested;
+    }
+
+    function cancelJoinRequest() {
+        $scope.disableCityControls = true;
+        var cancelJoinRequestPromise = citiesService.cancelJoinRequest($scope.city.id);
+        cancelJoinRequestPromise.then(function(cityUpdated) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+            });
+
+            initDayCycles(cityUpdated);
+            $scope.city = cityUpdated;
+
+        }, function(reason) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to cancel join request.' }];
+            });
+
+        });
+    }
+
+
+    function showAcceptInvitation(city) {
+        if (!city)
+            return false;
+
+        return !isNew(city) && !city.is_owner && !city.started_at && !city.is_member && city.is_invited;
+    }
+
+    function acceptInvitation() {
+        $scope.disableCityControls = true;
+        var acceptInvitationPromise = citiesService.acceptInvitation($scope.city.id);
+        acceptInvitationPromise.then(function(cityUpdated) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+            });
+
+            initDayCycles(cityUpdated);
+            $scope.city = cityUpdated;
+
+        }, function(reason) {
+            $timeout(function() {
+                $scope.disableCityControls = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to accept invitation.' }];
+            });
+
+        });
+    }
+
 
     function showLeaveButton(city) {
         if (!city)
@@ -1154,6 +1348,71 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.basicValidationErrors.splice(index, 1);
     }
 
+    function cancelInvitation(index) {
+        var invitedUserId = $scope.city.invitations[index].user_id;
+        $scope.isChangingUsers = true;
+        citiesService.cancelInvitation($scope.city.id, invitedUserId).then(function(cityResult) {
+            $timeout(function() {
+                $scope.isChangingUsers = false;
+                $scope.generalMessages = [{type: 'success', msg: 'Cancelled invitation for "' + $scope.city.invitations[index].username + '".' }];
+                $scope.city.invitations.splice(index, 1);
+                angular.copy($scope.city, originalCity);
+            });
+        }, function(reason) {
+            $timeout(function() {
+                $scope.isChangingUsers = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to cancel invitation for "' + $scope.city.invitations[index].username + '".' }];
+            });
+
+        });
+
+    }
+
+
+    function acceptJoinRequest(index) {
+        var joinRequestUserId = $scope.city.join_requests[index].user_id;
+        $scope.isChangingUsers = true;
+        citiesService.acceptJoinRequest($scope.city.id, joinRequestUserId).then(function(cityResult) {
+            $timeout(function() {
+                $scope.isChangingUsers = false;
+                $scope.generalMessages = [{type: 'success', msg: 'Accepted "' + $scope.city.join_requests[index].username + '".' }];
+
+                $scope.city.residents = cityResult.residents;
+                $scope.city.join_requests = cityResult.join_requests;
+
+                angular.copy($scope.city, originalCity);
+            });
+        }, function(reason) {
+            $timeout(function() {
+                $scope.isChangingUsers = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to accept "' + $scope.city.join_requests[index].username + '".' }];
+            });
+
+        });
+
+    }
+
+    function rejectJoinRequest(index) {
+        var joinRequestUserId = $scope.city.join_requests[index].user_id;
+        $scope.isChangingUsers = true;
+        citiesService.rejectJoinRequest($scope.city.id, joinRequestUserId).then(function(cityResult) {
+            $timeout(function() {
+                $scope.isChangingUsers = false;
+                $scope.generalMessages = [{type: 'success', msg: 'Rejected "' + $scope.city.join_requests[index].username + '".' }];
+                $scope.city.join_requests.splice(index, 1);
+                angular.copy($scope.city, originalCity);
+            });
+        }, function(reason) {
+            $timeout(function() {
+                $scope.isChangingUsers = false;
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to reject "' + $scope.city.join_requests[index].username + '".' }];
+            });
+
+        });
+
+    }
+
+
     function kickResident(index) {
         var residentUserId = $scope.city.residents[index].user_id;
         $scope.isChangingUsers = true;
@@ -1199,10 +1458,50 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
                     $scope.isChangingUsers = false;
                 });
 
+                /*
+                 var updatedCityResidents = result.updated_city_residents;
+                 originalCity.residents = updatedCityResidents;
+                 $scope.city.residents = updatedCityResidents;
+                 */
+                $scope.city.residents = result.city.residents;
+                $scope.city.invitations = result.city.invitations;
+                $scope.city.join_requests = result.city.join_requests;
+                originalCity = result.city;
 
-                var updatedCityResidents = result.updated_city_residents;
-                originalCity.residents = updatedCityResidents;
-                $scope.city.residents = updatedCityResidents;
+
+                if (result.already_joined_users && result.already_joined_users.length > 0) {
+                    var alreadyJoinedUsers = result.already_joined_users;
+                    var plural = alreadyJoinedUsers.length == 1 ? '' : 's';
+                    var alreadyJoinedUsersMessage = 'User'+plural+' ';
+                    angular.forEach(alreadyJoinedUsers, function(someUser) {
+                        alreadyJoinedUsersMessage += someUser.username + ', ';
+                    });
+                    alreadyJoinedUsersMessage = alreadyJoinedUsersMessage.substring(0, alreadyJoinedUsersMessage.length - 2) + (alreadyJoinedUsers.length == 1 ? ' is ' : ' are ') + 'already joined to the game.';
+                    $scope.generalMessages.push({type: 'success', msg: alreadyJoinedUsersMessage });
+                }
+
+
+                if (result.existing_users_joined && result.existing_users_joined.length > 0) {
+                    var existingUsersJoined = result.existing_users_joined;
+                    var plural = existingUsersJoined.length == 1 ? '' : 's';
+                    var existingUsersJoinedMessage = 'Existing user'+plural+' ';
+                    angular.forEach(existingUsersJoined, function(someUser) {
+                        existingUsersJoinedMessage += someUser.username + ', ';
+                    });
+                    existingUsersJoinedMessage = existingUsersJoinedMessage.substring(0, existingUsersJoinedMessage.length - 2) + ' invited and automatically joined the game.';
+                    $scope.generalMessages.push({type: 'success', msg: existingUsersJoinedMessage });
+                }
+
+                if (result.already_invited_users && result.already_invited_users.length > 0) {
+                    var alreadyInvitedUsers = result.already_invited_users;
+                    var plural = alreadyInvitedUsers.length == 1 ? '' : 's';
+                    var alreadyInvitedUsersMessage = 'User'+plural+' ';
+                    angular.forEach(alreadyInvitedUsers, function(someUser) {
+                        alreadyInvitedUsersMessage += someUser.username + ', ';
+                    });
+                    alreadyInvitedUsersMessage = alreadyInvitedUsersMessage.substring(0, alreadyInvitedUsersMessage.length - 2) + (alreadyInvitedUsers.length == 1 ? ' is ' : ' are ') + 'already invited to the game.';
+                    $scope.generalMessages.push({type: 'success', msg: alreadyInvitedUsersMessage });
+                }
 
                 if (result.existing_users_invited && result.existing_users_invited.length > 0) {
                     var existingUsersInvited = result.existing_users_invited;
@@ -1211,19 +1510,19 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
                     angular.forEach(existingUsersInvited, function(someUser) {
                         existingUsersInvitedMessage += someUser.username + ', ';
                     });
-                    existingUsersInvitedMessage = existingUsersInvitedMessage.substring(0, existingUsersInvitedMessage.length - 2) + ' added to the game.';
+                    existingUsersInvitedMessage = existingUsersInvitedMessage.substring(0, existingUsersInvitedMessage.length - 2) + ' invited to the game.';
                     $scope.generalMessages.push({type: 'success', msg: existingUsersInvitedMessage });
                 }
 
-                if (result.new_users_invited && result.new_users_invited.length > 0) {
-                    var newUsersInvited = result.new_users_invited;
-                    var plural = newUsersInvited.length == 1 ? '' : 's';
-                    var newUsersInvitedMessage = 'New user' + plural + ' ';
-                    angular.forEach(newUsersInvited, function(someUser) {
-                        newUsersInvitedMessage += someUser.username + ', ';
+                if (result.new_users_joined && result.new_users_joined.length > 0) {
+                    var newUsersJoined = result.new_users_joined;
+                    var plural = newUsersJoined.length == 1 ? '' : 's';
+                    var newUsersJoinedMessage = 'New user' + plural + ' ';
+                    angular.forEach(newUsersJoined, function(someUser) {
+                        newUsersJoinedMessage += someUser.username + ', ';
                     });
-                    newUsersInvitedMessage = newUsersInvitedMessage.substring(0, newUsersInvitedMessage.length - 2) + ' created and added to the game.';
-                    $scope.generalMessages.push({type: 'success', msg: newUsersInvitedMessage });
+                    newUsersJoinedMessage = newUsersJoinedMessage.substring(0, newUsersJoinedMessage.length - 2) + ' created and added to the game.';
+                    $scope.generalMessages.push({type: 'success', msg: newUsersJoinedMessage });
                 }
 
                 if (result.new_users_invalid && result.new_users_invalid.length > 0 ) {
@@ -1345,17 +1644,30 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         };
     };
 
-    var usersNotJoined = function(users, residents) {
+
+    /*
+    var usersNotJoined = function(users, residents, invitations) {
         var usersNotJoined = angular.copy(users);
         angular.forEach(residents, function(someResident) {
             var index = usersNotJoined.indexOfMatchFunction(function(someUser) {
                 return someUser.id == someResident.user_id;
             });
-            if (index >= 0)
+            if (index >= 0) {
                 usersNotJoined.splice(index, 1);
+            }
+        });
+        angular.forEach(invitations, function(someInvitation) {
+            var index = usersNotJoined.indexOfMatchFunction(function(someUser) {
+                return someUser.id == someInvitation.user_id;
+            });
+            if (index >= 0) {
+                usersNotJoined.splice(index, 1);
+            }
         });
         return usersNotJoined;
     };
+    */
+
 
     function toggleShowAddDayCycle() {
         $scope.showAddDayCycle = !$scope.showAddDayCycle;
@@ -1775,6 +2087,13 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
         $scope.showJoinButton = showJoinButton;
         $scope.join = join;
+
+        $scope.showCancelJoinRequest = showCancelJoinRequest;
+        $scope.cancelJoinRequest = cancelJoinRequest;
+
+        $scope.showAcceptInvitation = showAcceptInvitation;
+        $scope.acceptInvitation = acceptInvitation;
+
         $scope.showLeaveButton = showLeaveButton;
         $scope.leave = leave;
 
@@ -1784,6 +2103,9 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.timezoneChanged = timezoneChanged;
 
 
+        $scope.cancelInvitation = cancelInvitation;
+        $scope.acceptJoinRequest = acceptJoinRequest;
+        $scope.rejectJoinRequest = rejectJoinRequest;
         $scope.kickResident = kickResident;
         $scope.openInviteModal = openInviteModal;
 
@@ -1948,7 +2270,8 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
         email: '',
         current_password: '',
         new_password: '',
-        repeat_new_password: ''
+        repeat_new_password: '',
+        user_preference: {}
     };
 
 
@@ -1958,20 +2281,20 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
         if (user.username.length == 0) {
             $scope.infos.push({type: 'danger', msg: 'Username must not be empty.'});
         }
+
+        /*
         if (!user.new_password || user.new_password.length == 0) {
             $scope.infos.push({type: 'danger', msg: 'New password must not be empty.'});
             return;
         }
+        */
+
         if (user.repeat_new_password != user.new_password) {
             $scope.infos.push({type: 'danger', msg: 'Repeated new password don\'t match the new password.'});
             return;
         }
 
         openSaveModal();
-
-
-
-
     };
 
 
@@ -2079,7 +2402,7 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
         layoutService.setAdminButtonVisible(true);
 
 
-        authService.userMe(false).then(function(userMe) {
+        authService.userMe(true).then(function(userMe) {
             user = angular.copy(userMe);
             $scope.user = user;
         }, function(reason) {
@@ -2167,7 +2490,8 @@ app.controller('AdminCityController',function ($scope, $routeParams, $location, 
             return;
         }
 
-        $scope.canTriggerPhases = inspectedCity.started_at && !inspectedCity.finished_at && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE];
+        $scope.canTriggerPhases = inspectedCity.started_at && !inspectedCity.finished_at && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ];
+        $scope.canChangeAvailability = !inspectedCity.started_at && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ];
     }, true);
 
 
@@ -2327,6 +2651,7 @@ app.controller('AdminController',function ($scope, $q, $location, usersService, 
         if (citiesQueryModelJson) {
             $scope.citiesQueryModel = JSON.parse(citiesQueryModelJson);
             convertTimestampsToDates($scope.citiesQueryModel);
+            $scope.citiesQueryModel['timezoneDate'] = $scope.citiesQueryModel['timezoneDate'] ? new Date($scope.citiesQueryModel['startedAtMin']) : null;
             $scope.citiesQueryModel['startedAtMin'] = $scope.citiesQueryModel['startedAtMin'] ? new Date($scope.citiesQueryModel['startedAtMin']) : null;
             $scope.citiesQueryModel['startedAtMax'] = $scope.citiesQueryModel['startedAtMax'] ? new Date($scope.citiesQueryModel['startedAtMax']) : null;
             $scope.citiesQueryModel['lastPausedAtMin'] = $scope.citiesQueryModel['lastPausedAtMin'] ? new Date($scope.citiesQueryModel['lastPausedAtMin']) : null;
@@ -2600,10 +2925,12 @@ app.controller('AdminUserController',function ($scope, $routeParams, $location, 
         var userMe = newValues[1];
         if (!inspectedUser || !userMe) {
             $scope.roleEditable = false;
+            $scope.userPreferenceEditable = false;
             return;
         }
 
         $scope.roleEditable = inspectedUser.app_role.id != APP_ROLE_SUPER_ADMIN && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE];
+        $scope.userPreferenceEditable = (userMe.app_role.id == APP_ROLE_SUPER_ADMIN) || (inspectedUser.app_role.id != APP_ROLE_SUPER_ADMIN && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]);
         $scope.canAlterEmailConfirmed = inspectedUser.app_role.id != APP_ROLE_SUPER_ADMIN && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE];
     }, true);
 
@@ -2733,6 +3060,8 @@ app.directive('auth', function($routeParams, authService, $location, layoutServi
             scope.infos = [];
 
             scope.homeButtonVisible = layoutService.homeButtonVisible;
+
+            scope.profileUrl = "#!/profile";
 
             scope.adminButtonVisible = function() {
                 if (scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE] || scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
@@ -6920,6 +7249,7 @@ app.directive('citiesList', function($location, citiesService, authService) {
 
                     if (scope.queryable) {
                         var queryModelForStorage = angular.copy(scope.queryModel);
+                        queryModelForStorage['timezoneDate'] = queryModelForStorage['timezoneDate'] ? queryModelForStorage['timezoneDate'].getTime() : null;
                         queryModelForStorage['createdAtMin'] = queryModelForStorage['createdAtMin'] ? queryModelForStorage['createdAtMin'].getTime() : null;
                         queryModelForStorage['createdAtMax'] = queryModelForStorage['createdAtMax'] ? queryModelForStorage['createdAtMax'].getTime() : null;
                         queryModelForStorage['updatedAtMin'] = queryModelForStorage['updatedAtMin'] ? queryModelForStorage['updatedAtMin'].getTime() : null;
@@ -7851,6 +8181,30 @@ app.directive('imgBool', function() {
     };
 }); 
  
+// imgCityStatusDirective 
+ 
+app.directive('imgCityStatus', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        scope: {
+            city: '='
+        },
+        templateUrl: 'app/directiveTemplates/images/imgCityStatus.html',
+        link: function(scope, element, attrs) {
+
+            var city = scope.city;
+
+            scope.created = !city.started_at;
+            scope.started = city.started_at && !city.paused && !city.finished_at;
+            scope.paused = city.started_at && city.paused && !city.finished_at;
+            scope.finished = city.finished_at;
+
+
+        }
+    };
+}); 
+ 
 // interactiveTableDirective 
  
 app.directive('interactiveTable', function() {
@@ -8503,6 +8857,7 @@ app.factory('citiesService', function($q, serverService) {
             page_size: pageSize,
             name: queryModel.name,
             description: queryModel.description,
+            public: queryModel.public,
             resident_user_ids: queryModel.residentUserIds,
             user_creator: queryModel.userCreator, // this is userCreator username, not working atm
             timezone: queryModel.timezoneDate ? (queryModel.timezoneSign *(queryModel.timezoneDate.getHours() * 60 + queryModel.timezoneDate.getMinutes())) : null,
@@ -8528,6 +8883,13 @@ app.factory('citiesService', function($q, serverService) {
             return reason;
         });
 
+    };
+
+    var getMyCities = function(pageIndex, pageSize) {
+        return serverService.get('cities/me', {
+            page_index: pageIndex,
+            page_size: pageSize
+        });
     };
 
     var getCities = function(refresh, pageIndex, pageSize) {
@@ -8625,8 +8987,24 @@ app.factory('citiesService', function($q, serverService) {
         });
     };
 
+    var cancelInvitation = function(cityId, userId) {
+        return serverService.delete('cities/' + cityId + '/invitation/' + userId);
+    };
+
+    var acceptInvitation = function(cityId) {
+        return serverService.post('cities/' + cityId + '/accept_invitation');
+    };
+
+    var acceptJoinRequest = function(cityId, userId) {
+        return serverService.post('cities/' + cityId + '/join_request/' + userId);
+    };
+
+    var rejectJoinRequest = function(cityId, userId) {
+        return serverService.delete('cities/' + cityId + '/join_request/' + userId);
+    };
+
     var kickUser = function(cityId, userId) {
-        return serverService.delete('cities/' + cityId + '/kick_user', {user_id : userId});
+        return serverService.delete('cities/' + cityId + '/user/' + userId);
     };
 
 
@@ -8661,6 +9039,15 @@ app.factory('citiesService', function($q, serverService) {
         });
 
         return leaveCityPromise;
+    };
+
+    var cancelJoinRequest = function(cityId) {
+        var cancelJoinRequestPromise = serverService.delete('cities/' + cityId + '/join_request');
+        cancelJoinRequestPromise.then(function(cityUpdated) {
+            cacheCity(cityUpdated);
+        });
+
+        return cancelJoinRequestPromise;
     };
 
     var startCity = function(cityId) {
@@ -8715,6 +9102,7 @@ app.factory('citiesService', function($q, serverService) {
 
     return {
         getAllCities : getAllCities,
+        getMyCities : getMyCities,
         cities : cities,
         getCity : getCity,
         getCities : getCities,
@@ -8722,11 +9110,16 @@ app.factory('citiesService', function($q, serverService) {
         getNewCity : getNewCity,
         createCity : createCity,
         inviteUsers : inviteUsers,
+        cancelInvitation : cancelInvitation,
+        acceptInvitation : acceptInvitation,
+        acceptJoinRequest : acceptJoinRequest,
+        rejectJoinRequest : rejectJoinRequest,
         kickUser : kickUser,
         deleteCity : deleteCity,
         updateCity : updateCity,
         joinCity : joinCity,
         leaveCity : leaveCity,
+        cancelJoinRequest : cancelJoinRequest,
         startCity : startCity,
         pauseCity : pauseCity,
         resumeCity : resumeCity,
@@ -9050,7 +9443,7 @@ app.service('serverService', function ($q) {
     var productionServer = 'http://188.226.245.205:3000';
     var developmentServer = 'http://localhost:3000';
 
-    this.serverHost = productionServer;
+    this.serverHost = developmentServer;
 
 
 

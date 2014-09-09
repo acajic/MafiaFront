@@ -59,6 +59,18 @@
                         <td class="col-md-1 gray-cell">Description</td>
                         <td><textarea ng-model="city.description"></textarea></td>
                     </tr>
+                    <tr ng-hide="city.started_at">
+                        <td class="col-md-1 gray-cell">Public</td>
+                        <td> <input type="checkbox" ng-model="city.public"> </td>
+                    </tr>
+                    <tr ng-if="city.started_at">
+                        <td class="col-md-1 gray-cell">Public</td>
+                        <td><img-bool boolean-value="city.public"></img-bool></td>
+                    </tr>
+                    <tr ng-if="city.id == undefined">
+                        <td class="col-md-1 gray-cell">Creator</td>
+                        <td>{{userMe.username}}</td>
+                    </tr>
                     <tr ng-if="city.id != undefined">
                         <td class="col-md-1 gray-cell">Creator</td>
                         <td>{{city.user_creator_username}}</td>
@@ -109,24 +121,76 @@
             <div>
                 <loader ng-if="isChangingUsers"></loader>
             </div>
-            <table class="table table-striped" ng-if="!isChangingUsers">
+
+            <table class="table table-striped" ng-if="!isChangingUsers && city.invitations.length && amIOwner(city)">
                 <thead>
-                    <tr>
-                        <td>Resident Id</td>
-                        <td>Name</td>
-                        <td>User Id</td>
-                        <td>Username</td>
-                        <td ng-if="amIOwner(city) && !city.started_at">Kick</td>
-                    </tr>
+                <tr>
+                    <td colspan="3" style="text-align: center">
+                        Invitations
+                    </td>
+                </tr>
+                <tr>
+                    <td>User Id</td>
+                    <td>Username</td>
+                    <td ng-if="!city.started_at">Cancel</td>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="(index, resident) in city.residents">
-                        <td>{{ resident.id }}</td>
-                        <td>{{ resident.name }}</td>
-                        <td>{{resident.user_id}}</td>
-                        <td>{{resident.username}}</td>
-                        <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-default" ng-if="!isUserOwner(resident.user_id)" ng-click="kickResident(index)"><img src="content/img/kick-icon.png" style="width: 40px;" /></button></td>
-                    </tr>
+                <tr ng-repeat="(index, invitation) in city.invitations">
+                    <td>{{invitation.user_id}}</td>
+                    <td>{{invitation.username}}</td>
+                    <td ng-if="!city.started_at"><button class="btn btn-danger" ng-click="cancelInvitation(index)"><i class="glyphicon glyphicon-ban-circle"></i> </button></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-striped" ng-if="!isChangingUsers && city.join_requests.length && amIOwner(city)">
+                <thead>
+                <tr>
+                    <td colspan="4" style="text-align: center">
+                        Join Requests
+                    </td>
+                </tr>
+                <tr>
+                    <td>User Id</td>
+                    <td>Username</td>
+                    <td ng-if="!city.started_at">Accept</td>
+                    <td ng-if="!city.started_at">Reject</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="(index, joinRequest) in city.join_requests">
+                    <td>{{joinRequest.user_id}}</td>
+                    <td>{{joinRequest.username}}</td>
+                    <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-success" ng-click="acceptJoinRequest(index)"><i class="glyphicon glyphicon-ok"></i></button></td>
+                    <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-danger" ng-click="rejectJoinRequest(index)"><i class="glyphicon glyphicon-remove"></i></button></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-striped" ng-if="!isChangingUsers">
+                <thead>
+                <tr>
+                    <td colspan="5" style="text-align: center">
+                        Residents
+                    </td>
+                </tr>
+                <tr>
+                    <td>Resident Id</td>
+                    <td>Name</td>
+                    <td>User Id</td>
+                    <td>Username</td>
+                    <td ng-if="amIOwner(city) && !city.started_at">Kick</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="(index, resident) in city.residents">
+                    <td>{{ resident.id }}</td>
+                    <td>{{ resident.name }}</td>
+                    <td>{{resident.user_id}}</td>
+                    <td>{{resident.username}}</td>
+                    <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-default" ng-if="!isUserOwner(resident.user_id)" ng-click="kickResident(index)"><img src="content/img/kick-icon.png" style="width: 40px;" /></button></td>
+                </tr>
                 </tbody>
             </table>
 
@@ -139,6 +203,7 @@
                 <div>
                     <alert ng-repeat="alert in inviteErrors" type="alert.type" close="closeInviteErrorMessage($index)">{{alert.msg}}</alert>
                 </div>
+
                 <table class="table">
                     <thead>
                     <tr>
@@ -148,11 +213,14 @@
                     </tr>
                     </thead>
                     <tbody>
+
                     <tr ng-repeat="(index, invitedUser) in invitedUsers" class="invite-added-row">
                         <td>{{ invitedUser.username }}</td>
                         <td>{{ invitedUser.email }}</td>
                         <td><button ng-click="removeInvitedUser(index)"><i class="glyphicon glyphicon-minus"></i></button></td>
                     </tr>
+
+
                     <tr class="invite-adding-row">
                         <td>
                             <input type="text" ng-model="newInvitedUser.username" placeholder="Username" typeahead="user.username for user in getUsersByUsername($viewValue)" typeahead-loading="loadingUsers" typeahead-on-select="setNewInvitedUser($item)" typeahead-wait-ms="300" typeahead-min-length=2 class="form-control">

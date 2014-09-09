@@ -7,7 +7,8 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
         email: '',
         current_password: '',
         new_password: '',
-        repeat_new_password: ''
+        repeat_new_password: '',
+        user_preference: {}
     };
 
 
@@ -17,20 +18,20 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
         if (user.username.length == 0) {
             $scope.infos.push({type: 'danger', msg: 'Username must not be empty.'});
         }
+
+        /*
         if (!user.new_password || user.new_password.length == 0) {
             $scope.infos.push({type: 'danger', msg: 'New password must not be empty.'});
             return;
         }
+        */
+
         if (user.repeat_new_password != user.new_password) {
             $scope.infos.push({type: 'danger', msg: 'Repeated new password don\'t match the new password.'});
             return;
         }
 
         openSaveModal();
-
-
-
-
     };
 
 
@@ -138,7 +139,7 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
         layoutService.setAdminButtonVisible(true);
 
 
-        authService.userMe(false).then(function(userMe) {
+        authService.userMe(true).then(function(userMe) {
             user = angular.copy(userMe);
             $scope.user = user;
         }, function(reason) {

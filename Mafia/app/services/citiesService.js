@@ -13,6 +13,7 @@ app.factory('citiesService', function($q, serverService) {
             page_size: pageSize,
             name: queryModel.name,
             description: queryModel.description,
+            public: queryModel.public,
             resident_user_ids: queryModel.residentUserIds,
             user_creator: queryModel.userCreator, // this is userCreator username, not working atm
             timezone: queryModel.timezoneDate ? (queryModel.timezoneSign *(queryModel.timezoneDate.getHours() * 60 + queryModel.timezoneDate.getMinutes())) : null,
@@ -38,6 +39,13 @@ app.factory('citiesService', function($q, serverService) {
             return reason;
         });
 
+    };
+
+    var getMyCities = function(pageIndex, pageSize) {
+        return serverService.get('cities/me', {
+            page_index: pageIndex,
+            page_size: pageSize
+        });
     };
 
     var getCities = function(refresh, pageIndex, pageSize) {
@@ -135,8 +143,24 @@ app.factory('citiesService', function($q, serverService) {
         });
     };
 
+    var cancelInvitation = function(cityId, userId) {
+        return serverService.delete('cities/' + cityId + '/invitation/' + userId);
+    };
+
+    var acceptInvitation = function(cityId) {
+        return serverService.post('cities/' + cityId + '/accept_invitation');
+    };
+
+    var acceptJoinRequest = function(cityId, userId) {
+        return serverService.post('cities/' + cityId + '/join_request/' + userId);
+    };
+
+    var rejectJoinRequest = function(cityId, userId) {
+        return serverService.delete('cities/' + cityId + '/join_request/' + userId);
+    };
+
     var kickUser = function(cityId, userId) {
-        return serverService.delete('cities/' + cityId + '/kick_user', {user_id : userId});
+        return serverService.delete('cities/' + cityId + '/user/' + userId);
     };
 
 
@@ -171,6 +195,15 @@ app.factory('citiesService', function($q, serverService) {
         });
 
         return leaveCityPromise;
+    };
+
+    var cancelJoinRequest = function(cityId) {
+        var cancelJoinRequestPromise = serverService.delete('cities/' + cityId + '/join_request');
+        cancelJoinRequestPromise.then(function(cityUpdated) {
+            cacheCity(cityUpdated);
+        });
+
+        return cancelJoinRequestPromise;
     };
 
     var startCity = function(cityId) {
@@ -225,6 +258,7 @@ app.factory('citiesService', function($q, serverService) {
 
     return {
         getAllCities : getAllCities,
+        getMyCities : getMyCities,
         cities : cities,
         getCity : getCity,
         getCities : getCities,
@@ -232,11 +266,16 @@ app.factory('citiesService', function($q, serverService) {
         getNewCity : getNewCity,
         createCity : createCity,
         inviteUsers : inviteUsers,
+        cancelInvitation : cancelInvitation,
+        acceptInvitation : acceptInvitation,
+        acceptJoinRequest : acceptJoinRequest,
+        rejectJoinRequest : rejectJoinRequest,
         kickUser : kickUser,
         deleteCity : deleteCity,
         updateCity : updateCity,
         joinCity : joinCity,
         leaveCity : leaveCity,
+        cancelJoinRequest : cancelJoinRequest,
         startCity : startCity,
         pauseCity : pauseCity,
         resumeCity : resumeCity,

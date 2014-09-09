@@ -5,8 +5,10 @@
     </div>
 
     <button ng-click="back()" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
-    <button ng-if="showJoinButton(city)" ng-click="join()" class="btn btn-default"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
-    <button ng-if="showLeaveButton(city)" ng-click="leave()" class="btn btn-default"><i class="glyphicon glyphicon-road"></i>Leave</button>
+    <button ng-if="showJoinButton(city)" ng-click="join()" class="btn btn-success"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
+    <button ng-if="showCancelJoinRequest(city)" ng-click="cancelJoinRequest()" class="btn btn-danger"><i class="glyphicon glyphicon-remove-circle"></i>Cancel Join Request</button>
+    <button ng-if="showAcceptInvitation(city)" ng-click="acceptInvitation()" class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i>Accept Invitation</button>
+    <button ng-if="showLeaveButton(city)" ng-click="leave()" class="btn btn-danger"><i class="glyphicon glyphicon-road"></i>Leave</button>
 
     <tabset>
         <tab>
@@ -27,6 +29,14 @@
                     <tr>
                         <td>Name</td>
                         <td>{{city.name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td>{{city.description}}</td>
+                    </tr>
+                    <tr>
+                        <td>Public</td>
+                        <td> <img-bool boolean-value="city.public"></img-bool> </td>
                     </tr>
                     <tr>
                         <td>Creator</td>
