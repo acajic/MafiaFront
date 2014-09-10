@@ -400,6 +400,8 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
             } else {
                 $scope.allCities.splice(indexAllCities, 1, updatedCity);
             }
+
+            $scope.selectedCity = updatedCity;
         }, function(reason) {
             $timeout(function() {
                 $scope.alerts.push({type: "danger", msg: "Failed to leave '" + city.name + "'."});
