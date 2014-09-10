@@ -7,6 +7,10 @@ app.directive('loader', function() {
             "use strict";
 
             scope.size = attrs.size;
+
+            if (attrs.center !== undefined) {
+                scope.style = "display: block; margin: 0 auto;";
+            }
         }
     };
 });

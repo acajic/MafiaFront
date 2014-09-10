@@ -709,7 +709,6 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $location, citiesService, actionResultsService, residentsService, authService, layoutService) {
     "use strict";
 
-
     layoutService.setHomeButtonVisible(true);
 
     $scope.nextMoment = {};
@@ -772,7 +771,9 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
 
             if (roleId) {
                 $scope.resident.role = city.rolesById[roleId].role;
-                initActionResults(cityId, roleId);
+                $scope.dayNumberMax = city.current_day_number + 1;
+                $scope.dayNumberMin = Math.max($scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE, 0);
+                initActionResults(cityId, roleId, $scope.dayNumberMin, $scope.dayNumberMax);
             } else {
                 // user has probably manually deleted the cookie containing their role id
                 $scope.basicValidationErrors.push({msg: 'Select your role.' })
@@ -801,7 +802,8 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
             actionResultsByType[someActionResult.action_result_type.id].push(someActionResult);
         });
 
-        $scope.actionResultsByType = actionResultsByType;
+        actionResultsByType = actionResultsService.patchedActionResultsByType(actionResultsByType, $scope.actionResultsByType);
+
         if (actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS]) {
 
             var residentsResult = actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS][0];
@@ -816,6 +818,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         } else {
             console.error("Entered game, but not SelfGenerated Result Residents is present.");
         }
+        $scope.actionResultsByType = actionResultsByType;
 
         var gameOverResults = actionResultsByType[ACTION_RESULT_TYPE_ID_GAME_OVER];
         if (gameOverResults) {
@@ -833,18 +836,60 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
 
     }, true);
 
-    function initActionResults(cityId, roleId) {
 
-        actionResultsService.getActionResults(cityId, roleId, true).then(function(result) {
+
+
+
+    function hasEarlierActionResults() {
+        return $scope.dayNumberMin > 0;
+    }
+
+    function loadEarlierActionResults() {
+        if ($scope.dayNumberMin > 0) {
+
+            $scope.dayNumberMin = Math.max(0, $scope.dayNumberMin - ACTION_RESULTS_DAYS_PER_PAGE);
+            $scope.dayNumberMax = $scope.dayNumberMin + ACTION_RESULTS_DAYS_PER_PAGE;
+            $timeout(function() {
+                $scope.isLoadingActionResults = true;
+            });
+            initActionResults($scope.city.id, $scope.resident.role.id, $scope.dayNumberMin, $scope.dayNumberMax);
+        }
+    }
+
+    function hasMoreRecentActionResults() {
+        if (!$scope.city)
+            return false;
+
+        return $scope.dayNumberMax <= $scope.city.current_day_number;
+    }
+
+    function loadMoreRecentActionResults() {
+        if ($scope.dayNumberMax <= $scope.city.current_day_number) {
+            $scope.dayNumberMax = Math.min($scope.dayNumberMax + ACTION_RESULTS_DAYS_PER_PAGE, $scope.city.current_day_number+1);
+            $scope.dayNumberMin = $scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE;
+            $timeout(function() {
+                $scope.isLoadingActionResults = true;
+            });
+            initActionResults($scope.city.id, $scope.resident.role.id, $scope.dayNumberMin, $scope.dayNumberMax);
+        }
+    }
+
+    function initActionResults(cityId, roleId, dayNumberMin, dayNumberMax) {
+
+        actionResultsService.getActionResults(cityId, roleId, dayNumberMin, dayNumberMax).then(function(result) {
             $scope.actionResults = result;
             $timeout(function() {
                 $scope.isLoading = false;
+                $scope.isLoadingActionResults = false;
             });
 
         }, function(reason) {
-            $scope.isLoading = false;
-            angular.forEach(reason.httpObj.responseJSON, function(error) {
-                $scope.basicValidationErrors.push({type : 'danger', msg: error });
+            $timeout(function() {
+                $scope.isLoading = false;
+                $scope.isLoadingActionResults = false;
+                angular.forEach(reason.httpObj.responseJSON, function(error) {
+                    $scope.basicValidationErrors.push({type : 'danger', msg: error });
+                });
             });
         });
     }
@@ -879,7 +924,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         var shouldRefreshActionResults = $scope.resident.role == null;
         $scope.resident.role = $scope.city.rolesById[roleId].role;
         if (shouldRefreshActionResults)
-            initActionResults($scope.city.id, roleId);
+            initActionResults($scope.city.id, roleId, $scope.dayNumberMin, $scope.dayNumberMax);
         setCookieRoleId($scope.city.id, authService.user.id, roleId);
     }
 
@@ -919,6 +964,11 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         $scope.roleSelected = roleSelected;
         $scope.joinDiscussion = joinDiscussion;
 
+
+        $scope.hasEarlierActionResults = hasEarlierActionResults;
+        $scope.loadEarlierActionResults = loadEarlierActionResults;
+        $scope.hasMoreRecentActionResults = hasMoreRecentActionResults;
+        $scope.loadMoreRecentActionResults = loadMoreRecentActionResults;
     }
 
 });
@@ -3562,7 +3612,14 @@ app.directive('privateNewsFeed', function(actionResultsService) {
             city : '=',
             roleId : '=',
             resident : '=',
-            actionResults: '='
+            actionResults: '=',
+            isLoadingActionResults: '=',
+            dayNumberMin: '=',
+            dayNumberMax: '=',
+            hasEarlierActionResults: '=',
+            loadEarlierActionResults: '=',
+            hasMoreRecentActionResults: '=',
+            loadMoreRecentActionResults: '='
         },
         templateUrl: 'app/directiveTemplates/domain/privateNewsFeed.html',
         link: function(scope, element, attrs) {
@@ -3608,7 +3665,13 @@ app.directive('publicNewsFeed', function(actionResultsService) {
             city : '=',
             roleId : '=',
             resident : '=',
-            actionResults: '='
+            actionResults: '=',
+            dayNumberMin: '=',
+            dayNumberMax: '=',
+            hasEarlierActionResults: '=',
+            loadEarlierActionResults: '=',
+            hasMoreRecentActionResults: '=',
+            loadMoreRecentActionResults: '='
         },
         templateUrl: 'app/directiveTemplates/domain/publicNewsFeed.html',
         link: function(scope, element, attrs) {
@@ -3637,7 +3700,14 @@ app.directive('publicTab', function(rolesService) {
             roleId: '=',
             resident: '=',
             actionResults: '=',
-            actionResultsByType: '='
+            actionResultsByType: '=',
+            isLoadingActionResults: '=',
+            dayNumberMin: '=',
+            dayNumberMax: '=',
+            hasEarlierActionResults: '=',
+            loadEarlierActionResults: '=',
+            hasMoreRecentActionResults: '=',
+            loadMoreRecentActionResults: '='
         },
         templateUrl: 'app/directiveTemplates/domain/publicTab.html',
         link: function(scope, element, attrs) {
@@ -3677,16 +3747,18 @@ app.directive('residents', function(actionResultsService) {
                 if (!residentsActionResult)
                     return;
 
-                scope.actionResult = residentsActionResult;
+                if (!scope.actionResult || residentsActionResult.day_id > scope.actionResult.day_id) {
+                    scope.actionResult = residentsActionResult;
 
-                var result = residentsActionResult.result;
-                scope.residents = $.map(result.residents, function(someResident) {
-                    scope.city.residentsById[someResident.id].alive = someResident.alive;
-                    return scope.city.residentsById[someResident.id];
-                });
+                    var result = residentsActionResult.result;
+                    scope.residents = $.map(result.residents, function (someResident) {
+                        scope.city.residentsById[someResident.id].alive = someResident.alive;
+                        return scope.city.residentsById[someResident.id];
+                    });
 
-                scope.residentsCopied = [];
-                angular.copy(scope.residents, scope.residentsCopied);
+                    scope.residentsCopied = [];
+                    angular.copy(scope.residents, scope.residentsCopied);
+                }
             }, true);
 
 
@@ -3816,7 +3888,14 @@ app.directive('role', function(rolesService) {
             actionResults: '=',
             actionResultsByType: '=',
             isLoading: '=',
-            tabActive: '='
+            isLoadingActionResults: '=',
+            tabActive: '=',
+            dayNumberMin: '=',
+            dayNumberMax: '=',
+            hasEarlierActionResults: '=',
+            loadEarlierActionResults: '=',
+            hasMoreRecentActionResults: '=',
+            loadMoreRecentActionResults: '='
         },
         templateUrl: 'app/directiveTemplates/domain/role.html',
         link: function(scope, element, attrs) {
@@ -5765,7 +5844,13 @@ app.directive('investigateActionTypeParamsResult', function(actionResultsService
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
+            scope.$watch('actionTypeParams', function(actionTypeParams) {
+                if (actionTypeParams.number_of_actions_available === undefined)
+                    return;
+
+                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+
+            });
 
             scope.validateInput = function() {
                 if (scope.actionTypeParams.number_of_actions_available < 0) {
@@ -5799,7 +5884,14 @@ app.directive('journalistInvestigateActionTypeParamsResult', function(actionResu
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
+            scope.$watch('actionTypeParams', function(actionTypeParams) {
+                if (actionTypeParams.number_of_actions_available === undefined)
+                    return;
+
+                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+
+            });
+
 
             scope.validateInput = function() {
                 if (scope.actionTypeParams.number_of_actions_available < 0) {
@@ -5833,7 +5925,12 @@ app.directive('protectActionTypeParamsResult', function(actionResultsService) {
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
+            scope.$watch('actionTypeParams', function(actionTypeParams) {
+                if (actionTypeParams.number_of_actions_available === undefined)
+                    return;
+
+                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+            });
 
             scope.validateInput = function() {
                 if (scope.actionTypeParams.number_of_actions_available < 0) {
@@ -5867,7 +5964,13 @@ app.directive('sheriffIdentitiesActionTypeParamsResult', function(actionResultsS
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
+            scope.$watch('actionTypeParams', function(actionTypeParams) {
+                if (actionTypeParams.number_of_actions_available === undefined)
+                    return;
+
+                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+
+            });
 
             scope.validateInput = function() {
                 if (scope.actionTypeParams.number_of_actions_available < 0) {
@@ -5883,73 +5986,6 @@ app.directive('sheriffIdentitiesActionTypeParamsResult', function(actionResultsS
                     scope.actionTypeParams.number_of_actions_available = 1;
                 }
             };
-/*
-
-            scope.$watch('[actionResult, roleId]', function(values) {
-                var actionResult = values[0];
-                if (!actionResult)
-                    return;
-                var result = actionResult.result;
-                if (!result)
-                    return;
-
-                var roleId = values[1];
-                if (!roleId)
-                    return;
-
-                scope.actionTypeParams = actionResult.result.action_types_params[roleId.toString()][ACTION_TYPE_ID_SHERIFF_IDENTITIES.toString()];
-
-                scope.modifiedActionTypeParamsDictionary = {};
-
-            }, true);
-
-            scope.toggleMode = function() {
-                if (scope.city.finished_at)
-                    return;
-
-                scope.editMode = !scope.editMode;
-            };
-
-            scope.deleteActionResult = function() {
-                var modifiedActionResult = {};
-                angular.copy(scope.actionResult, modifiedActionResult);
-
-                modifiedActionResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_SHERIFF_IDENTITIES.toString()] = null;
-
-                postActionResult(modifiedActionResult);
-            };
-
-            scope.submitActionResult = function() {
-                var modifiedActionResult = {};
-                angular.copy(scope.actionResult, modifiedActionResult);
-
-                var actionTypeParamsDictionary = modifiedActionResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_SHERIFF_IDENTITIES.toString()];
-                actionTypeParamsDictionary['number_of_actions_available'] = scope.modifiedActionTypeParamsDictionary.numberOfActionsAvailable;
-
-                postActionResult(modifiedActionResult);
-            };
-
-            function postActionResult(actionResult) {
-                var postActionResultPromise = actionResultsService.postActionResult(
-                    scope.city.id,
-                    null, // role id
-                    actionResult.action_result_type,
-                    null, // action id
-                    actionResult.day_id,
-                    actionResult.result
-                );
-
-                postActionResultPromise.then(function(createdActionResult) {
-                    var index = scope.actionResults.indexOfMatchFunction(function(someActionResult) {
-                        return someActionResult.id == scope.actionResult.id;
-                    });
-
-                    scope.actionResults.splice(index, 1, createdActionResult);
-                    scope.editMode = false;
-                });
-            };
-*/
-
 
         }
     };
@@ -5969,7 +6005,14 @@ app.directive('silentSheriffIdentitiesActionTypeParamsResult', function(actionRe
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
+            scope.$watch('actionTypeParams', function(actionTypeParams) {
+                if (actionTypeParams.number_of_actions_available === undefined)
+                    return;
+
+                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+
+            });
+
 
             scope.validateInput = function() {
                 if (scope.actionTypeParams.number_of_actions_available < 0) {
@@ -5986,73 +6029,7 @@ app.directive('silentSheriffIdentitiesActionTypeParamsResult', function(actionRe
                 }
             };
 
-            /*
 
-            scope.$watch('[actionResult, roleId]', function(values) {
-                var actionResult = values[0];
-                if (!actionResult)
-                    return;
-                var result = actionResult.result;
-                if (!result)
-                    return;
-
-                var roleId = values[1];
-                if (!roleId)
-                    return;
-
-                scope.actionTypeParams = actionResult.result.action_types_params[roleId.toString()][ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES.toString()];
-
-                scope.modifiedActionTypeParamsDictionary = {};
-
-            }, true);
-
-            scope.toggleMode = function() {
-                if (scope.city.finished_at)
-                    return;
-
-                scope.editMode = !scope.editMode;
-            };
-
-
-
-            scope.deleteActionResult = function() {
-                var modifiedActionResult = {};
-                angular.copy(scope.actionResult, modifiedActionResult);
-
-                modifiedActionResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES.toString()] = null;
-
-                postActionResult(modifiedActionResult);
-            };
-
-            scope.submitActionResult = function() {
-                var modifiedActionResult = {};
-                angular.copy(scope.actionResult, modifiedActionResult);
-
-                var actionTypeParamsDictionary = modifiedActionResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES.toString()];
-                actionTypeParamsDictionary['number_of_actions_available'] = scope.modifiedActionTypeParamsDictionary.numberOfActionsAvailable;
-
-                postActionResult(modifiedActionResult);
-            };
-
-            function postActionResult(actionResult) {
-                var postActionResultPromise = actionResultsService.postActionResult(
-                    scope.city.id,
-                    null, // role id
-                    actionResult.action_result_type,
-                    null, // action id
-                    actionResult.day_id,
-                    actionResult.result
-                );
-
-                postActionResultPromise.then(function(createdActionResult) {
-                    var index = scope.actionResults.indexOfMatchFunction(function(someActionResult) {
-                        return someActionResult.id == scope.actionResult.id;
-                    });
-
-                    scope.actionResults.splice(index, 1, createdActionResult);
-                    scope.editMode = false;
-                });
-            };*/
 
 
         }
@@ -6073,7 +6050,13 @@ app.directive('tellerVotesActionTypeParamsResult', function(actionResultsService
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
+            scope.$watch('actionTypeParams', function(actionTypeParams) {
+                if (actionTypeParams.number_of_actions_available === undefined)
+                    return;
+
+                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+
+            });
 
             scope.validateInput = function() {
                 if (scope.actionTypeParams.number_of_actions_available < 0) {
@@ -6090,73 +6073,8 @@ app.directive('tellerVotesActionTypeParamsResult', function(actionResultsService
                 }
             };
 
-            /*
-            scope.$watch('[actionResult, roleId]', function(values) {
-                var actionResult = values[0];
-                if (!actionResult)
-                    return;
-                var result = actionResult.result;
-                if (!result)
-                    return;
-
-                var roleId = values[1];
-                if (!roleId)
-                    return;
-
-                scope.actionTypeParams = actionResult.result.action_types_params[roleId.toString()][ACTION_TYPE_ID_TELLER_VOTES.toString()];
-
-                scope.modifiedActionTypeParamsDictionary = {};
-
-            }, true);
-
-            scope.deleteActionResult = function() {
-                var modifiedActionResult = {};
-                angular.copy(scope.actionResult, modifiedActionResult);
-
-                modifiedActionResult.result.action_types_params[scope.resident.role.id.toString()][ACTION_TYPE_ID_TELLER_VOTES.toString()] = null;
-
-                postActionResult(modifiedActionResult);
-            };
 
 
-            scope.editMode = false;
-
-            scope.toggleMode = function() {
-                if (scope.city.finished_at)
-                    return;
-
-                scope.editMode = !scope.editMode;
-            };
-
-            scope.submitActionResult = function() {
-                var modifiedActionResult = {};
-                angular.copy(scope.actionResult, modifiedActionResult);
-
-                var actionTypeParamsDictionary = modifiedActionResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_TELLER_VOTES.toString()];
-                actionTypeParamsDictionary['number_of_actions_available'] = scope.modifiedActionTypeParamsDictionary.numberOfActionsAvailable;
-
-                postActionResult(modifiedActionResult);
-            };
-
-            function postActionResult(actionResult) {
-                var postActionResultPromise = actionResultsService.postActionResult(
-                    scope.city.id,
-                    null, // role id
-                    actionResult.action_result_type,
-                    null, // action id
-                    actionResult.day_id,
-                    actionResult.result
-                );
-
-                postActionResultPromise.then(function(createdActionResult) {
-                    var index = scope.actionResults.indexOfMatchFunction(function(someActionResult) {
-                        return someActionResult.id == scope.actionResult.id;
-                    });
-
-                    scope.actionResults.splice(index, 1, createdActionResult);
-                    scope.editMode = false;
-                });
-            };*/
         }
     };
 }); 
@@ -7790,7 +7708,6 @@ app.directive('fugitive', function() {
             "use strict";
 
             scope.roleId = ROLE_ID_FUGITIVE;
-
         }
     };
 }); 
@@ -8246,6 +8163,10 @@ app.directive('loader', function() {
             "use strict";
 
             scope.size = attrs.size;
+
+            if (attrs.center !== undefined) {
+                scope.style = "display: block; margin: 0 auto;";
+            }
         }
     };
 }); 
@@ -8272,6 +8193,9 @@ var ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF = 13;
 var ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS = 14;
 var ACTION_RESULT_TYPE_ID_GAME_OVER = 15;
 
+
+
+var ACTION_RESULTS_DAYS_PER_PAGE = 7;
 
 app.factory('actionResultsService', function($q, serverService) {
     "use strict";
@@ -8388,20 +8312,13 @@ app.factory('actionResultsService', function($q, serverService) {
         });
     };
 
-    var actionResultsForCities = {};
 
-    var getActionResults = function(cityId, roleId, refresh) {
-        if (refresh || !actionResultsForCities[cityId]) {
-            var actionResultsPromise = serverService.get('action_results/city/'+ cityId + '/role/' + roleId, {});
-            return actionResultsPromise.then(function(result) {
-                actionResultsForCities[cityId] = result;
-                return result;
-            });
-        } else {
-            var deferred = $q.defer();
-            deferred.resolve(actionResultsForCities[cityId]);
-            return deferred.promise;
-        }
+
+    var getActionResults = function(cityId, roleId, dayNumberMin, dayNumberMax) {
+        return serverService.get('action_results/city/'+ cityId + '/role/' + roleId, {
+            day_number_min: dayNumberMin,
+            day_number_max: dayNumberMax
+        });
     };
 
     var postActionResult = function(cityId, roleId, action_result_type, action_id, day_id, result) {
@@ -8485,11 +8402,47 @@ app.factory('actionResultsService', function($q, serverService) {
         }
     };
 
-    // getAllActionResultTypes();
+
+
+    var patchedActionResultsByType = function(actionResultsByTypeNew, actionResultsByTypeOld) {
+        var patchedActionResultsByType = angular.copy(actionResultsByTypeNew);
+        if (!actionResultsByTypeOld)
+            return patchedActionResultsByType;
+
+        var actionResultTypeIds = [ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS, ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS, ACTION_RESULT_TYPE_ID_SINGLE_REQUIRED_MAFIA_MEMBERS, ACTION_RESULT_TYPE_ID_GAME_OVER];
+
+        for (var i = 0; i <actionResultTypeIds.length; i++) {
+            var actionResultTypeId = actionResultTypeIds[i];
+            var actionResultNew = actionResultsByTypeNew[actionResultTypeId] ? actionResultsByTypeNew[actionResultTypeId][0] : null;
+            var actionResultOld = actionResultsByTypeOld[actionResultTypeId] ? actionResultsByTypeOld[actionResultTypeId][0] : null;
+
+            if (!actionResultOld && !actionResultNew) {
+                continue;
+            }
+
+            if (!actionResultOld && actionResultNew) {
+                patchedActionResultsByType[actionResultTypeId] = [actionResultNew];
+                continue;
+            }
+            if (actionResultOld && !actionResultNew) {
+                patchedActionResultsByType[actionResultTypeId] = [actionResultOld];
+                continue;
+            }
+
+            if (actionResultNew.day_id > actionResultOld.day_id) {
+                patchedActionResultsByType[actionResultTypeId] = [actionResultNew];
+            } else {
+                patchedActionResultsByType[actionResultTypeId] = [actionResultOld];
+            }
+        }
+
+        return patchedActionResultsByType;
+    };
+
+
 
     return {
         actionResultTypeIds : actionResultTypeIds,
-        actionResultsForCities : actionResultsForCities,
         privateActionResultTypesForRole : privateActionResultTypesForRole,
         publicActionResultTypeIds : publicActionResultTypeIds,
         actionResultTypes : actionResultTypes,
@@ -8500,7 +8453,8 @@ app.factory('actionResultsService', function($q, serverService) {
         postActionResult : postActionResult,
         deleteActionResult : deleteActionResult,
         publicActionResults : publicActionResults,
-        privateActionResults : privateActionResults
+        privateActionResults : privateActionResults,
+        patchedActionResultsByType : patchedActionResultsByType
     };
 });
  

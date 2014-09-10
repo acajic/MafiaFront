@@ -7,7 +7,14 @@ app.directive('publicTab', function(rolesService) {
             roleId: '=',
             resident: '=',
             actionResults: '=',
-            actionResultsByType: '='
+            actionResultsByType: '=',
+            isLoadingActionResults: '=',
+            dayNumberMin: '=',
+            dayNumberMax: '=',
+            hasEarlierActionResults: '=',
+            loadEarlierActionResults: '=',
+            hasMoreRecentActionResults: '=',
+            loadMoreRecentActionResults: '='
         },
         templateUrl: 'app/directiveTemplates/domain/publicTab.html',
         link: function(scope, element, attrs) {

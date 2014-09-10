@@ -1,7 +1,6 @@
 app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $location, citiesService, actionResultsService, residentsService, authService, layoutService) {
     "use strict";
 
-
     layoutService.setHomeButtonVisible(true);
 
     $scope.nextMoment = {};
@@ -64,7 +63,9 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
 
             if (roleId) {
                 $scope.resident.role = city.rolesById[roleId].role;
-                initActionResults(cityId, roleId);
+                $scope.dayNumberMax = city.current_day_number + 1;
+                $scope.dayNumberMin = Math.max($scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE, 0);
+                initActionResults(cityId, roleId, $scope.dayNumberMin, $scope.dayNumberMax);
             } else {
                 // user has probably manually deleted the cookie containing their role id
                 $scope.basicValidationErrors.push({msg: 'Select your role.' })
@@ -93,7 +94,8 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
             actionResultsByType[someActionResult.action_result_type.id].push(someActionResult);
         });
 
-        $scope.actionResultsByType = actionResultsByType;
+        actionResultsByType = actionResultsService.patchedActionResultsByType(actionResultsByType, $scope.actionResultsByType);
+
         if (actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS]) {
 
             var residentsResult = actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS][0];
@@ -108,6 +110,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         } else {
             console.error("Entered game, but not SelfGenerated Result Residents is present.");
         }
+        $scope.actionResultsByType = actionResultsByType;
 
         var gameOverResults = actionResultsByType[ACTION_RESULT_TYPE_ID_GAME_OVER];
         if (gameOverResults) {
@@ -125,18 +128,60 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
 
     }, true);
 
-    function initActionResults(cityId, roleId) {
 
-        actionResultsService.getActionResults(cityId, roleId, true).then(function(result) {
+
+
+
+    function hasEarlierActionResults() {
+        return $scope.dayNumberMin > 0;
+    }
+
+    function loadEarlierActionResults() {
+        if ($scope.dayNumberMin > 0) {
+
+            $scope.dayNumberMin = Math.max(0, $scope.dayNumberMin - ACTION_RESULTS_DAYS_PER_PAGE);
+            $scope.dayNumberMax = $scope.dayNumberMin + ACTION_RESULTS_DAYS_PER_PAGE;
+            $timeout(function() {
+                $scope.isLoadingActionResults = true;
+            });
+            initActionResults($scope.city.id, $scope.resident.role.id, $scope.dayNumberMin, $scope.dayNumberMax);
+        }
+    }
+
+    function hasMoreRecentActionResults() {
+        if (!$scope.city)
+            return false;
+
+        return $scope.dayNumberMax <= $scope.city.current_day_number;
+    }
+
+    function loadMoreRecentActionResults() {
+        if ($scope.dayNumberMax <= $scope.city.current_day_number) {
+            $scope.dayNumberMax = Math.min($scope.dayNumberMax + ACTION_RESULTS_DAYS_PER_PAGE, $scope.city.current_day_number+1);
+            $scope.dayNumberMin = $scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE;
+            $timeout(function() {
+                $scope.isLoadingActionResults = true;
+            });
+            initActionResults($scope.city.id, $scope.resident.role.id, $scope.dayNumberMin, $scope.dayNumberMax);
+        }
+    }
+
+    function initActionResults(cityId, roleId, dayNumberMin, dayNumberMax) {
+
+        actionResultsService.getActionResults(cityId, roleId, dayNumberMin, dayNumberMax).then(function(result) {
             $scope.actionResults = result;
             $timeout(function() {
                 $scope.isLoading = false;
+                $scope.isLoadingActionResults = false;
             });
 
         }, function(reason) {
-            $scope.isLoading = false;
-            angular.forEach(reason.httpObj.responseJSON, function(error) {
-                $scope.basicValidationErrors.push({type : 'danger', msg: error });
+            $timeout(function() {
+                $scope.isLoading = false;
+                $scope.isLoadingActionResults = false;
+                angular.forEach(reason.httpObj.responseJSON, function(error) {
+                    $scope.basicValidationErrors.push({type : 'danger', msg: error });
+                });
             });
         });
     }
@@ -171,7 +216,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         var shouldRefreshActionResults = $scope.resident.role == null;
         $scope.resident.role = $scope.city.rolesById[roleId].role;
         if (shouldRefreshActionResults)
-            initActionResults($scope.city.id, roleId);
+            initActionResults($scope.city.id, roleId, $scope.dayNumberMin, $scope.dayNumberMax);
         setCookieRoleId($scope.city.id, authService.user.id, roleId);
     }
 
@@ -211,6 +256,11 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         $scope.roleSelected = roleSelected;
         $scope.joinDiscussion = joinDiscussion;
 
+
+        $scope.hasEarlierActionResults = hasEarlierActionResults;
+        $scope.loadEarlierActionResults = loadEarlierActionResults;
+        $scope.hasMoreRecentActionResults = hasMoreRecentActionResults;
+        $scope.loadMoreRecentActionResults = loadMoreRecentActionResults;
     }
 
 });

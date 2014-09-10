@@ -8,7 +8,14 @@ app.directive('role', function(rolesService) {
             actionResults: '=',
             actionResultsByType: '=',
             isLoading: '=',
-            tabActive: '='
+            isLoadingActionResults: '=',
+            tabActive: '=',
+            dayNumberMin: '=',
+            dayNumberMax: '=',
+            hasEarlierActionResults: '=',
+            loadEarlierActionResults: '=',
+            hasMoreRecentActionResults: '=',
+            loadMoreRecentActionResults: '='
         },
         templateUrl: 'app/directiveTemplates/domain/role.html',
         link: function(scope, element, attrs) {

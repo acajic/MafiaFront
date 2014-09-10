@@ -19,6 +19,9 @@ var ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS = 14;
 var ACTION_RESULT_TYPE_ID_GAME_OVER = 15;
 
 
+
+var ACTION_RESULTS_DAYS_PER_PAGE = 7;
+
 app.factory('actionResultsService', function($q, serverService) {
     "use strict";
 
@@ -134,20 +137,13 @@ app.factory('actionResultsService', function($q, serverService) {
         });
     };
 
-    var actionResultsForCities = {};
 
-    var getActionResults = function(cityId, roleId, refresh) {
-        if (refresh || !actionResultsForCities[cityId]) {
-            var actionResultsPromise = serverService.get('action_results/city/'+ cityId + '/role/' + roleId, {});
-            return actionResultsPromise.then(function(result) {
-                actionResultsForCities[cityId] = result;
-                return result;
-            });
-        } else {
-            var deferred = $q.defer();
-            deferred.resolve(actionResultsForCities[cityId]);
-            return deferred.promise;
-        }
+
+    var getActionResults = function(cityId, roleId, dayNumberMin, dayNumberMax) {
+        return serverService.get('action_results/city/'+ cityId + '/role/' + roleId, {
+            day_number_min: dayNumberMin,
+            day_number_max: dayNumberMax
+        });
     };
 
     var postActionResult = function(cityId, roleId, action_result_type, action_id, day_id, result) {
@@ -231,11 +227,47 @@ app.factory('actionResultsService', function($q, serverService) {
         }
     };
 
-    // getAllActionResultTypes();
+
+
+    var patchedActionResultsByType = function(actionResultsByTypeNew, actionResultsByTypeOld) {
+        var patchedActionResultsByType = angular.copy(actionResultsByTypeNew);
+        if (!actionResultsByTypeOld)
+            return patchedActionResultsByType;
+
+        var actionResultTypeIds = [ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS, ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS, ACTION_RESULT_TYPE_ID_SINGLE_REQUIRED_MAFIA_MEMBERS, ACTION_RESULT_TYPE_ID_GAME_OVER];
+
+        for (var i = 0; i <actionResultTypeIds.length; i++) {
+            var actionResultTypeId = actionResultTypeIds[i];
+            var actionResultNew = actionResultsByTypeNew[actionResultTypeId] ? actionResultsByTypeNew[actionResultTypeId][0] : null;
+            var actionResultOld = actionResultsByTypeOld[actionResultTypeId] ? actionResultsByTypeOld[actionResultTypeId][0] : null;
+
+            if (!actionResultOld && !actionResultNew) {
+                continue;
+            }
+
+            if (!actionResultOld && actionResultNew) {
+                patchedActionResultsByType[actionResultTypeId] = [actionResultNew];
+                continue;
+            }
+            if (actionResultOld && !actionResultNew) {
+                patchedActionResultsByType[actionResultTypeId] = [actionResultOld];
+                continue;
+            }
+
+            if (actionResultNew.day_id > actionResultOld.day_id) {
+                patchedActionResultsByType[actionResultTypeId] = [actionResultNew];
+            } else {
+                patchedActionResultsByType[actionResultTypeId] = [actionResultOld];
+            }
+        }
+
+        return patchedActionResultsByType;
+    };
+
+
 
     return {
         actionResultTypeIds : actionResultTypeIds,
-        actionResultsForCities : actionResultsForCities,
         privateActionResultTypesForRole : privateActionResultTypesForRole,
         publicActionResultTypeIds : publicActionResultTypeIds,
         actionResultTypes : actionResultTypes,
@@ -246,6 +278,7 @@ app.factory('actionResultsService', function($q, serverService) {
         postActionResult : postActionResult,
         deleteActionResult : deleteActionResult,
         publicActionResults : publicActionResults,
-        privateActionResults : privateActionResults
+        privateActionResults : privateActionResults,
+        patchedActionResultsByType : patchedActionResultsByType
     };
 });

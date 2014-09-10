@@ -1,0 +1,29 @@
+1)
+
+File: Mafia/index.html
+
+Check that the <base> tag inside the <head> holds correct value. What is correct value?
+
+  When testing on localhost full URL is: http://localhost:11154/Mafia/#!/cities
+  And the base tag look like: <base href="/Mafia/index.html" />
+
+  When hosten on GitHub pages, full URL is: http://acajic.github.io/MafiaFront-v0.3/Mafia/index.html#!/cities
+  And the base tag is: <base href="/MafiaFront-v0.3/Mafia/index.html">
+  
+
+2) 
+
+File: Mafia/app/services/serverService.js
+
+Verify that the line:
+
+this.serverHost = developmentServer; // or productionServer
+
+actually points to a functional server URL.
+
+
+3) 
+
+None of the .js files inside Mafia/app folder are actually being used except one.
+Insted, they are first merged into one single .js file (Mafia/app/mafia.js) by executing Mafia/app/minify.bat on Windows.
+So, make sure the code you actually wish to execute is visible inside mafia.js.
