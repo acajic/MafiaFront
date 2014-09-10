@@ -25,16 +25,18 @@ app.directive('residents', function(actionResultsService) {
                 if (!residentsActionResult)
                     return;
 
-                scope.actionResult = residentsActionResult;
+                if (!scope.actionResult || residentsActionResult.day_id > scope.actionResult.day_id) {
+                    scope.actionResult = residentsActionResult;
 
-                var result = residentsActionResult.result;
-                scope.residents = $.map(result.residents, function(someResident) {
-                    scope.city.residentsById[someResident.id].alive = someResident.alive;
-                    return scope.city.residentsById[someResident.id];
-                });
+                    var result = residentsActionResult.result;
+                    scope.residents = $.map(result.residents, function (someResident) {
+                        scope.city.residentsById[someResident.id].alive = someResident.alive;
+                        return scope.city.residentsById[someResident.id];
+                    });
 
-                scope.residentsCopied = [];
-                angular.copy(scope.residents, scope.residentsCopied);
+                    scope.residentsCopied = [];
+                    angular.copy(scope.residents, scope.residentsCopied);
+                }
             }, true);
 
 

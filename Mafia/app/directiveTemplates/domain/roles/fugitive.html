@@ -4,7 +4,7 @@
             <i class="glyphicon glyphicon-eye-open"></i> Public
         </tab-heading>
 
-        <public-tab city="city" role-id="roleId" resident="resident" role-id="roleId" action-results="actionResults" action-results-by-type="actionResultsByType"></public-tab>
+        <public-tab city="city" role-id="roleId" resident="resident" role-id="roleId" action-results="actionResults" action-results-by-type="actionResultsByType" is-loading-action-results="isLoadingActionResults"  day-number-min="dayNumberMin" day-number-max="dayNumberMax" has-earlier-action-results="hasEarlierActionResults" load-earlier-action-results="loadEarlierActionResults" has-more-recent-action-results="hasMoreRecentActionResults" load-more-recent-action-results="loadMoreRecentActionResults"></public-tab>
 
     </tab>
 
@@ -17,7 +17,7 @@
             <special-actions city="city" role-id="roleId" resident="resident" action-results="actionResults"></special-actions>
         </div>
         <div class="col-md-6">
-            <private-news-feed city="city" role-id="roleId" resident="resident" action-results="actionResults"></private-news-feed>
+            <private-news-feed city="city" role-id="roleId" resident="resident" action-results="actionResults" is-loading-action-results="isLoadingActionResults" day-number-min="dayNumberMin" day-number-max="dayNumberMax" has-earlier-action-results="hasEarlierActionResults" load-earlier-action-results="loadEarlierActionResults" has-more-recent-action-results="hasMoreRecentActionResults" load-more-recent-action-results="loadMoreRecentActionResults"></private-news-feed>
         </div>
 
     </tab>

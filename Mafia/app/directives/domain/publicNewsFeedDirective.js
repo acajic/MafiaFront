@@ -6,7 +6,13 @@ app.directive('publicNewsFeed', function(actionResultsService) {
             city : '=',
             roleId : '=',
             resident : '=',
-            actionResults: '='
+            actionResults: '=',
+            dayNumberMin: '=',
+            dayNumberMax: '=',
+            hasEarlierActionResults: '=',
+            loadEarlierActionResults: '=',
+            hasMoreRecentActionResults: '=',
+            loadMoreRecentActionResults: '='
         },
         templateUrl: 'app/directiveTemplates/domain/publicNewsFeed.html',
         link: function(scope, element, attrs) {

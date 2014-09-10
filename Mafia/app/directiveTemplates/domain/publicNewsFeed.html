@@ -7,3 +7,9 @@
 
     </div>
 </div>
+<div style="clear: both;"></div>
+<button class="btn btn-link col-md-3" ng-show="hasMoreRecentActionResults()" ng-click="loadMoreRecentActionResults()">< More Recent</button>
+<div class="col-md-3" ng-hide="hasMoreRecentActionResults()"></div>
+<div class="col-md-6" style="text-align: center; font-size: 120%; margin-top: 5px;">Days {{dayNumberMin}} - {{dayNumberMax}}</div>
+<button class="btn btn-link col-md-3" style="float: right; text-align: right;" ng-show="hasEarlierActionResults()" ng-click="loadEarlierActionResults()">Earlier ></button>
+<div style="clear: both;"></div>

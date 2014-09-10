@@ -47,8 +47,21 @@
     <alert ng-repeat="alert in basicValidationErrors" type="alert.type" close="closeBasicValidationAlert($index)">{{alert.msg}}</alert>
 </div>
 
+<role city="city"
+      resident="resident"
+      action-results="actionResults"
+      is-loading="isLoading"
+      is-loading-action-results="isLoadingActionResults"
+      action-results-by-type="actionResultsByType"
+      tab-active="tabActive"
+      day-number-min="dayNumberMin"
+      day-number-max="dayNumberMax"
+      has-earlier-action-results="hasEarlierActionResults"
+      load-earlier-action-results="loadEarlierActionResults"
+      has-more-recent-action-results="hasMoreRecentActionResults"
+      load-more-recent-action-results="loadMoreRecentActionResults">
 
-<role city="city" resident="resident" action-results="actionResults" is-loading="isLoading" action-results-by-type="actionResultsByType" tab-active="tabActive"></role>
+</role>
 
 <button ng-click="joinDiscussion()" class="col-md-12 btn btn-info" ng-if="city.id">
     Discussion - {{city.name}}

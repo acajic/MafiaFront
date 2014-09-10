@@ -7,7 +7,6 @@ app.directive('fugitive', function() {
             "use strict";
 
             scope.roleId = ROLE_ID_FUGITIVE;
-
         }
     };
 });
