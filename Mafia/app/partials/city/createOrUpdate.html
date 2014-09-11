@@ -101,11 +101,11 @@
                     </tr>
                     <tr ng-if="city.started_at">
                         <td class="col-md-1 gray-cell">Started at</td>
-                        <td>{{city.started_at}}</td>
+                        <td>{{city.started_at | localeDate }}</td>
                     </tr>
                     <tr ng-if="city.finished_at">
                         <td class="col-md-1 gray-cell">Finished at</td>
-                        <td>{{city.finished_at}}</td>
+                        <td>{{city.finished_at | localeDate }}</td>
                     </tr>
                </tbody>
 

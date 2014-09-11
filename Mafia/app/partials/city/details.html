@@ -48,15 +48,15 @@
                     </tr>
                     <tr>
                         <td>Created at</td>
-                        <td>{{ city.created_at }}</td>
+                        <td>{{ city.created_at | localeDate }}</td>
                     </tr>
                     <tr ng-if="city.started_at">
                         <td>Started at</td>
-                        <td>{{ city.started_at }}</td>
+                        <td>{{ city.started_at | localeDate }}</td>
                     </tr>
                     <tr ng-if="city.finished_at">
                         <td>Finished at</td>
-                        <td>{{ city.finished_at }}</td>
+                        <td>{{ city.finished_at | localeDate }}</td>
                     </tr>
                 </tbody>
             </table>

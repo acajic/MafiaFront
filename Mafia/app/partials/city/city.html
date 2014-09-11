@@ -30,7 +30,7 @@
         </div>
 
         <img src="content/img/pause-icon.png" style="width: 100px; height: 100px;" />
-        Paused at: {{ city.last_paused_at}}
+        Paused at: {{ city.last_paused_at | localeDate }}
     </div>
 
     <div class="role-chooser-container">

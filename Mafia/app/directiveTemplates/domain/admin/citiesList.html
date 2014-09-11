@@ -95,11 +95,11 @@
             <td>{{ city.name }}</td>
             <td>id: {{ city.user_creator_id }}; username: {{ city.user_creator_username }}</td>
             <td>{{ city.timezone }}</td>
-            <td>{{ city.started_at }}</td>
-            <td>{{ city.paused ? city.last_paused_at : null }}</td>
-            <td>{{ city.finished_at }}</td>
-            <td>{{ city.created_at }}</td>
-            <td>{{ city.updated_at }}</td>
+            <td>{{ city.started_at | localeDate }}</td>
+            <td>{{ (city.paused ? city.last_paused_at : null) | localeDate }}</td>
+            <td>{{ city.finished_at | localeDate }}</td>
+            <td>{{ city.created_at | localeDate }}</td>
+            <td>{{ city.updated_at | localeDate }}</td>
             <td><button class="btn btn-info" ng-click="showDetails(city)">Details</button></td>
         </tr>
         <tr ng-if="isLoadingContent">

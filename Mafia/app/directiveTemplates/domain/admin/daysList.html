@@ -34,7 +34,7 @@
                 day_city_name: {{ day.city_name }};
             </td>
             <td>{{ day.number }}</td>
-            <td>{{ day.created_at }}</td>
+            <td>{{ day.created_at | localeDate }}</td>
         </tr>
         <tr ng-if="isLoadingContent">
             <td colspan="4" style="text-align: center">

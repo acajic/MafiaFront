@@ -2,7 +2,7 @@
  
 // app 
  
-var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.pointsAssign', 'timer', 'ui.minLengthNumber', 'uniqque_filter', 'ngQuickDate', 'angularUtils.directives.dirDisqus']);
+var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.pointsAssign', 'timer', 'ui.minLengthNumber', 'ui.dateLocale', 'uniqque_filter', 'ngQuickDate', 'angularUtils.directives.dirDisqus']);
 
 app.config(function ($routeProvider, $locationProvider) {
     'use strict';
