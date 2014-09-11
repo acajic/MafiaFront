@@ -97,7 +97,7 @@
             <td style="text-align: center;"><img-bool boolean-value="action.resident_alive"></img-bool></td>
             <td style="text-align: center;"><img-bool boolean-value="action.is_processed"></img-bool></td>
             <td>{{ action.input_json }}</td>
-            <td>{{ action.created_at}}</td>
+            <td>{{ action.created_at | localeDate }}</td>
         </tr>
         <tr ng-if="isLoadingContent">
             <td colspan="9" style="text-align: center">

@@ -292,7 +292,7 @@
                 </tr>
                 <tr>
                     <td>Started at</td>
-                    <td>{{selectedCity.started_at}}</td>
+                    <td>{{selectedCity.started_at | localeDate}}</td>
                 </tr>
                 <tr ng-if="selectedCity.paused">
                     <td>Paused</td>
@@ -300,7 +300,7 @@
                 </tr>
                 <tr ng-if="selectedCity.finished_at">
                     <td>Finished at</td>
-                    <td>{{selectedCity.finished_at}}</td>
+                    <td>{{selectedCity.finished_at | localeDate}}</td>
                 </tr>
                 </tbody>
             </table>

@@ -108,8 +108,8 @@
 
             <td style="text-align: center;"><img-bool boolean-value="actionResult.is_automatically_generated"></img-bool></td>
             <td style="text-align: center;"><img-bool boolean-value="actionResult.deleted"></img-bool></td>
-            <td>{{ actionResult.created_at}}</td>
-            <td>{{ actionResult.updated_at}}</td>
+            <td>{{ actionResult.created_at | localeDate }}</td>
+            <td>{{ actionResult.updated_at | localeDate }}</td>
         </tr>
         <tr ng-if="isLoadingContent">
             <td colspan="12" style="text-align: center">

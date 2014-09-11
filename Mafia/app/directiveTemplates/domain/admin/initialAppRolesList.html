@@ -59,8 +59,8 @@
             <td>{{ initialAppRole.app_role.name }}</td>
             <td>{{ initialAppRole.priority }}</td>
             <td style="text-align: center;"><img-bool boolean-value="initialAppRole.enabled"></img-bool></td>
-            <td>{{ initialAppRole.created_at }}</td>
-            <td>{{ initialAppRole.updated_at }}</td>
+            <td>{{ initialAppRole.created_at | localeDate }}</td>
+            <td>{{ initialAppRole.updated_at | localeDate }}</td>
             <td><button class="btn btn-info" ng-click="showDetails(initialAppRole)">Details</button></td>
         </tr>
         <tr ng-if="isLoadingContent">

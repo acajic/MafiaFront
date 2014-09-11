@@ -62,13 +62,13 @@
         <tr>
             <td>Started</td>
             <td style="text-align: center"><img-bool boolean-value="inspectedCity.active"></img-bool></td>
-            <td>{{ inspectedCity.started_at }}</td>
+            <td>{{ inspectedCity.started_at | localeDate }}</td>
         </tr>
 
         <tr>
             <td>Paused</td>
             <td style="text-align: center"><img-bool boolean-value="inspectedCity.paused"></img-bool></td>
-            <td>{{ inspectedCity.last_paused_at }}</td>
+            <td>{{ inspectedCity.last_paused_at | localeDate }}</td>
         </tr>
 
         <tr ng-if="inspectedCity.paused">
@@ -80,17 +80,17 @@
         <tr>
             <td>Finished</td>
             <td style="text-align: center"><img-bool boolean-value="inspectedCity.finished_at"></img-bool></td>
-            <td>{{ inspectedCity.finished_at }}</td>
+            <td>{{ inspectedCity.finished_at | localeDate }}</td>
         </tr>
 
         <tr>
             <td>Created At</td>
-            <td colspan="2">{{ inspectedCity.created_at }}</td>
+            <td colspan="2">{{ inspectedCity.created_at | localeDate }}</td>
         </tr>
 
         <tr>
             <td>Updated At</td>
-            <td colspan="2">{{ inspectedCity.updated_at }}</td>
+            <td colspan="2">{{ inspectedCity.updated_at | localeDate }}</td>
         </tr>
 
         <tr>

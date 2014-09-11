@@ -56,8 +56,8 @@
             <td>{{ user.email }}</td>
             <td>{{ user.app_role.name }}</td>
             <td style="text-align: center;"><img-bool boolean-value="user.email_confirmed"></img-bool></td>
-            <td>{{ user.created_at }}</td>
-            <td>{{ user.updated_at }}</td>
+            <td>{{ user.created_at | localeDate }}</td>
+            <td>{{ user.updated_at | localeDate }}</td>
             <td><button class="btn btn-info" ng-click="showDetails(user)">Details</button></td>
         </tr>
         <tr ng-if="isLoadingContent">

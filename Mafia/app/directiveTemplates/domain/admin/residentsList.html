@@ -78,8 +78,8 @@
             <td>{{ allRolesByIds[resident.saved_role_id].name }}</td>
             <td style="text-align: center;"><img-bool boolean-value="resident.role_seen"></img-bool></td>
             <td style="text-align: center;"><img-bool boolean-value="resident.alive"></img-bool></td>
-            <td>{{ resident.died_at}}</td>
-            <td>{{ resident.updated_at}}</td>
+            <td>{{ resident.died_at | localeDate }}</td>
+            <td>{{ resident.updated_at | localeDate }}</td>
         </tr>
         <tr ng-if="isLoadingContent">
             <td colspan="10" style="text-align: center">
