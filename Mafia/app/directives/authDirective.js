@@ -1,4 +1,4 @@
-app.directive('auth', function($routeParams, authService, $location, layoutService) {
+app.directive('auth', function($routeParams, $location, $modal, $timeout, authService, layoutService, usersService) {
     return {
         restrict: 'E',
         link: function(scope, element, attrs) {
@@ -123,6 +123,61 @@ app.directive('auth', function($routeParams, authService, $location, layoutServi
             scope.register = function() {
                 $location.path('/register');
             };
+
+
+            scope.forgotPassword = function () {
+                var modalInstance = $modal.open({
+                    templateUrl: 'forgotPasswordModalContent.html',
+                    controller: ForgotPasswordModalInstanceCtrl,
+                    resolve: {
+                    }
+                });
+
+                modalInstance.result.then(function (email) {
+                    if (!email || email.length == 0) {
+                        scope.infos.push({type: 'danger', msg: 'Email must not be empty.'});
+                        return;
+                    }
+
+
+                    var forgotPasswordPromise = usersService.postForgotPassword(email);
+                    scope.loader.isLoading = true;
+                    forgotPasswordPromise.then(function() {
+                        $timeout(function() {
+                            scope.infos.push({type : 'success', msg: 'Confirmation email sent to "' + email + '".'});
+                            scope.loader.isLoading = false;
+                        });
+
+                    }, function(reason) {
+                        $timeout(function() {
+                            scope.loader.isLoading = false;
+                            scope.infos.push({type : 'danger', msg: 'Failed to send confirmation email to "' + email +'".' });
+                        });
+                    });
+
+                }, function () {
+                });
+            };
+
+
+
+
+
+            var ForgotPasswordModalInstanceCtrl = function ($scope, $modalInstance) {
+                $scope.form = {
+                    email : ""
+                };
+
+                $scope.ok = function () {
+                    $modalInstance.close($scope.form.email);
+                };
+
+                $scope.cancel = function () {
+                    $modalInstance.dismiss('cancel');
+                };
+            };
+
+
         },
         templateUrl: 'app/directiveTemplates/auth.html'
     };
