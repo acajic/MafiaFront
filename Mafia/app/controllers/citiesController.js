@@ -403,6 +403,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
         if (!newUser || !newUser.id) {
             $scope.myCities = [];
+            $scope.appPermissionCreateGamesGranted = false;
             return;
         }
 

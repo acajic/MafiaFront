@@ -72,6 +72,10 @@ app.factory('usersService', function($q, serverService) {
         }
     };
 
+    var postForgotPassword = function(email) {
+        return serverService.post('users/forgot_password', {email : email});
+    };
+
     var userDeleted;
 
     return {
@@ -83,7 +87,7 @@ app.factory('usersService', function($q, serverService) {
         deleteUserById : deleteUserById,
         userDeleted : userDeleted,
         allowedEmailPatterns: allowedEmailPatterns,
-        getAllowedEmailPatterns : getAllowedEmailPatterns
-
+        getAllowedEmailPatterns : getAllowedEmailPatterns,
+        postForgotPassword : postForgotPassword
     };
 });
