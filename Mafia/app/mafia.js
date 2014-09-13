@@ -786,13 +786,13 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         });
     }
 
-    $scope.$watch('[actionResults, resident.id]', function(values) {
+    $scope.$watch('[actionResults, city.residentsById]', function(values) {
         var actionResults = values[0];
         if (!actionResults)
             return;
 
-        var resident_id = values[1];
-        if (!resident_id)
+        var residentsById = values[1];
+        if (!residentsById)
             return;
 
         var actionResultsByType = {};
@@ -809,11 +809,9 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
 
             var residentsResult = actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS][0];
             if (residentsResult) {
-                var residentStatus = residentsResult.result.residents.elementMatchingFunction(function(someResidentAliveStatus) {
-                    return someResidentAliveStatus.id == resident_id;
+                angular.forEach(residentsResult.result.residents, function(someResidentStatus) {
+                    residentsById[someResidentStatus.id].alive = someResidentStatus.alive;
                 });
-                $scope.resident.alive = residentStatus.alive;
-
                 $scope.residentsResult = residentsResult;
             }
         } else {
