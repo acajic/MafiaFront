@@ -6,7 +6,8 @@ app.directive('specialActions', function(actionsService) {
             city : '=',
             roleId: '=',
             resident : '=',
-            actionResults: '='
+            actionResults: '=',
+            actionResultsByType: '='
         },
         templateUrl: 'app/directiveTemplates/domain/specialActions.html',
         link: function(scope, element, attrs) {
@@ -42,19 +43,17 @@ app.directive('specialActions', function(actionsService) {
 
 
 
-            scope.$watch('actionResults', function(actionResults) {
-                if (!actionResults)
+            scope.$watch('actionResultsByType', function(actionResultsByType) {
+                if (!actionResultsByType)
                     return;
 
-                // var actionResults = values[0];
-                var actionTypeParamsResultIndex = actionResults.indexOfMatchFunction(function (someActionResult) {
-                    return someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS;
-                });
-                if (actionTypeParamsResultIndex < 0) {
+
+                var actionTypeParamsResult = actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS][0];
+                if (!actionTypeParamsResult) {
                     return;
                 }
 
-                scope.actionTypeParamsResult = actionResults[actionTypeParamsResultIndex];
+                scope.actionTypeParamsResult = actionTypeParamsResult;
 
             }, true);
 

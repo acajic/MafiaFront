@@ -1,3 +1,6 @@
+<div>
+    <alert ng-repeat="alert in infos" type="alert.type" close="closeInfoAlert($index)">{{alert.msg}}</alert>
+</div>
 <div ng-dblclick="toggleMode()">
 
 <action-type-params action-type-id="actionTypeId" action-type-params="actionTypeParams" edit-mode="editMode"></action-type-params>

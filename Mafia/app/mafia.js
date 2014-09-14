@@ -3971,7 +3971,8 @@ app.directive('specialActions', function(actionsService) {
             city : '=',
             roleId: '=',
             resident : '=',
-            actionResults: '='
+            actionResults: '=',
+            actionResultsByType: '='
         },
         templateUrl: 'app/directiveTemplates/domain/specialActions.html',
         link: function(scope, element, attrs) {
@@ -4007,19 +4008,17 @@ app.directive('specialActions', function(actionsService) {
 
 
 
-            scope.$watch('actionResults', function(actionResults) {
-                if (!actionResults)
+            scope.$watch('actionResultsByType', function(actionResultsByType) {
+                if (!actionResultsByType)
                     return;
 
-                // var actionResults = values[0];
-                var actionTypeParamsResultIndex = actionResults.indexOfMatchFunction(function (someActionResult) {
-                    return someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS;
-                });
-                if (actionTypeParamsResultIndex < 0) {
+
+                var actionTypeParamsResult = actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS][0];
+                if (!actionTypeParamsResult) {
                     return;
                 }
 
-                scope.actionTypeParamsResult = actionResults[actionTypeParamsResultIndex];
+                scope.actionTypeParamsResult = actionTypeParamsResult;
 
             }, true);
 
@@ -4058,7 +4057,7 @@ app.directive('timezone', function() {
  
 // actionTypeParamsResultDirective 
  
-app.directive('actionTypeParamsResult', function(actionResultsService) {
+app.directive('actionTypeParamsResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -4130,9 +4129,21 @@ app.directive('actionTypeParamsResult', function(actionResultsService) {
                         return someActionResult.id == scope.actionResult.id;
                     });
 
-                    scope.actionResults.splice(index, 1, createdActionResult);
-                    scope.editMode = false;
+                    $timeout(function() {
+                        scope.actionResults.splice(index, 1, createdActionResult);
+                        scope.editMode = false;
+                    });
+
+                }, function(reason) {
+                    $timeout(function() {
+                        scope.infos = [{type:'danger', msg:'Failed to save.'}];
+                        scope.editMode = false;
+                    });
                 });
+            };
+
+            scope.closeInfoAlert = function(index) {
+                scope.infos.splice(index, 1);
             };
 
             scope.submitActionResult = function() {
@@ -6390,7 +6401,6 @@ app.directive('journalistInvestigate', function($timeout, actionsService) {
                 scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_JOURNALIST_INVESTIGATE.toString()];
             });
 
-
             scope.investigateOnSelect = function(selectedResident) {
                 if (!selectedResident)
                     return;
@@ -6645,31 +6655,13 @@ app.directive('tellerVotes', function($timeout, actionsService, actionResultsSer
                 scope.actionResultTypes = actionResultTypesByIdsResult;
             });
 
-            scope.actionTypeParamsResult = {};
 
-            scope.$watch('[actionResults, roleId]', function(values) {
-                var actionResults = values[0];
 
-                if (!actionResults)
+            scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
+                if (!actionTypeParamsResult)
                     return;
 
-                var actionTypeParamsResultIndex = actionResults.indexOfMatchFunction(function (someActionResult) {
-                    return someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS;
-                });
-                if (actionTypeParamsResultIndex < 0) {
-                    return;
-                }
-
-                var roleId = values[1];
-                if (!roleId)
-                    return;
-
-                // var actionTypeParamsResult = actionResults[actionTypeParamsResultIndex].result.action_types_params;
-                scope.actionTypeParamsResult = actionResults[actionTypeParamsResultIndex];
-
-                scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[roleId.toString()][ACTION_TYPE_ID_TELLER_VOTES.toString()];
-
-
+                scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_TELLER_VOTES.toString()];
             }, true);
 
 
@@ -6729,26 +6721,11 @@ app.directive('terroristBomb', function($timeout, actionsService) {
 
             scope.selectedResident = {};
 
-            scope.$watch('actionResults', function(actionResults) {
-                if (!actionResults)
+            scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
+                if (!actionTypeParamsResult)
                     return;
 
-                // var actionResults = values[0];
-                var actionTypeParamsResultIndex = actionResults.indexOfMatchFunction(function (someActionResult) {
-                    return someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS;
-                });
-                if (actionTypeParamsResultIndex < 0) {
-                    return;
-                }
-
-                var roleId = scope.roleId;
-                if (!roleId)
-                    return;
-
-                // var actionTypeParamsResult = actionResults[actionTypeParamsResultIndex].result.action_types_params;
-                scope.actionTypeParamsResult = actionResults[actionTypeParamsResultIndex];
-
-                scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[roleId.toString()][ACTION_TYPE_ID_TERRORIST_BOMB.toString()];
+                scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_TERRORIST_BOMB.toString()];
 
             }, true);
 
