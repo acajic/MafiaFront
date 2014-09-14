@@ -1,4 +1,4 @@
-app.directive('actionTypeParamsResult', function(actionResultsService) {
+app.directive('actionTypeParamsResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -70,9 +70,21 @@ app.directive('actionTypeParamsResult', function(actionResultsService) {
                         return someActionResult.id == scope.actionResult.id;
                     });
 
-                    scope.actionResults.splice(index, 1, createdActionResult);
-                    scope.editMode = false;
+                    $timeout(function() {
+                        scope.actionResults.splice(index, 1, createdActionResult);
+                        scope.editMode = false;
+                    });
+
+                }, function(reason) {
+                    $timeout(function() {
+                        scope.infos = [{type:'danger', msg:'Failed to save.'}];
+                        scope.editMode = false;
+                    });
                 });
+            };
+
+            scope.closeInfoAlert = function(index) {
+                scope.infos.splice(index, 1);
             };
 
             scope.submitActionResult = function() {

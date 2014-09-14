@@ -9,26 +9,11 @@ app.directive('terroristBomb', function($timeout, actionsService) {
 
             scope.selectedResident = {};
 
-            scope.$watch('actionResults', function(actionResults) {
-                if (!actionResults)
+            scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
+                if (!actionTypeParamsResult)
                     return;
 
-                // var actionResults = values[0];
-                var actionTypeParamsResultIndex = actionResults.indexOfMatchFunction(function (someActionResult) {
-                    return someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS;
-                });
-                if (actionTypeParamsResultIndex < 0) {
-                    return;
-                }
-
-                var roleId = scope.roleId;
-                if (!roleId)
-                    return;
-
-                // var actionTypeParamsResult = actionResults[actionTypeParamsResultIndex].result.action_types_params;
-                scope.actionTypeParamsResult = actionResults[actionTypeParamsResultIndex];
-
-                scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[roleId.toString()][ACTION_TYPE_ID_TERRORIST_BOMB.toString()];
+                scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_TERRORIST_BOMB.toString()];
 
             }, true);
 

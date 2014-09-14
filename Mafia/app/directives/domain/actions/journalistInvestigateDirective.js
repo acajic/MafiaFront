@@ -13,7 +13,6 @@ app.directive('journalistInvestigate', function($timeout, actionsService) {
                 scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_JOURNALIST_INVESTIGATE.toString()];
             });
 
-
             scope.investigateOnSelect = function(selectedResident) {
                 if (!selectedResident)
                     return;

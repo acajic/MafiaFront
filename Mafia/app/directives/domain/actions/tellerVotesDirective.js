@@ -12,31 +12,13 @@ app.directive('tellerVotes', function($timeout, actionsService, actionResultsSer
                 scope.actionResultTypes = actionResultTypesByIdsResult;
             });
 
-            scope.actionTypeParamsResult = {};
 
-            scope.$watch('[actionResults, roleId]', function(values) {
-                var actionResults = values[0];
 
-                if (!actionResults)
+            scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
+                if (!actionTypeParamsResult)
                     return;
 
-                var actionTypeParamsResultIndex = actionResults.indexOfMatchFunction(function (someActionResult) {
-                    return someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS;
-                });
-                if (actionTypeParamsResultIndex < 0) {
-                    return;
-                }
-
-                var roleId = values[1];
-                if (!roleId)
-                    return;
-
-                // var actionTypeParamsResult = actionResults[actionTypeParamsResultIndex].result.action_types_params;
-                scope.actionTypeParamsResult = actionResults[actionTypeParamsResultIndex];
-
-                scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[roleId.toString()][ACTION_TYPE_ID_TELLER_VOTES.toString()];
-
-
+                scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_TELLER_VOTES.toString()];
             }, true);
 
 
