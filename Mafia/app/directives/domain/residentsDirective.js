@@ -1,4 +1,4 @@
-app.directive('residents', function(actionResultsService) {
+app.directive('residents', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -29,15 +29,30 @@ app.directive('residents', function(actionResultsService) {
                     scope.actionResult = residentsActionResult;
 
                     var result = residentsActionResult.result;
-                    scope.residents = $.map(result.residents, function (someResident) {
+                    var residents = $.map(result.residents, function (someResident) {
                         scope.city.residentsById[someResident.id].alive = someResident.alive;
-                        return scope.city.residentsById[someResident.id];
+                        return angular.copy(scope.city.residentsById[someResident.id]);
                     });
 
-                    scope.residentsCopied = [];
-                    angular.copy(scope.residents, scope.residentsCopied);
+                    scope.residentsCopied = residents;
                 }
             }, true);
+/*
+
+            scope.$watch('city.residentsById', function(residentsById) {
+                if (!residentsById)
+                    return;
+
+                var residents = [];
+                for (var residentId in residentsById) {
+                    if (residentsById.hasOwnProperty(residentId)) {
+                        var resident = residentsById[residentId];
+                        residents.push(angular.copy(resident));
+                    }
+                }
+                scope.residentsCopied = residents;
+            }, true);
+*/
 
 
             scope.toggleMode = function() {
@@ -55,7 +70,7 @@ app.directive('residents', function(actionResultsService) {
                 if (index < 0)
                     return;
 
-                var actionResult = angular.copy(scope.actionResult);
+                var actionResult = scope.actionResult;
 
                 var submitActionResultPromise = actionResultsService.postActionResult(
                     scope.city.id,
@@ -72,9 +87,23 @@ app.directive('residents', function(actionResultsService) {
                     }
                 );
                 submitActionResultPromise.then(function(createdActionResult) {
-                    scope.actionResults.splice(index, 1, createdActionResult);
-                    scope.editMode = false;
+
+                    $timeout(function() {
+                        scope.actionResults.splice(index, 1, createdActionResult);
+                        scope.editMode = false;
+                    });
+
+                }, function(reason) {
+                    $timeout(function() {
+                        scope.infos.push({type: 'danger', msg:'Failed to save.'})
+                    });
                 });
+            };
+
+
+
+            scope.closeInfoAlert = function(index) {
+                scope.infos.splice(index, 1);
             };
 
         }

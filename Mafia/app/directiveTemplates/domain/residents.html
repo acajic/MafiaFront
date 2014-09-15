@@ -1,4 +1,9 @@
-<div ng-if="!editMode" ng-dblclick="toggleMode()" class="col-md-12 nopadding">
+<div id="info-box">
+    <alert ng-repeat="alert in infos" type="alert.type" close="closeInfoAlert($index)">{{alert.msg}}</alert>
+</div>
+
+
+<div ng-hide="editMode" ng-dblclick="toggleMode()" class="col-md-12 nopadding">
 
     <table class="table table-striped">
         <thead>
@@ -8,7 +13,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="resident in residents">
+        <tr ng-repeat="resident in residentsCopied">
             <td>{{ resident.name }}</td>
             <td><img-alive boolean-value="resident.alive"></img-alive></td>
         </tr>
@@ -18,7 +23,7 @@
 
 </div>
 
-<div ng-if="editMode" ng-dblclick="toggleMode()" class="col-md-12 nopadding">
+<div ng-show="editMode" ng-dblclick="toggleMode()" class="col-md-12 nopadding">
 
     <table class="table table-striped">
         <thead>
