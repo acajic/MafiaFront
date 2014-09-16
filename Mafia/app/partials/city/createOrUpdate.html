@@ -75,10 +75,6 @@
                         <td class="col-md-1 gray-cell">Creator</td>
                         <td>{{city.user_creator_username}}</td>
                     </tr>
-                    <tr ng-if="city.id == undefined">
-                        <td class="col-md-1 gray-cell">Creator</td>
-                        <td>{{userMe.username}}</td>
-                    </tr>
                     <tr ng-if="!city.started_at">
                         <td class="col-md-1 gray-cell">Timezone</td>
                         <td>
