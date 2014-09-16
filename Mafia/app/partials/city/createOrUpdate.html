@@ -67,11 +67,11 @@
                         <td class="col-md-1 gray-cell">Public</td>
                         <td><img-bool boolean-value="city.public"></img-bool></td>
                     </tr>
-                    <tr ng-if="city.id == undefined">
+                    <tr ng-if="city.id === undefined">
                         <td class="col-md-1 gray-cell">Creator</td>
                         <td>{{userMe.username}}</td>
                     </tr>
-                    <tr ng-if="city.id != undefined">
+                    <tr ng-if="city.id !== undefined">
                         <td class="col-md-1 gray-cell">Creator</td>
                         <td>{{city.user_creator_username}}</td>
                     </tr>
