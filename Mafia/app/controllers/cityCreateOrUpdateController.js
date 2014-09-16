@@ -1086,8 +1086,9 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             } */ else {
                 cityPromise = citiesService.getCity(cityId, true);
             }
-        } else
+        } else {
             cityPromise = citiesService.getNewCity();
+        }
 
         var allRolesPromise = rolesService.getAllRoles(false);
         var userMePromise = authService.userMe(false);
@@ -1102,15 +1103,22 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             var userMe = result[1];
             $scope.userMe = userMe;
 
-            if (city) {
+            var city = result[2];
+            if (cityId) {
 
             } else {
-                var city = result[2];
-                if (cityId) {
+                var d = new Date()
+                var timezone = -1 * d.getTimezoneOffset();
+                city.timezone = timezone;
+                d.setHours(Math.floor(Math.abs(timezone)/60));
+                d.setMinutes(Math.abs(timezone) % 60);
 
-                } else {
-                }
+                $scope.timezone = {
+                    timeDate: d,
+                    sign: timezone < 0 ? '-' : '+'
+                };
             }
+
 
             initTime(city);
             initTimezone(city);
