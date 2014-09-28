@@ -27,3 +27,8 @@ actually points to a functional server URL.
 None of the .js files inside Mafia/app folder are actually being used except one.
 Insted, they are first merged into one single .js file (Mafia/app/mafia.js) by executing Mafia/app/minify.bat on Windows.
 So, make sure the code you actually wish to execute is visible inside mafia.js.
+
+
+4) 
+
+The action results are generated at the end of a day cycle based on some actions. If the action results do not seem correct with regard to the actions that generated them, check if all the action were submitted with residents' true roles. If one of residents was submitting actions while pretending to be a different role, their actions are inherently void.
