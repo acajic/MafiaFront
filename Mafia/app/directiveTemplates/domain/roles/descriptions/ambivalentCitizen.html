@@ -1,6 +1,12 @@
 <b>Ambivalent Citizen</b> is a role similar to a basic <b>Citizen</b>. <br/>
+
 Like the ordinary Citizen, Ambivalent Citizen's only ability is to <b>vote</b> who is going to be executed at the end of each day. <br/>
-The only thing different is that, in case of an ordinary citizen, at the end of the day phase, only the last vote action is taken into consideration.
-In case when ambivalent citizen is casting votes, <b>all votes targeting distinct residents are accepted</b>. <br/>
+
+The only thing difference is that, in case of an ordinary citizen, at the end of the day phase, only the last vote action is taken into consideration. <br/>
+
+When ambivalent citizen is casting votes, <b>all votes targeting distinct residents are accepted</b>. <br/>
+
 <b>Ambivalent residents can vote variable number of times, but each time for a different resident.</b>
-This means that a resident with this role can submit [0..N] votes each day, with N being the number of players in the game.
+This means that a resident with this role can submit [0..N] valid votes each day, with N being the number of players in the game. <br/>
+
+If Ambivalent Citizen votes for the same resident multiple times in the same day, these duplicates count as a single vote.
