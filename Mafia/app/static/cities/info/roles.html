@@ -1,0 +1,43 @@
+<table class="table">
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Action Types</td>
+        <td>Description</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td colspan="3" style="text-align: center">Citizens</td>
+    </tr>
+    <tr ng-repeat="role in allRoles | filter : {affiliation: {id : affiliationIds.AFFILIATION_ID_CITIZENS}}">
+        <td>{{role.name}}</td>
+        <td>
+            <ul>
+                <li ng-repeat="actionType in role.action_types">
+                    {{actionType.name}}
+                </li>
+            </ul>
+        </td>
+        <td>
+            <role-description role-id="role.id"></role-description>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align: center">Mafia</td>
+    </tr>
+    <tr ng-repeat="role in allRoles | filter : {affiliation: {id : affiliationIds.AFFILIATION_ID_MAFIA}}">
+        <td>{{role.name}}</td>
+        <td>
+            <ul>
+                <li ng-repeat="actionType in role.action_types">
+                    {{actionType.name}}
+                </li>
+            </ul>
+        </td>
+        <td>
+            <role-description role-id="role.id"></role-description>
+        </td>
+    </tr>
+    </tbody>
+</table>
