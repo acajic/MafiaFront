@@ -1,6 +1,6 @@
 
 <div ng-if="!editMode" ng-dblclick="toggleMode()">
-    Day {{ actionResult.day_number }} <img src="content/img/vote-result-icon.png" style="width: 25px;"/> {{ interpretation }}
+    Day {{ actionResult.day_number }} <i class="fa fa-gavel"></i> {{ interpretation }}
 </div>
 <div ng-if="editMode" ng-dblclick="toggleMode()">
     Day <select ng-model="actionResultCopied.day" ng-options="day.number for day in city.days"></select>
