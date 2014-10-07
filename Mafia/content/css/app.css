@@ -1,6 +1,26 @@
+html, body {
+    height: 100%;
+}
 
+#wrapper {
+    min-height: 100%;
+}
+
+#content {
+    padding-bottom: 70px;
+}
 
 #footer {
+    text-align: center;
+    height: 60px;
+    margin-top: -60px;
+    background-color: #bbbebc;
+    clear: both;
+}
+
+.title {
+    font-family: 'Crimson Text', serif;
+    font-size: 38px;
     text-align: center;
 }
 

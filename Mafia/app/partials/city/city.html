@@ -1,5 +1,8 @@
 
+<div class="title">{{city.name}}</div>
+
 <div class="col-md-6 nopadding">
+
 
     <div ng-if="!city.finished_at && !city.paused">
         <current-day></current-day>
@@ -7,8 +10,9 @@
         <city-timer city="city" next-moment="nextMoment" on-day-start="" on-night-start=""></city-timer>
 
         <div class="day-cycle-phase">
-            <img ng-if="nextMoment && !nextMoment.isDayStart && refreshCountdownTicks == 0" src="content/img/day.png" style="width: 100px; height: 100px;" />
-            <img ng-if="nextMoment && nextMoment.isDayStart && refreshCountdownTicks == 0" src="content/img/night.png" style="width: 100px; height: 100px;" />
+
+            <div ng-if="nextMoment && !nextMoment.isDayStart && refreshCountdownTicks == 0"> <i class="fa fa-sun-o fa-5x"></i> DAYTIME</div>
+            <div ng-if="nextMoment && nextMoment.isDayStart && refreshCountdownTicks == 0"> <i class="fa fa-moon-o fa-5x"></i> NIGHTTIME</div>
             <img ng-if="refreshCountdownTicks > 0" src="content/img/ajax-loader-32.gif" />
         </div>
 

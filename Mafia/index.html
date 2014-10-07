@@ -4,10 +4,11 @@
 
     <link href="content/bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <link href='http://fonts.googleapis.com/css?family=Crimson+Text:700' rel='stylesheet' type='text/css'>
 
     <link href="content/css/app.css" rel="stylesheet">
 
-
+    <link href="content/css/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet">
     <link href="content/css/ngQuickDate/ng-quick-date.css" rel="stylesheet">
     <link href="content/css/ngQuickDate/ng-quick-date-default-theme.css" rel="stylesheet">
 
@@ -16,13 +17,17 @@
 
 <body ng-controller="AppController">
 
-<div id="header" class="col-md-12">
-    <auth></auth>
+<div id="wrapper">
+
+
+    <div id="header" class="col-md-12">
+        <auth></auth>
+    </div>
+
+
+    <div ng-view="" id="content" class="col-md-12"></div>
+
 </div>
-
-<div ng-view="" id="content" class="col-md-12"></div>
-
-
 
 
 <div id="footer" class="col-md-12">

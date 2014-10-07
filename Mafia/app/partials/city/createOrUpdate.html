@@ -93,7 +93,7 @@
                     </tr>
                     <tr ng-if="city.id != undefined">
                         <td class="col-md-1 gray-cell">Created at</td>
-                        <td>{{city.created_at}}</td>
+                        <td>{{city.created_at | localeDate }}</td>
                     </tr>
                     <tr ng-if="city.started_at">
                         <td class="col-md-1 gray-cell">Started at</td>
