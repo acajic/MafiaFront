@@ -58,7 +58,7 @@ app.factory('actionsService', function($q, serverService) {
         return serverService.get('actions', {
             page_index: pageIndex,
             page_size: pageSize,
-            resident_username: queryModel.residentUsername,
+            username: queryModel.username,
             city_name: queryModel.cityName,
             input_json: queryModel.inputJson,
             role_ids: queryModel.roleIds,
