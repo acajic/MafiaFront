@@ -62,6 +62,7 @@ app.factory('actionsService', function($q, serverService) {
             city_name: queryModel.cityName,
             input_json: queryModel.inputJson,
             role_ids: queryModel.roleIds,
+            role_authentic: queryModel.roleAuthentic,
             action_type_ids: queryModel.actionTypeIds,
             day_min: queryModel.dayMin,
             day_max: queryModel.dayMax,
