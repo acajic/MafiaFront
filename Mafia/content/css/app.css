@@ -71,6 +71,11 @@ td {
     background-color: #7c8281;
     color: #eef7f5;
 }
+
+.table thead tr td {
+    text-align: center;
+}
+
 /* END interactiveTableDirective */
 
 /* BEGIN sidetable */
