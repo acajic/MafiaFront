@@ -211,6 +211,33 @@
                     </table>
 
                 </tab>
+
+                <tab ng-if="user.role_pick_purchases.length">
+                    <tab-heading>
+                        <i class="fa fa-flag"></i> Role Picks
+                    </tab-heading>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Requested Role</td>
+                                <td>Request Date</td>
+                                <td>Granted</td>
+                                <td ng-if="!city.started_at">Cancel</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="rolePick in user.role_picks | filter: { city_id : city.id} ">
+                                <td>{{rolePick.role.name}}</td>
+                                <td>{{rolePick.created_at | localeDate}}</td>
+                                <td ng-if="city.started_at"><img-bool boolean-value="rolePick.role_pick_purchase_id"></img-bool> </td>
+                                <td ng-if="!city.started_at"><i class="glyphicon glyphicon-question-sign" tooltip="Game hasn't started yet"></i></td>
+                                <td ng-if="!city.started_at"><button tooltip="Cancel this role request"><i class="glyphicon glyphicon-remove-sign"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </tab>
+
             </tabset>
 
         </tab>
