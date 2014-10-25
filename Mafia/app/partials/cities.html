@@ -10,7 +10,8 @@
     </div>
 
     <div>
-        <button ng-click="newCity()" ng-if="appPermissionCreateGamesGranted" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i>Create new city</button>
+        <button ng-click="newCity()" ng-if="appPermissionCreateGamesGranted || user.unused_game_purchases.length" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i>Create new city</button>
+        <p ng-if="!appPermissionCreateGamesGranted && user.unused_game_purchases.length">You can start {{user.unused_game_purchases.length}} more {{user.unused_game_purchases.length == 1 ? 'city' : 'cities'}}.</p>
     </div>
 
 

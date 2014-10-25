@@ -148,7 +148,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="gamePurchase in user.game_purchases">
-                                <td>{{gamePurchase.created_at}}</td>
+                                <td>{{gamePurchase.created_at | localeDate}}</td>
                                 <td><img-bool boolean-value="gamePurchase.city_id"></img-bool></td>
                                 <td>{{gamePurchase.city_name}}</td>
                                 <td>{{gamePurchase.city_started_at | localeDate}}</td>
@@ -172,9 +172,9 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="rolePickPurchase in user.role_pick_purchases">
-                                <td>{{rolePickPurchase.created_at}}</td>
+                                <td>{{rolePickPurchase.created_at | localeDate}}</td>
                                 <td><img-bool boolean-value="rolePickPurchase.role_pick"></img-bool></td>
-                                <td>{{rolePickPurchase.role_pick.city_started_at}}</td>
+                                <td>{{rolePickPurchase.role_pick.city_started_at | localeDate}}</td>
                                 <td>{{rolePickPurchase.role_pick.city_name}}</td>
                                 <td>{{rolePickPurchase.role_pick.role.name}}</td>
                             </tr>
