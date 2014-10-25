@@ -88,7 +88,10 @@
                         <td>{{rolePick.created_at | localeDate}}</td>
                         <td></td>
                         <td><i class="glyphicon glyphicon-question-sign" tooltip="Game has not started yet"></i></td>
-                        <td><button tooltip="Cancel this Role Pick"><i class="glyphicon glyphicon-remove-sign"></i></button></td>
+                        <td>
+                            <button tooltip="Cancel this Role Pick" ng-if="!rolePick.city_started_at" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
+                            <loader ng-show="deletingRolePickId == rolePick.id" size="small"></loader>
+                        </td>
                     </tr>
                     <tr>
                         <td colspan="6">Resolved</td>

@@ -423,6 +423,72 @@
                     </table>
 
                 </tab>
+
+                <tab ng-if="(user.role_pick_purchases.length && !city.started_at) || (city.role_picks.length && city.started_at)">
+                    <tab-heading>
+                        <i class="fa fa-flag"></i> Role Picks
+                    </tab-heading>
+
+                    <div ng-if="!city.started_at">
+                        <p style="font-size: 120%"> You have <b>{{user.role_pick_purchases.length}} Role Pick{{user.role_pick_purchases.length == 1 ? '' : 's'}}</b> at your disposal. </p>
+
+                        When you have Role Picks to spend, you can submit as many role requests as you want. When the game starts, and the roles are being distributed,
+                        you will be assigned one of the roles you have requested. If you submitted multiple role requests, the system
+                        will aim to grant you the roles that you requested earlier.
+                        If other game participants have also requested some roles, and there are not enough roles to grant
+                        everyone's preferences, the users that submitted their requests earlier will be granted the roles. <br/>
+
+                        If, when the game is started, you are assigned with one of the roles you requested, <b>1 Role Pick is deemed expended and you cannot use it again</b>.
+                        If, for some reason, the game starts and you got assigned the role you did not request, your Role Pick is still <b>not expended and you can use it in another game</b>.
+                    </div>
+                    <div ng-if="city.started_at">
+                        The roles you requested before the game has started are listed below.
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                        <tr ng-show="city.role_picks.length">
+                            <td>Requested Role</td>
+                            <td>Request Date</td>
+                            <td>Granted</td>
+                            <td ng-if="!city.started_at">Cancel</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="rolePick in city.role_picks ">
+                            <td style="text-align: center">{{rolePick.role.name}}</td>
+                            <td style="text-align: center">{{rolePick.created_at | localeDate}}</td>
+                            <td ng-if="city.started_at" style="text-align: center"><img-bool boolean-value="rolePick.role_pick_purchase_id"></img-bool> </td>
+                            <td ng-if="!city.started_at" style="text-align: center"><i class="glyphicon glyphicon-question-sign" tooltip="Game hasn't started yet"></i></td>
+                            <td ng-if="!city.started_at" style="text-align: center">
+                                <button tooltip="Cancel this role request" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
+                                <loader ng-show="deletingRolePickId == rolePick.id" size="small"></loader>
+                            </td>
+                        </tr>
+                        <thead>
+                        <tr>
+                            <td colspan="3">Select a role</td>
+                            <td>Submit</td>
+                        </tr>
+                        </thead>
+                        <tr class="new-role-pick-row" ng-if="!city.started_at">
+                            <td colspan="3">
+                                <select style="width: 100%" ng-model="newRolePickCityHasRole"
+                                        ng-options="cityHasRole.role.name for cityHasRole in city.city_has_roles | uniqque: { role : 'id'}"
+                                        ng-change="changeNewRolePickRole(newRolePickCityHasRole)">
+                                </select>
+                            </td>
+                            <td style="text-align: center">
+                                <button tooltip="Submit this role request" ng-click="submitRolePick()" ng-disabled="!newRolePickCityHasRole"><i class="glyphicon glyphicon-ok-sign"></i>Submit</button>
+
+                                <loader ng-show="isSubmittingRolePick" size="small"></loader>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </tab>
+
+
             </tabset>
 
 

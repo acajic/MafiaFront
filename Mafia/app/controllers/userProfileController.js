@@ -1,4 +1,4 @@
-app.controller('UserProfileController', function ($scope, $location, $modal, $timeout, usersService, authService, layoutService) {
+app.controller('UserProfileController', function ($scope, $location, $modal, $timeout, usersService, authService, layoutService, rolePicksService) {
     "use strict";
 
     var user = {
@@ -132,6 +132,20 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
         };
     };
 
+
+    var deleteRolePick = function(rolePick) {
+        $scope.deletingRolePickId = rolePick.id;
+        var index = $scope.user.role_picks.indexOf(rolePick);
+        rolePicksService.deleteRolePickById(rolePick.id).then(function() {
+            $scope.deletingRolePickId = null;
+            $scope.user.role_picks.splice(index, 1);
+        }, function(reason) {
+            $scope.deletingRolePickId = null;
+        });
+
+    };
+
+
     init();
 
     function init() {
@@ -149,6 +163,8 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
 
         $scope.save = save;
         $scope.infos = [];
+
+        $scope.deleteRolePick = deleteRolePick;
     }
 
 });

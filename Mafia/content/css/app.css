@@ -120,6 +120,10 @@ td {
 
 /* END day cycles */
 
+.new-role-pick-row {
+    background-color: rgba(182, 255, 202, 0.33);
+}
+
 
 /* BEGIN invite players to your game */
 .invite-adding-row {
