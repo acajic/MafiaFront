@@ -1,10 +1,16 @@
-<div class="title">
-    MAFIA
+<div id="content-header">
+    <div class="title">
+        MAFIA
+        <img src="/Mafia/content/img/cigar.png"/>
+    </div>
+
+    <div id="header-auth">
+        <auth></auth>
+    </div>
 </div>
 
 
-
-<div>
+<div id="content-body">
     <div style="clear: both">
         <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
     </div>
@@ -16,18 +22,18 @@
 
 
 
-    <div class="col-md-12 nopadding">
+    <div class="cities">
         <tabset>
             <tab select="tabSelected(0)">
                 <tab-heading>
                     <i class="glyphicon glyphicon-home"></i> My cities
                 </tab-heading>
 
-                <div class="col-md-6 nopadding">
-                    <div class="btn-group" style="width: 100%">
-                        <label class="btn btn-success" style="width: 34%" ng-model="myCitiesFilterModel.isMember" btn-checkbox>Already a Member</label>
-                        <label class="btn btn-warning" style="width: 33%" ng-model="myCitiesFilterModel.isJoinRequested" btn-checkbox>Requested to Join</label>
-                        <label class="btn btn-primary" style="width: 33%" ng-model="myCitiesFilterModel.isInvited" btn-checkbox>Invited</label>
+                <div class="col-md-6 my-cities-with-filters">
+                    <div class="btn-group" style="width: 100%;">
+                        <label class="btn btn-default btn-cities-member" style="width: 31%" ng-model="myCitiesFilterModel.isMember" btn-checkbox>Already a Member</label>
+                        <label class="btn btn-default btn-cities-join-requested" style="width: 39%" ng-model="myCitiesFilterModel.isJoinRequested" btn-checkbox>Requested to Join</label>
+                        <label class="btn btn-default btn-cities-invited" style="width: 30%" ng-model="myCitiesFilterModel.isInvited" btn-checkbox>Invited</label>
                     </div>
 
                     <table interactive-table selected-row-id="selectedMyCities.rowId" class="table">
@@ -118,7 +124,7 @@
         </tab>
         </tabset>
 
-        <div class="col-md-6" ng-if="selectedCity">
+        <div class="col-md-6 selected-city-right-div" ng-if="selectedCity">
             <table class="table sidetable">
                 <thead>
                 <tr>
@@ -175,6 +181,6 @@
         </div>
     </div>
 
-
+    <div style="clear: both"></div>
 </div>
 

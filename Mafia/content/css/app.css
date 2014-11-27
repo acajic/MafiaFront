@@ -1,10 +1,17 @@
 html, body {
     height: 100%;
+    background-image: url('/Mafia/content/img/background/wood-background6.jpg');
 }
 
 #wrapper {
     min-height: 100%;
+    border-radius: 10px;
+    margin: 30px 40px 30px 40px;
+    background-color: #322213;
+    overflow: hidden;
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.50);;
 }
+
 
 #content {
     padding-bottom: 70px;
@@ -13,16 +20,143 @@ html, body {
 #footer {
     text-align: center;
     height: 60px;
-    margin-top: -60px;
-    background-color: #bbbebc;
+    margin-top: -20px;
     clear: both;
+    color: #ffffff;
+    text-shadow: 2px 2px #000000;
+}
+
+
+#content-header {
+    background: linear-gradient(#0d0d0d, #322213);
+    color: #ffffff;
+}
+
+#content-header a {
+    color: #85402d;
+}
+
+
+
+#content-header button {
+    background-color: #161616;
+    border-color: #0d0d0d;
+    color: #ffffff;
+}
+
+#content-body {
+    margin-bottom: 0px;
+}
+
+.tabbable {
+    background-color: #322213;
 }
 
 .title {
-    font-family: 'Crimson Text', serif;
-    font-size: 38px;
+    font-family: FontAwesome;
+    font-size: 58px;
+    font-weight: bold;
     text-align: center;
+    color: #ffffff;
+    text-shadow: 2px 2px #000000;
 }
+
+.title img {
+    margin-left: -120px;
+    margin-top: 20px;
+    width: 200px;
+}
+
+#header-auth {
+    position: absolute;
+    width: 200px;
+    right: 60px;
+    margin-top: -180px;
+}
+
+
+/* BEGIN cities */
+
+.cities {
+    background-color: #ffffff;
+    margin-bottom: -600px;
+    padding-bottom: 600px;
+}
+
+.cities .nav-tabs {
+    margin-left: 15px;
+    border-bottom: none;
+}
+
+.cities .nav-tabs>li.active>a {
+    color: white;
+    background-color: #161616;
+    border-color: #0d0d0d;
+    margin-bottom: 2px;
+}
+
+.cities .nav-tabs>li>a {
+    color: #ffffff;
+}
+
+.cities .nav-tabs>li>a:hover {
+    border-color: #0d0d0d;
+    background-color: #0d0d0d;
+}
+
+
+.cities .btn-cities-member {
+    background-color: rgba(103, 255, 207, 0.41);
+    border: rgba(77, 209, 176, 0.41);
+    border-bottom-left-radius: 0;
+    margin-bottom: 2px;
+}
+
+.cities .btn-cities-member.active {
+    background-color: #67ffcf;
+    border: #4dd1b0;
+}
+
+.cities .btn-cities-join-requested {
+    background-color: rgba(255, 241, 2, 0.42);
+    border: rgba(209, 207, 80, 0.41);
+    margin-bottom: 2px;
+}
+.cities .btn-cities-join-requested.active {
+    background-color: rgba(255, 254, 120);
+    border: rgb(209, 207, 80);
+}
+
+.cities .btn-cities-invited {
+    background-color: rgba(69, 129, 255, 0.42);
+    border: rgba(0, 30, 209, 0.41);
+    border-bottom-right-radius: 0;
+    margin-bottom: 2px;
+}
+.cities .btn-cities-invited.active {
+    background-color: rgb(114, 148, 255);
+    border: rgb(24, 128, 209);
+}
+
+
+.cities .btn-group {
+    margin-bottom: -2px;
+    margin-top: 5px;
+}
+
+
+.my-cities-with-filters {
+    margin-top: 20px;
+}
+
+
+.selected-city-right-div {
+    margin-top: 20px;
+}
+
+/* END cities */
+
+
 
 @-moz-document url-prefix() {
 
@@ -66,10 +200,14 @@ td {
 
 
 /* BEGIN interactiveTableDirective */
-.table tbody tr.selected td { background-color: #a4aaa9; }
+.table tbody tr.selected td {
+    background-color: #161616;
+    color: white;
+}
+
 .table thead tr {
-    background-color: #7c8281;
-    color: #eef7f5;
+    background-color: #463431;
+    color: #EBEBEB;
 }
 
 .center-aligned-table tr td {
