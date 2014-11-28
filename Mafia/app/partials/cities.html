@@ -30,16 +30,30 @@
                 </tab-heading>
 
                 <div class="col-md-6 my-cities-with-filters">
-                    <div class="btn-group" style="width: 100%;">
-                        <label class="btn btn-default btn-cities-member" style="width: 31%" ng-model="myCitiesFilterModel.isMember" btn-checkbox>Already a Member</label>
-                        <label class="btn btn-default btn-cities-join-requested" style="width: 39%" ng-model="myCitiesFilterModel.isJoinRequested" btn-checkbox>Requested to Join</label>
-                        <label class="btn btn-default btn-cities-invited" style="width: 30%" ng-model="myCitiesFilterModel.isInvited" btn-checkbox>Invited</label>
+                    <div style="width: 100%;">
+                        <ac-checkbox ng-model="myCitiesFilterModel.isMember">
+                            <i class="glyphicon glyphicon-unchecked unchecked"></i>
+                            <i class="fa fa-user checked"></i>
+                            Member
+                        </ac-checkbox>
+                        <ac-checkbox ng-model="myCitiesFilterModel.isJoinRequested">
+                            <i class="glyphicon glyphicon-unchecked unchecked"></i>
+                            <i class="fa fa-question-circle checked"></i>
+                            Requested to Join
+                        </ac-checkbox>
+                        <ac-checkbox ng-model="myCitiesFilterModel.isInvited">
+                            <i class="glyphicon glyphicon-unchecked unchecked"></i>
+                            <i class="fa fa-envelope checked"></i>
+                            Invited
+                        </ac-checkbox>
+
                     </div>
 
                     <table interactive-table selected-row-id="selectedMyCities.rowId" class="table">
                         <thead>
                         <tr>
                             <td>Name</td>
+                            <td style="text-align: center;">Membership</td>
                             <td style="text-align: center;">Status</td>
                         </tr>
                         </thead>
@@ -48,16 +62,21 @@
                             <input type="hidden" name="id" value="{{ city.id }}">
                             <td>{{city.name}}</td>
                             <td style="text-align: center;">
+                                <i class="fa fa-user" ng-if="city.is_member"></i>
+                                <i class="fa fa-question-circle" ng-if="city.is_join_requested"></i>
+                                <i class="fa fa-envelope" ng-if="city.is_invited"></i>
+                            </td>
+                            <td style="text-align: center;">
                                 <img-city-status city="city"></img-city-status>
                             </td>
                         </tr>
                         <tr ng-if="isLoadingContentMyCities">
-                            <td colspan="2" style="text-align: center">
+                            <td colspan="3" style="text-align: center">
                                 <loader size='small'></loader>
                             </td>
                         </tr>
                         <tr ng-hide="isLoadingContentMyCities">
-                            <td colspan="2">
+                            <td colspan="3">
                                 <button class="btn btn-block" ng-click="reloadMyCities()" ng-hide="noMoreContentMyCities">More</button>
                             </td>
                         </tr>
@@ -72,15 +91,25 @@
                 <i class="glyphicon glyphicon-globe"></i> All cities
             </tab-heading>
 
-            <div class="col-md-6 nopadding">
-                <div class="btn-group" style="width: 100%">
-                    <label class="btn btn-info" style="width: 50%" ng-model="allCitiesFilterModel.public" btn-checkbox>Public</label>
-                    <label class="btn btn-warning" style="width: 50%" ng-model="allCitiesFilterModel.private" btn-checkbox>Private</label>
+            <div class="col-md-6 all-cities-with-filters">
+                <div style="width: 100%">
+                    <ac-checkbox ng-model="allCitiesFilterModel.public">
+                        <i class="glyphicon glyphicon-unchecked unchecked"></i>
+                        <i class="glyphicon glyphicon-eye-open checked"></i>
+                        Public
+                    </ac-checkbox>
+                    <ac-checkbox ng-model="allCitiesFilterModel.private">
+                        <i class="glyphicon glyphicon-unchecked unchecked"></i>
+                        <i class="glyphicon glyphicon-eye-close checked"></i>
+                        Private
+                    </ac-checkbox>
+
                 </div>
                 <table interactive-table selected-row-id="selectedAllCities.rowId" class="table">
                     <thead>
                     <tr>
                         <td>Name</td>
+                        <td style="text-align: center">Visibility</td>
                         <td style="text-align: center">Status</td>
                     </tr>
                     </thead>
@@ -88,17 +117,21 @@
                     <tr ng-repeat="city in allCities | filterAllCities:allCitiesFilterModel" ng-class="classNameForAllCitiesRow(city)">
                         <input type="hidden" name="id" value="{{ city.id }}">
                         <td>{{city.name}}</td>
+                        <td style="text-align: center">
+                            <i class="glyphicon glyphicon-eye-close" ng-if="!city.public"></i>
+                            <i class="glyphicon glyphicon-eye-open" ng-if="city.public"></i>
+                        </td>
                         <td style="text-align: center;">
                             <img-city-status city="city"></img-city-status>
                         </td>
                     </tr>
-                    <tr ng-if="isLoadingContentAllCities">
-                        <td colspan="2" style="text-align: center">
+                    <tr ng-show="isLoadingContentAllCities">
+                        <td colspan="3" style="text-align: center">
                             <loader size='small'></loader>
                         </td>
                     </tr>
-                    <tr ng-hide="isLoadingContentAllCities">
-                        <td colspan="2">
+                    <tr ng-show="isLoadingContentAllCities">
+                        <td colspan="3">
                             <button class="btn btn-block" ng-click="reloadAllCities()" ng-hide="noMoreContentAllCities">More</button>
                         </td>
                     </tr>
@@ -114,7 +147,7 @@
                 <i class="glyphicon glyphicon-info-sign"></i> Info
             </tab-heading>
 
-            <div ng-include src="'app/static/cities/info.html'">
+            <div class="col-md-12 cities-info-tab" ng-include src="'app/static/cities/info.html'">
 
             </div>
 
@@ -178,6 +211,8 @@
 
 
             <loader ng-if="isPerformingCityOperation" size="small"></loader>
+
+            <div style="clear: both"></div>
         </div>
     </div>
 

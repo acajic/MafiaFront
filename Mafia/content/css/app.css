@@ -9,7 +9,7 @@ html, body {
     margin: 30px 40px 30px 40px;
     background-color: #322213;
     overflow: hidden;
-    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.50);;
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.50);
 }
 
 
@@ -50,6 +50,10 @@ html, body {
 
 .tabbable {
     background-color: #322213;
+}
+
+.tab-pane {
+    background-color: #ffffff;
 }
 
 .title {
@@ -112,32 +116,6 @@ html, body {
     margin-bottom: 2px;
 }
 
-.cities .btn-cities-member.active {
-    background-color: #67ffcf;
-    border: #4dd1b0;
-}
-
-.cities .btn-cities-join-requested {
-    background-color: rgba(255, 241, 2, 0.42);
-    border: rgba(209, 207, 80, 0.41);
-    margin-bottom: 2px;
-}
-.cities .btn-cities-join-requested.active {
-    background-color: rgba(255, 254, 120);
-    border: rgb(209, 207, 80);
-}
-
-.cities .btn-cities-invited {
-    background-color: rgba(69, 129, 255, 0.42);
-    border: rgba(0, 30, 209, 0.41);
-    border-bottom-right-radius: 0;
-    margin-bottom: 2px;
-}
-.cities .btn-cities-invited.active {
-    background-color: rgb(114, 148, 255);
-    border: rgb(24, 128, 209);
-}
-
 
 .cities .btn-group {
     margin-bottom: -2px;
@@ -145,16 +123,46 @@ html, body {
 }
 
 
-.my-cities-with-filters {
+.my-cities-with-filters, .all-cities-with-filters, .cities-info-tab {
     margin-top: 20px;
 }
+
 
 
 .selected-city-right-div {
-    margin-top: 20px;
+    margin-top: 45px;
+}
+
+.panel-default>.panel-heading {
+    background-color: #2a2a2a;
+    color: #ffffff;
+}
+
+#disqus_thread {
+    padding: 20px;
+    background-color: #ffffff;
 }
 
 /* END cities */
+
+ac-checkbox input[type="checkbox"] {
+    display:none;
+}
+ac-checkbox span {
+    cursor:pointer;
+    font-weight: 700;
+    padding: 4px;
+}
+
+ac-checkbox span.checkbox-unchecked {
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.50);
+}
+
+ac-checkbox span.checkbox-checked {
+    color: #ffffff;
+    background-color: #322213;
+    border-radius: 2px;
+}
 
 
 
@@ -201,13 +209,13 @@ td {
 
 /* BEGIN interactiveTableDirective */
 .table tbody tr.selected td {
-    background-color: #161616;
+    background-color: #2a2a2a;
     color: white;
 }
 
 .table thead tr {
-    background-color: #463431;
-    color: #EBEBEB;
+    background-color: #a38e85;
+    color: #dddddd;
 }
 
 .center-aligned-table tr td {
@@ -220,15 +228,15 @@ td {
 
 .sidetable thead tr {
     text-align: center;
-    background-color: #a2a9a8;
-    color: #eef7f5;
+    background-color: #a38e85;
+    color: #dddddd;
 }
 
 .sidetable tbody td:nth-child(1) {
     min-width: 200px;
     width: 10%;
-    background-color: #7c8281;
-    color: #eef7f5;
+    background-color: #a38e85;
+    color: #ffffff;
 }
 
 .gray-cell {
@@ -276,11 +284,8 @@ td {
 
 /* BEGIN even/odd rows */
 
-.row-odd {
-    background-color: rgba(204, 208, 239, 0.32);
-}
-
-.row-even {
+tr:nth-child(even) {
+    background: #eeeeee;
 }
 
 /* END even/odd rows */
@@ -328,26 +333,6 @@ td {
     font-size: 16px;
 }
 
-.city-row-join-requested {
-    background-color: rgba(239, 241, 51, 0.3);
-}
-
-.city-row-invited {
-    background-color: rgba(9, 0, 204, 0.30);
-}
-
-.city-row-member {
-    background-color: rgba(0, 224, 42, 0.30);
-}
-
-
-.city-row-public {
-    background-color: rgba(89, 187, 121, 0.3);
-}
-
-.city-row-private {
-    background-color: rgba(187, 179, 0, 0.3);
-}
 
 .popover {
     font-size: 14px;
