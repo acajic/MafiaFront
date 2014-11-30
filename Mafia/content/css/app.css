@@ -221,10 +221,41 @@ ac-checkbox span {
 
 /* BEGIN create/edit city */
 
+.general-messages {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.alert {
+}
+
+.alert-danger {
+    background-color: #560d0b;
+    border-color: #96120f;
+    color: #ffffff;
+}
+
+.alert-danger .close {
+    opacity: .5;
+    color: #ffffff;
+    text-shadow: 0 1px 0 #000;
+}
+
+.alert-danger .close:hover {
+    color: #ffffff;
+    opacity: .9;
+}
 
 #city-control-buttons-bar {
     padding-left: 15px;
     padding-bottom: 15px;
+}
+
+
+.city .general-messages {
+    background-color: #322213;
+    color: #ffffff;
+
 }
 
 
@@ -272,7 +303,6 @@ ac-checkbox span {
     background-color: #2f2f2f;
     color: #ffffff;
 }
-
 
 .city .tab-pane {
     padding: 15px;
