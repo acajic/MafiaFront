@@ -15,10 +15,7 @@
         <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
     </div>
 
-    <div>
-        <button ng-click="newCity()" ng-if="appPermissionCreateGamesGranted || user.unused_game_purchases.length" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i>Create new city</button>
-        <p ng-if="!appPermissionCreateGamesGranted && user.unused_game_purchases.length">You can start {{user.unused_game_purchases.length}} more {{user.unused_game_purchases.length == 1 ? 'city' : 'cities'}}.</p>
-    </div>
+
 
 
 
@@ -28,6 +25,11 @@
                 <tab-heading>
                     <i class="glyphicon glyphicon-home"></i> My cities
                 </tab-heading>
+
+                <div>
+                    <button ng-click="newCity()" ng-if="appPermissionCreateGamesGranted || user.unused_game_purchases.length" class="btn btn-create-new-city"><i class="glyphicon glyphicon-plus"></i>Create new city</button>
+                    <p ng-if="!appPermissionCreateGamesGranted && user.unused_game_purchases.length">You can start {{user.unused_game_purchases.length}} more {{user.unused_game_purchases.length == 1 ? 'city' : 'cities'}}.</p>
+                </div>
 
                 <div class="col-md-6 my-cities-with-filters">
                     <div style="width: 100%;">
@@ -90,6 +92,11 @@
             <tab-heading>
                 <i class="glyphicon glyphicon-globe"></i> All cities
             </tab-heading>
+
+            <div>
+                <button ng-click="newCity()" ng-if="appPermissionCreateGamesGranted || user.unused_game_purchases.length" class="btn btn-create-new-city"><i class="glyphicon glyphicon-plus"></i>Create new city</button>
+                <p ng-if="!appPermissionCreateGamesGranted && user.unused_game_purchases.length">You can start {{user.unused_game_purchases.length}} more {{user.unused_game_purchases.length == 1 ? 'city' : 'cities'}}.</p>
+            </div>
 
             <div class="col-md-6 all-cities-with-filters">
                 <div style="width: 100%">
@@ -155,6 +162,7 @@
 
 
         </tab>
+
         </tabset>
 
         <div class="col-md-6 selected-city-right-div" ng-if="selectedCity">
@@ -200,14 +208,14 @@
                 </tbody>
             </table>
 
-            <button ng-if="showEditButtonForCity(selectedCity)" ng-click="editCity(selectedCity)" class="btn btn-primary"><i class="glyphicon glyphicon-cog"></i>Edit</button>
-            <button ng-if="!showEditButtonForCity(selectedCity)" ng-click="showCity(selectedCity)" class="btn btn-info"><i class="glyphicon glyphicon-dashboard"></i>Details</button>
-            <button ng-if="showEnterButtonForCity(selectedCity)" ng-click="enterCity(selectedCity)" class="btn btn-success"><i class="glyphicon glyphicon-briefcase"></i>Enter</button>
-            <button ng-if="showJoinButtonForCity(selectedCity)" ng-click="joinCity(selectedCity)" class="btn btn-success"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
-            <button ng-if="showAcceptInvitationButtonForCity(selectedCity)" ng-click="acceptInvitationForCity(selectedCity)" class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i>Accept Invitation</button>
+            <button ng-if="showEditButtonForCity(selectedCity)" ng-click="editCity(selectedCity)" class="btn btn-edit-city"><i class="glyphicon glyphicon-cog"></i>Edit</button>
+            <button ng-if="!showEditButtonForCity(selectedCity)" ng-click="showCity(selectedCity)" class="btn btn-details-city"><i class="glyphicon glyphicon-dashboard"></i>Details</button>
+            <button ng-if="showEnterButtonForCity(selectedCity)" ng-click="enterCity(selectedCity)" class="btn btn-enter-city"><i class="fa fa-gamepad"></i>Enter</button>
+            <button ng-if="showJoinButtonForCity(selectedCity)" ng-click="joinCity(selectedCity)" class="btn btn-join-city"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
+            <button ng-if="showAcceptInvitationButtonForCity(selectedCity)" ng-click="acceptInvitationForCity(selectedCity)" class="btn btn-accept-invitation-city"><i class="glyphicon glyphicon-ok-circle"></i>Accept Invitation</button>
 
-            <button ng-if="showLeaveButtonForCity(selectedCity)" ng-click="leaveCity(selectedCity)" class="btn btn-danger"><i class="glyphicon glyphicon-road"></i>Leave</button>
-            <button ng-if="showCancelJoinRequestForCity(selectedCity)" ng-click="cancelJoinRequestForCity(selectedCity)" class="btn btn-danger"><i class="glyphicon glyphicon-remove-circle"></i>Cancel Join Request</button>
+            <button ng-if="showLeaveButtonForCity(selectedCity)" ng-click="leaveCity(selectedCity)" class="btn btn-leave-city"><i class="glyphicon glyphicon-remove"></i>Leave</button>
+            <button ng-if="showCancelJoinRequestForCity(selectedCity)" ng-click="cancelJoinRequestForCity(selectedCity)" class="btn btn-cancel-join-request-city"><i class="glyphicon glyphicon-remove-circle"></i>Cancel Join Request</button>
 
 
             <loader ng-if="isPerformingCityOperation" size="small"></loader>

@@ -7,7 +7,6 @@ html, body {
     min-height: 100%;
     border-radius: 10px;
     margin: 30px 40px 30px 40px;
-    background-color: #322213;
     overflow: hidden;
     box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.50);
 }
@@ -36,7 +35,9 @@ html, body {
     color: #85402d;
 }
 
-
+input[type="text"], input[type="password"] {
+    color: #000000;
+}
 
 #content-header button {
     background-color: #161616;
@@ -109,11 +110,56 @@ html, body {
 }
 
 
-.cities .btn-cities-member {
-    background-color: rgba(103, 255, 207, 0.41);
-    border: rgba(77, 209, 176, 0.41);
-    border-bottom-left-radius: 0;
-    margin-bottom: 2px;
+.btn-create-new-city {
+      background-color: rgb(48, 81, 25);
+      border: rgb(15, 60, 7);
+      margin-left: 16px;
+      margin-top: 20px;
+      color: #ffffff;
+}
+
+.btn-enter-city, .btn-join-city {
+    background-color: rgb(48, 81, 25);
+    border: rgb(15, 60, 7);
+    color: #ffffff;
+}
+
+.btn-create-new-city:hover, .btn-enter-city:hover, .btn-join-city:hover {
+    background-color: rgb(15, 60, 7);
+    color: #ffffff;
+}
+
+.btn-edit-city, .btn-details-city {
+    background-color: #404040;
+    border: #0d0d0d;
+    color: #ffffff;
+}
+
+.btn-edit-city:hover, .btn-details-city:hover {
+    background-color: #2a2a2a;
+    color: #ffffff;
+}
+
+.btn-accept-invitation-city {
+    background-color: #363749;
+    border: #0d0d0d;
+    color: #ffffff;
+}
+
+.btn-accept-invitation-city:hover {
+    background-color: #242532;
+    color: #ffffff;
+}
+
+.btn-leave-city, .btn-cancel-join-request-city {
+    background-color: #562f29;
+    border: #0d0d0d;
+    color: #ffffff;
+}
+
+.btn-leave-city:hover, .btn-cancel-join-request-city:hover {
+    background-color: #560d0b;
+    color: #ffffff;
 }
 
 
@@ -134,7 +180,7 @@ html, body {
 }
 
 .panel-default>.panel-heading {
-    background-color: #2a2a2a;
+    background-color: #404040;
     color: #ffffff;
 }
 
@@ -160,7 +206,7 @@ ac-checkbox span.checkbox-unchecked {
 
 ac-checkbox span.checkbox-checked {
     color: #ffffff;
-    background-color: #322213;
+    background-color: rgb(103, 76, 51);
     border-radius: 2px;
 }
 
@@ -214,8 +260,8 @@ td {
 }
 
 .table thead tr {
-    background-color: #a38e85;
-    color: #dddddd;
+    background-color: #404040;
+    color: #cccccc;
 }
 
 .center-aligned-table tr td {
@@ -228,14 +274,14 @@ td {
 
 .sidetable thead tr {
     text-align: center;
-    background-color: #a38e85;
-    color: #dddddd;
+    background-color: #404040;
+    color: #cccccc;
 }
 
 .sidetable tbody td:nth-child(1) {
     min-width: 200px;
     width: 10%;
-    background-color: #a38e85;
+    background-color: #404040;
     color: #ffffff;
 }
 
