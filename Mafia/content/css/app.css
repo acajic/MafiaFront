@@ -47,6 +47,8 @@ input[type="text"], input[type="password"] {
 
 #content-body {
     background-color: #ffffff;
+    padding-bottom: 500px;
+    margin-bottom: -500px;
 }
 
 
@@ -117,7 +119,7 @@ input[type="text"], input[type="password"] {
     background-color: rgb(48, 81, 25);
     border: 1px solid rgb(15, 60, 7);
     color: #ffffff;
-    
+
 }
 
 .btn-create-new-city:hover, .btn-enter-city:hover, .btn-join-city:hover, .btn-start-city:hover, .btn-save-city:hover {
