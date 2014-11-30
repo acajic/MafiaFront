@@ -26,7 +26,7 @@
                     <i class="glyphicon glyphicon-home"></i> My cities
                 </tab-heading>
 
-                <div>
+                <div class="cities-top-button-controls-bar">
                     <button ng-click="newCity()" ng-if="appPermissionCreateGamesGranted || user.unused_game_purchases.length" class="btn btn-create-new-city"><i class="glyphicon glyphicon-plus"></i>Create new city</button>
                     <p ng-if="!appPermissionCreateGamesGranted && user.unused_game_purchases.length">You can start {{user.unused_game_purchases.length}} more {{user.unused_game_purchases.length == 1 ? 'city' : 'cities'}}.</p>
                 </div>
@@ -93,7 +93,7 @@
                 <i class="glyphicon glyphicon-globe"></i> All cities
             </tab-heading>
 
-            <div>
+            <div class="cities-top-button-controls-bar">
                 <button ng-click="newCity()" ng-if="appPermissionCreateGamesGranted || user.unused_game_purchases.length" class="btn btn-create-new-city"><i class="glyphicon glyphicon-plus"></i>Create new city</button>
                 <p ng-if="!appPermissionCreateGamesGranted && user.unused_game_purchases.length">You can start {{user.unused_game_purchases.length}} more {{user.unused_game_purchases.length == 1 ? 'city' : 'cities'}}.</p>
             </div>
@@ -222,6 +222,8 @@
 
             <div style="clear: both"></div>
         </div>
+
+        <div style="clear: both"></div>
     </div>
 
     <div style="clear: both"></div>

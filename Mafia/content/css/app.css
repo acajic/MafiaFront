@@ -39,23 +39,16 @@ input[type="text"], input[type="password"] {
     color: #000000;
 }
 
-#content-header button {
+#header-auth button {
     background-color: #161616;
     border-color: #0d0d0d;
     color: #ffffff;
 }
 
 #content-body {
-    margin-bottom: 0px;
-}
-
-.tabbable {
-    background-color: #322213;
-}
-
-.tab-pane {
     background-color: #ffffff;
 }
+
 
 .title {
     font-family: FontAwesome;
@@ -83,13 +76,13 @@ input[type="text"], input[type="password"] {
 /* BEGIN cities */
 
 .cities {
-    background-color: #ffffff;
     margin-bottom: -600px;
     padding-bottom: 600px;
 }
 
 .cities .nav-tabs {
-    margin-left: 15px;
+    background-color: #322213;
+    padding-left: 15px;
     border-bottom: none;
 }
 
@@ -109,22 +102,25 @@ input[type="text"], input[type="password"] {
     background-color: #0d0d0d;
 }
 
-
-.btn-create-new-city {
-      background-color: rgb(48, 81, 25);
-      border: rgb(15, 60, 7);
-      margin-left: 16px;
-      margin-top: 20px;
-      color: #ffffff;
+.cities-top-button-controls-bar {
+    padding-left: 15px;
+    padding-top: 15px;
 }
 
-.btn-enter-city, .btn-join-city {
-    background-color: rgb(48, 81, 25);
-    border: rgb(15, 60, 7);
+.btn-back {
+    background-color: #161616;
+    border: 1px solid #0d0d0d;
     color: #ffffff;
 }
 
-.btn-create-new-city:hover, .btn-enter-city:hover, .btn-join-city:hover {
+.btn-create-new-city, .btn-enter-city, .btn-join-city, .btn-start-city, .btn-save-city {
+    background-color: rgb(48, 81, 25);
+    border: 1px solid rgb(15, 60, 7);
+    color: #ffffff;
+    
+}
+
+.btn-create-new-city:hover, .btn-enter-city:hover, .btn-join-city:hover, .btn-start-city:hover, .btn-save-city:hover {
     background-color: rgb(15, 60, 7);
     color: #ffffff;
 }
@@ -216,17 +212,41 @@ ac-checkbox span.checkbox-checked {
 
 }
 
-/* BEGIN bootstrap modifications */
+/* BEGIN create/edit city */
 
-.nopadding {
-    padding: 0 !important;
-    margin: 0 !important;
+
+#city-control-buttons-bar {
+    padding-left: 15px;
+    padding-bottom: 15px;
 }
 
-/* END bootstrap modifications */
+.city .nav-tabs {
+    background-color: #322213;
+    color: #ffffff;
+    padding-left: 15px;
+}
 
+.city .nav-tabs>li.active>a {
+    color: white;
+    background-color: #161616;
+    border-color: #0d0d0d;
+    margin-bottom: 2px;
+}
 
+.city .nav-tabs>li>a {
+    color: #ffffff;
+}
 
+.city .nav-tabs>li>a:hover {
+    border-color: #0d0d0d;
+    background-color: #0d0d0d;
+}
+
+.city .tab-pane {
+    padding: 15px;
+}
+
+/* END create/edit city */
 
 /* BEGIN layout */
 
