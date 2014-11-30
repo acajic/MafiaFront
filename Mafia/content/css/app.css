@@ -195,18 +195,23 @@ ac-checkbox input[type="checkbox"] {
 ac-checkbox span {
     cursor:pointer;
     font-weight: 700;
+}
+
+.cities ac-checkbox span {
     padding: 4px;
 }
 
-ac-checkbox span.checkbox-unchecked {
+
+.cities ac-checkbox span.checkbox-unchecked {
     text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.50);
 }
 
-ac-checkbox span.checkbox-checked {
+.cities ac-checkbox span.checkbox-checked {
     color: #ffffff;
     background-color: rgb(103, 76, 51);
     border-radius: 2px;
 }
+
 
 
 
@@ -221,6 +226,8 @@ ac-checkbox span.checkbox-checked {
     padding-left: 15px;
     padding-bottom: 15px;
 }
+
+
 
 .city .nav-tabs {
     background-color: #322213;
@@ -244,9 +251,60 @@ ac-checkbox span.checkbox-checked {
     background-color: #0d0d0d;
 }
 
+.create-edit-city-roles-tab .nav-tabs {
+    background-color: transparent;
+    padding: 0px;
+}
+
+
+
+.create-edit-city-roles-tab .nav-tabs>li.active>a {
+    color: white;
+    background-color: #393939;
+    border-color: #2f2f2f;
+}
+
+.create-edit-city-roles-tab .nav-tabs>li>a {
+    color: #2f2f2f;
+}
+
+.create-edit-city-roles-tab .nav-tabs>li>a:hover {
+    background-color: #2f2f2f;
+    color: #ffffff;
+}
+
+
 .city .tab-pane {
     padding: 15px;
 }
+
+.create-edit-city-roles-tab .tab-pane {
+    padding: 0px;
+}
+
+.city ac-checkbox label {
+    margin-bottom: 0px;
+}
+
+.city ac-checkbox span.checkbox-unchecked {
+    text-shadow: none;
+}
+
+.city ac-checkbox span.checkbox-checked {
+    color: #000000;
+}
+
+.create-edit-city-select-timezone select {
+    float: left;
+    margin-top: 34px;
+    margin-right: 5px;
+    height: 34px;
+    border-radius: 4px;
+    font-size: 16px;
+    padding-left: 13px;
+}
+
+
 
 /* END create/edit city */
 
@@ -325,7 +383,7 @@ td {
 
 /* BEGIN day cycles */
 .new-day-cycle-row {
-    background-color: rgba(182, 255, 202, 0.33);
+    background-color: #eeeeee;
 }
 
 .narrow-horizontal-button {
@@ -354,6 +412,18 @@ td {
 
 tr:nth-child(even) {
     background: #eeeeee;
+}
+
+.ng-valid-time tr {
+    background-color: transparent;
+}
+
+.ng-valid-time .btn-link {
+    color: rgb(103, 76, 51);
+}
+
+.new-day-cycle-row td {
+    border-top: none !important;
 }
 
 /* END even/odd rows */
