@@ -77,9 +77,9 @@
                                 <loader size='small'></loader>
                             </td>
                         </tr>
-                        <tr ng-hide="isLoadingContentMyCities">
+                        <tr ng-show="showLoadAdditionalMyCitiesButton">
                             <td colspan="3">
-                                <button class="btn btn-block" ng-click="reloadMyCities()" ng-hide="noMoreContentMyCities">More</button>
+                                <button class="btn btn-block" ng-click="reloadMyCities()">More</button>
                             </td>
                         </tr>
                         </tbody>
@@ -137,9 +137,9 @@
                             <loader size='small'></loader>
                         </td>
                     </tr>
-                    <tr ng-show="isLoadingContentAllCities">
+                    <tr ng-hide="showLoadAdditionalAllCitiesButton">
                         <td colspan="3">
-                            <button class="btn btn-block" ng-click="reloadAllCities()" ng-hide="noMoreContentAllCities">More</button>
+                            <button class="btn btn-block" ng-click="reloadAllCities()">More</button>
                         </td>
                     </tr>
                     </tbody>

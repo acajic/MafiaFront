@@ -115,47 +115,44 @@ input[type="text"], input[type="password"] {
     color: #ffffff;
 }
 
-.btn-create-new-city, .btn-enter-city, .btn-join-city, .btn-start-city, .btn-save-city {
+.btn-create-new-city, .btn-enter-city, .btn-join-city, .btn-start-city, .btn-save-city, .btn-resume-city {
     background-color: rgb(48, 81, 25);
     border: 1px solid rgb(15, 60, 7);
     color: #ffffff;
 
 }
 
-.btn-create-new-city:hover, .btn-enter-city:hover, .btn-join-city:hover, .btn-start-city:hover, .btn-save-city:hover {
+.btn-create-new-city:hover, .btn-enter-city:hover, .btn-join-city:hover, .btn-start-city:hover, .btn-save-city:hover, .btn-resume-city:hover {
     background-color: rgb(15, 60, 7);
     color: #ffffff;
 }
 
-.btn-edit-city, .btn-details-city {
-    background-color: #404040;
-    border: #0d0d0d;
+.btn-edit-city, .btn-details-city, .btn-pause-city {
+    background-color: #403f19;
+    border: 1px solid #4a4a06;
     color: #ffffff;
 }
-
-.btn-edit-city:hover, .btn-details-city:hover {
-    background-color: #2a2a2a;
+.btn-edit-city:hover, .btn-details-city:hover, .btn-pause-city:hover {
+    background-color: #4a4a06;
     color: #ffffff;
 }
 
 .btn-accept-invitation-city {
     background-color: #363749;
-    border: #0d0d0d;
+    border: 1px solid #1a1b26;
     color: #ffffff;
 }
-
 .btn-accept-invitation-city:hover {
-    background-color: #242532;
+    background-color: #1a1b26;
     color: #ffffff;
 }
 
-.btn-leave-city, .btn-cancel-join-request-city {
+.btn-leave-city, .btn-cancel-join-request-city, .btn-delete-city {
     background-color: #562f29;
     border: #0d0d0d;
     color: #ffffff;
 }
-
-.btn-leave-city:hover, .btn-cancel-join-request-city:hover {
+.btn-leave-city:hover, .btn-cancel-join-request-city:hover, .btn-delete-city:hover {
     background-color: #560d0b;
     color: #ffffff;
 }
@@ -234,17 +231,31 @@ ac-checkbox span {
     border-color: #96120f;
     color: #ffffff;
 }
-
 .alert-danger .close {
     opacity: .5;
     color: #ffffff;
     text-shadow: 0 1px 0 #000;
 }
-
 .alert-danger .close:hover {
     color: #ffffff;
     opacity: .9;
 }
+
+.alert-success {
+    background-color: rgb(48, 81, 25);
+    border-color: rgb(73, 112, 30);
+    color: #ffffff;
+}
+.alert-success .close {
+    opacity: .5;
+    color: #ffffff;
+    text-shadow: 0 1px 0 #000;
+}
+.alert-success .close:hover {
+    color: #ffffff;
+    opacity: .9;
+}
+
 
 #city-control-buttons-bar {
     padding-left: 15px;
