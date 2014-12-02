@@ -32,7 +32,11 @@ html, body {
 }
 
 #content-header a {
-    color: #85402d;
+    color: #658519;
+}
+
+#content-header input {
+    color: #000000;
 }
 
 input[type="text"], input[type="password"] {
@@ -59,6 +63,7 @@ input[type="text"], input[type="password"] {
     text-align: center;
     color: #ffffff;
     text-shadow: 2px 2px #000000;
+    min-height: 82px;
 }
 
 .title img {
@@ -74,6 +79,9 @@ input[type="text"], input[type="password"] {
     margin-top: -180px;
 }
 
+.nopadding {
+    padding: 0px;
+}
 
 /* BEGIN cities */
 
@@ -109,13 +117,18 @@ input[type="text"], input[type="password"] {
     padding-top: 15px;
 }
 
-.btn-back {
+.btn-back, .btn-join-discussion {
      background-color: #232323;
      border: 1px solid #0d0d0d;
      color: #ffffff;
- }
+}
 
-.btn-back:hover {
+.city-join-discussion {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.btn-back:hover, .btn-join-discussion:hover {
     background-color: #161616;
     color: #ffffff;
 }
@@ -132,12 +145,12 @@ input[type="text"], input[type="password"] {
     color: #ffffff;
 }
 
-.btn-edit-city, .btn-details-city, .btn-pause-city {
+.btn-edit-city, .btn-details-city, .btn-pause-city, .btn-role-chooser {
     background-color: #403f19;
     border: 1px solid #4a4a06;
     color: #ffffff;
 }
-.btn-edit-city:hover, .btn-details-city:hover, .btn-pause-city:hover {
+.btn-edit-city:hover, .btn-details-city:hover, .btn-pause-city:hover, .btn-role-chooser:hover {
     background-color: #4a4a06;
     color: #ffffff;
 }
@@ -152,12 +165,12 @@ input[type="text"], input[type="password"] {
     color: #ffffff;
 }
 
-.btn-leave-city, .btn-cancel-join-request-city, .btn-delete-city {
+.btn-leave-city, .btn-cancel-join-request-city, .btn-delete-city, .btn-erease {
     background-color: #562f29;
     border: #0d0d0d;
     color: #ffffff;
 }
-.btn-leave-city:hover, .btn-cancel-join-request-city:hover, .btn-delete-city:hover {
+.btn-leave-city:hover, .btn-cancel-join-request-city:hover, .btn-delete-city:hover, .btn-erease:hover {
     background-color: #560d0b;
     color: #ffffff;
 }
@@ -351,6 +364,32 @@ ac-checkbox span {
 }
 
 
+
+.role-big-loader {
+    padding: 20px;
+}
+
+.popover {
+    line-height: normal;
+    color: #000000;
+}
+
+.role-chooser .btn {
+    line-height: normal;
+}
+
+.city-info-box {
+    height: 140px;
+    padding-right: 15px;
+}
+
+.city-info-box>div {
+    background-color: rgba(22, 22, 22, 0.35);
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.50);
+    height: 100%;
+}
+
 /* END create/edit city */
 
 /* BEGIN layout */
@@ -516,6 +555,7 @@ tr.invite-users-table-loader-row  {
 
 .current-day, .current-day-edit {
     font-size: 20px;
+    padding-top: 20px;
 }
 
 .city-time {
