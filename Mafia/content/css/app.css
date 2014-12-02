@@ -110,19 +110,24 @@ input[type="text"], input[type="password"] {
 }
 
 .btn-back {
+     background-color: #232323;
+     border: 1px solid #0d0d0d;
+     color: #ffffff;
+ }
+
+.btn-back:hover {
     background-color: #161616;
-    border: 1px solid #0d0d0d;
     color: #ffffff;
 }
 
-.btn-create-new-city, .btn-enter-city, .btn-join-city, .btn-start-city, .btn-save-city, .btn-resume-city {
+.btn-create-new-city, .btn-enter-city, .btn-join-city, .btn-start-city, .btn-save-city, .btn-resume-city, .btn-invite {
     background-color: rgb(48, 81, 25);
     border: 1px solid rgb(15, 60, 7);
     color: #ffffff;
 
 }
 
-.btn-create-new-city:hover, .btn-enter-city:hover, .btn-join-city:hover, .btn-start-city:hover, .btn-save-city:hover, .btn-resume-city:hover {
+.btn-create-new-city:hover, .btn-enter-city:hover, .btn-join-city:hover, .btn-start-city:hover, .btn-save-city:hover, .btn-resume-city:hover, .btn-invite:hover {
     background-color: rgb(15, 60, 7);
     color: #ffffff;
 }
@@ -346,7 +351,6 @@ ac-checkbox span {
 }
 
 
-
 /* END create/edit city */
 
 /* BEGIN layout */
@@ -453,6 +457,16 @@ td {
 
 tr:nth-child(even) {
     background: #eeeeee;
+}
+
+tr.invite-users-table-loader-row  {
+    background: transparent;
+}
+
+.invite-user-modal .bottom-buttons {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
 }
 
 .ng-valid-time tr {
