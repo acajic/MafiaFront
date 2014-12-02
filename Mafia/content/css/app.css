@@ -22,7 +22,7 @@ html, body {
     margin-top: -20px;
     clear: both;
     color: #ffffff;
-    text-shadow: 2px 2px #000000;
+    text-shadow: 1px 1px #000000;
 }
 
 
@@ -74,9 +74,9 @@ input[type="text"], input[type="password"] {
 
 #header-auth {
     position: absolute;
-    width: 200px;
+    width: 350px;
     right: 60px;
-    margin-top: -180px;
+    margin-top: 20px;
 }
 
 .nopadding {
@@ -218,7 +218,7 @@ ac-checkbox span {
 
 
 .cities ac-checkbox span.checkbox-unchecked {
-    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.50);
+    text-shadow: 1px 1px 0px rgba(55, 55, 55, 0.50);
 }
 
 .cities ac-checkbox span.checkbox-checked {
@@ -249,11 +249,13 @@ ac-checkbox span {
     border-color: #96120f;
     color: #ffffff;
 }
+
 .alert-danger .close {
     opacity: .5;
     color: #ffffff;
     text-shadow: 0 1px 0 #000;
 }
+
 .alert-danger .close:hover {
     color: #ffffff;
     opacity: .9;
@@ -378,6 +380,10 @@ ac-checkbox span {
     line-height: normal;
 }
 
+.city-info-header {
+    margin-top: 40px;
+}
+
 .city-info-box {
     height: 140px;
     padding-right: 15px;
@@ -388,6 +394,13 @@ ac-checkbox span {
     border-radius: 10px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.50);
     height: 100%;
+}
+
+
+.action-type-chooser a {
+    color: #322213;
+    font-weight: 700;
+    text-shadow: 1px 1px rgba(55, 55, 55, 0.26);
 }
 
 /* END create/edit city */

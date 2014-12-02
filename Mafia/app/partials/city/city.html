@@ -1,7 +1,11 @@
 <div id="content-header">
+    <div id="header-auth">
+        <auth></auth>
+    </div>
+
     <div class="title">{{city.name}}</div>
 
-    <div>
+    <div class="city-info-header">
         <div ng-if="!city.finished_at && !city.paused" class="col-md-3 city-info-box" style="text-align: center;">
             <div>
                 <current-day></current-day>

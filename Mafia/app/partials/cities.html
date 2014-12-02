@@ -1,12 +1,14 @@
 <div id="content-header">
+    <div id="header-auth">
+        <auth></auth>
+    </div>
+
     <div class="title">
         MAFIA
         <img src="/Mafia/content/img/cigar.png"/>
     </div>
 
-    <div id="header-auth">
-        <auth></auth>
-    </div>
+
 </div>
 
 
@@ -137,7 +139,7 @@
                             <loader size='small'></loader>
                         </td>
                     </tr>
-                    <tr ng-hide="showLoadAdditionalAllCitiesButton">
+                    <tr ng-show="showLoadAdditionalAllCitiesButton">
                         <td colspan="3">
                             <button class="btn btn-block" ng-click="reloadAllCities()">More</button>
                         </td>

@@ -19,7 +19,7 @@
         </div>
         <div ng-if="user.signedIn">
 
-            <div ng-if="adminButtonVisible()">
+            <div ng-if="adminButtonVisible()" style="display: inline">
                 <button ng-click="setLocationAdmin()" class="btn btn-danger"><i class="glyphicon glyphicon-star"></i>Admin</button>
             </div>
             <button ng-if="homeButtonVisible()" ng-click="setLocationHome()" class="btn btn-primary"><i class="glyphicon glyphicon-home"></i>Home</button>
