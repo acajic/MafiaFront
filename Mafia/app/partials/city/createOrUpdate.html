@@ -6,7 +6,7 @@
     <div class="title textonly" ng-if="city.id">EDIT CITY - {{city.name}}</div>
     <div class="title textonly" ng-if="!city.id">CREATE CITY</div>
 
-    <div id="city-control-buttons-bar">
+    <div class="city-control-buttons-bar">
         <button ng-click="back()" class="btn btn-back"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
         <button ng-if="showCreateButton(city)" ng-click="create()" class="btn btn-create-new-city"><i class="glyphicon glyphicon-bullhorn"></i>Create</button>
         <button ng-if="showStartButton(city)" ng-click="start()" class="btn btn-start-city" ng-disabled="!isCityModified(city)"><i class="glyphicon glyphicon-play"></i>Start</button>
@@ -492,7 +492,7 @@
                                     <td ng-if="city.started_at" style="text-align: center"><img-bool boolean-value="rolePick.role_pick_purchase_id"></img-bool> </td>
                                     <td ng-if="!city.started_at" style="text-align: center"><i class="glyphicon glyphicon-question-sign" tooltip="Game hasn't started yet"></i></td>
                                     <td ng-if="!city.started_at" style="text-align: center">
-                                        <button tooltip="Cancel this role request" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
+                                        <button class="btn btn-delete" tooltip="Cancel this role request" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
                                         <loader ng-show="deletingRolePickId == rolePick.id" size="small"></loader>
                                     </td>
                                 </tr>
@@ -510,7 +510,7 @@
                                         </select>
                                     </td>
                                     <td style="text-align: center">
-                                        <button tooltip="Submit this role request" ng-click="submitRolePick()" ng-disabled="!newRolePickCityHasRole"><i class="glyphicon glyphicon-ok-sign"></i>Submit</button>
+                                        <button class="btn btn-save" tooltip="Submit this role request" ng-click="submitRolePick()" ng-disabled="!newRolePickCityHasRole"><i class="glyphicon glyphicon-ok-sign"></i>Submit</button>
 
                                         <loader ng-show="isSubmittingRolePick" size="small"></loader>
                                     </td>

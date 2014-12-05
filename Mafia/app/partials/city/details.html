@@ -1,325 +1,341 @@
-<div class="title textonly">{{city.name}} - DETAILS</div>
+<div id="content-header">
+    <div id="header-auth">
+        <auth></auth>
+    </div>
 
-<div id="city">
-
+    <div class="title textonly">{{city.name}} - DETAILS</div>
     <div id="general-messages">
         <alert ng-repeat="alert in generalMessages" type="alert.type" close="closeGeneralMessage($index)">{{alert.msg}}</alert>
     </div>
 
-    <button ng-click="back()" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
-    <button ng-if="showJoinButton(city)" ng-click="join()" class="btn btn-success"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
-    <button ng-if="showCancelJoinRequest(city)" ng-click="cancelJoinRequest()" class="btn btn-danger"><i class="glyphicon glyphicon-remove-circle"></i>Cancel Join Request</button>
-    <button ng-if="showAcceptInvitation(city)" ng-click="acceptInvitation()" class="btn btn-success"><i class="glyphicon glyphicon-ok-circle"></i>Accept Invitation</button>
-    <button ng-if="showLeaveButton(city)" ng-click="leave()" class="btn btn-danger"><i class="glyphicon glyphicon-road"></i>Leave</button>
+    <div class="city-control-buttons-bar">
 
-    <tabset>
-        <tab>
-            <tab-heading>
-                <i class="glyphicon glyphicon-info-sign"></i> Basic
-            </tab-heading>
+        <button ng-click="back()" class="btn btn-back"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
+        <button ng-if="showJoinButton(city)" ng-click="join()" class="btn btn-join-city"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
+        <button ng-if="showCancelJoinRequest(city)" ng-click="cancelJoinRequest()" class="btn btn-cancel-join-request-city"><i class="glyphicon glyphicon-remove-circle"></i>Cancel Join Request</button>
+        <button ng-if="showAcceptInvitation(city)" ng-click="acceptInvitation()" class="btn btn-accept-invitation-city"><i class="glyphicon glyphicon-ok-circle"></i>Accept Invitation</button>
+        <button ng-if="showLeaveButton(city)" ng-click="leave()" class="btn btn-leave-city"><i class="glyphicon glyphicon-remove"></i>Leave</button>
 
-            <div id="basic-validation-error">
-                <alert ng-repeat="alert in basicValidationErrors" type="alert.type" close="closeDayCycleValidationAlert($index)">{{alert.msg}}</alert>
-            </div>
+    </div>
 
-            <table class="table sidetable">
-                <tbody>
-                    <tr>
-                        <td>Id</td>
-                        <td>{{city.id}}</td>
-                    </tr>
-                    <tr>
-                        <td>Name</td>
-                        <td>{{city.name}}</td>
-                    </tr>
-                    <tr>
-                        <td>Description</td>
-                        <td>{{city.description}}</td>
-                    </tr>
-                    <tr>
-                        <td>Public</td>
-                        <td> <img-bool boolean-value="city.public"></img-bool> </td>
-                    </tr>
-                    <tr>
-                        <td>Creator</td>
-                        <td>{{city.user_creator_username}}</td>
-                    </tr>
-                    <tr>
-                        <td>Timezone</td>
-                        <td><timezone minutes="city.timezone"></timezone></td>
-                    </tr>
-                    <tr>
-                        <td>Created at</td>
-                        <td>{{ city.created_at | localeDate }}</td>
-                    </tr>
-                    <tr ng-if="city.started_at">
-                        <td>Started at</td>
-                        <td>{{ city.started_at | localeDate }}</td>
-                    </tr>
-                    <tr ng-if="city.finished_at">
-                        <td>Finished at</td>
-                        <td>{{ city.finished_at | localeDate }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </tab>
+</div>
 
-
-        <tab>
-            <tab-heading>
-                <i class="glyphicon glyphicon-user"></i> Residents
-            </tab-heading>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td>Resident Id</td>
-                        <td>User Id</td>
-                        <td>Username</td>
-                        <td>Name</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="(index, resident) in city.residents">
-                        <td>{{ resident.id }}</td>
-                        <td>{{resident.user_id}}</td>
-                        <td>{{resident.username}}</td>
-                        <td>{{resident.name}}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </tab>
-
-
-        <tab>
-            <tab-heading>
-                <i class="glyphicon glyphicon-time"></i> Day cycles
-            </tab-heading>
-
-            <div id="day-cycle-validation-error">
-                <alert ng-repeat="alert in dayCycleValidationErrors" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-            </div>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td>Day start</td>
-                        <td>Night start</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="(index, day_cycle) in city.day_cycles">
-                        <td><timezone minutes="day_cycle.day_start"></timezone></td>
-                        <td><timezone minutes="day_cycle.night_start"></td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </tab>
+<div id="content-body">
+    <div class="city">
 
 
 
 
-        <tab>
-            <tab-heading>
-                <i class="glyphicon glyphicon-tower"></i> Roles
-            </tab-heading>
+        <tabset>
+            <tab>
+                <tab-heading>
+                    <i class="glyphicon glyphicon-info-sign"></i> Basic
+                </tab-heading>
 
+                <div id="basic-validation-error">
+                    <alert ng-repeat="alert in basicValidationErrors" type="alert.type" close="closeDayCycleValidationAlert($index)">{{alert.msg}}</alert>
+                </div>
 
-            <tabset>
-                <tab>
-                    <tab-heading>
-                        <i class="glyphicon glyphicon-tasks"></i> Distribution
-                    </tab-heading>
-                    <table class="table sidetable">
-                        <tbody>
-                            <tr>
-                                <td>Total residents</td>
-                                <td>{{ city.residents.length }}</td>
-                            </tr>
-                            <tr>
-                                <td>Roles undistributed</td>
-                                <td>{{ remainingRoles }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" style="text-align: center">Citizens</td>
-                            </tr>
-                            <tr ng-repeat="role_quantity in roleQuantities | filter : {role : {affiliation: {id : affiliationIds.AFFILIATION_ID_CITIZENS }}}">
-                                <td>{{role_quantity.role.name}}</td>
-                                <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" readonly="true" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'"></points-assign></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" style="text-align: center">Mafia</td>
-                            </tr>
-                            <tr ng-repeat="role_quantity in roleQuantities | filter : {role: {affiliation: {id : affiliationIds.AFFILIATION_ID_MAFIA }}} ">
-                                <td>{{role_quantity.role.name}}</td>
-                                <td><b>{{ city_has_role.quantity }}</b> : <points-assign value="role_quantity.quantity" readonly="true" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'"></points-assign></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </tab>
-
-                <tab>
-                    <tab-heading>
-                        <i class="glyphicon glyphicon-cog"></i> Action Type Parameters
-                    </tab-heading>
-                    To achieve optimal gameplay, some roles can be tweaked by modifying their action type parameters.
-                    <i>For example, the number of collateral victims that terrorist causes can be set to 0, 1 or 2. This means that when a terrorist performs a bombing attack, both target resident and himself are killed but there will be additional 0, 1 or 2 random collateral victims.</i>
-
-                    <table class="table sidetable">
-                        <thead>
+                <table class="table sidetable">
+                    <tbody>
                         <tr>
-                            <td class="col-md-1">Role</td>
-                            <td class="col-md-2">Action Type</td>
-                            <td class="col-md-9">Parameters</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td colspan="3" style="text-align: center">Citizens</td>
-                        </tr>
-                        <tr ng-repeat="cityHasRole in city.city_has_roles | filter : {role : {affiliation: {id : affiliationIds.AFFILIATION_ID_CITIZENS}}} | cityHasRolesWithActionTypesParamsFilter">
-                            <td class="col-md-1">{{cityHasRole.role.name}}</td>
-                            <td colspan="2" class="col-md-11">
-                                <table>
-                                    <tr ng-repeat="actionType in cityHasRole.role.action_types | defaultActionTypeParamsPresentFilter">
-                                        <td class="col-md-1">{{ actionType.name }}</td>
-                                        <td class="col-md-10"> <action-type-params action-type-id="actionType.id" action-type-params="cityHasRole.action_types_params[actionType.id]" edit-mode="false"></action-type-params> </td>
-                                    </tr>
-                                </table>
-
-                            </td>
+                            <td>Id</td>
+                            <td>{{city.id}}</td>
                         </tr>
                         <tr>
-                            <td colspan="3" style="text-align: center">Mafia</td>
+                            <td>Name</td>
+                            <td>{{city.name}}</td>
                         </tr>
-                        <tr ng-repeat="cityHasRole in city.city_has_roles | filter : {role: {affiliation: {id : affiliationIds.AFFILIATION_ID_MAFIA}}} | cityHasRolesWithActionTypesParamsFilter">
-                            <td class="col-md-1">{{cityHasRole.role.name}}</td>
-                            <td colspan="2" class="col-md-11">
-                                <table>
-                                    <tr ng-repeat="actionType in cityHasRole.role.action_types | defaultActionTypeParamsPresentFilter">
-                                        <td class="col-md-1">{{ actionType.name }}</td>
-                                        <td class="col-md-10"> <action-type-params action-type-id="actionType.id" action-type-params="cityHasRole.action_types_params[actionType.id]" edit-mode="false"></action-type-params> </td>
-                                    </tr>
-                                </table>
-
-                            </td>
+                        <tr>
+                            <td>Description</td>
+                            <td>{{city.description}}</td>
                         </tr>
-                        </tbody>
-                    </table>
+                        <tr>
+                            <td>Public</td>
+                            <td> <img-bool boolean-value="city.public"></img-bool> </td>
+                        </tr>
+                        <tr>
+                            <td>Creator</td>
+                            <td>{{city.user_creator_username}}</td>
+                        </tr>
+                        <tr>
+                            <td>Timezone</td>
+                            <td><timezone minutes="city.timezone"></timezone></td>
+                        </tr>
+                        <tr>
+                            <td>Created at</td>
+                            <td>{{ city.created_at | localeDate }}</td>
+                        </tr>
+                        <tr ng-if="city.started_at">
+                            <td>Started at</td>
+                            <td>{{ city.started_at | localeDate }}</td>
+                        </tr>
+                        <tr ng-if="city.finished_at">
+                            <td>Finished at</td>
+                            <td>{{ city.finished_at | localeDate }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </tab>
 
-                </tab>
 
-                <tab ng-if="(user.role_pick_purchases.length && !city.started_at) || (city.role_picks.length && city.started_at)">
-                    <tab-heading>
-                        <i class="fa fa-flag"></i> Role Picks
-                    </tab-heading>
+            <tab>
+                <tab-heading>
+                    <i class="glyphicon glyphicon-user"></i> Residents
+                </tab-heading>
 
-                    <p style="font-size: 120%"> You have <b>{{user.role_pick_purchases.length}} Role Pick{{user.role_pick_purchases.length == 1 ? '' : 's'}}</b> at your disposal. </p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Resident Id</td>
+                            <td>User Id</td>
+                            <td>Username</td>
+                            <td>Name</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(index, resident) in city.residents">
+                            <td>{{ resident.id }}</td>
+                            <td>{{resident.user_id}}</td>
+                            <td>{{resident.username}}</td>
+                            <td>{{resident.name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                    <div ng-if="!city.started_at">
+            </tab>
+
+
+            <tab>
+                <tab-heading>
+                    <i class="glyphicon glyphicon-time"></i> Day cycles
+                </tab-heading>
+
+                <div id="day-cycle-validation-error">
+                    <alert ng-repeat="alert in dayCycleValidationErrors" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Day start</td>
+                            <td>Night start</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(index, day_cycle) in city.day_cycles">
+                            <td><timezone minutes="day_cycle.day_start"></timezone></td>
+                            <td><timezone minutes="day_cycle.night_start"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </tab>
+
+
+
+
+            <tab>
+                <tab-heading>
+                    <i class="glyphicon glyphicon-tower"></i> Roles
+                </tab-heading>
+
+                <div class="details-city-roles-tab">
+                    <tabset>
+                    <tab>
+                        <tab-heading>
+                            <i class="glyphicon glyphicon-tasks"></i> Distribution
+                        </tab-heading>
+                        <table class="table sidetable">
+                            <tbody>
+                                <tr>
+                                    <td>Total residents</td>
+                                    <td>{{ city.residents.length }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Roles undistributed</td>
+                                    <td>{{ remainingRoles }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align: center">Citizens</td>
+                                </tr>
+                                <tr ng-repeat="role_quantity in roleQuantities | filter : {role : {affiliation: {id : affiliationIds.AFFILIATION_ID_CITIZENS }}}">
+                                    <td>{{role_quantity.role.name}}</td>
+                                    <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" readonly="true" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'"></points-assign></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align: center">Mafia</td>
+                                </tr>
+                                <tr ng-repeat="role_quantity in roleQuantities | filter : {role: {affiliation: {id : affiliationIds.AFFILIATION_ID_MAFIA }}} ">
+                                    <td>{{role_quantity.role.name}}</td>
+                                    <td><b>{{ city_has_role.quantity }}</b> : <points-assign value="role_quantity.quantity" readonly="true" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'"></points-assign></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </tab>
+
+                    <tab>
+                        <tab-heading>
+                            <i class="glyphicon glyphicon-cog"></i> Action Type Parameters
+                        </tab-heading>
+                        To achieve optimal gameplay, some roles can be tweaked by modifying their action type parameters.
+                        <i>For example, the number of collateral victims that terrorist causes can be set to 0, 1 or 2. This means that when a terrorist performs a bombing attack, both target resident and himself are killed but there will be additional 0, 1 or 2 random collateral victims.</i>
+
+                        <table class="table sidetable">
+                            <thead>
+                            <tr>
+                                <td class="col-md-1">Role</td>
+                                <td class="col-md-2">Action Type</td>
+                                <td class="col-md-9">Parameters</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td colspan="3" style="text-align: center">Citizens</td>
+                            </tr>
+                            <tr ng-repeat="cityHasRole in city.city_has_roles | filter : {role : {affiliation: {id : affiliationIds.AFFILIATION_ID_CITIZENS}}} | cityHasRolesWithActionTypesParamsFilter">
+                                <td class="col-md-1">{{cityHasRole.role.name}}</td>
+                                <td colspan="2" class="col-md-11">
+                                    <table>
+                                        <tr ng-repeat="actionType in cityHasRole.role.action_types | defaultActionTypeParamsPresentFilter">
+                                            <td class="col-md-1">{{ actionType.name }}</td>
+                                            <td class="col-md-10"> <action-type-params action-type-id="actionType.id" action-type-params="cityHasRole.action_types_params[actionType.id]" edit-mode="false"></action-type-params> </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align: center">Mafia</td>
+                            </tr>
+                            <tr ng-repeat="cityHasRole in city.city_has_roles | filter : {role: {affiliation: {id : affiliationIds.AFFILIATION_ID_MAFIA}}} | cityHasRolesWithActionTypesParamsFilter">
+                                <td class="col-md-1">{{cityHasRole.role.name}}</td>
+                                <td colspan="2" class="col-md-11">
+                                    <table>
+                                        <tr ng-repeat="actionType in cityHasRole.role.action_types | defaultActionTypeParamsPresentFilter">
+                                            <td class="col-md-1">{{ actionType.name }}</td>
+                                            <td class="col-md-10"> <action-type-params action-type-id="actionType.id" action-type-params="cityHasRole.action_types_params[actionType.id]" edit-mode="false"></action-type-params> </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </tab>
+
+                    <tab ng-if="(user.role_pick_purchases.length && !city.started_at) || (city.role_picks.length && city.started_at)">
+                        <tab-heading>
+                            <i class="fa fa-flag"></i> Role Picks
+                        </tab-heading>
+
                         <p style="font-size: 120%"> You have <b>{{user.role_pick_purchases.length}} Role Pick{{user.role_pick_purchases.length == 1 ? '' : 's'}}</b> at your disposal. </p>
 
-                        When you have Role Picks to spend, you can submit as many role requests as you want. When the game starts, and the roles are being distributed,
-                        you will be assigned one of the roles you have requested. If you submitted multiple role requests, the system
-                        will aim to grant you the roles that you requested earlier.
-                        If other game participants have also requested some roles, and there are not enough roles to grant
-                        everyone's preferences, the users that submitted their requests earlier will be granted the roles. <br/>
+                        <div ng-if="!city.started_at">
+                            <p style="font-size: 120%"> You have <b>{{user.role_pick_purchases.length}} Role Pick{{user.role_pick_purchases.length == 1 ? '' : 's'}}</b> at your disposal. </p>
 
-                        If, when the game is started, you are assigned with one of the roles you requested, <b>1 Role Pick is deemed expended and you cannot use it again</b>.
-                        If, for some reason, the game starts and you got assigned the role you did not request, your Role Pick is still <b>not expended and you can use it in another game</b>.
-                    </div>
-                    <div ng-if="city.started_at">
-                        The roles you requested before the game has started are listed below.
-                    </div>
+                            When you have Role Picks to spend, you can submit as many role requests as you want. When the game starts, and the roles are being distributed,
+                            you will be assigned one of the roles you have requested. If you submitted multiple role requests, the system
+                            will aim to grant you the roles that you requested earlier.
+                            If other game participants have also requested some roles, and there are not enough roles to grant
+                            everyone's preferences, the users that submitted their requests earlier will be granted the roles. <br/>
 
-
-                    <table class="table">
-                        <thead>
-                        <tr ng-show="user.role_picks.length">
-                            <td>Requested Role</td>
-                            <td>Request Date</td>
-                            <td>Granted</td>
-                            <td ng-if="!city.started_at">Cancel</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="rolePick in user.role_picks | filter: { city_id : city.id} ">
-                            <td style="text-align: center">{{rolePick.role.name}}</td>
-                            <td style="text-align: center">{{rolePick.created_at | localeDate}}</td>
-                            <td ng-if="city.started_at" style="text-align: center"><img-bool boolean-value="rolePick.role_pick_purchase_id"></img-bool> </td>
-                            <td ng-if="!city.started_at" style="text-align: center"><i class="glyphicon glyphicon-question-sign" tooltip="Game hasn't started yet"></i></td>
-                            <td ng-if="!city.started_at" style="text-align: center">
-                                <button tooltip="Cancel this role request" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
-                                <loader ng-show="deletingRolePickId == rolePick.id" size="small"></loader>
-                            </td>
-                        </tr>
-                        <thead>
-                        <tr>
-                            <td colspan="3">Select a role</td>
-                            <td>Submit</td>
-                        </tr>
-                        </thead>
-                        <tr class="new-role-pick-row" ng-if="!city.started_at">
-                            <td colspan="3">
-                                <select style="width: 100%" ng-model="newRolePickCityHasRole"
-                                        ng-options="cityHasRole.role.name for cityHasRole in city.city_has_roles | uniqque: { role : 'id'}"
-                                        ng-change="changeNewRolePickRole(newRolePickCityHasRole)">
-                                </select>
-                            </td>
-                            <td style="text-align: center">
-                                <button tooltip="Submit this role request" ng-click="submitRolePick()" ng-disabled="!newRolePickCityHasRole"><i class="glyphicon glyphicon-ok-sign"></i>Submit</button>
-
-                                <loader ng-show="isSubmittingRolePick" size="small"></loader>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </tab>
-
-            </tabset>
-
-        </tab>
+                            If, when the game is started, you are assigned with one of the roles you requested, <b>1 Role Pick is deemed expended and you cannot use it again</b>.
+                            If, for some reason, the game starts and you got assigned the role you did not request, your Role Pick is still <b>not expended and you can use it in another game</b>.
+                        </div>
+                        <div ng-if="city.started_at">
+                            The roles you requested before the game has started are listed below.
+                        </div>
 
 
-        <tab>
-            <tab-heading>
-                <i class="glyphicon glyphicon-wrench"></i> Other
-            </tab-heading>
+                        <table class="table">
+                            <thead>
+                            <tr ng-show="user.role_picks.length">
+                                <td>Requested Role</td>
+                                <td>Request Date</td>
+                                <td>Granted</td>
+                                <td ng-if="!city.started_at">Cancel</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="rolePick in user.role_picks | filter: { city_id : city.id} ">
+                                <td style="text-align: center">{{rolePick.role.name}}</td>
+                                <td style="text-align: center">{{rolePick.created_at | localeDate}}</td>
+                                <td ng-if="city.started_at" style="text-align: center"><img-bool boolean-value="rolePick.role_pick_purchase_id"></img-bool> </td>
+                                <td ng-if="!city.started_at" style="text-align: center"><i class="glyphicon glyphicon-question-sign" tooltip="Game hasn't started yet"></i></td>
+                                <td ng-if="!city.started_at" style="text-align: center">
+                                    <button tooltip="Cancel this role request" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
+                                    <loader ng-show="deletingRolePickId == rolePick.id" size="small"></loader>
+                                </td>
+                            </tr>
+                            <thead>
+                            <tr>
+                                <td colspan="3">Select a role</td>
+                                <td>Submit</td>
+                            </tr>
+                            </thead>
+                            <tr class="new-role-pick-row" ng-if="!city.started_at">
+                                <td colspan="3">
+                                    <select style="width: 100%" ng-model="newRolePickCityHasRole"
+                                            ng-options="cityHasRole.role.name for cityHasRole in city.city_has_roles | uniqque: { role : 'id'}"
+                                            ng-change="changeNewRolePickRole(newRolePickCityHasRole)">
+                                    </select>
+                                </td>
+                                <td style="text-align: center">
+                                    <button tooltip="Submit this role request" ng-click="submitRolePick()" ng-disabled="!newRolePickCityHasRole"><i class="glyphicon glyphicon-ok-sign"></i>Submit</button>
 
-            <table class="table">
-                <thead>
-                <tr>
-                    <td colspan="3">End conditions</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="gameEndCondition in allGameEndConditions">
-                    <td class="col-sm-1"><input type="checkbox" ng-model="checkedGameEndConditions[gameEndCondition.id]" ng-change="toggleGameEndCondition(gameEndCondition.id)" disabled></td> <!-- ng-disabled="city.started_at" -->
-                    <td>{{ gameEndCondition.name }}</td>
-                    <td>{{ gameEndCondition.description }}</td>
-                </tr>
-                </tbody>
-            </table>
+                                    <loader ng-show="isSubmittingRolePick" size="small"></loader>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </tab>
 
-            <table class="table">
-                <thead>
-                <tr>
-                    <td colspan="3">Self generated result types</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="selfGeneratedResultType in allSelfGeneratedResultTypes">
-                    <td class="col-sm-1"><input type="checkbox" ng-model="checkedSelfGeneratedResultTypes[selfGeneratedResultType.id]" ng-change="toggleSelfGeneratedResultType(selfGeneratedResultType.id)" disabled></td> <!-- ng-disabled="city.started_at" -->
-                    <td> {{ selfGeneratedResultType.name }} </td>
-                    <td> {{ selfGeneratedResultType.description }} </td>
-                </tr>
-                </tbody>
-            </table>
-        </tab>
-    </tabset>
+                </tabset>
+                </div>
+            </tab>
 
+
+            <tab>
+                <tab-heading>
+                    <i class="glyphicon glyphicon-wrench"></i> Other
+                </tab-heading>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td colspan="3">End conditions</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="gameEndCondition in allGameEndConditions">
+                        <td class="col-sm-1"><input type="checkbox" ng-model="checkedGameEndConditions[gameEndCondition.id]" ng-change="toggleGameEndCondition(gameEndCondition.id)" disabled></td> <!-- ng-disabled="city.started_at" -->
+                        <td>{{ gameEndCondition.name }}</td>
+                        <td>{{ gameEndCondition.description }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td colspan="3">Self generated result types</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="selfGeneratedResultType in allSelfGeneratedResultTypes">
+                        <td class="col-sm-1"><input type="checkbox" ng-model="checkedSelfGeneratedResultTypes[selfGeneratedResultType.id]" ng-change="toggleSelfGeneratedResultType(selfGeneratedResultType.id)" disabled></td> <!-- ng-disabled="city.started_at" -->
+                        <td> {{ selfGeneratedResultType.name }} </td>
+                        <td> {{ selfGeneratedResultType.description }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </tab>
+        </tabset>
+
+
+    </div>
 
 </div>

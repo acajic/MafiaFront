@@ -129,6 +129,7 @@ textarea {
     padding-bottom: 600px;
 }
 
+
 .nav-tabs {
     background-color: #322213;
     padding-left: 15px;
@@ -317,7 +318,7 @@ ac-checkbox span {
 }
 
 
-#city-control-buttons-bar {
+.city-control-buttons-bar {
     padding-left: 15px;
     padding-bottom: 15px;
 }
@@ -359,6 +360,11 @@ ac-checkbox span {
     padding: 0px;
 }
 
+.details-city-roles-tab .nav-tabs {
+    background-color: transparent;
+    padding: 0px;
+}
+
 .create-edit-city-roles-tab .nav-tabs>li.active>a {
     color: white;
     background-color: #393939;
@@ -374,7 +380,22 @@ ac-checkbox span {
     color: #ffffff;
 }
 
-.city .tab-pane {
+.details-city-roles-tab .nav-tabs>li.active>a {
+    color: white;
+    background-color: #393939;
+    border-color: #2f2f2f;
+}
+
+.details-city-roles-tab .nav-tabs>li>a {
+    color: #2f2f2f;
+}
+
+.details-city-roles-tab .nav-tabs>li>a:hover {
+    background-color: #2f2f2f;
+    color: #ffffff;
+}
+
+.city > .tabbable > .tab-content {
     padding: 15px;
 }
 
