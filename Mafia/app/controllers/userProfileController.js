@@ -12,6 +12,9 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
     };
 
 
+    var back = function() {
+        $location.path('/cities');
+    };
 
     var save = function() {
         var user = $scope.user;
@@ -161,6 +164,7 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
         });
 
 
+        $scope.back = back;
         $scope.save = save;
         $scope.infos = [];
 

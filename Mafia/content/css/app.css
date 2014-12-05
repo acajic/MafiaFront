@@ -45,6 +45,14 @@ input[type="text"], input[type="password"] {
     color: #000000;
 }
 
+input {
+    border-radius: 4px;
+}
+
+textarea {
+    border-radius: 4px;
+}
+
 #header-auth button {
     background-color: #161616;
     border-color: #0d0d0d;
@@ -64,14 +72,18 @@ input[type="text"], input[type="password"] {
     font-weight: bold;
     text-align: center;
     color: #ffffff;
-    text-shadow: 2px 2px #000000;
-    min-height: 82px;
+    text-shadow: 3px 2px #000000;
+    min-height: 140px;
 }
 
 .title img {
     margin-left: -120px;
     margin-top: 20px;
     width: 200px;
+}
+
+.title.textonly {
+    padding-top: 40px;
 }
 
 #header-auth {
@@ -85,6 +97,16 @@ input[type="text"], input[type="password"] {
     padding: 0px;
 }
 
+.user-profile-buttons-bar {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+}
+
+.user-profile .tab-content {
+    padding: 15px;
+}
+
 /* BEGIN cities */
 
 .cities {
@@ -92,26 +114,27 @@ input[type="text"], input[type="password"] {
     padding-bottom: 600px;
 }
 
-.cities .nav-tabs {
+.nav-tabs {
     background-color: #322213;
     padding-left: 15px;
     border-bottom: none;
 }
 
-.cities .nav-tabs>li.active>a {
+.nav-tabs>li.active>a {
     color: white;
     background-color: #161616;
     border-color: #0d0d0d;
     margin-bottom: 2px;
 }
 
-.cities .nav-tabs>li>a {
+.nav-tabs>li>a {
     color: #ffffff;
 }
 
-.cities .nav-tabs>li>a:hover {
+.nav-tabs>li>a:hover, .nav-tabs>li.active>a:hover{
     border-color: #0d0d0d;
     background-color: #0d0d0d;
+    color: #ffffff;
 }
 
 .cities-top-button-controls-bar {
@@ -167,12 +190,12 @@ input[type="text"], input[type="password"] {
     color: #ffffff;
 }
 
-.btn-leave-city, .btn-cancel-join-request-city, .btn-delete-city, .btn-erease {
+.btn-leave-city, .btn-cancel-join-request-city, .btn-delete, .btn-erease {
     background-color: #562f29;
     border: #0d0d0d;
     color: #ffffff;
 }
-.btn-leave-city:hover, .btn-cancel-join-request-city:hover, .btn-delete-city:hover, .btn-erease:hover {
+.btn-leave-city:hover, .btn-cancel-join-request-city:hover, .btn-delete:hover, .btn-erease:hover {
     background-color: #560d0b;
     color: #ffffff;
 }
@@ -314,6 +337,7 @@ ac-checkbox span {
     border-color: #0d0d0d;
     background-color: #0d0d0d;
 }
+
 
 .create-edit-city-roles-tab .nav-tabs {
     background-color: transparent;

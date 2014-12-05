@@ -1,7 +1,7 @@
 <div id="content-header">
 
-    <div class="title" ng-if="city.id">EDIT CITY - {{city.name}}</div>
-    <div class="title" ng-if="!city.id">CREATE CITY</div>
+    <div class="title textonly" ng-if="city.id">EDIT CITY - {{city.name}}</div>
+    <div class="title textonly" ng-if="!city.id">CREATE CITY</div>
 
     <div id="city-control-buttons-bar">
         <button ng-click="back()" class="btn btn-back"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
@@ -22,7 +22,7 @@
                 <button ng-click="ok()" class="btn btn-danger">Confirm</button>
             </script>
 
-            <button ng-if="showDeleteButton(city)" ng-click="deleteCity()" class="btn btn-delete-city"><i class="glyphicon glyphicon-trash"></i>Delete</button>
+            <button ng-if="showDeleteButton(city)" ng-click="deleteCity()" class="btn btn-delete"><i class="glyphicon glyphicon-trash"></i>Delete</button>
 
             <button ng-if="showPauseButton(city)" ng-click="pause()" class="btn btn-pause-city"><i class="glyphicon glyphicon-pause"></i>Pause</button>
             <button ng-if="showResumeButton(city)" ng-click="resume()" class="btn btn-resume-city" ng-disabled="!isCityModified(city)"><i class="glyphicon glyphicon-play"></i>Resume</button>
