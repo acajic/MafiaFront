@@ -1,4 +1,7 @@
 <div id="content-header">
+    <div id="header-auth">
+        <auth></auth>
+    </div>
 
     <div class="title textonly" ng-if="city.id">EDIT CITY - {{city.name}}</div>
     <div class="title textonly" ng-if="!city.id">CREATE CITY</div>
@@ -210,13 +213,13 @@
                         <td>{{ resident.name }}</td>
                         <td>{{resident.user_id}}</td>
                         <td>{{resident.username}}</td>
-                        <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-default" ng-if="!isUserOwner(resident.user_id)" ng-click="kickResident(index)"><img src="content/img/kick-icon.png" style="width: 40px; margin: -10px -10px -10px -10px" /></button></td>
+                        <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-delete edit-city-kick-user" ng-if="!isUserOwner(resident.user_id)" ng-click="kickResident(index)" tooltip="Kick out" tooltip-placement="right"><img src="content/img/kick-icon.png" /></button></td>
                     </tr>
                     </tbody>
                 </table>
 
                 <script type="text/ng-template" id="inviteModalContent.html">
-                    <div class="invite-user-modal">
+                    <div class="modal-invite-user">
                         <div class="modal-header">
                             <h3>Invite users</h3>
                             <p>Select a user by username or by email address and add them to your game.</p>
@@ -239,7 +242,7 @@
                             <tr ng-repeat="(index, invitedUser) in invitedUsers" class="invite-added-row">
                                 <td>{{ invitedUser.username }}</td>
                                 <td>{{ invitedUser.email }}</td>
-                                <td><button ng-click="removeInvitedUser(index)"><i class="glyphicon glyphicon-minus"></i></button></td>
+                                <td><button ng-click="removeInvitedUser(index)" class="btn btn-delete"><i class="glyphicon glyphicon-minus"></i></button></td>
                             </tr>
 
 
@@ -251,7 +254,7 @@
                                     <input type="text" ng-model="newInvitedUser.email" placeholder="Email" typeahead="user.email for user in getUsersByEmail($viewValue)" typeahead-loading="loadingUsers" typeahead-on-select="setNewInvitedUser($item)" typeahead-wait-ms="300" typeahead-min-length=2 class="form-control">
                                 </td>
                                 <td>
-                                    <button ng-click="addInvitedUser()" popover="Add player to the list" popover-trigger="mouseenter" popover-placement="right"><i class="glyphicon glyphicon-plus"></i></button>
+                                    <button ng-click="addInvitedUser()" class="btn btn-invite" popover="Add player to the list" popover-trigger="mouseenter" popover-placement="right"><i class="glyphicon glyphicon-plus"></i></button>
                                 </td>
                             </tr>
                             <tr class="invite-users-table-loader-row">
@@ -268,7 +271,7 @@
                     </div>
                 </script>
 
-                <button ng-if="city.id && !city.started_at" ng-click="openInviteModal()" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>Invite</button>
+                <button ng-if="city.id && !city.started_at" ng-click="openInviteModal()" class="btn btn-explore"><i class="glyphicon glyphicon-plus"></i>Invite</button>
 
             </tab>
 
@@ -378,7 +381,9 @@
                                 </tr>
                                 <tr>
                                     <td>Roles undistributed</td>
-                                    <td>{{ remainingRoles }}</td>
+                                    <td ng-class="remainingRoles ? 'invalid' : 'valid'">
+                                        {{ remainingRoles }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="text-align: center">Citizens</td>

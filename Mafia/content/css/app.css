@@ -195,12 +195,12 @@ textarea {
     color: #ffffff;
 }
 
-.btn-accept-invitation-city {
+.btn-accept-invitation-city, .btn-explore {
     background-color: #363749;
     border: 1px solid #1a1b26;
     color: #ffffff;
 }
-.btn-accept-invitation-city:hover {
+.btn-accept-invitation-city:hover, .btn-explore:hover {
     background-color: #1a1b26;
     color: #ffffff;
 }
@@ -302,8 +302,8 @@ ac-checkbox span {
 }
 
 .alert-success {
-    background-color: rgb(48, 81, 25);
-    border-color: rgb(73, 112, 30);
+    background-color: #305119;
+    border-color: #49701E;
     color: #ffffff;
 }
 .alert-success .close {
@@ -359,8 +359,6 @@ ac-checkbox span {
     padding: 0px;
 }
 
-
-
 .create-edit-city-roles-tab .nav-tabs>li.active>a {
     color: white;
     background-color: #393939;
@@ -382,6 +380,18 @@ ac-checkbox span {
 
 .create-edit-city-roles-tab .tab-pane {
     padding: 0px;
+}
+
+.create-edit-city-roles-tab .valid {
+    color: #305119;
+    font-weight: 700;
+    font-size: 26px;
+}
+
+.create-edit-city-roles-tab .invalid {
+    color: #560d0b;
+    font-weight: 700;
+    font-size: 26px;
 }
 
 .city ac-checkbox label {
@@ -580,10 +590,24 @@ tr.invite-users-table-loader-row  {
     background: transparent;
 }
 
-.invite-user-modal .bottom-buttons {
+.modal-invite-user {
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.modal-invite-user .bottom-buttons {
     padding-left: 5px;
     padding-right: 5px;
     padding-bottom: 5px;
+}
+
+.edit-city-kick-user {
+
+}
+.edit-city-kick-user img {
+    -webkit-filter: invert(100%);
+    width: 35px;
+    margin: -10px -10px -10px -10px;
 }
 
 .ng-valid-time tr {
