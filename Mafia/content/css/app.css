@@ -45,13 +45,12 @@ input[type="text"], input[type="password"] {
     color: #000000;
 }
 
-input {
+input, textarea, select {
     border-radius: 4px;
 }
 
-textarea {
-    border-radius: 4px;
-}
+
+
 
 #header-auth button {
     background-color: #161616;
@@ -86,6 +85,10 @@ textarea {
     padding-top: 40px;
 }
 
+.title.small {
+    font-size: 38px;
+}
+
 #header-auth {
     position: absolute;
     width: 350px;
@@ -116,6 +119,11 @@ textarea {
     color: #ffffff;
     font-weight: 700;
     border-radius: 5px;
+}
+
+.warning-appendix {
+    display: inline;
+    color: #96120f;
 }
 
 .modal-input-form {
@@ -174,24 +182,24 @@ textarea {
     color: #ffffff;
 }
 
-.btn-create-new-city, .btn-enter-city, .btn-join-city, .btn-start-city, .btn-save-city, .btn-save, .btn-resume-city, .btn-invite {
+.btn-create-new-city, .btn-enter-city, .btn-join-city, .btn-start-city, .btn-save-city, .btn-save, .btn-new, .btn-search, .btn-resume-city, .btn-invite {
     background-color: rgb(48, 81, 25);
     border: 1px solid rgb(15, 60, 7);
     color: #ffffff;
 
 }
 
-.btn-create-new-city:hover, .btn-enter-city:hover, .btn-join-city:hover, .btn-start-city:hover, .btn-save-city:hover, .btn-save:hover, .btn-resume-city:hover, .btn-invite:hover {
+.btn-create-new-city:hover, .btn-enter-city:hover, .btn-join-city:hover, .btn-start-city:hover, .btn-save-city:hover, .btn-save:hover, .btn-new:hover, .btn-search:hover, .btn-resume-city:hover, .btn-invite:hover {
     background-color: rgb(15, 60, 7);
     color: #ffffff;
 }
 
-.btn-edit-city, .btn-details-city, .btn-pause-city {
+.btn-edit-city, .btn-details-city, .btn-pause-city, .btn-details {
     background-color: #694e29;
     border: 1px solid #3e2c13;
     color: #ffffff;
 }
-.btn-edit-city:hover, .btn-details-city:hover, .btn-pause-city:hover {
+.btn-edit-city:hover, .btn-details-city:hover, .btn-pause-city:hover, .btn-details:hover {
     background-color: #af8d35;
     color: #ffffff;
 }
@@ -725,3 +733,42 @@ tr.invite-users-table-loader-row  {
 }
 
 /* END gameOverResult */
+
+
+
+/* BEGIN admin */
+
+.admin-query-panel {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.admin-query-panel input, .admin-query-panel select, .admin-query-panel textarea {
+    color: #000000;
+}
+
+
+.admin-query-panel .row-odd {
+    background-color: rgba(200, 192, 27, 0.25);
+    min-height: 45px;
+}
+
+.admin-query-panel .row-even {
+    min-height: 45px;
+}
+
+.admin-query-panel .bottom-buttons {
+    padding: 15px;
+}
+
+.admin-query-panel .top-buttons {
+    padding: 15px;
+}
+
+.admin-results {
+    background-color: #ffffff;
+    padding-bottom: 600px;
+    margin-bottom: -600px;
+}
+
+/* END admin */

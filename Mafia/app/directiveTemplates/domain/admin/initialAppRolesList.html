@@ -1,40 +1,44 @@
-<div>
-    <button ng-if="enableCreating" class="btn btn-success" ng-click="newInitialAppRole()">Create</button>
+<div class="admin-query-panel">
+    <div class="top-buttons">
+        <button ng-if="enableCreating" class="btn btn-new" ng-click="newInitialAppRole()">Create</button>
+    </div>
+
+    <div ng-if="queryable">
+
+        <div style="clear: both" class="row-odd">
+            <p class="col-md-1">Email</p>
+            <input ng-model="queryModel.email">
+        </div>
+
+        <div style="clear: both" class="row-even">
+            <p class="col-md-1">Email Pattern</p>
+            <input ng-model="queryModel.emailPattern">
+        </div>
+
+
+        <div style="clear: both" class="row-odd">
+            <p class="col-md-1">Description</p>
+            <input ng-model="queryModel.description">
+        </div>
+
+        <div style="clear: both" class="query-model row-even">
+            <p class="col-md-1">Created</p>
+            <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+        </div>
+
+        <div style="clear: both" class="query-model row-odd">
+            <p class="col-md-1">Updated</p>
+            <quick-datepicker ng-model='queryModel.updatedAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.updatedAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+        </div>
+
+        <div class="bottom-buttons">
+            <button class="btn btn-search" ng-click="reloadData(true)">Search</button>
+        </div>
+    </div>
+
 </div>
 
-<div ng-if="queryable">
-
-    <div style="clear: both" class="row-odd">
-        <p class="col-md-1">Email</p>
-        <input ng-model="queryModel.email">
-    </div>
-
-    <div style="clear: both" class="row-even">
-        <p class="col-md-1">Email Pattern</p>
-        <input ng-model="queryModel.emailPattern">
-    </div>
-
-
-    <div style="clear: both" class="row-odd">
-        <p class="col-md-1">Description</p>
-        <input ng-model="queryModel.description">
-    </div>
-
-    <div style="clear: both" class="query-model row-even">
-        <p class="col-md-1">Created</p>
-        <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
-    </div>
-
-    <div style="clear: both" class="query-model row-odd">
-        <p class="col-md-1">Updated</p>
-        <quick-datepicker ng-model='queryModel.updatedAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.updatedAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
-    </div>
-
-    <button class="btn btn-success" ng-click="reloadData(true)">Search</button>
-</div>
-
-
-<div>
+<div class="admin-results">
     <table class="table">
         <thead>
         <tr>
@@ -61,7 +65,7 @@
             <td style="text-align: center;"><img-bool boolean-value="initialAppRole.enabled"></img-bool></td>
             <td>{{ initialAppRole.created_at | localeDate }}</td>
             <td>{{ initialAppRole.updated_at | localeDate }}</td>
-            <td><button class="btn btn-info" ng-click="showDetails(initialAppRole)">Details</button></td>
+            <td><button class="btn btn-details" ng-click="showDetails(initialAppRole)">Details</button></td>
         </tr>
         <tr ng-if="isLoadingContent">
             <td colspan="10" style="text-align: center">

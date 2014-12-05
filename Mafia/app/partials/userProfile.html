@@ -82,8 +82,8 @@
                                 <td>City</td>
                                 <td>Role</td>
                                 <td>Granted</td>
-                                <td tooltip="Date when role was requested">Role Pick Date</td>
-                                <td tooltip="Date when the game (which granted the role) started">Granted Date</td>
+                                <td>Role Pick Date</td>
+                                <td>Granted Date</td>
                                 <td>Cancel</td>
                             </tr>
 
@@ -99,7 +99,7 @@
                                 <td></td>
                                 <td><i class="glyphicon glyphicon-question-sign" tooltip="Game has not started yet"></i></td>
                                 <td>
-                                    <button tooltip="Cancel this Role Pick" ng-if="!rolePick.city_started_at" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
+                                    <button class="btn btn-delete" tooltip="Cancel this Role Pick" ng-if="!rolePick.city_started_at" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
                                     <loader ng-show="deletingRolePickId == rolePick.id" size="small"></loader>
                                 </td>
                             </tr>
@@ -231,9 +231,9 @@
             <div class="modal-delete-user">
                 <div class="modal-header">
                     <div>
-                        <h3 style="display: inline;">Delete this user?</h3> <h3 style="display: inline; color: #96120f;">*</h3>
+                        <h3 style="display: inline;">Delete this user?</h3> <h3 class="warning-appendix">*</h3>
                     </div>
-                    <p style="color:#96120f; display: inline"> * </p> - cannot be undone
+                    <p class="warning-appendix"> * </p> - cannot be undone
                 </div>
                 <div class="modal-body">
                     <div class="modal-input-form">
