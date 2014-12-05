@@ -395,11 +395,14 @@ ac-checkbox span {
     color: #ffffff;
 }
 
-.city > .tabbable > .tab-content {
+.city .tab-content {
     padding: 15px;
 }
 
-.create-edit-city-roles-tab .tab-pane {
+.create-edit-city-roles-tab .tab-content {
+    padding: 0px;
+}
+.details-city-roles-tab .tab-content {
     padding: 0px;
 }
 
@@ -491,10 +494,15 @@ ac-checkbox span {
 }
 
 
+
 .action-type-chooser a {
     color: #322213;
     font-weight: 700;
     text-shadow: 1px 1px rgba(55, 55, 55, 0.26);
+}
+
+.city textarea {
+    width: 174px;
 }
 
 
