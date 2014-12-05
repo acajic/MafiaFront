@@ -52,13 +52,13 @@
     </div>
 
     <div class="col-md-3 role-chooser-container city-info-box" style="text-align: center;">
-        <div>
-            <p style=" line-height: 100px; display: inline;">Your role: </p>
+        <div class="city-role-info-box">
+            Your role: <br/>
             <role-chooser city="city" role-id="resident.role.id" role-selected="roleSelected" edit-mode="roleChooserEditMode" enable-role-saving="true"></role-chooser>
         </div>
     </div>
     <div class="col-md-3 city-info-box" style="text-align: center;">
-        <div>
+        <div class="city-alive-info-box">
             <div ng-if="resident.alive === false" class="resident-dead">
                 <img src="content/img/resident-dead.png" style="height: 140px">
                 You are dead

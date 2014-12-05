@@ -32,11 +32,13 @@ html, body {
 }
 
 #content-header a {
-    color: #658519;
+    color: #C39D3C;
 }
 
-#content-header input {
+.auth input {
+    width: 100px;
     color: #000000;
+    font-weight: 700;
 }
 
 input[type="text"], input[type="password"] {
@@ -145,13 +147,13 @@ input[type="text"], input[type="password"] {
     color: #ffffff;
 }
 
-.btn-edit-city, .btn-details-city, .btn-pause-city, .btn-role-chooser {
-    background-color: #403f19;
-    border: 1px solid #4a4a06;
+.btn-edit-city, .btn-details-city, .btn-pause-city, .btn-save {
+    background-color: #694e29;
+    border: 1px solid #3e2c13;
     color: #ffffff;
 }
-.btn-edit-city:hover, .btn-details-city:hover, .btn-pause-city:hover, .btn-role-chooser:hover {
-    background-color: #4a4a06;
+.btn-edit-city:hover, .btn-details-city:hover, .btn-pause-city:hover, .btn-save:hover {
+    background-color: #af8d35;
     color: #ffffff;
 }
 
@@ -376,9 +378,31 @@ ac-checkbox span {
     color: #000000;
 }
 
-.role-chooser .btn {
-    line-height: normal;
+.role-chooser .dropdown-menu {
+    background-color: #251B13;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.55);
+
 }
+
+.role-chooser .dropdown-menu>li>a {
+    font-weight: 700;
+}
+.role-chooser .dropdown-menu>li>a:hover {
+    background-color: #191510;
+}
+
+.city-info-header input {
+    width: 50px;
+    text-align: center;
+    background-color: transparent;
+    color: #C39D3C;
+    font-weight: 700;
+    border: none;
+}
+
+
+
+
 
 .city-info-header {
     margin-top: 40px;
@@ -402,6 +426,8 @@ ac-checkbox span {
     font-weight: 700;
     text-shadow: 1px 1px rgba(55, 55, 55, 0.26);
 }
+
+
 
 /* END create/edit city */
 
@@ -568,17 +594,26 @@ tr.invite-users-table-loader-row  {
 
 .current-day, .current-day-edit {
     font-size: 20px;
-    padding-top: 20px;
+    padding-top: 40px;
 }
 
 .city-time {
     font-size: 20px;
+    padding-top: 10px;
 }
 
 .city-time-edit {
     font-size: 16px;
+    padding-top: 10px;
 }
 
+.city-role-info-box {
+    padding-top: 40px;
+}
+
+.city-alive-info-box {
+    padding-top: 24px;
+}
 
 .popover {
     font-size: 14px;

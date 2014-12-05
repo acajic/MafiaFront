@@ -12,7 +12,7 @@
             <a class="dropdown-toggle">
                 {{ roleLabel }}
             </a>
-            <button ng-if="enableRoleSaving && roleId" class="btn btn-role-chooser" ng-click="saveRole()" popover="Make this role appear after login." popover-trigger="mouseenter" popover-placement="right"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+            <button ng-if="enableRoleSaving && roleId" class="btn btn-save" ng-click="saveRole()" popover="Make this role appear after login." popover-trigger="mouseenter" popover-placement="right"><i class="glyphicon glyphicon-floppy-disk"></i></button>
             <ul class="dropdown-menu">
                 <li ng-repeat="cityHasRole in city.city_has_roles | uniqque: { role : 'id'}">
                     <a ng-click="optionSelected(cityHasRole.role.id)">{{cityHasRole.role.name}}</a>
