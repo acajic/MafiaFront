@@ -107,6 +107,21 @@ textarea {
     padding: 15px;
 }
 
+.modal-content {
+    background-color: transparent;
+}
+
+.modal-delete-user, .modal-save-user-profile {
+    background-color: #322213;
+    color: #ffffff;
+    font-weight: 700;
+    border-radius: 5px;
+}
+
+.modal-input-form {
+    margin-bottom: 20px;
+}
+
 /* BEGIN cities */
 
 .cities {
@@ -158,24 +173,24 @@ textarea {
     color: #ffffff;
 }
 
-.btn-create-new-city, .btn-enter-city, .btn-join-city, .btn-start-city, .btn-save-city, .btn-resume-city, .btn-invite {
+.btn-create-new-city, .btn-enter-city, .btn-join-city, .btn-start-city, .btn-save-city, .btn-save, .btn-resume-city, .btn-invite {
     background-color: rgb(48, 81, 25);
     border: 1px solid rgb(15, 60, 7);
     color: #ffffff;
 
 }
 
-.btn-create-new-city:hover, .btn-enter-city:hover, .btn-join-city:hover, .btn-start-city:hover, .btn-save-city:hover, .btn-resume-city:hover, .btn-invite:hover {
+.btn-create-new-city:hover, .btn-enter-city:hover, .btn-join-city:hover, .btn-start-city:hover, .btn-save-city:hover, .btn-save:hover, .btn-resume-city:hover, .btn-invite:hover {
     background-color: rgb(15, 60, 7);
     color: #ffffff;
 }
 
-.btn-edit-city, .btn-details-city, .btn-pause-city, .btn-save {
+.btn-edit-city, .btn-details-city, .btn-pause-city {
     background-color: #694e29;
     border: 1px solid #3e2c13;
     color: #ffffff;
 }
-.btn-edit-city:hover, .btn-details-city:hover, .btn-pause-city:hover, .btn-save:hover {
+.btn-edit-city:hover, .btn-details-city:hover, .btn-pause-city:hover {
     background-color: #af8d35;
     color: #ffffff;
 }

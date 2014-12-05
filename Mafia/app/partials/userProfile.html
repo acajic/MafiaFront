@@ -208,32 +208,43 @@
 
 
         <script type="text/ng-template" id="saveModalContent.html">
-            <div class="modal-header">
-                <div>
-                    <h3 style="display: inline">Update user?</h3>
+            <div class="modal-save-user-profile">
+                <div class="modal-header">
+                    <div>
+                        <h3 style="display: inline">Update user?</h3>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-input-form">
+                        Enter password: <input type="password" ng-model="credentials.password">
+                    </div>
+
+                    <div class="modal-body-bottom-buttons">
+                        <button ng-click="cancel()" class="btn btn-back">Cancel</button>
+                        <button ng-click="ok()" class="btn btn-save">Confirm</button>
+                    </div>
                 </div>
             </div>
-            <div class="modal-body">
-                Enter password: <input type="password" ng-model="credentials.password">
-            </div>
-
-            <button ng-click="cancel()" class="btn btn-default">Cancel</button>
-            <button ng-click="ok()" class="btn btn-danger">Confirm</button>
         </script>
 
         <script type="text/ng-template" id="deleteModalContent.html">
-        <div class="modal-header">
-            <div>
-                <h3 style="display: inline">Delete this user?</h3> <h3 style="display: inline; color: red;">*</h3>
+            <div class="modal-delete-user">
+                <div class="modal-header">
+                    <div>
+                        <h3 style="display: inline;">Delete this user?</h3> <h3 style="display: inline; color: #96120f;">*</h3>
+                    </div>
+                    <p style="color:#96120f; display: inline"> * </p> - cannot be undone
+                </div>
+                <div class="modal-body">
+                    <div class="modal-input-form">
+                        Enter password: <input type="password" ng-model="credentials.password">
+                    </div>
+                    <div class="modal-body-bottom-buttons">
+                        <button ng-click="cancel()" class="btn btn-back">Cancel</button>
+                        <button ng-click="ok()" class="btn btn-delete">Confirm</button>
+                    </div>
+                </div>
             </div>
-            <p style="color:red; display: inline"> * </p> - cannot be undone
-        </div>
-        <div class="modal-body">
-            Enter password: <input type="password" ng-model="credentials.password">
-        </div>
-
-        <button ng-click="cancel()" class="btn btn-default">Cancel</button>
-        <button ng-click="ok()" class="btn btn-danger">Confirm</button>
     </script>
     </div>
 </div>
