@@ -87,6 +87,7 @@ input, textarea, select {
 
 .title.small {
     font-size: 38px;
+    min-height: 80px;
 }
 
 #header-auth {
@@ -814,5 +815,17 @@ tr.invite-users-table-loader-row  {
     padding-bottom: 600px;
     margin-bottom: -600px;
 }
+
+.initial-app-role-button-controls, .new-initial-app-role-button-controls, .admin-city-button-controls, .admin-user-button-controls {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+}
+
+.initial-app-role, .new-initial-app-role, .admin-city, .admin-user {
+    padding: 15px;
+}
+
+
 
 /* END admin */

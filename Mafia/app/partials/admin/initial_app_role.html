@@ -1,12 +1,25 @@
-<div>
+<div id="content-header">
+    <div id="header-auth">
+        <auth></auth>
+    </div>
+
+    <div class="title textonly small">Initial app role</div>
+
+    <div class="alert">
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+    </div>
+
+    <div class="initial-app-role-button-controls">
+        <button class="btn btn-back" ng-click="cancel()">Back</button>
+        <button class="btn btn-save" ng-click="saveInitialAppRole()" ng-if="canSave" ng-hide="isProcessing">Save</button>
+        <button class="btn btn-delete" ng-click="deleteInitialAppRole()" ng-if="canDelete" ng-hide="isProcessing">Delete</button>
+        <loader size="small" ng-show="isProcessing"></loader>
+    </div>
+</div>
+
+<div id="content-body" class="initial-app-role">
     <table class="table sidetable">
         <tbody>
-        <tr>
-            <td></td>
-            <td>
-                <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-            </td>
-        </tr>
 
         <tr>
             <td>Description</td>
@@ -40,17 +53,6 @@
             <td>Enabled</td>
             <td> <input type="checkbox" ng-model="inspectedInitialAppRole.enabled"> </td>
         </tr>
-
-        <tr>
-            <td></td>
-            <td>
-                <button class="btn btn-default" ng-click="cancel()">Back</button>
-                <button class="btn btn-success" ng-click="saveInitialAppRole()" ng-if="canSave">Save</button>
-                <button class="btn btn-danger" ng-click="deleteInitialAppRole()" ng-if="canDelete">Delete</button>
-                <loader size="small" ng-if="isProcessing"></loader>
-            </td>
-        </tr>
-
 
         </tbody>
     </table>
