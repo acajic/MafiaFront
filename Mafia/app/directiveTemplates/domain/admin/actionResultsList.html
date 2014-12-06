@@ -1,74 +1,80 @@
-<div ng-if="queryable">
+<div class="admin-query-panel">
+    <div ng-if="queryable">
 
-    <div style="clear: both" class="row-odd">
-        <p class="col-md-1" ng-hide="queryModel.forAllResidents">Username</p>
-        <input ng-model="queryModel.residentUsername" ng-hide="queryModel.forAllResidents">
-        <input type="checkbox" ng-model="queryModel.forAllResidents"> All Residents?
-    </div>
-
-    <div style="clear: both" class="row-even">
-        <p class="col-md-1">City Name</p>
-        <input ng-model="queryModel.cityName">
-    </div>
-
-    <div style="clear: both" class="row-odd">
-        <p class="col-md-1">Result JSON</p>
-        <textarea ng-model="queryModel.resultJson"></textarea>
-    </div>
-
-    <div style="clear: both; overflow: hidden;" class="row-even">
-        <p class="col-md-1">Roles</p>
-        <div ng-repeat="role in roles" class="col-md-1">
-            <input type="checkbox"  ng-checked="queryModel.roleIds.indexOf(role.id) > -1" ng-click="toggleRoleSelection(role)">{{ role.name }}
+        <div style="clear: both" class="row-odd">
+            <p class="col-md-1" ng-hide="queryModel.forAllResidents">Username</p>
+            <input ng-model="queryModel.residentUsername" ng-hide="queryModel.forAllResidents">
+            <input type="checkbox" ng-model="queryModel.forAllResidents"> All Residents?
         </div>
-    </div>
 
-    <div style="clear: both; overflow: hidden;" class="row-odd">
-        <p class="col-md-1">Action Result Types</p>
-        <div ng-repeat="actionResultType in actionResultTypes" class="col-md-1">
-            <input type="checkbox"  ng-checked="queryModel.actionResultTypeIds.indexOf(actionResultType.id) > -1" ng-click="toggleActionResultTypeSelection(actionResultType)">{{ actionResultType.name }}
+        <div style="clear: both" class="row-even">
+            <p class="col-md-1">City Name</p>
+            <input ng-model="queryModel.cityName">
         </div>
+
+        <div style="clear: both" class="row-odd">
+            <p class="col-md-1">Result JSON</p>
+            <textarea ng-model="queryModel.resultJson"></textarea>
+        </div>
+
+        <div style="clear: both; overflow: hidden;" class="row-even">
+            <p class="col-md-1">Roles</p>
+            <div ng-repeat="role in roles" class="col-md-1">
+                <input type="checkbox"  ng-checked="queryModel.roleIds.indexOf(role.id) > -1" ng-click="toggleRoleSelection(role)">{{ role.name }}
+            </div>
+        </div>
+
+        <div style="clear: both; overflow: hidden;" class="row-odd">
+            <p class="col-md-1">Action Result Types</p>
+            <div ng-repeat="actionResultType in actionResultTypes" class="col-md-1">
+                <input type="checkbox"  ng-checked="queryModel.actionResultTypeIds.indexOf(actionResultType.id) > -1" ng-click="toggleActionResultTypeSelection(actionResultType)">{{ actionResultType.name }}
+            </div>
+        </div>
+
+        <div style="clear: both" class="row-even">
+            <p class="col-md-1">Day</p>
+            <input type="number" ng-model="queryModel.dayNumberMin"> - <input type="number" ng-model="queryModel.dayNumberMax">
+        </div>
+
+
+
+        <div style="clear: both; overflow: hidden" class="row-odd">
+            <p class="col-md-1">Is Automatically Generated</p>
+            <select ng-model="queryModel.isAutomaticallyGenerated">
+                <option value="">All</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+
+        <div style="clear: both" class="row-even">
+            <p class="col-md-1">Deleted</p>
+            <select ng-model="queryModel.deleted">
+                <option value="">All</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+
+        <div style="clear: both" class="query-model row-odd">
+            <p class="col-md-1">Created</p>
+            <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+        </div>
+
+        <div style="clear: both" class="query-model row-even">
+            <p class="col-md-1">Updated</p>
+            <quick-datepicker ng-model='queryModel.updatedAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.updatedAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+        </div>
+
+        <div class="bottom-buttons">
+            <button class="btn btn-success" ng-click="reloadData(true)">Search</button>
+        </div>
+
     </div>
-
-    <div style="clear: both" class="row-even">
-        <p class="col-md-1">Day</p>
-        <input type="number" ng-model="queryModel.dayNumberMin"> - <input type="number" ng-model="queryModel.dayNumberMax">
-    </div>
-
-
-
-    <div style="clear: both; overflow: hidden" class="row-odd">
-        <p class="col-md-1">Is Automatically Generated</p>
-        <select ng-model="queryModel.isAutomaticallyGenerated">
-            <option value="">All</option>
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-        </select>
-    </div>
-
-    <div style="clear: both" class="row-even">
-        <p class="col-md-1">Deleted</p>
-        <select ng-model="queryModel.deleted">
-            <option value="">All</option>
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-        </select>
-    </div>
-
-    <div style="clear: both" class="query-model row-odd">
-        <p class="col-md-1">Created</p>
-        <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
-    </div>
-
-    <div style="clear: both" class="query-model row-even">
-        <p class="col-md-1">Updated</p>
-        <quick-datepicker ng-model='queryModel.updatedAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.updatedAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
-    </div>
-
-    <button class="btn btn-success" ng-click="reloadData(true)">Search</button>
 </div>
 
-<div>
+
+<div class="admin-results">
     <table class="table">
         <thead>
         <tr>

@@ -27,7 +27,7 @@ angular.module('ui.pointsAssign', [])
         // Get objects used in template
 
         var initRange = function() {
-            $scope.range = angular.isDefined($attrs.ratingStates) ?  createRateObjects(angular.copy($scope.$parent.$eval($attrs.ratingStates))) : createRateObjects(new Array($scope.unused + $scope.value));
+            $scope.range = angular.isDefined($attrs.ratingStates) ?  createRateObjects(angular.copy($scope.$parent.$eval($attrs.ratingStates))) : createRateObjects(new Array(Math.max($scope.value, $scope.unused + $scope.value)));
         };
 
         initRange();

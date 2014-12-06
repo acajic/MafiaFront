@@ -1,4 +1,5 @@
-<div ng-if="queryable">
+<div class="admin-query-panel">
+    <div ng-if="queryable">
     <div style="clear: both" class="row-odd">
         <p class="col-md-1">Username</p>
         <input ng-model="queryModel.username">
@@ -68,11 +69,14 @@
         <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
     </div>
 
-    <button class="btn btn-success" ng-click="reloadData(true)">Search</button>
+    <div class="bottom-buttons">
+        <button class="btn btn-search" ng-click="reloadData(true)">Search</button>
+    </div>
 </div>
 
+</div>
 
-<div>
+<div class="admin-results">
     <table class="table">
         <thead>
         <tr>

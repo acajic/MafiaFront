@@ -28,8 +28,7 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
 
             scope.user = {
                 username : "",
-                password : "",
-                signedId : false
+                password : ""
             };
 
             scope.loader = {
@@ -38,7 +37,7 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
 
             scope.$watch('user', function(newUser) {
                 if (newUser['emailConfirmationCode']) {
-                    if (!newUser.signedIn)
+                    if (!newUser.id)
                         signIn();
                 }
             }, true);
@@ -59,13 +58,12 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
                 userMePromise.then(function(userMe) {
 
                     scope.user = userMe;
-                    scope.user.signedIn = true;
                     scope.user.password = "";
 
                     scope.loader.isLoading = false;
 
                 }, function(reason) {
-                    scope.user.signedIn = false;
+                    scope.user.id = null;
                     scope.loader.isLoading = false;
 
                     if (!reason.httpObj)

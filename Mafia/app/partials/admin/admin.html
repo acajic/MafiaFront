@@ -1,8 +1,16 @@
-<div style="clear: both">
-    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+<div id="content-header">
+    <div id="header-auth">
+        <auth></auth>
+    </div>
+
+    <div class="title textonly"> Admin </div>
+
+    <div style="clear: both">
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+    </div>
 </div>
 
-<div class="col-md-12 nopadding">
+<div id="content-body">
     <tabset>
         <tab active="tabActive[0]" select="tabSelected()">
             <tab-heading>

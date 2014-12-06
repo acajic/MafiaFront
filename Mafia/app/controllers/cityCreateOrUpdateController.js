@@ -1,4 +1,4 @@
-app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $timeout, citiesService, rolesService,
+app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $timeout, citiesService, rolesService, rolePicksService,
                                                          gameEndConditionsService, selfGeneratedResultTypesService,
                                                          authService, usersService, $location, $q, $modal) {
     "use strict";
@@ -986,10 +986,44 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.remainingRoles = remainingRoleCount($scope.city);
     }, true);
 
+
+    function changeNewRolePickRole(cityHasRole) {
+        $scope.newRolePickCityHasRole = cityHasRole;
+    }
+
+    function submitRolePick() {
+        if (!$scope.newRolePickCityHasRole)
+            return;
+
+        $scope.isSubmittingRolePick = true;
+        var createRolePickPromise = rolePicksService.createRolePick($scope.city, $scope.newRolePickCityHasRole.role);
+
+        createRolePickPromise.then(function(createdRolePick) {
+            $scope.city.role_picks.push(createdRolePick);
+            $scope.isSubmittingRolePick = false;
+        }, function(reason) {
+            $scope.isSubmittingRolePick = false;
+        });
+    }
+
+    function deleteRolePick(rolePick) {
+        $scope.deletingRolePickId = rolePick.id;
+        rolePicksService.deleteRolePickById(rolePick.id).then(function() {
+            var index = $scope.city.role_picks.indexOf(rolePick);
+            $scope.city.role_picks.splice(index, 1)
+            $scope.deletingRolePickId = null;
+        }, function(reason) {
+            $scope.deletingRolePickId = null;
+
+        });
+
+    }
+
     function initRoles(city, allRoles) {
         $scope.remainingRoles = remainingRoleCount(city);
         initCityHasRoles(city, allRoles);
     }
+
 
     function initGameEndConditions(city) {
         angular.forEach(city.game_end_conditions, function(gameEndCondition) {
@@ -1077,13 +1111,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
                     $scope.generalMessages = [{type: 'success', msg: "Successfully created '" + city.name + "'."}];
                     return city;
                 });
-            } /* else if (citiesService.isCityStarted) {
-                citiesService.isCityStarted = false;
-                cityPromise = citiesService.getCity(cityId, false).then(function(city) {
-                    $scope.generalMessages = [{type: 'success', msg: "Successfully started '" + city.name + "'."}];
-                    return city;
-                });
-            } */ else {
+            } else {
                 cityPromise = citiesService.getCity(cityId, true);
             }
         } else {
@@ -1179,6 +1207,8 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.showLeaveButton = showLeaveButton;
         $scope.leave = leave;
 
+        $scope.closeBasicValidationAlert = closeBasicValidationAlert;
+
 
         $scope.basicValidationErrors = [];
         $scope.timezone = {};
@@ -1204,6 +1234,9 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.closeDayCycleValidationAlert = closeDayCycleValidationAlert;
 
         $scope.remainingRoles = 0;
+        $scope.changeNewRolePickRole = changeNewRolePickRole;
+        $scope.submitRolePick = submitRolePick;
+        $scope.deleteRolePick = deleteRolePick;
 
         $scope.checkedGameEndConditions = {};
         $scope.toggleGameEndCondition = toggleGameEndCondition;

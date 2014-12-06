@@ -1,77 +1,250 @@
-<div id="info-box">
-    <alert ng-repeat="alert in infos" type="alert.type" close="closeInfoAlert($index)">{{alert.msg}}</alert>
+<div id="content-header">
+    <div id="header-auth">
+        <auth></auth>
+    </div>
+
+    <div class="title textonly"> User Profile </div>
+
+    <div class="alert-box">
+        <alert ng-repeat="alert in infos" type="alert.type" close="closeInfoAlert($index)">{{alert.msg}}</alert>
+    </div>
+
+    <div class="user-profile-buttons-bar">
+        <button ng-click="back()" class="btn btn-back"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
+        <button ng-click="deleteUser()" class="btn btn-delete" tooltip="Delete Profile">Delete</button>
+        <button ng-click="save()" class="btn btn-save" tooltip="Save Profile">Save</button>
+    </div>
 </div>
-<div ng-hide="isLoading">
+<div id="content-body">
+    <div class="user-profile">
+        <div ng-hide="isLoading">
+            <tabset>
+                <tab select="tabSelected(0)">
+                    <tab-heading>
+                        <i class="glyphicon glyphicon-user"></i> Basic
+                    </tab-heading>
 
-    <table class="table">
-        <tr>
-            <td>Username</td>
-            <td colspan="2">{{ user.username }}</td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td colspan="2"><input type="text" ng-model="user.email"></td>
-        </tr>
-        <tr>
-            <td>New Password</td>
-            <td><input type="password" ng-model="user.new_password"></td>
-            <td><i>(Leave blank to leave password unchanged)</i></td>
-        </tr>
-        <tr>
-            <td>Repeat new password</td>
-            <td><input type="password" ng-model="user.repeat_new_password"></td>
-            <td><i>(Leave blank to leave password unchanged)</i></td>
-        </tr>
-        <tr ng-if="user.id">
-            <td>Automatically join the game when invited</td>
-            <td colspan="2"><input type="checkbox" ng-model="user.user_preference.automatically_join_when_invited"></td>
-        </tr>
-        <tr ng-if="user.id">
-            <td>Receive email when invited/added to the game</td>
-            <td colspan="2"><input type="checkbox" ng-model="user.user_preference.receive_notifications_when_added_to_game"></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <button ng-click="deleteUser()" class="btn btn-danger">Delete</button>
-                <button ng-click="save()" class="btn btn-success">Save</button>
-            </td>
-            <td></td>
-        </tr>
-    </table>
-    <br>
+                    <table class="table">
+                        <tr>
+                            <td>Username</td>
+                            <td colspan="2">{{ user.username }}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td colspan="2"><input type="text" ng-model="user.email"></td>
+                        </tr>
+                        <tr>
+                            <td>New Password</td>
+                            <td><input type="password" ng-model="user.new_password"></td>
+                            <td><i>(Leave blank to leave password unchanged)</i></td>
+                        </tr>
+                        <tr>
+                            <td>Repeat new password</td>
+                            <td><input type="password" ng-model="user.repeat_new_password"></td>
+                            <td><i>(Leave blank to leave password unchanged)</i></td>
+                        </tr>
 
-</div>
 
-<div ng-show="isLoading">
-    <loader size="large"></loader>
-</div>
+                    </table>
 
-<script type="text/ng-template" id="saveModalContent.html">
-    <div class="modal-header">
-        <div>
-            <h3 style="display: inline">Update user?</h3>
+
+                </tab>
+
+                <tab select="tabSelected(1)" ng-if="user.id">
+                    <tab-heading>
+                        <i class="glyphicon glyphicon-list-alt"></i> Preferences
+                    </tab-heading>
+
+                    <table class="table">
+                        <tr>
+                            <td>Automatically join the game when invited</td>
+                            <td colspan="2"><input type="checkbox" ng-model="user.user_preference.automatically_join_when_invited"></td>
+                        </tr>
+                        <tr>
+                            <td>Receive email when invited/added to the game</td>
+                            <td colspan="2"><input type="checkbox" ng-model="user.user_preference.receive_notifications_when_added_to_game"></td>
+                        </tr>
+                    </table>
+
+
+                </tab>
+
+                <tab select="tabSelected(2)" ng-if="user.id">
+                    <tab-heading>
+                        <i class="fa fa-flag"></i> Role Picks
+                    </tab-heading>
+
+
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>City</td>
+                                <td>Role</td>
+                                <td>Granted</td>
+                                <td>Role Pick Date</td>
+                                <td>Granted Date</td>
+                                <td>Cancel</td>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="6">Pending</td>
+                            </tr>
+                            <tr ng-repeat="rolePick in user.role_picks | filter : { is_resolved : false }">
+                                <td>{{rolePick.city_name}}</td>
+                                <td>{{rolePick.role.name}}</td>
+                                <td>{{rolePick.created_at | localeDate}}</td>
+                                <td></td>
+                                <td><i class="glyphicon glyphicon-question-sign" tooltip="Game has not started yet"></i></td>
+                                <td>
+                                    <button class="btn btn-delete" tooltip="Cancel this Role Pick" ng-if="!rolePick.city_started_at" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
+                                    <loader ng-show="deletingRolePickId == rolePick.id" size="small"></loader>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6">Resolved</td>
+                            </tr>
+                            <tr ng-repeat="rolePick in user.role_picks | filter : { is_resolved : true }">
+                                <td>{{rolePick.city_name}}</td>
+                                <td>{{rolePick.role.name}}</td>
+                                <td>{{rolePick.created_at | localeDate}}</td>
+                                <td>{{rolePick.city_started_at | localeDate}}</td>
+                                <td tooltip="If the wanted role was not granted, someone requested it before you."><img-bool boolean-value="rolePick.city_id"></img-bool></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </tab>
+
+
+                <tab select="tabSelected(3)" ng-if="user.id">
+                    <tab-heading>
+                        <i class="glyphicon glyphicon-gift"></i> Purchases
+                    </tab-heading>
+
+                    <accordion close-others="false">
+                        <accordion-group heading="Subscriptions" is-open="true">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <td>Type</td>
+                                        <td>Expiration Date</td>
+                                        <td>Valid</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="subscriptionPurchase in user.subscription_purchases">
+                                        <td>{{subscriptionPurchase.subscription_type}}</td>
+                                        <td>{{subscriptionPurchase.expiration_date | localeDate}}</td>
+                                        <td><img-bool boolean-value="subscriptionPurchase.is_valid"></img-bool> </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </accordion-group>
+
+                        <accordion-group heading="Games">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <td>Purchased At</td>
+                                        <td>Used</td>
+                                        <td>Created City</td>
+                                        <td tooltip="Date when created game(city) was started.">Date Used</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="gamePurchase in user.game_purchases">
+                                        <td>{{gamePurchase.created_at | localeDate}}</td>
+                                        <td><img-bool boolean-value="gamePurchase.city_id"></img-bool></td>
+                                        <td>{{gamePurchase.city_name}}</td>
+                                        <td>{{gamePurchase.city_started_at | localeDate}}</td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </accordion-group>
+
+                        <accordion-group heading="Role Picks">
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <td>Purchased At</td>
+                                        <td>Used</td>
+                                        <td tooltip="Date when the game (the one that granted the requested role) started.">Used At</td>
+                                        <td>City</td>
+                                        <td>Role</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="rolePickPurchase in user.role_pick_purchases">
+                                        <td>{{rolePickPurchase.created_at | localeDate}}</td>
+                                        <td><img-bool boolean-value="rolePickPurchase.role_pick"></img-bool></td>
+                                        <td>{{rolePickPurchase.role_pick.city_started_at | localeDate}}</td>
+                                        <td>{{rolePickPurchase.role_pick.city_name}}</td>
+                                        <td>{{rolePickPurchase.role_pick.role.name}}</td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+                        </accordion-group>
+                    </accordion>
+
+                </tab>
+
+            </tabset>
+
         </div>
-    </div>
-    <div class="modal-body">
-        Enter password: <input type="password" ng-model="credentials.password">
-    </div>
 
-    <button ng-click="cancel()" class="btn btn-default">Cancel</button>
-    <button ng-click="ok()" class="btn btn-danger">Confirm</button>
-</script>
-
-<script type="text/ng-template" id="deleteModalContent.html">
-    <div class="modal-header">
-        <div>
-            <h3 style="display: inline">Delete this user?</h3> <h3 style="display: inline; color: red;">*</h3>
+        <div ng-show="isLoading">
+            <loader size="large"></loader>
         </div>
-        <p style="color:red; display: inline"> * </p> - cannot be undone
-    </div>
-    <div class="modal-body">
-        Enter password: <input type="password" ng-model="credentials.password">
-    </div>
 
-    <button ng-click="cancel()" class="btn btn-default">Cancel</button>
-    <button ng-click="ok()" class="btn btn-danger">Confirm</button>
-</script>
+
+
+        <script type="text/ng-template" id="saveModalContent.html">
+            <div class="modal-save-user-profile">
+                <div class="modal-header">
+                    <div>
+                        <h3 style="display: inline">Update user?</h3>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-input-form">
+                        Enter password: <input type="password" ng-model="credentials.password">
+                    </div>
+
+                    <div class="modal-body-bottom-buttons">
+                        <button ng-click="cancel()" class="btn btn-back">Cancel</button>
+                        <button ng-click="ok()" class="btn btn-save">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="deleteModalContent.html">
+            <div class="modal-delete-user">
+                <div class="modal-header">
+                    <div>
+                        <h3 style="display: inline;">Delete this user?</h3> <h3 class="warning-appendix">*</h3>
+                    </div>
+                    <p class="warning-appendix"> * </p> - cannot be undone
+                </div>
+                <div class="modal-body">
+                    <div class="modal-input-form">
+                        Enter password: <input type="password" ng-model="credentials.password">
+                    </div>
+                    <div class="modal-body-bottom-buttons">
+                        <button ng-click="cancel()" class="btn btn-back">Cancel</button>
+                        <button ng-click="ok()" class="btn btn-delete">Confirm</button>
+                    </div>
+                </div>
+            </div>
+    </script>
+    </div>
+</div>
