@@ -130,6 +130,42 @@ input, textarea, select {
     margin-bottom: 20px;
 }
 
+/* BEGIN register */
+
+.register {
+    padding: 15px;
+}
+
+.register-buttons-bar {
+    padding: 15px;
+}
+
+/* END register */
+
+
+/* BEGIN forgot password */
+
+.forgot-password-modal {
+    background-color: #322213;
+    color: #ffffff;
+    font-weight: 700;
+    border-radius: 5px;
+}
+
+
+.forgot-password-modal .bottom-buttons {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+}
+
+.forgot-password-modal input {
+    color: #000000;
+}
+
+/* END forgot password */
+
+
 /* BEGIN cities */
 
 .cities {
@@ -734,6 +770,14 @@ tr.invite-users-table-loader-row  {
 
 /* END gameOverResult */
 
+
+/* BEGIN discussion */
+
+.discussion-control-buttons {
+    padding: 15px;
+}
+
+/* END discussion */
 
 
 /* BEGIN admin */

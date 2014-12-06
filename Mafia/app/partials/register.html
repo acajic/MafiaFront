@@ -1,35 +1,50 @@
-<button ng-click="back()" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
+<div id="content-header">
+    <div id="header-auth">
+        <auth></auth>
+    </div>
 
-<div id="info-box">
-    <alert ng-repeat="alert in infos" type="alert.type" close="closeInfoAlert($index)">{{alert.msg}}</alert>
-</div>
-<div ng-hide="isLoading">
+    <div class="title textonly">Register</div>
 
-    <table>
-        <tr>
-            <td>Username<p style="color: red; display: inline">*</p></td>
-            <td><input type="text" ng-model="newUser.username"></td>
-        </tr>
-        <tr>
-            <td>Email<p style="color: red; display: inline">*</p></td>
-            <td><input type="email" ng-model="newUser.email"></td>
-        </tr>
-        <tr>
-            <td>Password<p style="color: red; display: inline">*</p></td>
-            <td><input type="password" ng-model="newUser.password"></td>
-        </tr>
-        <tr>
-            <td>Repeat password<p style="color: red; display: inline">*</p></td>
-            <td><input type="password" ng-model="newUser.repeat_password"></td>
-        </tr>
-    </table>
-    <br>
-    <p style="color: red; display: inline">*</p> - required fields
+    <div id="info-box">
+        <alert ng-repeat="alert in infos" type="alert.type" close="closeInfoAlert($index)">{{alert.msg}}</alert>
+    </div>
 
-    <br>
-    <button ng-click="register()">Register</button>
+    <div class="register-buttons-bar">
+        <button ng-click="back()" class="btn btn-back"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
+    </div>
 </div>
 
-<div ng-show="isLoading">
-    <loader size="large"></loader>
+<div id="content-body" class="register">
+
+    <div ng-hide="isLoading">
+
+        <table class="table">
+            <tr>
+                <td>Username<p class="warning-appendix">*</p></td>
+                <td><input type="text" ng-model="newUser.username"></td>
+            </tr>
+            <tr>
+                <td>Email<p class="warning-appendix">*</p></td>
+                <td><input type="email" ng-model="newUser.email"></td>
+            </tr>
+            <tr>
+                <td>Password<p class="warning-appendix">*</p></td>
+                <td><input type="password" ng-model="newUser.password"></td>
+            </tr>
+            <tr>
+                <td>Repeat password<p class="warning-appendix">*</p></td>
+                <td><input type="password" ng-model="newUser.repeat_password"></td>
+            </tr>
+        </table>
+        <br>
+        <p class="warning-appendix">*</p> - required fields
+
+        <br>
+        <button class="btn btn-save" ng-click="register()">Register</button>
+    </div>
+
+    <div ng-show="isLoading">
+        <loader size="large"></loader>
+    </div>
+
 </div>

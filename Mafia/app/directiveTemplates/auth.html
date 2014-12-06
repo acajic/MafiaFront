@@ -33,17 +33,21 @@
 
 
 <script type="text/ng-template" id="forgotPasswordModalContent.html">
-    <div class="modal-header">
-        <div>
-            <h3 style="display: inline">Request password reset?</h3>
-            <br/>
-            Confirmation email will be sent to the email address that you input.
+    <div class="forgot-password-modal">
+        <div class="modal-header">
+            <div>
+                <h3 style="display: inline">Request password reset?</h3>
+                <br/>
+                Confirmation email will be sent to the email address that you input.
+            </div>
+        </div>
+        <div class="modal-body">
+            Enter email address: <input type="email" ng-model="form.email">
+        </div>
+
+        <div class="bottom-buttons">
+            <button ng-click="cancel()" class="btn btn-back">Cancel</button>
+            <button ng-click="ok()" class="btn btn-save">Confirm</button>
         </div>
     </div>
-    <div class="modal-body">
-        Enter email address: <input type="email" ng-model="form.email">
-    </div>
-
-    <button ng-click="cancel()" class="btn btn-default">Cancel</button>
-    <button ng-click="ok()" class="btn btn-success">Confirm</button>
 </script>
