@@ -1,5 +1,21 @@
-<button ng-click="backToCity()" class="btn btn-default">
-    Back
-</button>
 
-<dir-disqus disqus-shortname="mafiafer" disqus-identifier="city{{ cityId }}" disqus-url="{{ url }}" ready-to-bind="{{ cityId }}"></dir-disqus>
+<div id="content-header">
+    <div id="header-auth">
+        <auth></auth>
+    </div>
+
+    <div class="title textonly">{{city.name}} Discussion</div>
+
+    <div class="discussion-control-buttons">
+        <button ng-click="backToCity()" class="btn btn-back">
+            Back
+        </button>
+    </div>
+
+</div>
+
+
+<div id="content-body">
+    <dir-disqus disqus-shortname="mafiafer" disqus-identifier="city{{ cityId }}" disqus-url="{{ url }}" ready-to-bind="{{ cityId }}"></dir-disqus>
+</div>
+

@@ -1,72 +1,109 @@
+<div id="content-header">
+    <div id="header-auth">
+        <auth></auth>
+    </div>
 
-<div class="title">{{city.name}}</div>
+    <div class="title textonly">{{city.name}}</div>
 
-<div class="col-md-6 nopadding">
+    <div class="city-info-header">
+        <div ng-if="!city.finished_at && !city.paused" class="col-md-3 city-info-box" style="text-align: center;">
+            <div>
+                <current-day></current-day>
+            </div>
+        </div>
+        <div ng-if="!city.finished_at && !city.paused" class="col-md-3 city-info-box" style="text-align: center;">
+            <div>
+                <city-timer city="city" next-moment="nextMoment" on-day-start="" on-night-start=""></city-timer>
 
+                <div class="day-cycle-phase">
 
-    <div ng-if="!city.finished_at && !city.paused">
-        <current-day></current-day>
+                    <div ng-if="nextMoment && !nextMoment.isDayStart && refreshCountdownTicks == 0"> <i class="fa fa-sun-o fa-5x"></i> DAYTIME</div>
+                    <div ng-if="nextMoment && nextMoment.isDayStart && refreshCountdownTicks == 0"> <i class="fa fa-moon-o fa-5x"></i> NIGHTTIME</div>
+                    <img ng-if="refreshCountdownTicks > 0" src="content/img/ajax-loader-32.gif" />
+                </div>
 
-        <city-timer city="city" next-moment="nextMoment" on-day-start="" on-night-start=""></city-timer>
+                <div ng-if="nextMoment.time !== undefined">
+                    {{nextMoment.isDayStart ? "Day starts at: " : "Night starts at: "}}
+                    {{(nextMoment.time / 60) | minLength:2}}:{{(nextMoment.time % 60) | minLength:2}}
+                </div>
+            </div>
+        </div>
+        <div ng-if="city.finished_at" class="col-md-6 city-info-box city-info-box-game-over">
+            <div>
+                <img src="content/img/lock-icon.png" style="width: 100px; height: 100px;" />
+                Game over. {{ gameOverDeclarationOfWinners }}
+            </div>
+        </div>
+        <div ng-if="city.paused" class="col-md-6 city-info-box city-info-box-game-paused">
+            <div>
+                <current-day></current-day>
 
-        <div class="day-cycle-phase">
+                <div class="day-cycle-phase">
+                    <img ng-if="city.paused_during_day" src="content/img/day.png" style="width: 100px; height: 100px;" />
+                    <img ng-if="!city.paused_during_day" src="content/img/night.png" style="width: 100px; height: 100px;" />
+                </div>
 
-            <div ng-if="nextMoment && !nextMoment.isDayStart && refreshCountdownTicks == 0"> <i class="fa fa-sun-o fa-5x"></i> DAYTIME</div>
-            <div ng-if="nextMoment && nextMoment.isDayStart && refreshCountdownTicks == 0"> <i class="fa fa-moon-o fa-5x"></i> NIGHTTIME</div>
-            <img ng-if="refreshCountdownTicks > 0" src="content/img/ajax-loader-32.gif" />
+                <img src="content/img/pause-icon.png" style="width: 100px; height: 100px;" />
+                Paused at: {{ city.last_paused_at | localeDate }}
+            </div>
         </div>
 
-        <div ng-if="nextMoment.time !== undefined">
-            {{nextMoment.isDayStart ? "Day starts at: " : "Night starts at: "}}
-            {{(nextMoment.time / 60) | minLength:2}}:{{(nextMoment.time % 60) | minLength:2}}
+
+    </div>
+
+    <div class="col-md-3 role-chooser-container city-info-box" style="text-align: center;">
+        <div class="city-role-info-box">
+            Your role: <br/>
+            <role-chooser city="city" role-id="resident.role.id" role-selected="roleSelected" edit-mode="roleChooserEditMode" enable-role-saving="true"></role-chooser>
         </div>
     </div>
-    <div ng-if="city.finished_at">
-        <img src="content/img/lock-icon.png" style="width: 100px; height: 100px;" />
-        Game over. {{ gameOverDeclarationOfWinners }}
+    <div class="col-md-3 city-info-box" style="text-align: center;">
+        <div class="city-alive-info-box">
+            <div ng-if="resident.alive === false" class="resident-dead">
+                <img src="content/img/resident-dead.png" style="height: 140px">
+                You are dead
+            </div>
+            <div ng-if="resident.alive === true" class="resident-alive">
+                <i class="glyphicon glyphicon-heart" style="font-size: 65px;"></i><br/>
+                You are alive
+            </div>
+        </div>
     </div>
-    <div ng-if="city.paused">
-        <current-day></current-day>
 
-        <div class="day-cycle-phase">
-            <img ng-if="city.paused_during_day" src="content/img/day.png" style="width: 100px; height: 100px;" />
-            <img ng-if="!city.paused_during_day" src="content/img/night.png" style="width: 100px; height: 100px;" />
+
+
+
+    <div style="clear: both; height: 20px"></div>
+</div>
+
+
+
+<div id="content-body">
+    <div class="city">
+        <div id="basic-validation-error" style="clear: both">
+            <alert ng-repeat="alert in basicValidationErrors" type="alert.type" close="closeBasicValidationAlert($index)">{{alert.msg}}</alert>
         </div>
 
-        <img src="content/img/pause-icon.png" style="width: 100px; height: 100px;" />
-        Paused at: {{ city.last_paused_at | localeDate }}
+        <role city="city"
+              resident="resident"
+              action-results="actionResults"
+              is-loading="isLoading"
+              is-loading-action-results="isLoadingActionResults"
+              action-results-by-type="actionResultsByType"
+              tab-active="tabActive"
+              day-number-min="dayNumberMin"
+              day-number-max="dayNumberMax"
+              has-earlier-action-results="hasEarlierActionResults"
+              load-earlier-action-results="loadEarlierActionResults"
+              has-more-recent-action-results="hasMoreRecentActionResults"
+              load-more-recent-action-results="loadMoreRecentActionResults">
+
+        </role>
+
+        <div class="city-join-discussion">
+            <button ng-click="joinDiscussion()" class="col-md-12 btn btn-join-discussion" ng-if="city.id">
+                Discussion - {{city.name}}
+            </button>
+        </div>
     </div>
-
-    <div class="role-chooser-container">
-    Your role: <role-chooser city="city" role-id="resident.role.id" role-selected="roleSelected" edit-mode="roleChooserEditMode" enable-role-saving="true"></role-chooser>
-    </div>
 </div>
-<div ng-if="resident.alive === false" class="resident-dead" class="col-md-6">
-    <img  src="content/img/resident-dead.png" style="height: 140px">
-    You are dead
-</div>
-
-
-<div id="basic-validation-error" style="clear: both">
-    <alert ng-repeat="alert in basicValidationErrors" type="alert.type" close="closeBasicValidationAlert($index)">{{alert.msg}}</alert>
-</div>
-
-<role city="city"
-      resident="resident"
-      action-results="actionResults"
-      is-loading="isLoading"
-      is-loading-action-results="isLoadingActionResults"
-      action-results-by-type="actionResultsByType"
-      tab-active="tabActive"
-      day-number-min="dayNumberMin"
-      day-number-max="dayNumberMax"
-      has-earlier-action-results="hasEarlierActionResults"
-      load-earlier-action-results="loadEarlierActionResults"
-      has-more-recent-action-results="hasMoreRecentActionResults"
-      load-more-recent-action-results="loadMoreRecentActionResults">
-
-</role>
-
-<button ng-click="joinDiscussion()" class="col-md-12 btn btn-info" ng-if="city.id">
-    Discussion - {{city.name}}
-</button>

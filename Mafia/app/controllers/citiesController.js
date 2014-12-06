@@ -10,6 +10,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
     $scope.reloadAllCities = function(refresh) {
 
         $scope.isLoadingContentAllCities = true;
+        $scope.showLoadAdditionalAllCitiesButton = false;
 
         if (refresh) {
             pageIndexAllCities = 0;
@@ -23,8 +24,10 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
             $scope.isLoadingContentAllCities = false;
             if (citiesResult.length < pageSizeAllCities) {
                 $scope.noMoreContentAllCities = true;
+                $scope.showLoadAdditionalAllCitiesButton = false;
             } else {
                 $scope.noMoreContentAllCities = false;
+                $scope.showLoadAdditionalAllCitiesButton = true;
             }
 
             pageIndexAllCities++;
@@ -42,6 +45,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
     $scope.reloadMyCities = function(refresh) {
 
         $scope.isLoadingContentMyCities = true;
+        $scope.showLoadAdditionalMyCitiesButton = false;
 
         if (refresh) {
             pageIndexMyCities = 0;
@@ -56,8 +60,10 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
                 $scope.isLoadingContentMyCities = false;
                 if (citiesResult.length < pageSizeMyCities) {
                     $scope.noMoreContentMyCities = true;
+                    $scope.showLoadAdditionalMyCitiesButton = false;
                 } else {
                     $scope.noMoreContentMyCities = false;
+                    $scope.showLoadAdditionalMyCitiesButton = true;
                 }
 
                 pageIndexMyCities++;

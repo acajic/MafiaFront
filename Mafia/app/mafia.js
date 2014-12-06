@@ -204,6 +204,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
     $scope.reloadAllCities = function(refresh) {
 
         $scope.isLoadingContentAllCities = true;
+        $scope.showLoadAdditionalAllCitiesButton = false;
 
         if (refresh) {
             pageIndexAllCities = 0;
@@ -217,8 +218,10 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
             $scope.isLoadingContentAllCities = false;
             if (citiesResult.length < pageSizeAllCities) {
                 $scope.noMoreContentAllCities = true;
+                $scope.showLoadAdditionalAllCitiesButton = false;
             } else {
                 $scope.noMoreContentAllCities = false;
+                $scope.showLoadAdditionalAllCitiesButton = true;
             }
 
             pageIndexAllCities++;
@@ -236,6 +239,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
     $scope.reloadMyCities = function(refresh) {
 
         $scope.isLoadingContentMyCities = true;
+        $scope.showLoadAdditionalMyCitiesButton = false;
 
         if (refresh) {
             pageIndexMyCities = 0;
@@ -250,8 +254,10 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
                 $scope.isLoadingContentMyCities = false;
                 if (citiesResult.length < pageSizeMyCities) {
                     $scope.noMoreContentMyCities = true;
+                    $scope.showLoadAdditionalMyCitiesButton = false;
                 } else {
                     $scope.noMoreContentMyCities = false;
+                    $scope.showLoadAdditionalMyCitiesButton = true;
                 }
 
                 pageIndexMyCities++;
@@ -975,7 +981,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
  
 // cityCreateOrUpdateController 
  
-app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $timeout, citiesService, rolesService,
+app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $timeout, citiesService, rolesService, rolePicksService,
                                                          gameEndConditionsService, selfGeneratedResultTypesService,
                                                          authService, usersService, $location, $q, $modal) {
     "use strict";
@@ -1963,10 +1969,44 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.remainingRoles = remainingRoleCount($scope.city);
     }, true);
 
+
+    function changeNewRolePickRole(cityHasRole) {
+        $scope.newRolePickCityHasRole = cityHasRole;
+    }
+
+    function submitRolePick() {
+        if (!$scope.newRolePickCityHasRole)
+            return;
+
+        $scope.isSubmittingRolePick = true;
+        var createRolePickPromise = rolePicksService.createRolePick($scope.city, $scope.newRolePickCityHasRole.role);
+
+        createRolePickPromise.then(function(createdRolePick) {
+            $scope.city.role_picks.push(createdRolePick);
+            $scope.isSubmittingRolePick = false;
+        }, function(reason) {
+            $scope.isSubmittingRolePick = false;
+        });
+    }
+
+    function deleteRolePick(rolePick) {
+        $scope.deletingRolePickId = rolePick.id;
+        rolePicksService.deleteRolePickById(rolePick.id).then(function() {
+            var index = $scope.city.role_picks.indexOf(rolePick);
+            $scope.city.role_picks.splice(index, 1)
+            $scope.deletingRolePickId = null;
+        }, function(reason) {
+            $scope.deletingRolePickId = null;
+
+        });
+
+    }
+
     function initRoles(city, allRoles) {
         $scope.remainingRoles = remainingRoleCount(city);
         initCityHasRoles(city, allRoles);
     }
+
 
     function initGameEndConditions(city) {
         angular.forEach(city.game_end_conditions, function(gameEndCondition) {
@@ -2054,13 +2094,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
                     $scope.generalMessages = [{type: 'success', msg: "Successfully created '" + city.name + "'."}];
                     return city;
                 });
-            } /* else if (citiesService.isCityStarted) {
-                citiesService.isCityStarted = false;
-                cityPromise = citiesService.getCity(cityId, false).then(function(city) {
-                    $scope.generalMessages = [{type: 'success', msg: "Successfully started '" + city.name + "'."}];
-                    return city;
-                });
-            } */ else {
+            } else {
                 cityPromise = citiesService.getCity(cityId, true);
             }
         } else {
@@ -2156,6 +2190,8 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.showLeaveButton = showLeaveButton;
         $scope.leave = leave;
 
+        $scope.closeBasicValidationAlert = closeBasicValidationAlert;
+
 
         $scope.basicValidationErrors = [];
         $scope.timezone = {};
@@ -2181,6 +2217,9 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.closeDayCycleValidationAlert = closeDayCycleValidationAlert;
 
         $scope.remainingRoles = 0;
+        $scope.changeNewRolePickRole = changeNewRolePickRole;
+        $scope.submitRolePick = submitRolePick;
+        $scope.deleteRolePick = deleteRolePick;
 
         $scope.checkedGameEndConditions = {};
         $scope.toggleGameEndCondition = toggleGameEndCondition;
@@ -2237,7 +2276,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
  
 // cityDiscussionController 
  
-app.controller('CityDiscussionController', function ($scope, $routeParams, $location) {
+app.controller('CityDiscussionController', function ($scope, $routeParams, $location, citiesService) {
     "use strict";
 
     var backToCity = function () {
@@ -2248,7 +2287,16 @@ app.controller('CityDiscussionController', function ($scope, $routeParams, $loca
 
     function init() {
         var cityId = parseInt($routeParams["cityId"]);
+
         $scope.cityId = cityId;
+
+        var cityPromise = citiesService.getCity(cityId);
+
+        cityPromise.then(function(city) {
+            $scope.city = city;
+        }, function(reason) {
+            console.log('Failed to retrieve city for city id: ' + cityId);
+        });
 
         $scope.url = $location.absUrl();
 
@@ -2320,7 +2368,7 @@ app.controller('RegisterController', function ($scope, $location, $timeout, user
  
 // userProfileController 
  
-app.controller('UserProfileController', function ($scope, $location, $modal, $timeout, usersService, authService, layoutService) {
+app.controller('UserProfileController', function ($scope, $location, $modal, $timeout, usersService, authService, layoutService, rolePicksService) {
     "use strict";
 
     var user = {
@@ -2334,6 +2382,9 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
     };
 
 
+    var back = function() {
+        $location.path('/cities');
+    };
 
     var save = function() {
         var user = $scope.user;
@@ -2454,6 +2505,20 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
         };
     };
 
+
+    var deleteRolePick = function(rolePick) {
+        $scope.deletingRolePickId = rolePick.id;
+        var index = $scope.user.role_picks.indexOf(rolePick);
+        rolePicksService.deleteRolePickById(rolePick.id).then(function() {
+            $scope.deletingRolePickId = null;
+            $scope.user.role_picks.splice(index, 1);
+        }, function(reason) {
+            $scope.deletingRolePickId = null;
+        });
+
+    };
+
+
     init();
 
     function init() {
@@ -2469,8 +2534,11 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
         });
 
 
+        $scope.back = back;
         $scope.save = save;
         $scope.infos = [];
+
+        $scope.deleteRolePick = deleteRolePick;
     }
 
 }); 
@@ -3140,8 +3208,7 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
 
             scope.user = {
                 username : "",
-                password : "",
-                signedId : false
+                password : ""
             };
 
             scope.loader = {
@@ -3150,7 +3217,7 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
 
             scope.$watch('user', function(newUser) {
                 if (newUser['emailConfirmationCode']) {
-                    if (!newUser.signedIn)
+                    if (!newUser.id)
                         signIn();
                 }
             }, true);
@@ -3171,13 +3238,12 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
                 userMePromise.then(function(userMe) {
 
                     scope.user = userMe;
-                    scope.user.signedIn = true;
                     scope.user.password = "";
 
                     scope.loader.isLoading = false;
 
                 }, function(reason) {
-                    scope.user.signedIn = false;
+                    scope.user.id = null;
                     scope.loader.isLoading = false;
 
                     if (!reason.httpObj)
@@ -8192,6 +8258,43 @@ app.directive('imgCityStatus', function() {
     };
 }); 
  
+// acCheckbox 
+ 
+app.directive('acCheckbox', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/utility/acCheckbox.html',
+        scope: {
+            ngModel: '='
+        },
+        transclude: true,
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            scope.acCheckboxId = attrs.id;
+
+            var checked = element.find('.checked');
+            checked.hide();
+            var unchecked = element.find('.unchecked');
+            unchecked.hide();
+
+            scope.$watch('ngModel', function(newNgModel, oldNgModel) {
+                var checked = element.find('.checked');
+                var unchecked = element.find('.unchecked');
+
+                if (newNgModel === true) {
+                    checked.show();
+                    unchecked.hide();
+                } else {
+                    checked.hide();
+                    unchecked.show();
+                }
+            });
+        }
+    };
+}); 
+ 
 // interactiveTableDirective 
  
 app.directive('interactiveTable', function() {
@@ -9348,6 +9451,38 @@ app.factory('residentsService', function($q, serverService) {
     };
 }); 
  
+// rolePicksService 
+ 
+app.factory('rolePicksService', function(serverService) {
+    "use strict";
+
+    var getMyRolePicks = function(pageIndex, pageSize) {
+        return serverService.get('role_picks', {
+            pageIndex: pageIndex,
+            pageSize: pageSize
+        });
+    };
+
+    var createRolePick = function(city, role) {
+        return serverService.post('role_picks', {
+            role_pick: {
+                city_id : city.id,
+                role_id : role.id
+            }
+        });
+    };
+
+    var deleteRolePickById = function(rolePickId) {
+        return serverService.delete('role_picks/' + rolePickId, {});
+    };
+
+    return {
+        getMyRolePicks: getMyRolePicks,
+        createRolePick: createRolePick,
+        deleteRolePickById: deleteRolePickById
+    };
+}); 
+ 
 // rolesService 
  
 var AFFILIATION_ID_CITIZENS = 1;
@@ -9467,7 +9602,7 @@ app.service('serverService', function ($q) {
     var productionServer = 'http://188.226.245.205:3000';
     var developmentServer = 'http://localhost:3000';
 
-    this.serverHost = developmentServer;
+    this.serverHost = productionServer;
 
 
 

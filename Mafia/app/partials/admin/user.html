@@ -1,12 +1,26 @@
-<div>
+<div id="content-header">
+    <div id="header-auth">
+        <auth></auth>
+    </div>
+
+    <div class="title textonly small">User: {{inspectedUser.username}}</div>
+
+    <div class="alert">
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+    </div>
+
+    <div class="admin-user-button-controls">
+        <button class="btn btn-back" ng-click="cancel()" ng-hide="isProcessing">Back</button>
+        <button class="btn btn-save" ng-click="saveUser()" ng-if="canSave" ng-hide="isProcessing">Save</button>
+        <button class="btn btn-delete" ng-click="deleteUser()" ng-if="canDelete" ng-hide="isProcessing">Delete</button>
+        <button class="btn btn-explore" ng-click="impersonate()" ng-if="roleEditable" ng-hide="isProcessing">Impersonate</button>
+        <loader size="small" ng-if="isProcessing"></loader>
+    </div>
+</div>
+
+<div id="content-body" class="admin-user">
     <table class="table sidetable">
         <tbody>
-        <tr>
-            <td></td>
-            <td colspan="3">
-                <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-            </td>
-        </tr>
 
         <tr>
             <td>Username</td>
@@ -24,7 +38,7 @@
                 <img-bool boolean-value="inspectedUser.email_confirmed" ng-hide="canAlterEmailConfirmed"></img-bool>
                 <input type="checkbox" ng-model="inspectedUser.email_confirmed" ng-if="canAlterEmailConfirmed">
             </td>
-            <td><button class="btn btn-primary" ng-click="resendConfirmationEmail()">Resend Confirmation Email</button></td>
+            <td><button class="btn btn-explore" ng-click="resendConfirmationEmail()">Resend Confirmation Email</button></td>
             <td><loader size="small" ng-if="isSendingConfirmationEmail"></loader> </td>
         </tr>
 
@@ -67,16 +81,6 @@
             <td colspan="3">{{ inspectedUser.updated_at | localeDate }}</td>
         </tr>
 
-        <tr>
-            <td></td>
-            <td colspan="3">
-                <button class="btn btn-default" ng-click="cancel()">Back</button>
-                <button class="btn btn-success" ng-click="saveUser()" ng-if="canSave">Save</button>
-                <button class="btn btn-danger" ng-click="deleteUser()" ng-if="canDelete">Delete</button>
-                <button class="btn btn-primary" ng-click="impersonate()" ng-if="roleEditable">Impersonate</button>
-                <loader size="small" ng-if="isProcessing"></loader>
-            </td>
-        </tr>
 
 
         </tbody>
