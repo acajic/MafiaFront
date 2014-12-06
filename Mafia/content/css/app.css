@@ -200,7 +200,8 @@ input, textarea, select {
 
 .cities-top-button-controls-bar {
     padding-left: 15px;
-    padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
 }
 
 .btn-back, .btn-join-discussion {
@@ -330,6 +331,7 @@ ac-checkbox span {
 .alert {
     padding-left: 15px;
     padding-right: 15px;
+    margin-bottom: 0px;
 }
 
 .alert-danger {
