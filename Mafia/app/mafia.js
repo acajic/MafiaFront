@@ -2458,7 +2458,7 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
         };
     };
 
-    $scope.closeInfoAlert = function(index) {
+    $scope.closeUserProfileInfoAlert = function(index) {
         $scope.userProfileInfos.splice(index, 1);
     };
 
