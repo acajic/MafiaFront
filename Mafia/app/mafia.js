@@ -2389,18 +2389,18 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
     var save = function() {
         var user = $scope.user;
         if (user.username.length == 0) {
-            $scope.infos.push({type: 'danger', msg: 'Username must not be empty.'});
+            $scope.userProfileInfos.push({type: 'danger', msg: 'Username must not be empty.'});
         }
 
         /*
         if (!user.new_password || user.new_password.length == 0) {
-            $scope.infos.push({type: 'danger', msg: 'New password must not be empty.'});
+            $scope.userProfileInfos.push({type: 'danger', msg: 'New password must not be empty.'});
             return;
         }
         */
 
         if (user.repeat_new_password != user.new_password) {
-            $scope.infos.push({type: 'danger', msg: 'Repeated new password don\'t match the new password.'});
+            $scope.userProfileInfos.push({type: 'danger', msg: 'Repeated new password don\'t match the new password.'});
             return;
         }
 
@@ -2419,7 +2419,7 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
 
         modalInstance.result.then(function (password) {
             if (!password || password.length == 0) {
-                $scope.infos.push({type: 'danger', msg: 'Current password must not be empty.'});
+                $scope.userProfileInfos.push({type: 'danger', msg: 'Current password must not be empty.'});
                 return;
             }
 
@@ -2429,14 +2429,14 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
             $scope.isLoading = true;
             updateUserPromise.then(function() {
                 $timeout(function() {
-                    $scope.infos.push({type : 'success', msg: 'Successfully updated user ' + $scope.user.username + '.'});
+                    $scope.userProfileInfos.push({type : 'success', msg: 'Successfully updated user ' + $scope.user.username + '.'});
                     $scope.isLoading = false;
                 });
 
             }, function(reason) {
                 $timeout(function() {
                     $scope.isLoading = false;
-                    $scope.infos.push({type : 'danger', msg: reason.httpObj.responseText });
+                    $scope.userProfileInfos.push({type : 'danger', msg: reason.httpObj.responseText });
                 });
             });
 
@@ -2459,7 +2459,7 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
     };
 
     $scope.closeInfoAlert = function(index) {
-        $scope.infos.splice(index, 1);
+        $scope.userProfileInfos.splice(index, 1);
     };
 
     $scope.deleteUser = function() {
@@ -2484,7 +2484,7 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
                 usersService.userDeleted = $scope.user;
                 $location.path('');
             }, function(reason) {
-                $scope.infos.push({type: 'danger', msg: "User is not deleted." });
+                $scope.userProfileInfos.push({type: 'danger', msg: "User is not deleted." });
             });
 
         }, function () {
@@ -2536,7 +2536,7 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
 
         $scope.back = back;
         $scope.save = save;
-        $scope.infos = [];
+        $scope.userProfileInfos = [];
 
         $scope.deleteRolePick = deleteRolePick;
     }
