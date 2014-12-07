@@ -716,6 +716,10 @@ tr.invite-users-table-loader-row  {
     font-size: 20px;
 }
 
+.resident-dead-img {
+    -webkit-filter: invert(100%);
+}
+
 .role-chooser-container {
     font-size: 20px;
 }
