@@ -100,9 +100,14 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
             $scope.generalMessages = [{type: 'success', msg: "Successfully started '" + city.name + "'."}];
         }, function(reason) {
+            var message = '';
+            for (var key in reason.httpObj.responseJSON) {
+                message += reason.httpObj.responseJSON[key] + '. ';
+            }
+
             $timeout(function() {
                 $scope.disableCityControls = false;
-                $scope.generalMessages = [{type: 'danger', msg: 'Failed to start city.' }];
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to start city. ' + message }];
             });
 
         });
@@ -386,7 +391,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
     }
 
-    function isCityModified(city) {
+    function isCityUnmodified(city) {
         return angular.equals(city, originalCity);
     }
 
@@ -1193,7 +1198,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.pause = pause;
         $scope.showResumeButton = showResumeButton;
         $scope.resume = resume;
-        $scope.isCityModified = isCityModified;
+        $scope.isCityUnmodified = isCityUnmodified;
 
         $scope.showJoinButton = showJoinButton;
         $scope.join = join;
