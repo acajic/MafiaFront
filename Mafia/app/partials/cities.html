@@ -211,7 +211,9 @@
             <button ng-if="showEditButtonForCity(selectedCity)" ng-click="editCity(selectedCity)" class="btn btn-edit-city"><i class="glyphicon glyphicon-cog"></i>Edit</button>
             <button ng-if="!showEditButtonForCity(selectedCity)" ng-click="showCity(selectedCity)" class="btn btn-details-city"><i class="glyphicon glyphicon-dashboard"></i>Details</button>
             <button ng-if="showEnterButtonForCity(selectedCity)" ng-click="enterCity(selectedCity)" class="btn btn-enter-city"><i class="fa fa-gamepad"></i>Enter</button>
-            <button ng-if="showJoinButtonForCity(selectedCity)" ng-click="joinCity(selectedCity)" class="btn btn-join-city"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
+
+            <input type="password" placeholder="password" ng-model="selectedCity.joinCityPassword" ng-if="showPasswordFieldForCity(selectedCity)" ng-change="joinCityPasswordDidChange()" />
+            <button ng-if="showJoinButtonForCity(selectedCity)" ng-click="joinCity(selectedCity)" class="btn btn-join-city" ng-disabled="!joinCityPasswordMatch"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
             <button ng-if="showAcceptInvitationButtonForCity(selectedCity)" ng-click="acceptInvitationForCity(selectedCity)" class="btn btn-accept-invitation-city"><i class="glyphicon glyphicon-ok-circle"></i>Accept Invitation</button>
 
             <button ng-if="showLeaveButtonForCity(selectedCity)" ng-click="leaveCity(selectedCity)" class="btn btn-leave-city"><i class="glyphicon glyphicon-remove"></i>Leave</button>

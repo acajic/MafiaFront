@@ -177,8 +177,8 @@ app.factory('citiesService', function($q, serverService) {
         });
     };
 
-    var joinCity = function(cityId) {
-        var joinCityPromise = serverService.post('cities/' + cityId + '/join');
+    var joinCity = function(cityId, joinCityPassword) {
+        var joinCityPromise = serverService.post('cities/' + cityId + '/join', {password : joinCityPassword});
 
         joinCityPromise.then(function(cityUpdated) {
             cacheCity(cityUpdated);

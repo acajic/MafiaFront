@@ -129,7 +129,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         });
 
 
-        var joinCityPromise = citiesService.joinCity(city.id);
+        var joinCityPromise = citiesService.joinCity(city.id, $scope.selectedCity.joinCityPassword);
         joinCityPromise.then(function(result) {
             var updatedCity = result.city;
             $timeout(function() {
@@ -307,6 +307,8 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     $scope.citySelected = function (selectedCity) {
         $scope.selectedCity = selectedCity;
+        if (selectedCity)
+            $scope.joinCityPasswordMatch = (selectedCity.hashed_password || '').length == 0;
     };
 
     $scope.tabSelected = function (tabIndex) {
@@ -357,32 +359,27 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     function showEditButtonForCity(city) {
         return city.is_owner;
-        /*
-        if (city)
-            return amICreatorOfCity(city);
-        else
-            return false;
-        */
     }
 
     function showEnterButtonForCity(city) {
         return city && city.started_at && city.is_member;
+    }
 
-        /*if (city && city.started_at)
-            return amIMemberOfCity(city);
-        else
-            return false;
-        */
+
+    function showPasswordFieldForCity(city) {
+        return !city.is_member && !city.is_owner && (city.hashed_password || '').length > 0;
+    }
+
+    function joinCityPasswordDidChange() {
+        var salted_password = $scope.selectedCity.joinCityPassword + ($scope.selectedCity.password_salt || '')
+        var generated_hashed_password = sha256_digest(salted_password)
+        $scope.joinCityPasswordMatch = angular.equals(generated_hashed_password, $scope.selectedCity.hashed_password);
     }
 
     function showJoinButtonForCity(city) {
         return city && !city.started_at && !city.is_join_requested && !city.is_member && !city.is_invited && !city.is_owner;
-
-        /*if (city && !city.started_at)
-            return !amIMemberOfCity(city);
-        else
-            return false;*/
     }
+
 
     function showAcceptInvitationButtonForCity(city) {
         return city && !city.started_at && city.is_invited && !city.is_member;
@@ -390,12 +387,6 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     function showLeaveButtonForCity(city) {
         return city && !city.started_at && city.is_member && !city.is_owner;
-        /*
-        if (city && !city.started_at)
-            return amIMemberOfCity(city) && !amICreatorOfCity(city);
-        else
-            return false;
-        */
     }
 
     function showCancelJoinRequestForCity(city) {
@@ -468,6 +459,10 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         $scope.classNameForAllCitiesRow = classNameForAllCitiesRow;
         $scope.showEditButtonForCity = showEditButtonForCity;
         $scope.showEnterButtonForCity = showEnterButtonForCity;
+
+        $scope.showPasswordFieldForCity = showPasswordFieldForCity;
+
+        $scope.joinCityPasswordDidChange = joinCityPasswordDidChange;
         $scope.showJoinButtonForCity = showJoinButtonForCity;
         $scope.showAcceptInvitationButtonForCity = showAcceptInvitationButtonForCity;
         $scope.showLeaveButtonForCity = showLeaveButtonForCity;

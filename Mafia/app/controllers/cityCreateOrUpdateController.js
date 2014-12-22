@@ -284,7 +284,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
     function join() {
         $scope.disableCityControls = true;
-        var joinPromise = citiesService.joinCity($scope.city.id);
+        var joinPromise = citiesService.joinCity($scope.city.id, null);
         joinPromise.then(function(result) {
             var cityUpdated = result.city;
             $timeout(function() {

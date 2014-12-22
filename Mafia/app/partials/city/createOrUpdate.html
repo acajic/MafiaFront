@@ -84,12 +84,14 @@
                                     <span class="checked"><i class="fa fa-toggle-on"></i> (Public)</span>
 
                                 </ac-checkbox>
+                                <input type="text" placeholder="password (optional)" ng-model="city.password" ng-hide="city.public" />
                             </td>
                         </tr>
                         <tr ng-if="city.started_at">
                             <td class="col-md-1 gray-cell">Visibility</td>
                             <td>
                                 <img-bool boolean-value="city.public"></img-bool>
+                                <span ng-if="city.password && city.is_owner">Password: {{city.password}}</span>
                             </td>
                         </tr>
                         <tr ng-if="city.id === undefined">
