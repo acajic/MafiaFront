@@ -271,6 +271,19 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         });
     }
 
+    function showJoinCityPasswordField(city) {
+        if (!city)
+            return false;
+
+        return !city.is_member && !city.is_owner && (city.hashed_password || '').length > 0;
+    }
+
+    function joinCityPasswordDidChange() {
+        var salted_password = $scope.city.password + ($scope.city.password_salt || '');
+        var generated_hashed_password = sha256_digest(salted_password);
+        $scope.joinCityPasswordMatch = angular.equals(generated_hashed_password, $scope.city.hashed_password);
+    }
+
     function showJoinButton(city) {
         if (!city)
             return false;
@@ -284,7 +297,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
     function join() {
         $scope.disableCityControls = true;
-        var joinPromise = citiesService.joinCity($scope.city.id, null);
+        var joinPromise = citiesService.joinCity($scope.city.id, $scope.city.password);
         joinPromise.then(function(result) {
             var cityUpdated = result.city;
             $timeout(function() {
@@ -1199,6 +1212,9 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.showResumeButton = showResumeButton;
         $scope.resume = resume;
         $scope.isCityUnmodified = isCityUnmodified;
+
+        $scope.showJoinCityPasswordField = showJoinCityPasswordField;
+        $scope.joinCityPasswordDidChange = joinCityPasswordDidChange;
 
         $scope.showJoinButton = showJoinButton;
         $scope.join = join;

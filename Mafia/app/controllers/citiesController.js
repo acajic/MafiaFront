@@ -367,12 +367,15 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
 
     function showPasswordFieldForCity(city) {
+        if (!city)
+            return false;
+
         return !city.is_member && !city.is_owner && (city.hashed_password || '').length > 0;
     }
 
     function joinCityPasswordDidChange() {
-        var salted_password = $scope.selectedCity.joinCityPassword + ($scope.selectedCity.password_salt || '')
-        var generated_hashed_password = sha256_digest(salted_password)
+        var salted_password = $scope.selectedCity.joinCityPassword + ($scope.selectedCity.password_salt || '');
+        var generated_hashed_password = sha256_digest(salted_password);
         $scope.joinCityPasswordMatch = angular.equals(generated_hashed_password, $scope.selectedCity.hashed_password);
     }
 
