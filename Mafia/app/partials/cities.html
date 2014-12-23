@@ -59,7 +59,7 @@
                         <thead>
                         <tr>
                             <td>
-                                <ac-checkbox ng-model="myCitiesFilterModel.isSearchActive">
+                                <ac-checkbox ng-model="myCitiesFilterModel.isSearchActive" ng-change="myCitiesIsSearchActiveDidChange">
                                     <i class="glyphicon glyphicon-search unchecked"></i>
                                     <i class="glyphicon glyphicon-chevron-left checked"></i>
                                 </ac-checkbox>
@@ -139,7 +139,7 @@
                     <thead>
                     <tr>
                         <td>
-                            <ac-checkbox ng-model="allCitiesFilterModel.isSearchActive">
+                            <ac-checkbox ng-model="allCitiesFilterModel.isSearchActive" ng-change="allCitiesIsSearchActiveDidChange">
                                 <i class="glyphicon glyphicon-search unchecked"></i>
                                 <i class="glyphicon glyphicon-chevron-left checked"></i>
                             </ac-checkbox>

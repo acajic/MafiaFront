@@ -55,6 +55,10 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     };
 
+    $scope.allCitiesIsSearchActiveDidChange = function() {
+        $scope.selectedAllCities.rowId = null;
+    };
+
 
 
     var pageIndexMyCities = 0;
@@ -96,6 +100,10 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
             $scope.isLoadingContentMyCities = false;
         });
 
+    };
+
+    $scope.myCitiesIsSearchActiveDidChange = function() {
+        $scope.selectedMyCities.rowId = null;
     };
 
     $scope.myCitiesSearchAction = function() {

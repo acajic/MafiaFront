@@ -4,7 +4,8 @@ app.directive('acCheckbox', function() {
         restrict : 'E',
         templateUrl: 'app/directiveTemplates/utility/acCheckbox.html',
         scope: {
-            ngModel: '='
+            ngModel: '=',
+            ngChange: '='
         },
         transclude: true,
         link: function(scope, element, attrs) {
@@ -28,7 +29,17 @@ app.directive('acCheckbox', function() {
                     checked.hide();
                     unchecked.show();
                 }
+
+                if (scope.onChange) {
+                    scope.onChange(newNgModel, oldNgModel);
+                }
             });
+
+            scope.checkboxValueDidChange = function() {
+                if (scope.ngChange) {
+                    scope.ngChange();
+                }
+            };
         }
     };
 });
