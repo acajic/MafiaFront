@@ -1,4 +1,4 @@
-app.directive('silentSheriffIdentitiesActionTypeParamsResult', function(actionResultsService) {
+app.directive('deputyIdentitiesActionTypeParamsResult', function(actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -6,7 +6,7 @@ app.directive('silentSheriffIdentitiesActionTypeParamsResult', function(actionRe
             actionTypeParams: '=',
             editMode: '='
         },
-        templateUrl: 'app/directiveTemplates/domain/actionResults/actionTypeParamsResults/silentSheriffIdentitiesActionTypeParamsResult.html',
+        templateUrl: 'app/directiveTemplates/domain/actionResults/actionTypeParamsResults/deputyIdentitiesActionTypeParamsResult.html',
         link: function(scope, element, attrs) {
             "use strict";
 

@@ -1,8 +1,8 @@
-app.directive('silentSheriffIdentitiesResult', function($timeout, actionResultsService) {
+app.directive('deputyIdentitiesResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/actionResults/silentSheriffIdentitiesResult.html',
+        templateUrl: 'app/directiveTemplates/domain/actionResults/deputyIdentitiesResult.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -29,7 +29,7 @@ app.directive('silentSheriffIdentitiesResult', function($timeout, actionResultsS
                 if (!actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
-                            id: ACTION_RESULT_TYPE_ID_SILENT_SHERIFF_IDENTITIES
+                            id: ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES
                         },
                         day: $.grep(city.days, function(someDay) {
                             return someDay.id == city.current_day_id;

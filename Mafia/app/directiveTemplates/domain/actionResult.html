@@ -15,6 +15,6 @@
 
 <journalist-investigate-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE"></journalist-investigate-result>
 
-<silent-sheriff-identities-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_SILENT_SHERIFF_IDENTITIES"></silent-sheriff-identities-result>
+<deputy-identities-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES"></deputy-identities-result>
 
-<resident-became-silent-sheriff-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF"></resident-became-silent-sheriff-result>
+<resident-became-deputy-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY"></resident-became-deputy-result>

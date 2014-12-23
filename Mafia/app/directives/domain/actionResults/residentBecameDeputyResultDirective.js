@@ -1,8 +1,8 @@
-app.directive('residentBecameSilentSheriffResult', function($timeout, actionResultsService) {
+app.directive('residentBecameDeputyResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/actionResults/residentBecameSilentSheriffResult.html',
+        templateUrl: 'app/directiveTemplates/domain/actionResults/residentBecameDeputyResult.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -16,12 +16,12 @@ app.directive('residentBecameSilentSheriffResult', function($timeout, actionResu
                 if (!city)
                     return;
 
-                scope.interpretation = "Silent Sheriff has died and you became the new Silent Sheriff. Congratulations!  You should change your acting role to 'Silent Sheriff' if you want your future actions to take effect.";
+                scope.interpretation = "Deputy has died and you became the new Deputy. Congratulations!  You should change your acting role to 'Deputy' if you want your future actions to take effect.";
 
                 if (!actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
-                            id: ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF
+                            id: ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY
                         },
                         day: $.grep(city.days, function(someDay) {
                             return someDay.id == city.current_day_id;

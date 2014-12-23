@@ -1,8 +1,8 @@
-app.directive('silentSheriff', function() {
+app.directive('deputy', function() {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/roles/silentSheriff.html',
+        templateUrl: 'app/directiveTemplates/domain/roles/deputy.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -18,11 +18,11 @@ app.directive('silentSheriff', function() {
                 if (index >= 0) {
                     var actionTypeParamsPerRolePerActionType = actionResults[index].result['action_types_params'];
 
-                    if (actionTypeParamsPerRolePerActionType[ROLE_ID_SILENT_SHERIFF]) {
-                        if (actionTypeParamsPerRolePerActionType[ROLE_ID_SILENT_SHERIFF][ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES]) {
-                            var silentSheriffIdentitiesActionTypeParams = actionTypeParamsPerRolePerActionType[ROLE_ID_SILENT_SHERIFF][ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES];
+                    if (actionTypeParamsPerRolePerActionType[ROLE_ID_DEPUTY]) {
+                        if (actionTypeParamsPerRolePerActionType[ROLE_ID_DEPUTY][ACTION_TYPE_ID_DEPUTY_IDENTITIES]) {
+                            var deputyIdentitiesActionTypeParams = actionTypeParamsPerRolePerActionType[ROLE_ID_DEPUTY][ACTION_TYPE_ID_DEPUTY_IDENTITIES];
 
-                            var numOfActionsAvailable = silentSheriffIdentitiesActionTypeParams['number_of_actions_available'];
+                            var numOfActionsAvailable = deputyIdentitiesActionTypeParams['number_of_actions_available'];
                             scope.numOfActionsAvailable = numOfActionsAvailable;
                         }
                     }
@@ -33,7 +33,7 @@ app.directive('silentSheriff', function() {
             }, true);
 
 
-            scope.roleId = ROLE_ID_SILENT_SHERIFF;
+            scope.roleId = ROLE_ID_DEPUTY;
 
         }
     };
