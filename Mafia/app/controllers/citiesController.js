@@ -39,6 +39,24 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     };
 
+    $scope.allCitiesSearchAction = function() {
+
+        var searchText = $scope.allCitiesFilterModel.searchText;
+        if (searchText.length < 3) {
+            $scope.allSearchCities = [];
+            return;
+        }
+        var allCitiesForSearchTextPromise = citiesService.getAllCitiesForSearch(searchText);
+        allCitiesForSearchTextPromise.then(function(results) {
+            $scope.allSearchCities = results;
+        }, function(reason) {
+            // error handling ignored
+        });
+
+    };
+
+
+
     var pageIndexMyCities = 0;
     var pageSizeMyCities = 10;
 
@@ -82,8 +100,17 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     $scope.myCitiesSearchAction = function() {
 
-        console.log($scope.myCitiesFilterModel.searchText);
-
+        var searchText = $scope.myCitiesFilterModel.searchText;
+        if (searchText.length < 3) {
+            $scope.mySearchCities = [];
+            return;
+        }
+        var myCitiesForSearchTextPromise = citiesService.getMyCitiesForSearch(searchText);
+        myCitiesForSearchTextPromise.then(function(results) {
+            $scope.mySearchCities = results;
+        }, function(reason) {
+            // error handling ignored
+        });
 
     };
 

@@ -9,8 +9,7 @@ angular.module('ui.acInput', []).directive('acInput', function($timeout) {
         scope: {
             ngModel: '=',
             delay: '=',
-            onDelayAction: '=',
-            minCharacters: '='
+            onDelayAction: '='
         },
         link: function(scope, element, attrs) {
             "use strict";
@@ -23,8 +22,7 @@ angular.module('ui.acInput', []).directive('acInput', function($timeout) {
             scope.inputDidChange = function() {
                 timeOfLastChange = (new Date()).getTime();
                 $timeout(function() {
-                    if (scope.ngModel.length < scope.minCharacters)
-                        return;
+
 
                     var timeNow = (new Date()).getTime();
                     var timeSinceLastChange = timeNow - timeOfLastChange;

@@ -15,7 +15,7 @@ angular.module('ui.acHighlightText', []).filter('acHighlightText', function () {
         else {
             var prefix = inputString.substr(0, index);
             var matched = inputString.substr(index, searchText.length);
-            var suffix = inputString.substring(index+searchText.length, inputString.length-1);
+            var suffix = inputString.substring(index+searchText.length, inputString.length);
 
             var outputHtml = prefix + '<span class="ac-highlight-text-matched">' + matched + '</span>' + suffix;
             return outputHtml;

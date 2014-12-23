@@ -65,7 +65,7 @@
                                 </ac-checkbox>
                                 <span ng-hide="myCitiesFilterModel.isSearchActive">Name</span>
                                 <span ng-show="myCitiesFilterModel.isSearchActive">
-                                    <ac-input type="text" placeholder="Search city by name" ng-model="myCitiesFilterModel.searchText" delay="400" on-delay-action="myCitiesSearchAction" min-characters="3"></ac-input>
+                                    <ac-input type="text" placeholder="Search city by name" ng-model="myCitiesFilterModel.searchText" delay="400" on-delay-action="myCitiesSearchAction"></ac-input>
                                 </span>
                             </td>
                             <td style="text-align: center;">Membership</td>
@@ -145,7 +145,7 @@
                             </ac-checkbox>
                             <span ng-hide="allCitiesFilterModel.isSearchActive">Name</span>
                             <span ng-show="allCitiesFilterModel.isSearchActive">
-                                <ac-input type="text" placeholder="Search city by name" ng-model="allCitiesFilterModel.searchText" delay="400" on-delay-action="allCitiesSearchAction" min-characters="3"></ac-input>
+                                <ac-input type="text" placeholder="Search city by name" ng-model="allCitiesFilterModel.searchText" delay="400" on-delay-action="allCitiesSearchAction"></ac-input>
                             </span>
                         </td>
                         <td style="text-align: center">Visibility</td>
@@ -176,9 +176,9 @@
                         </tr>
                     </tbody>
                     <tbody ng-if="allCitiesFilterModel.isSearchActive">
-                        <tr ng-repeat="city in mySearchCities" ng-class="classNameForMyCitiesRow(city)">
+                        <tr ng-repeat="city in allSearchCities" ng-class="classNameForMyCitiesRow(city)">
                             <input type="hidden" name="id" value="{{ city.id }}">
-                            <td ng-bind-html="renderHtml('{{city.name | acHighlightText: myCitiesFilterModel.searchText}}')"></td>
+                            <td ng-bind-html="renderHtml('{{city.name | acHighlightText: allCitiesFilterModel.searchText}}')"></td>
                             <td style="text-align: center;">
                                 <i class="fa fa-user" ng-if="city.is_member"></i>
                                 <i class="fa fa-question-circle" ng-if="city.is_join_requested"></i>
