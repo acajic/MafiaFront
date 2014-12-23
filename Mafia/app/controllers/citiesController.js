@@ -1,4 +1,4 @@
-app.controller('CitiesController',function ($scope, $routeParams, $timeout, $location, citiesService, authService, modalService, layoutService, rolesService) {
+app.controller('CitiesController',function ($scope, $routeParams, $timeout, $location, $sce, citiesService, authService, modalService, layoutService, rolesService) {
     "use strict";
 
 
@@ -80,8 +80,12 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     };
 
+    $scope.myCitiesSearchAction = function() {
+
+        console.log($scope.myCitiesFilterModel.searchText);
 
 
+    };
 
     $scope.newCity = function () {
         $location.path('/cities/create');
@@ -423,6 +427,12 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
     });
 
 
+    function renderHtml(htmlCode) {
+        return $sce.trustAsHtml(htmlCode);
+    };
+
+
+
 
     init();
 
@@ -477,6 +487,9 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         });
 
         $scope.affiliationIds = rolesService.affiliationIds;
+
+
+        $scope.renderHtml = renderHtml;
     }
 
 }).filter('filterMyCities', function () {

@@ -11,7 +11,7 @@
     <div class="city-control-buttons-bar">
 
         <button ng-click="back()" class="btn btn-back"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
-        
+
         <input type="password" placeholder="password" ng-model="city.password" ng-if="showJoinCityPasswordField(city)" ng-change="joinCityPasswordDidChange()" />
         <button ng-if="showJoinButton(city)" ng-click="join()" class="btn btn-join-city" ng-disabled="!joinCityPasswordMatch"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
         <button ng-if="showCancelJoinRequest(city)" ng-click="cancelJoinRequest()" class="btn btn-cancel-join-request-city"><i class="glyphicon glyphicon-remove-circle"></i>Cancel Join Request</button>
