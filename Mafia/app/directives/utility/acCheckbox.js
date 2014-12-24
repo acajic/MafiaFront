@@ -35,7 +35,7 @@ app.directive('acCheckbox', function() {
                 }
             });
 
-            scope.checkboxValueDidChange = function() {
+            scope.checkboxValueWillChange = function() {
                 if (scope.ngChange) {
                     scope.ngChange();
                 }

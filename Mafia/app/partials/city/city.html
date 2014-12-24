@@ -51,13 +51,13 @@
 
     </div>
 
-    <div class="col-md-3 role-chooser-container city-info-box" style="text-align: center;">
+    <div class="col-md-3 role-chooser-container city-info-box" ng-if="resident" style="text-align: center;">
         <div class="city-role-info-box">
             Your role: <br/>
             <role-chooser city="city" role-id="resident.role.id" role-selected="roleSelected" edit-mode="roleChooserEditMode" enable-role-saving="true"></role-chooser>
         </div>
     </div>
-    <div class="col-md-3 city-info-box" style="text-align: center;">
+    <div class="col-md-3 city-info-box" ng-if="resident" style="text-align: center;">
         <div class="city-alive-info-box">
             <div ng-if="resident.alive === false" class="resident-dead">
                 <img src="content/img/resident-dead.png" style="height: 65px" class="resident-dead-img">
@@ -100,7 +100,7 @@
 
         </role>
 
-        <div class="city-join-discussion">
+        <div class="city-join-discussion" ng-if="resident">
             <button ng-click="joinDiscussion()" class="col-md-12 btn btn-join-discussion" ng-if="city.id">
                 Discussion - {{city.name}}
             </button>

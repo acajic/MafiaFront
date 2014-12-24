@@ -59,13 +59,13 @@
                         <thead>
                         <tr>
                             <td>
-                                <ac-checkbox ng-model="myCitiesFilterModel.isSearchActive" ng-change="myCitiesIsSearchActiveDidChange">
+                                <ac-checkbox ng-model="myCitiesFilterModel.isSearchActive" ng-change="myCitiesIsSearchActiveWillChange">
                                     <i class="glyphicon glyphicon-search unchecked"></i>
                                     <i class="glyphicon glyphicon-chevron-left checked"></i>
                                 </ac-checkbox>
                                 <span ng-hide="myCitiesFilterModel.isSearchActive">Name</span>
                                 <span ng-show="myCitiesFilterModel.isSearchActive">
-                                    <ac-input type="text" placeholder="Search city by name" ng-model="myCitiesFilterModel.searchText" delay="400" on-delay-action="myCitiesSearchAction"></ac-input>
+                                    <ac-input type="text" id="search-my-cities-ac-input" placeholder="Search city by name" ng-model="myCitiesFilterModel.searchText" delay="400" on-delay-action="myCitiesSearchAction"></ac-input>
                                 </span>
                             </td>
                             <td style="text-align: center;">Membership</td>
@@ -139,13 +139,13 @@
                     <thead>
                     <tr>
                         <td>
-                            <ac-checkbox ng-model="allCitiesFilterModel.isSearchActive" ng-change="allCitiesIsSearchActiveDidChange">
+                            <ac-checkbox ng-model="allCitiesFilterModel.isSearchActive" ng-change="allCitiesIsSearchActiveWillChange">
                                 <i class="glyphicon glyphicon-search unchecked"></i>
                                 <i class="glyphicon glyphicon-chevron-left checked"></i>
                             </ac-checkbox>
                             <span ng-hide="allCitiesFilterModel.isSearchActive">Name</span>
                             <span ng-show="allCitiesFilterModel.isSearchActive">
-                                <ac-input type="text" placeholder="Search city by name" ng-model="allCitiesFilterModel.searchText" delay="400" on-delay-action="allCitiesSearchAction"></ac-input>
+                                <ac-input type="text" id="search-all-cities-ac-input" placeholder="Search city by name" ng-model="allCitiesFilterModel.searchText" delay="400" on-delay-action="allCitiesSearchAction" ></ac-input>
                             </span>
                         </td>
                         <td style="text-align: center">Visibility</td>

@@ -55,8 +55,14 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     };
 
-    $scope.allCitiesIsSearchActiveDidChange = function() {
+    $scope.allCitiesIsSearchActiveWillChange = function() {
         $scope.selectedAllCities.rowId = null;
+        if (!$scope.allCitiesFilterModel.isSearchActive) { // about to become TRUE
+            $timeout(function() {
+                $("#search-all-cities-ac-input input[type=text]").focus();
+            }, 100);
+
+        }
     };
 
 
@@ -102,8 +108,14 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     };
 
-    $scope.myCitiesIsSearchActiveDidChange = function() {
+    $scope.myCitiesIsSearchActiveWillChange = function() {
         $scope.selectedMyCities.rowId = null;
+        if (!$scope.myCitiesFilterModel.isSearchActive) { // about to become TRUE
+            $timeout(function() {
+                $("#search-my-cities-ac-input input[type=text]").focus();
+            }, 100);
+
+        }
     };
 
     $scope.myCitiesSearchAction = function() {
@@ -355,6 +367,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         $scope.selectedMyCities.rowId = 0;
     };
 
+    /*
     function amICreatorOfCity(city) {
         if (city) {
             return city.user_creator_id == authService.user.id;
@@ -372,6 +385,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
         return residentMe;
     }
+    */
 
     function classNameForMyCitiesRow(city) {
         if (!city)

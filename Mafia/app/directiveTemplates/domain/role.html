@@ -1,6 +1,6 @@
 <div id="role" ng-hide="isLoading">
 
-    <citizen ng-if="resident.role.id == roleIds.ROLE_ID_CITIZEN"></citizen>
+    <citizen ng-if="!resident || resident.role.id == roleIds.ROLE_ID_CITIZEN"></citizen>
 
     <doctor ng-if="resident.role.id == roleIds.ROLE_ID_DOCTOR"></doctor>
 

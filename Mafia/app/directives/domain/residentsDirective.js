@@ -37,26 +37,10 @@ app.directive('residents', function($timeout, actionResultsService) {
                     scope.residentsCopied = residents;
                 }
             }, true);
-/*
-
-            scope.$watch('city.residentsById', function(residentsById) {
-                if (!residentsById)
-                    return;
-
-                var residents = [];
-                for (var residentId in residentsById) {
-                    if (residentsById.hasOwnProperty(residentId)) {
-                        var resident = residentsById[residentId];
-                        residents.push(angular.copy(resident));
-                    }
-                }
-                scope.residentsCopied = residents;
-            }, true);
-*/
 
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.city.is_member)
                     return;
 
                 scope.editMode = !scope.editMode;
