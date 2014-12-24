@@ -39,63 +39,9 @@ app.config(function ($routeProvider, $locationProvider) {
     }).when('/cities/:cityId/update', {
         controller: 'CityCreateOrUpdateController',
         templateUrl: 'app/partials/city/createOrUpdate.html'
-//        resolve: {
-//            validate: function($q, $location, $route, citiesService, authService) {
-//                var cityId = $route.current.params['cityId'];
-//
-//                var cityPromise = citiesService.getCity(cityId);
-//                var userMePromise = authService.userMe(false);
-//
-//                $q.all([cityPromise, userMePromise]).then(function(result) {
-//                    var city = result[0];
-//                    var userMe = result[1];
-//
-//
-//                    if (city.user_creator_id == userMe.id) {
-//                        // user is creator of selected city
-//                    } else {
-//                        // user is NOT creator of selected city
-//                        $location.path('/cities');
-//                    }
-//                }, function(reason) {
-//                    $location.path('/cities');
-//                });
-//
-//            }
-//        }
     }).when('/cities/:cityId', {
         controller: 'CityController',
         templateUrl: 'app/partials/city/city.html'
-//        resolve: {
-//            validate: function($q, $location, $route, citiesService, authService) {
-//                var cityId = $route.current.params['cityId'];
-//
-//                var cityPromise = citiesService.getCity(cityId);
-//                var userMePromise = authService.userMe(false);
-//
-//                return $q.all([cityPromise, userMePromise], function(result) {
-//                    var city = result[0];
-//                    var userMe = result[1];
-//
-//
-//                    if (!city) {
-//                        $location.path('/cities');
-//                    }
-//
-//                    var resident = $.grep(city.residents, function (someResident) {
-//                        return someResident.user_id == userMe.id;
-//                    })[0];
-//
-//                    if (!resident) {
-//                        $location.path('/cities');
-//                    }
-//
-//                }, function(reason) {
-//                    $location.path('/cities');
-//                });
-//            }
-//        }
-
     }).when('/cities/:cityId/discussion', {
         controller: 'CityDiscussionController',
         templateUrl: 'app/partials/city/cityDiscussion.html'

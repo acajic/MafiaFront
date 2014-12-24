@@ -274,6 +274,10 @@ input, textarea, select {
 }
 
 
+.table-cities tbody tr {
+    cursor: pointer;
+}
+
 
 .selected-city-right-div {
     margin-top: 45px;
@@ -302,8 +306,8 @@ ac-checkbox span {
 /* BEGIN ac-highlight-text-matched */
 
 .ac-highlight-text-matched {
-    color: red;
-    background-color: #ffff00;
+    color: #ffffff;
+    background-color: rgba(80, 127, 0, 0.80);
 }
 
 /* END ac-highlight-text-matched */

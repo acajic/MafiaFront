@@ -377,23 +377,36 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         if (!city)
             return "";
 
-        if (city.is_member)
-            return "city-row-member";
-        if (city.is_invited)
-            return "city-row-invited";
-        if (city.is_join_requested)
-            return "city-row-join-requested";
+        var classes = '';
 
+        if (city.is_member)
+            classes += "city-row-member";
+        if (city.is_invited)
+            classes += "city-row-invited";
+        if (city.is_join_requested)
+            classes += "city-row-join-requested";
+
+        if (city.id == $scope.selectedMyCities.rowId)
+            classes += " selected";
+
+        return classes;
     }
 
     function classNameForAllCitiesRow(city) {
         if (!city)
             return "";
 
+        var classes = '';
+
         if (city.public)
-            return "city-row-public";
+            classes +=  "city-row-public";
         else
-            return "city-row-private";
+            classes +=  "city-row-private";
+
+        if (city.id == $scope.selectedAllCities.rowId)
+            classes += " selected";
+
+        return classes;
     }
 
     function showEditButtonForCity(city) {
