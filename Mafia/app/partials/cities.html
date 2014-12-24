@@ -37,6 +37,11 @@
 
                 <div class="col-md-6 my-cities-with-filters">
                     <div style="width: 100%;" class="city-filters">
+                        <ac-checkbox ng-model="myCitiesFilterModel.isOwner">
+                            <i class="glyphicon glyphicon-unchecked unchecked"></i>
+                            <i class="fa fa-users checked"></i>
+                            Owner
+                        </ac-checkbox>
                         <ac-checkbox ng-model="myCitiesFilterModel.isMember">
                             <i class="glyphicon glyphicon-unchecked unchecked"></i>
                             <i class="fa fa-user checked"></i>
@@ -77,6 +82,7 @@
                                 <input type="hidden" name="id" value="{{ city.id }}">
                                 <td>{{city.name}}</td>
                                 <td style="text-align: center;">
+                                    <i class="fa fa-users" ng-if="city.is_owner"></i>
                                     <i class="fa fa-user" ng-if="city.is_member"></i>
                                     <i class="fa fa-question-circle" ng-if="city.is_join_requested"></i>
                                     <i class="fa fa-envelope" ng-if="city.is_invited"></i>

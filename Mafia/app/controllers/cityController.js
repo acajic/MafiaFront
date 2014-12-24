@@ -59,7 +59,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
                 return someResident.user_id == userMe.id;
             });
             if (userMeResidents.length > 0)
-                $scope.resident = [0];
+                $scope.resident = userMeResidents[0];
 
 
             var roleId = result[2];
@@ -74,7 +74,10 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
                 $scope.basicValidationErrors.push({msg: 'Select your role.' })
                 $scope.roleChooserEditMode = true;
                 $scope.isLoading = false;
+            } else {
+                $scope.isLoading = false;
             }
+
         }, function(reason) {
             $scope.isLoading = false;
         });

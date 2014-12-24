@@ -275,7 +275,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         if (!city)
             return false;
 
-        return !city.is_member && !city.is_owner && (city.hashed_password || '').length > 0;
+        return !city.is_member && (city.hashed_password || '').length > 0;
     }
 
     function joinCityPasswordDidChange() {
@@ -288,11 +288,10 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         if (!city)
             return false;
 
-        var resident = $.grep(city.residents, function(someResident) {
-            return $scope.userMe.id == someResident.user_id;
-        })[0];
+        if ($scope.joinCityPasswordMatch === undefined)
+            $scope.joinCityPasswordMatch = city.hashed_password == null || city.is_owner;
 
-        return !isNew(city) && !city.is_owner && !city.started_at && !city.is_member && !city.is_join_requested && !city.is_invited && !city.finished_at;
+        return !isNew(city) && !city.started_at && !city.is_member && !city.is_join_requested && !city.is_invited && !city.finished_at;
     }
 
     function join() {

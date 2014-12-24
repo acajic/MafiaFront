@@ -10,6 +10,7 @@
         <button ng-click="back()" class="btn btn-back"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
         <button ng-if="showCreateButton(city)" ng-click="create()" class="btn btn-create-new-city"><i class="glyphicon glyphicon-bullhorn"></i>Create</button>
         <button ng-if="showStartButton(city)" ng-click="start()" class="btn btn-start-city" ng-disabled="!isCityUnmodified(city)"><i class="glyphicon glyphicon-play"></i>Start</button>
+        <button ng-if="showJoinButton(city)" ng-click="join()" class="btn btn-join-city" ng-disabled="!joinCityPasswordMatch"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
         <button ng-if="showSaveButton(city)" ng-click="saveCity()" class="btn btn-save-city" ng-disabled="isCityUnmodified(city)"><i class="glyphicon glyphicon-floppy-disk"></i>Save</button>
         <div ng-hide="disableCityControls" style="display: inline">
 

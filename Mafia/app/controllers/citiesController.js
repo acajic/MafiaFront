@@ -428,7 +428,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
     }
 
     function showEnterButtonForCity(city) {
-        return city && city.started_at && city.is_member;
+        return city && city.started_at && (city.is_member || city.is_owner);
     }
 
 
@@ -446,7 +446,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
     }
 
     function showJoinButtonForCity(city) {
-        return city && !city.started_at && !city.is_join_requested && !city.is_member && !city.is_invited && !city.is_owner;
+        return city && !city.started_at && !city.is_join_requested && !city.is_member && !city.is_invited;
     }
 
 
@@ -509,6 +509,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         $scope.allCities = [];
 
         $scope.myCitiesFilterModel = {
+            isOwner: true,
             isMember: true,
             isJoinRequested: true,
             isInvited: true
@@ -561,7 +562,8 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         angular.forEach(cities, function (city) {
             "use strict";
 
-            if ((myCitiesFilterModel.isMember && city.is_member) ||
+            if ((myCitiesFilterModel.isOwner && city.is_owner) ||
+                (myCitiesFilterModel.isMember && city.is_member) ||
                 (myCitiesFilterModel.isJoinRequested && city.is_join_requested) ||
                 (myCitiesFilterModel.isInvited && city.is_invited)) {
 
