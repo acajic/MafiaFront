@@ -1,4 +1,4 @@
-app.controller('CitiesController',function ($scope, $routeParams, $timeout, $location, citiesService, authService, modalService, layoutService, rolesService) {
+app.controller('CitiesController',function ($scope, $route, $routeParams, $timeout, $location, $sce, citiesService, authService, modalService, layoutService, rolesService, usersService) {
     "use strict";
 
 
@@ -38,6 +38,34 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
 
     };
+
+    $scope.allCitiesSearchAction = function() {
+
+        var searchText = $scope.allCitiesFilterModel.searchText;
+        if (searchText.length < 3) {
+            $scope.allSearchCities = [];
+            return;
+        }
+        var allCitiesForSearchTextPromise = citiesService.getAllCitiesForSearch(searchText);
+        allCitiesForSearchTextPromise.then(function(results) {
+            $scope.allSearchCities = results;
+        }, function(reason) {
+            // error handling ignored
+        });
+
+    };
+
+    $scope.allCitiesIsSearchActiveWillChange = function() {
+        $scope.selectedAllCities.rowId = null;
+        if (!$scope.allCitiesFilterModel.isSearchActive) { // about to become TRUE
+            $timeout(function() {
+                $("#search-all-cities-ac-input input[type=text]").focus();
+            }, 100);
+
+        }
+    };
+
+
 
     var pageIndexMyCities = 0;
     var pageSizeMyCities = 10;
@@ -80,8 +108,31 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     };
 
+    $scope.myCitiesIsSearchActiveWillChange = function() {
+        $scope.selectedMyCities.rowId = null;
+        if (!$scope.myCitiesFilterModel.isSearchActive) { // about to become TRUE
+            $timeout(function() {
+                $("#search-my-cities-ac-input input[type=text]").focus();
+            }, 100);
 
+        }
+    };
 
+    $scope.myCitiesSearchAction = function() {
+
+        var searchText = $scope.myCitiesFilterModel.searchText;
+        if (searchText.length < 3) {
+            $scope.mySearchCities = [];
+            return;
+        }
+        var myCitiesForSearchTextPromise = citiesService.getMyCitiesForSearch(searchText);
+        myCitiesForSearchTextPromise.then(function(results) {
+            $scope.mySearchCities = results;
+        }, function(reason) {
+            // error handling ignored
+        });
+
+    };
 
     $scope.newCity = function () {
         $location.path('/cities/create');
@@ -129,7 +180,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         });
 
 
-        var joinCityPromise = citiesService.joinCity(city.id);
+        var joinCityPromise = citiesService.joinCity(city.id, $scope.selectedCity.joinCityPassword);
         joinCityPromise.then(function(result) {
             var updatedCity = result.city;
             $timeout(function() {
@@ -307,6 +358,8 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     $scope.citySelected = function (selectedCity) {
         $scope.selectedCity = selectedCity;
+        if (selectedCity)
+            $scope.joinCityPasswordMatch = (selectedCity.hashed_password || '').length == 0;
     };
 
     $scope.tabSelected = function (tabIndex) {
@@ -314,6 +367,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         $scope.selectedMyCities.rowId = 0;
     };
 
+    /*
     function amICreatorOfCity(city) {
         if (city) {
             return city.user_creator_id == authService.user.id;
@@ -331,58 +385,70 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
         return residentMe;
     }
+    */
 
     function classNameForMyCitiesRow(city) {
         if (!city)
             return "";
 
-        if (city.is_member)
-            return "city-row-member";
-        if (city.is_invited)
-            return "city-row-invited";
-        if (city.is_join_requested)
-            return "city-row-join-requested";
+        var classes = '';
 
+        if (city.is_member)
+            classes += "city-row-member";
+        if (city.is_invited)
+            classes += "city-row-invited";
+        if (city.is_join_requested)
+            classes += "city-row-join-requested";
+
+        if (city.id == $scope.selectedMyCities.rowId)
+            classes += " selected";
+
+        return classes;
     }
 
     function classNameForAllCitiesRow(city) {
         if (!city)
             return "";
 
+        var classes = '';
+
         if (city.public)
-            return "city-row-public";
+            classes +=  "city-row-public";
         else
-            return "city-row-private";
+            classes +=  "city-row-private";
+
+        if (city.id == $scope.selectedAllCities.rowId)
+            classes += " selected";
+
+        return classes;
     }
 
     function showEditButtonForCity(city) {
         return city.is_owner;
-        /*
-        if (city)
-            return amICreatorOfCity(city);
-        else
-            return false;
-        */
     }
 
     function showEnterButtonForCity(city) {
-        return city && city.started_at && city.is_member;
+        return city && city.started_at && (city.is_member || city.is_owner);
+    }
 
-        /*if (city && city.started_at)
-            return amIMemberOfCity(city);
-        else
+
+    function showPasswordFieldForCity(city) {
+        if (!city)
             return false;
-        */
+
+        return !city.is_member && !city.is_owner && (city.hashed_password || '').length > 0;
+    }
+
+    function joinCityPasswordDidChange() {
+        var salted_password = $scope.selectedCity.joinCityPassword + ($scope.selectedCity.password_salt || '');
+        var generated_hashed_password = sha256_digest(salted_password);
+        $scope.joinCityPasswordMatch = angular.equals(generated_hashed_password, $scope.selectedCity.hashed_password);
     }
 
     function showJoinButtonForCity(city) {
-        return city && !city.started_at && !city.is_join_requested && !city.is_member && !city.is_invited && !city.is_owner;
-
-        /*if (city && !city.started_at)
-            return !amIMemberOfCity(city);
-        else
-            return false;*/
+        return city && !city.started_at && !city.is_join_requested && !city.is_member && !city.is_invited;
     }
+
 
     function showAcceptInvitationButtonForCity(city) {
         return city && !city.started_at && city.is_invited && !city.is_member;
@@ -390,12 +456,6 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     function showLeaveButtonForCity(city) {
         return city && !city.started_at && city.is_member && !city.is_owner;
-        /*
-        if (city && !city.started_at)
-            return amIMemberOfCity(city) && !amICreatorOfCity(city);
-        else
-            return false;
-        */
     }
 
     function showCancelJoinRequestForCity(city) {
@@ -425,8 +485,13 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
             $scope.appPermissionCreateGamesGranted = null;
         }
 
-
     });
+
+
+    function renderHtml(htmlCode) {
+        return $sce.trustAsHtml(htmlCode);
+    };
+
 
 
 
@@ -443,21 +508,29 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         $scope.allCities = [];
 
         $scope.myCitiesFilterModel = {
+            isOwner: true,
             isMember: true,
             isJoinRequested: true,
             isInvited: true
         };
         $scope.myCities = [];
 
-        var emailConfirmationCode = $routeParams["emailConfirmationCode"];
-        if (emailConfirmationCode) {
-            if ($scope.user) {
-                $scope.user['emailConfirmationCode'] = emailConfirmationCode;
-            } else {
-                $scope.user = {emailConfirmationCode : emailConfirmationCode};
+
+        var routePath = $route.current.$$route.originalPath;
+        if (routePath.indexOf('email_confirmation') >= 0) {
+            var emailConfirmationCode = $routeParams["emailConfirmationCode"];
+            if (emailConfirmationCode) {
+                if ($scope.user) {
+                    $scope.user['emailConfirmationCode'] = emailConfirmationCode;
+                } else {
+                    $scope.user = {emailConfirmationCode: emailConfirmationCode};
+                }
+                $location.path('/cities');
             }
-            $location.path('/cities');
         }
+
+
+
 
         $scope.selectedAllCities = {rowId: 0};
         $scope.selectedMyCities = {rowId: 0};
@@ -468,6 +541,10 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         $scope.classNameForAllCitiesRow = classNameForAllCitiesRow;
         $scope.showEditButtonForCity = showEditButtonForCity;
         $scope.showEnterButtonForCity = showEnterButtonForCity;
+
+        $scope.showPasswordFieldForCity = showPasswordFieldForCity;
+
+        $scope.joinCityPasswordDidChange = joinCityPasswordDidChange;
         $scope.showJoinButtonForCity = showJoinButtonForCity;
         $scope.showAcceptInvitationButtonForCity = showAcceptInvitationButtonForCity;
         $scope.showLeaveButtonForCity = showLeaveButtonForCity;
@@ -479,6 +556,9 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         });
 
         $scope.affiliationIds = rolesService.affiliationIds;
+
+
+        $scope.renderHtml = renderHtml;
     }
 
 }).filter('filterMyCities', function () {
@@ -488,7 +568,8 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         angular.forEach(cities, function (city) {
             "use strict";
 
-            if ((myCitiesFilterModel.isMember && city.is_member) ||
+            if ((myCitiesFilterModel.isOwner && city.is_owner) ||
+                (myCitiesFilterModel.isMember && city.is_member) ||
                 (myCitiesFilterModel.isJoinRequested && city.is_join_requested) ||
                 (myCitiesFilterModel.isInvited && city.is_invited)) {
 

@@ -4935,13 +4935,13 @@ app.directive('residentBecameSheriffResult', function($timeout, actionResultsSer
     };
 }); 
  
-// residentBecameSilentSheriffResultDirective 
+// residentBecamedeputyResultDirective
  
-app.directive('residentBecameSilentSheriffResult', function($timeout, actionResultsService) {
+app.directive('residentBecamedeputyResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/actionResults/residentBecameSilentSheriffResult.html',
+        templateUrl: 'app/directiveTemplates/domain/actionResults/residentBecamedeputyResult.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -4960,7 +4960,7 @@ app.directive('residentBecameSilentSheriffResult', function($timeout, actionResu
                 if (!actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
-                            id: ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF
+                            id: ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY
                         },
                         day: $.grep(city.days, function(someDay) {
                             return someDay.id == city.current_day_id;
@@ -5230,13 +5230,13 @@ app.directive('sheriffIdentitiesResult', function($timeout, actionResultsService
     };
 }); 
  
-// silentSheriffIdentitiesResultDirective 
+// deputyIdentitiesResultDirective
  
-app.directive('silentSheriffIdentitiesResult', function($timeout, actionResultsService) {
+app.directive('deputyIdentitiesResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/actionResults/silentSheriffIdentitiesResult.html',
+        templateUrl: 'app/directiveTemplates/domain/actionResults/deputyIdentitiesResult.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -5263,7 +5263,7 @@ app.directive('silentSheriffIdentitiesResult', function($timeout, actionResultsS
                 if (!actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
-                            id: ACTION_RESULT_TYPE_ID_SILENT_SHERIFF_IDENTITIES
+                            id: ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES
                         },
                         day: $.grep(city.days, function(someDay) {
                             return someDay.id == city.current_day_id;
@@ -6159,9 +6159,9 @@ app.directive('sheriffIdentitiesActionTypeParamsResult', function(actionResultsS
     };
 }); 
  
-// silentSheriffIdentitiesActionTypeParamsResultDirective 
+// deputyIdentitiesActionTypeParamsResultDirective
  
-app.directive('silentSheriffIdentitiesActionTypeParamsResult', function(actionResultsService) {
+app.directive('deputyIdentitiesActionTypeParamsResult', function(actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -6169,7 +6169,7 @@ app.directive('silentSheriffIdentitiesActionTypeParamsResult', function(actionRe
             actionTypeParams: '=',
             editMode: '='
         },
-        templateUrl: 'app/directiveTemplates/domain/actionResults/actionTypeParamsResults/silentSheriffIdentitiesActionTypeParamsResult.html',
+        templateUrl: 'app/directiveTemplates/domain/actionResults/actionTypeParamsResults/deputyIdentitiesActionTypeParamsResult.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -6674,13 +6674,13 @@ app.directive('sheriffIdentities', function($timeout, actionsService, actionResu
     };
 }); 
  
-// silentSheriffIdentitiesDirective 
+// deputyIdentitiesDirective
  
-app.directive('silentSheriffIdentities', function($timeout, actionsService, actionResultsService) {
+app.directive('deputyIdentities', function($timeout, actionsService, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/actions/silentSheriffIdentities.html',
+        templateUrl: 'app/directiveTemplates/domain/actions/deputyIdentities.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -6695,7 +6695,7 @@ app.directive('silentSheriffIdentities', function($timeout, actionsService, acti
                 if (!actionTypeParamsResult)
                     return;
 
-                scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES.toString()];
+                scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_DEPUTY_IDENTITIES.toString()];
             });
 
 
@@ -6703,7 +6703,7 @@ app.directive('silentSheriffIdentities', function($timeout, actionsService, acti
 
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.roleId,
-                    ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES,
+                    ACTION_TYPE_ID_DEPUTY_IDENTITIES,
                     scope.city.current_day_id,
                     { });
 
@@ -6725,7 +6725,7 @@ app.directive('silentSheriffIdentities', function($timeout, actionsService, acti
             };
 
             scope.cancelUnprocessedActions = function() {
-                var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.roleId, ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES);
+                var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.roleId, ACTION_TYPE_ID_DEPUTY_IDENTITIES);
 
                 cancelUnprocessedActionsPromise.then(function() {
                     $timeout(function() {
@@ -7940,13 +7940,13 @@ app.directive('sheriff', function() {
     };
 }); 
  
-// silentSheriffDirective 
+// deputyDirective
  
-app.directive('silentSheriff', function() {
+app.directive('deputy', function() {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/roles/silentSheriff.html',
+        templateUrl: 'app/directiveTemplates/domain/roles/deputy.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -7962,11 +7962,11 @@ app.directive('silentSheriff', function() {
                 if (index >= 0) {
                     var actionTypeParamsPerRolePerActionType = actionResults[index].result['action_types_params'];
 
-                    if (actionTypeParamsPerRolePerActionType[ROLE_ID_SILENT_SHERIFF]) {
-                        if (actionTypeParamsPerRolePerActionType[ROLE_ID_SILENT_SHERIFF][ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES]) {
-                            var silentSheriffIdentitiesActionTypeParams = actionTypeParamsPerRolePerActionType[ROLE_ID_SILENT_SHERIFF][ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES];
+                    if (actionTypeParamsPerRolePerActionType[ROLE_ID_DEPUTY]) {
+                        if (actionTypeParamsPerRolePerActionType[ROLE_ID_DEPUTY][ACTION_TYPE_ID_DEPUTY_IDENTITIES]) {
+                            var deputyIdentitiesActionTypeParams = actionTypeParamsPerRolePerActionType[ROLE_ID_DEPUTY][ACTION_TYPE_ID_DEPUTY_IDENTITIES];
 
-                            var numOfActionsAvailable = silentSheriffIdentitiesActionTypeParams['number_of_actions_available'];
+                            var numOfActionsAvailable = deputyIdentitiesActionTypeParams['number_of_actions_available'];
                             scope.numOfActionsAvailable = numOfActionsAvailable;
                         }
                     }
@@ -7977,7 +7977,7 @@ app.directive('silentSheriff', function() {
             }, true);
 
 
-            scope.roleId = ROLE_ID_SILENT_SHERIFF;
+            scope.roleId = ROLE_ID_DEPUTY;
 
         }
     };
@@ -8163,13 +8163,13 @@ app.directive('sheriffDescription', function() {
     };
 }); 
  
-// silentSheriffDescriptionDirective 
+// deputyDescriptionDirective
  
-app.directive('silentSheriffDescription', function() {
+app.directive('deputyDescription', function() {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/silentSheriff.html',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/deputy.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -8358,8 +8358,8 @@ var ACTION_RESULT_TYPE_ID_SINGLE_REQUIRED_MAFIA_MEMBERS = 9;
 
 var ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS = 10;
 var ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE = 11;
-var ACTION_RESULT_TYPE_ID_SILENT_SHERIFF_IDENTITIES = 12;
-var ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF = 13;
+var ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES = 12;
+var ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY = 13;
 
 var ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS = 14;
 var ACTION_RESULT_TYPE_ID_GAME_OVER = 15;
@@ -8383,8 +8383,8 @@ app.factory('actionResultsService', function($q, serverService) {
         ACTION_RESULT_TYPE_ID_SINGLE_REQUIRED_MAFIA_MEMBERS : ACTION_RESULT_TYPE_ID_SINGLE_REQUIRED_MAFIA_MEMBERS,
         ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS : ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS,
         ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE : ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE,
-        ACTION_RESULT_TYPE_ID_SILENT_SHERIFF_IDENTITIES : ACTION_RESULT_TYPE_ID_SILENT_SHERIFF_IDENTITIES,
-        ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF : ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF,
+        ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES : ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES,
+        ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY : ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY,
         ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS : ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS,
         ACTION_RESULT_TYPE_ID_GAME_OVER : ACTION_RESULT_TYPE_ID_GAME_OVER
     };
@@ -8424,8 +8424,8 @@ app.factory('actionResultsService', function($q, serverService) {
         if (city.rolesById[ROLE_ID_SHERIFF] && city.rolesById[ROLE_ID_SHERIFF].quantity > 0)
             publicActionResultTypeIds.push(ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SHERIFF);
 
-        if (city.rolesById[ROLE_ID_SILENT_SHERIFF] && city.rolesById[ROLE_ID_SILENT_SHERIFF].quantity > 0)
-            publicActionResultTypeIds.push(ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF);
+        if (city.rolesById[ROLE_ID_DEPUTY] && city.rolesById[ROLE_ID_DEPUTY].quantity > 0)
+            publicActionResultTypeIds.push(ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY);
 
         return publicActionResultTypeIds;
     };
@@ -8526,7 +8526,7 @@ app.factory('actionResultsService', function($q, serverService) {
                     someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_TERRORIST_BOMB ||
                     (someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SHERIFF_IDENTITIES && shouldShowSheriffIdentitiesResult(someActionResult)) ||
                     someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SHERIFF ||
-                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF
+                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY
                 );
         });
     };
@@ -8539,7 +8539,7 @@ app.factory('actionResultsService', function($q, serverService) {
                     someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_TELLER_VOTES ||
                     someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SINGLE_REQUIRED_MAFIA_MEMBERS ||
                     someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE ||
-                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SILENT_SHERIFF_IDENTITIES
+                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES
                 );
         });
     };
@@ -8640,7 +8640,7 @@ var ACTION_TYPE_ID_SHERIFF_IDENTITIES = 5;
 var ACTION_TYPE_ID_TELLER_VOTES = 6;
 var ACTION_TYPE_ID_TERRORIST_BOMB = 7;
 var ACTION_TYPE_ID_JOURNALIST_INVESTIGATE = 10;
-var ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES = 11;
+var ACTION_TYPE_ID_DEPUTY_IDENTITIES = 11;
 var ACTION_TYPE_ID_AMBIVALENT_VOTE = 12;
 
 app.factory('actionsService', function($q, serverService) {
@@ -8655,7 +8655,7 @@ app.factory('actionsService', function($q, serverService) {
         ACTION_TYPE_ID_TELLER_VOTES : ACTION_TYPE_ID_TELLER_VOTES,
         ACTION_TYPE_ID_TERRORIST_BOMB : ACTION_TYPE_ID_TERRORIST_BOMB,
         ACTION_TYPE_ID_JOURNALIST_INVESTIGATE : ACTION_TYPE_ID_JOURNALIST_INVESTIGATE,
-        ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES : ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES,
+        ACTION_TYPE_ID_DEPUTY_IDENTITIES : ACTION_TYPE_ID_DEPUTY_IDENTITIES,
         ACTION_TYPE_ID_AMBIVALENT_VOTE : ACTION_TYPE_ID_AMBIVALENT_VOTE
     };
 
@@ -9497,7 +9497,7 @@ var ROLE_ID_TELLER = 6;
 var ROLE_ID_TERRORIST = 7;
 var ROLE_ID_JOURNALIST = 8;
 var ROLE_ID_FUGITIVE = 9;
-var ROLE_ID_SILENT_SHERIFF = 10;
+var ROLE_ID_DEPUTY = 10;
 var ROLE_ID_AMBIVALENT_CITIZEN = 11;
 
 app.factory('rolesService', function(serverService, $q) {
@@ -9518,7 +9518,7 @@ app.factory('rolesService', function(serverService, $q) {
          ROLE_ID_TERRORIST : ROLE_ID_TERRORIST,
         ROLE_ID_JOURNALIST : ROLE_ID_JOURNALIST,
         ROLE_ID_FUGITIVE : ROLE_ID_FUGITIVE,
-        ROLE_ID_SILENT_SHERIFF : ROLE_ID_SILENT_SHERIFF,
+        ROLE_ID_DEPUTY : ROLE_ID_DEPUTY,
         ROLE_ID_AMBIVALENT_CITIZEN : ROLE_ID_AMBIVALENT_CITIZEN
     };
 

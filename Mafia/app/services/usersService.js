@@ -76,7 +76,11 @@ app.factory('usersService', function($q, serverService) {
         return serverService.post('users/forgot_password', {email : email});
     };
 
-    var userDeleted;
+    var unsubscribeEmail = function(email) {
+        return serverService.post('user_preference/unsubscribe', {email: email});
+    };
+
+    var userDeleted, userPreferenceChangedHashedPassword;
 
     return {
         // allUsersByIds: allUsersByIds,
@@ -86,8 +90,11 @@ app.factory('usersService', function($q, serverService) {
         updateUser : updateUser,
         deleteUserById : deleteUserById,
         userDeleted : userDeleted,
+        userPreferenceChangedHashedPassword : userPreferenceChangedHashedPassword,
         allowedEmailPatterns: allowedEmailPatterns,
         getAllowedEmailPatterns : getAllowedEmailPatterns,
-        postForgotPassword : postForgotPassword
+        postForgotPassword : postForgotPassword,
+        unsubscribeEmail : unsubscribeEmail,
+        supportEmail : 'ancajic@gmail.com'
     };
 });

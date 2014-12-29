@@ -36,7 +36,12 @@
 
 
                 <div class="col-md-6 my-cities-with-filters">
-                    <div style="width: 100%;">
+                    <div style="width: 100%;" class="city-filters">
+                        <ac-checkbox ng-model="myCitiesFilterModel.isOwner">
+                            <i class="glyphicon glyphicon-unchecked unchecked"></i>
+                            <i class="fa fa-users checked"></i>
+                            Owner
+                        </ac-checkbox>
                         <ac-checkbox ng-model="myCitiesFilterModel.isMember">
                             <i class="glyphicon glyphicon-unchecked unchecked"></i>
                             <i class="fa fa-user checked"></i>
@@ -55,37 +60,61 @@
 
                     </div>
 
-                    <table interactive-table selected-row-id="selectedMyCities.rowId" class="table">
+                    <table interactive-table selected-row-id="selectedMyCities.rowId" class="table table-cities">
                         <thead>
                         <tr>
-                            <td>Name</td>
+                            <td>
+                                <ac-checkbox ng-model="myCitiesFilterModel.isSearchActive" ng-change="myCitiesIsSearchActiveWillChange">
+                                    <i class="glyphicon glyphicon-search unchecked"></i>
+                                    <i class="glyphicon glyphicon-chevron-left checked"></i>
+                                </ac-checkbox>
+                                <span ng-hide="myCitiesFilterModel.isSearchActive">Name</span>
+                                <span ng-show="myCitiesFilterModel.isSearchActive">
+                                    <ac-input type="text" id="search-my-cities-ac-input" placeholder="Search city by name" ng-model="myCitiesFilterModel.searchText" delay="400" on-delay-action="myCitiesSearchAction"></ac-input>
+                                </span>
+                            </td>
                             <td style="text-align: center;">Membership</td>
                             <td style="text-align: center;">Status</td>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr ng-repeat="city in myCities | filterMyCities:myCitiesFilterModel" ng-class="classNameForMyCitiesRow(city)">
-                            <input type="hidden" name="id" value="{{ city.id }}">
-                            <td>{{city.name}}</td>
-                            <td style="text-align: center;">
-                                <i class="fa fa-user" ng-if="city.is_member"></i>
-                                <i class="fa fa-question-circle" ng-if="city.is_join_requested"></i>
-                                <i class="fa fa-envelope" ng-if="city.is_invited"></i>
-                            </td>
-                            <td style="text-align: center;">
-                                <img-city-status city="city"></img-city-status>
-                            </td>
-                        </tr>
-                        <tr ng-if="isLoadingContentMyCities">
-                            <td colspan="3" style="text-align: center">
-                                <loader size='small'></loader>
-                            </td>
-                        </tr>
-                        <tr ng-show="showLoadAdditionalMyCitiesButton">
-                            <td colspan="3">
-                                <button class="btn btn-block" ng-click="reloadMyCities()">More</button>
-                            </td>
-                        </tr>
+                        <tbody ng-if="!myCitiesFilterModel.isSearchActive">
+                            <tr ng-repeat="city in myCities | filterMyCities:myCitiesFilterModel" ng-class="classNameForMyCitiesRow(city)">
+                                <input type="hidden" name="id" value="{{ city.id }}">
+                                <td>{{city.name}}</td>
+                                <td style="text-align: center;">
+                                    <i class="fa fa-users" ng-if="city.is_owner"></i>
+                                    <i class="fa fa-user" ng-if="city.is_member"></i>
+                                    <i class="fa fa-question-circle" ng-if="city.is_join_requested"></i>
+                                    <i class="fa fa-envelope" ng-if="city.is_invited"></i>
+                                </td>
+                                <td style="text-align: center;">
+                                    <img-city-status city="city"></img-city-status>
+                                </td>
+                            </tr>
+                            <tr ng-if="isLoadingContentMyCities">
+                                <td colspan="3" style="text-align: center">
+                                    <loader size='small'></loader>
+                                </td>
+                            </tr>
+                            <tr ng-show="showLoadAdditionalMyCitiesButton">
+                                <td colspan="3">
+                                    <button class="btn btn-block" ng-click="reloadMyCities()">More</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-if="myCitiesFilterModel.isSearchActive">
+                            <tr ng-repeat="city in mySearchCities" ng-class="classNameForMyCitiesRow(city)">
+                                <input type="hidden" name="id" value="{{ city.id }}">
+                                <td ng-bind-html="renderHtml('{{city.name | acHighlightText: myCitiesFilterModel.searchText}}')"></td>
+                                <td style="text-align: center;">
+                                    <i class="fa fa-user" ng-if="city.is_member"></i>
+                                    <i class="fa fa-question-circle" ng-if="city.is_join_requested"></i>
+                                    <i class="fa fa-envelope" ng-if="city.is_invited"></i>
+                                </td>
+                                <td style="text-align: center;">
+                                    <img-city-status city="city"></img-city-status>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -99,7 +128,7 @@
 
 
             <div class="col-md-6 all-cities-with-filters">
-                <div style="width: 100%">
+                <div style="width: 100%" class="city-filters">
                     <ac-checkbox ng-model="allCitiesFilterModel.public">
                         <i class="glyphicon glyphicon-unchecked unchecked"></i>
                         <i class="glyphicon glyphicon-eye-open checked"></i>
@@ -112,36 +141,59 @@
                     </ac-checkbox>
 
                 </div>
-                <table interactive-table selected-row-id="selectedAllCities.rowId" class="table">
+                <table interactive-table selected-row-id="selectedAllCities.rowId" class="table table-cities">
                     <thead>
                     <tr>
-                        <td>Name</td>
+                        <td>
+                            <ac-checkbox ng-model="allCitiesFilterModel.isSearchActive" ng-change="allCitiesIsSearchActiveWillChange">
+                                <i class="glyphicon glyphicon-search unchecked"></i>
+                                <i class="glyphicon glyphicon-chevron-left checked"></i>
+                            </ac-checkbox>
+                            <span ng-hide="allCitiesFilterModel.isSearchActive">Name</span>
+                            <span ng-show="allCitiesFilterModel.isSearchActive">
+                                <ac-input type="text" id="search-all-cities-ac-input" placeholder="Search city by name" ng-model="allCitiesFilterModel.searchText" delay="400" on-delay-action="allCitiesSearchAction" ></ac-input>
+                            </span>
+                        </td>
                         <td style="text-align: center">Visibility</td>
                         <td style="text-align: center">Status</td>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr ng-repeat="city in allCities | filterAllCities:allCitiesFilterModel" ng-class="classNameForAllCitiesRow(city)">
-                        <input type="hidden" name="id" value="{{ city.id }}">
-                        <td>{{city.name}}</td>
-                        <td style="text-align: center">
-                            <i class="glyphicon glyphicon-eye-close" ng-if="!city.public"></i>
-                            <i class="glyphicon glyphicon-eye-open" ng-if="city.public"></i>
-                        </td>
-                        <td style="text-align: center;">
-                            <img-city-status city="city"></img-city-status>
-                        </td>
-                    </tr>
-                    <tr ng-show="isLoadingContentAllCities">
-                        <td colspan="3" style="text-align: center">
-                            <loader size='small'></loader>
-                        </td>
-                    </tr>
-                    <tr ng-show="showLoadAdditionalAllCitiesButton">
-                        <td colspan="3">
-                            <button class="btn btn-block" ng-click="reloadAllCities()">More</button>
-                        </td>
-                    </tr>
+                    <tbody ng-if="!allCitiesFilterModel.isSearchActive">
+                        <tr ng-repeat="city in allCities | filterAllCities:allCitiesFilterModel" ng-class="classNameForAllCitiesRow(city)">
+                            <input type="hidden" name="id" value="{{ city.id }}">
+                            <td>{{city.name}}</td>
+                            <td style="text-align: center">
+                                <i class="glyphicon glyphicon-eye-close" ng-if="!city.public"></i>
+                                <i class="glyphicon glyphicon-eye-open" ng-if="city.public"></i>
+                            </td>
+                            <td style="text-align: center;">
+                                <img-city-status city="city"></img-city-status>
+                            </td>
+                        </tr>
+                        <tr ng-show="isLoadingContentAllCities">
+                            <td colspan="3" style="text-align: center">
+                                <loader size='small'></loader>
+                            </td>
+                        </tr>
+                        <tr ng-show="showLoadAdditionalAllCitiesButton">
+                            <td colspan="3">
+                                <button class="btn btn-block" ng-click="reloadAllCities()">More</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-if="allCitiesFilterModel.isSearchActive">
+                        <tr ng-repeat="city in allSearchCities" ng-class="classNameForMyCitiesRow(city)">
+                            <input type="hidden" name="id" value="{{ city.id }}">
+                            <td ng-bind-html="renderHtml('{{city.name | acHighlightText: allCitiesFilterModel.searchText}}')"></td>
+                            <td style="text-align: center;">
+                                <i class="fa fa-user" ng-if="city.is_member"></i>
+                                <i class="fa fa-question-circle" ng-if="city.is_join_requested"></i>
+                                <i class="fa fa-envelope" ng-if="city.is_invited"></i>
+                            </td>
+                            <td style="text-align: center;">
+                                <img-city-status city="city"></img-city-status>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -211,7 +263,9 @@
             <button ng-if="showEditButtonForCity(selectedCity)" ng-click="editCity(selectedCity)" class="btn btn-edit-city"><i class="glyphicon glyphicon-cog"></i>Edit</button>
             <button ng-if="!showEditButtonForCity(selectedCity)" ng-click="showCity(selectedCity)" class="btn btn-details-city"><i class="glyphicon glyphicon-dashboard"></i>Details</button>
             <button ng-if="showEnterButtonForCity(selectedCity)" ng-click="enterCity(selectedCity)" class="btn btn-enter-city"><i class="fa fa-gamepad"></i>Enter</button>
-            <button ng-if="showJoinButtonForCity(selectedCity)" ng-click="joinCity(selectedCity)" class="btn btn-join-city"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
+
+            <input type="password" placeholder="password" ng-model="selectedCity.joinCityPassword" ng-if="showPasswordFieldForCity(selectedCity)" ng-change="joinCityPasswordDidChange()" />
+            <button ng-if="showJoinButtonForCity(selectedCity)" ng-click="joinCity(selectedCity)" class="btn btn-join-city" ng-disabled="!joinCityPasswordMatch"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
             <button ng-if="showAcceptInvitationButtonForCity(selectedCity)" ng-click="acceptInvitationForCity(selectedCity)" class="btn btn-accept-invitation-city"><i class="glyphicon glyphicon-ok-circle"></i>Accept Invitation</button>
 
             <button ng-if="showLeaveButtonForCity(selectedCity)" ng-click="leaveCity(selectedCity)" class="btn btn-leave-city"><i class="glyphicon glyphicon-remove"></i>Leave</button>

@@ -10,7 +10,7 @@ var ROLE_ID_TELLER = 6;
 var ROLE_ID_TERRORIST = 7;
 var ROLE_ID_JOURNALIST = 8;
 var ROLE_ID_FUGITIVE = 9;
-var ROLE_ID_SILENT_SHERIFF = 10;
+var ROLE_ID_DEPUTY = 10;
 var ROLE_ID_AMBIVALENT_CITIZEN = 11;
 
 app.factory('rolesService', function(serverService, $q) {
@@ -31,7 +31,7 @@ app.factory('rolesService', function(serverService, $q) {
          ROLE_ID_TERRORIST : ROLE_ID_TERRORIST,
         ROLE_ID_JOURNALIST : ROLE_ID_JOURNALIST,
         ROLE_ID_FUGITIVE : ROLE_ID_FUGITIVE,
-        ROLE_ID_SILENT_SHERIFF : ROLE_ID_SILENT_SHERIFF,
+        ROLE_ID_DEPUTY : ROLE_ID_DEPUTY,
         ROLE_ID_AMBIVALENT_CITIZEN : ROLE_ID_AMBIVALENT_CITIZEN
     };
 

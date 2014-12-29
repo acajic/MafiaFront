@@ -55,23 +55,30 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
             $scope.city = city;
 
             var userMe = result[1];
-            $scope.resident = $.grep(city.residents, function(someResident) {
+            var userMeResidents = $.grep(city.residents, function(someResident) {
                 return someResident.user_id == userMe.id;
-            })[0];
+            });
+            if (userMeResidents.length > 0)
+                $scope.resident = userMeResidents[0];
+
+
+            $scope.dayNumberMax = city.current_day_number + 1;
+            $scope.dayNumberMin = Math.max($scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE, 0);
 
             var roleId = result[2];
 
             if (roleId) {
                 $scope.resident.role = city.rolesById[roleId].role;
-                $scope.dayNumberMax = city.current_day_number + 1;
-                $scope.dayNumberMin = Math.max($scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE, 0);
                 initActionResults(cityId, roleId, $scope.dayNumberMin, $scope.dayNumberMax);
-            } else {
+            } else if ($scope.resident) {
                 // user has probably manually deleted the cookie containing their role id
-                $scope.basicValidationErrors.push({msg: 'Select your role.' })
+                $scope.basicValidationErrors.push({msg: 'Select your role.' });
                 $scope.roleChooserEditMode = true;
                 $scope.isLoading = false;
+            } else {
+                initActionResults(cityId, null, $scope.dayNumberMin, $scope.dayNumberMax);
             }
+
         }, function(reason) {
             $scope.isLoading = false;
         });
@@ -191,7 +198,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
             var roleId = residentMeResult.saved_role_id;
             deferred.resolve(roleId);
         }, function(reason) {
-            deferred.reject(reason);
+            deferred.resolve(null);
         });
 
         return deferred.promise;

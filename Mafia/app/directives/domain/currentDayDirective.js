@@ -16,7 +16,7 @@ app.directive('currentDay', function() {
             }, true);
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;

@@ -41,11 +41,19 @@ app.factory('citiesService', function($q, serverService) {
 
     };
 
+    var getAllCitiesForSearch = function(searchText) {
+        return serverService.get('cities/search/' + searchText, null);
+    };
+
     var getMyCities = function(pageIndex, pageSize) {
         return serverService.get('cities/me', {
             page_index: pageIndex,
             page_size: pageSize
         });
+    };
+
+    var getMyCitiesForSearch = function(searchText) {
+        return serverService.get('cities/me/search/' + searchText, null);
     };
 
     var getCities = function(refresh, pageIndex, pageSize) {
@@ -80,6 +88,10 @@ app.factory('citiesService', function($q, serverService) {
             return deferred.promise;
         }
     };
+
+
+
+
 
     var getCityPromisesByCityIds = {};
 
@@ -177,8 +189,8 @@ app.factory('citiesService', function($q, serverService) {
         });
     };
 
-    var joinCity = function(cityId) {
-        var joinCityPromise = serverService.post('cities/' + cityId + '/join');
+    var joinCity = function(cityId, joinCityPassword) {
+        var joinCityPromise = serverService.post('cities/' + cityId + '/join', {password : joinCityPassword});
 
         joinCityPromise.then(function(cityUpdated) {
             cacheCity(cityUpdated);
@@ -258,7 +270,9 @@ app.factory('citiesService', function($q, serverService) {
 
     return {
         getAllCities : getAllCities,
+        getAllCitiesForSearch : getAllCitiesForSearch,
         getMyCities : getMyCities,
+        getMyCitiesForSearch : getMyCitiesForSearch,
         cities : cities,
         getCity : getCity,
         getCities : getCities,

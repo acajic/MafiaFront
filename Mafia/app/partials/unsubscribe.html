@@ -1,0 +1,21 @@
+<div id="content-header">
+    <div class="title">
+        Unsubscribe
+    </div>
+
+</div>
+<div id="content-body">
+    <div class="alert">
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+    </div>
+
+    <div style="padding: 15px;">
+
+
+        <h1>Enter the email</h1>
+
+        <input type="text" ng-model="email" placeholder="email" />
+        <button ng-click="unsubscribe()" class="btn btn-delete">Unsubscribe</button>
+    </div>
+
+</div>

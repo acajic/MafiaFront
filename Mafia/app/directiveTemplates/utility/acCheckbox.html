@@ -1,6 +1,6 @@
 <label class="ac-checkbox">
 
-<input type="checkbox" ng-model="ngModel" style=""/>
+<input type="checkbox" ng-model="ngModel" style="" ng-change="checkboxValueWillChange()"/>
 <span ng-transclude ng-class="ngModel === true ? 'checkbox-checked' : 'checkbox-unchecked'"></span>
 
 </label>

@@ -51,12 +51,18 @@
         </tr>
 
         <tr>
-            <td>App Role</td>
+            <td>Default App Role</td>
             <td colspan="3" ng-if="roleEditable">
-                <select ng-model="inspectedUser.app_role.id" ng-options="appRole.id as appRole.name for appRole in appRoles">
+                <select ng-model="inspectedUser.default_app_role.id" ng-options="appRole.id as appRole.name for appRole in appRoles">
                 </select>
             </td>
             <td colspan="3" ng-hide="roleEditable">
+                {{ inspectedUser.default_app_role.name }}
+            </td>
+        </tr>
+        <tr>
+            <td>Effective App Role</td>
+            <td colspan="3">
                 {{ inspectedUser.app_role.name }}
             </td>
         </tr>

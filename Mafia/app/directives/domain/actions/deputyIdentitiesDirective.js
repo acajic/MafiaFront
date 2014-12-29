@@ -1,8 +1,8 @@
-app.directive('silentSheriffIdentities', function($timeout, actionsService, actionResultsService) {
+app.directive('deputyIdentities', function($timeout, actionsService, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/actions/silentSheriffIdentities.html',
+        templateUrl: 'app/directiveTemplates/domain/actions/deputyIdentities.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -17,7 +17,7 @@ app.directive('silentSheriffIdentities', function($timeout, actionsService, acti
                 if (!actionTypeParamsResult)
                     return;
 
-                scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES.toString()];
+                scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_DEPUTY_IDENTITIES.toString()];
             });
 
 
@@ -25,7 +25,7 @@ app.directive('silentSheriffIdentities', function($timeout, actionsService, acti
 
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.roleId,
-                    ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES,
+                    ACTION_TYPE_ID_DEPUTY_IDENTITIES,
                     scope.city.current_day_id,
                     { });
 
@@ -47,7 +47,7 @@ app.directive('silentSheriffIdentities', function($timeout, actionsService, acti
             };
 
             scope.cancelUnprocessedActions = function() {
-                var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.roleId, ACTION_TYPE_ID_SILENT_SHERIFF_IDENTITIES);
+                var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.roleId, ACTION_TYPE_ID_DEPUTY_IDENTITIES);
 
                 cancelUnprocessedActionsPromise.then(function() {
                     $timeout(function() {

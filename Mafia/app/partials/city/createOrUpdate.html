@@ -9,8 +9,9 @@
     <div class="city-control-buttons-bar">
         <button ng-click="back()" class="btn btn-back"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
         <button ng-if="showCreateButton(city)" ng-click="create()" class="btn btn-create-new-city"><i class="glyphicon glyphicon-bullhorn"></i>Create</button>
-        <button ng-if="showStartButton(city)" ng-click="start()" class="btn btn-start-city" ng-disabled="!isCityModified(city)"><i class="glyphicon glyphicon-play"></i>Start</button>
-        <button ng-if="showSaveButton(city)" ng-click="saveCity()" class="btn btn-save-city" ng-disabled="isCityModified(city)"><i class="glyphicon glyphicon-floppy-disk"></i>Save</button>
+        <button ng-if="showStartButton(city)" ng-click="start()" class="btn btn-start-city" ng-disabled="!isCityUnmodified(city)"><i class="glyphicon glyphicon-play"></i>Start</button>
+        <button ng-if="showJoinButton(city)" ng-click="join()" class="btn btn-join-city" ng-disabled="!joinCityPasswordMatch"><i class="glyphicon glyphicon-plus-sign"></i>Join</button>
+        <button ng-if="showSaveButton(city)" ng-click="saveCity()" class="btn btn-save-city" ng-disabled="isCityUnmodified(city)"><i class="glyphicon glyphicon-floppy-disk"></i>Save</button>
         <div ng-hide="disableCityControls" style="display: inline">
 
             <script type="text/ng-template" id="deleteModalContent.html">
@@ -28,7 +29,7 @@
             <button ng-if="showDeleteButton(city)" ng-click="deleteCity()" class="btn btn-delete"><i class="glyphicon glyphicon-trash"></i>Delete</button>
 
             <button ng-if="showPauseButton(city)" ng-click="pause()" class="btn btn-pause-city"><i class="glyphicon glyphicon-pause"></i>Pause</button>
-            <button ng-if="showResumeButton(city)" ng-click="resume()" class="btn btn-resume-city" ng-disabled="!isCityModified(city)"><i class="glyphicon glyphicon-play"></i>Resume</button>
+            <button ng-if="showResumeButton(city)" ng-click="resume()" class="btn btn-resume-city" ng-disabled="!isCityUnmodified(city)"><i class="glyphicon glyphicon-play"></i>Resume</button>
         </div>
     </div>
 
@@ -84,12 +85,14 @@
                                     <span class="checked"><i class="fa fa-toggle-on"></i> (Public)</span>
 
                                 </ac-checkbox>
+                                <input type="text" placeholder="password (optional)" ng-model="city.password" ng-hide="city.public" />
                             </td>
                         </tr>
                         <tr ng-if="city.started_at">
                             <td class="col-md-1 gray-cell">Visibility</td>
                             <td>
                                 <img-bool boolean-value="city.public"></img-bool>
+                                <span ng-if="city.password && city.is_owner">Password: {{city.password}}</span>
                             </td>
                         </tr>
                         <tr ng-if="city.id === undefined">
@@ -213,7 +216,7 @@
                         <td>{{ resident.name }}</td>
                         <td>{{resident.user_id}}</td>
                         <td>{{resident.username}}</td>
-                        <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-delete edit-city-kick-user" ng-if="!isUserOwner(resident.user_id)" ng-click="kickResident(index)" tooltip="Kick out" tooltip-placement="right"><img src="content/img/kick-icon.png" /></button></td>
+                        <td ng-if="amIOwner(city) && !city.started_at && city.id"><button class="btn btn-delete edit-city-kick-user" ng-click="kickResident(index)" tooltip="Kick out" tooltip-placement="right"><img src="content/img/kick-icon.png" /></button></td>
                     </tr>
                     </tbody>
                 </table>

@@ -12,8 +12,8 @@ var ACTION_RESULT_TYPE_ID_SINGLE_REQUIRED_MAFIA_MEMBERS = 9;
 
 var ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS = 10;
 var ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE = 11;
-var ACTION_RESULT_TYPE_ID_SILENT_SHERIFF_IDENTITIES = 12;
-var ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF = 13;
+var ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES = 12;
+var ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY = 13;
 
 var ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS = 14;
 var ACTION_RESULT_TYPE_ID_GAME_OVER = 15;
@@ -37,8 +37,8 @@ app.factory('actionResultsService', function($q, serverService) {
         ACTION_RESULT_TYPE_ID_SINGLE_REQUIRED_MAFIA_MEMBERS : ACTION_RESULT_TYPE_ID_SINGLE_REQUIRED_MAFIA_MEMBERS,
         ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS : ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS,
         ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE : ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE,
-        ACTION_RESULT_TYPE_ID_SILENT_SHERIFF_IDENTITIES : ACTION_RESULT_TYPE_ID_SILENT_SHERIFF_IDENTITIES,
-        ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF : ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF,
+        ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES : ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES,
+        ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY : ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY,
         ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS : ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS,
         ACTION_RESULT_TYPE_ID_GAME_OVER : ACTION_RESULT_TYPE_ID_GAME_OVER
     };
@@ -78,8 +78,8 @@ app.factory('actionResultsService', function($q, serverService) {
         if (city.rolesById[ROLE_ID_SHERIFF] && city.rolesById[ROLE_ID_SHERIFF].quantity > 0)
             publicActionResultTypeIds.push(ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SHERIFF);
 
-        if (city.rolesById[ROLE_ID_SILENT_SHERIFF] && city.rolesById[ROLE_ID_SILENT_SHERIFF].quantity > 0)
-            publicActionResultTypeIds.push(ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF);
+        if (city.rolesById[ROLE_ID_DEPUTY] && city.rolesById[ROLE_ID_DEPUTY].quantity > 0)
+            publicActionResultTypeIds.push(ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY);
 
         return publicActionResultTypeIds;
     };
@@ -180,7 +180,7 @@ app.factory('actionResultsService', function($q, serverService) {
                     someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_TERRORIST_BOMB ||
                     (someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SHERIFF_IDENTITIES && shouldShowSheriffIdentitiesResult(someActionResult)) ||
                     someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SHERIFF ||
-                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SILENT_SHERIFF
+                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY
                 );
         });
     };
@@ -193,7 +193,7 @@ app.factory('actionResultsService', function($q, serverService) {
                     someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_TELLER_VOTES ||
                     someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SINGLE_REQUIRED_MAFIA_MEMBERS ||
                     someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE ||
-                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SILENT_SHERIFF_IDENTITIES
+                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES
                 );
         });
     };
