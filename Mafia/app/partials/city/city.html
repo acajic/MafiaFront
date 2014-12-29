@@ -7,12 +7,12 @@
 
     <div class="city-info-header">
         <div ng-if="!city.finished_at && !city.paused" class="col-md-3 city-info-box" style="text-align: center;">
-            <div>
+            <div ng-show="city.current_day_number !== undefined">
                 <current-day></current-day>
             </div>
         </div>
-        <div ng-if="!city.finished_at && !city.paused" class="col-md-3 city-info-box" style="text-align: center;">
-            <div>
+        <div ng-if="!city.finished_at && !city.paused" class="col-md-3 city-info-box" style="text-align: center;" ng-cloak>
+            <div ng-show="city.timezone !== undefined">
                 <city-timer city="city" next-moment="nextMoment" on-day-start="" on-night-start=""></city-timer>
 
                 <div class="day-cycle-phase">
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div ng-if="city.finished_at" class="col-md-6 city-info-box city-info-box-game-over">
+        <div ng-if="city.finished_at" class="col-md-6 city-info-box city-info-box-game-over" ng-cloak>
             <div>
                 <img src="content/img/lock-icon.png" style="width: 100px; height: 100px;" />
                 Game over. {{ gameOverDeclarationOfWinners }}
@@ -52,13 +52,13 @@
     </div>
 
     <div class="col-md-3 role-chooser-container city-info-box" ng-if="resident" style="text-align: center;">
-        <div class="city-role-info-box">
+        <div class="city-role-info-box" ng-show="resident.role">
             Your role: <br/>
             <role-chooser city="city" role-id="resident.role.id" role-selected="roleSelected" edit-mode="roleChooserEditMode" enable-role-saving="true"></role-chooser>
         </div>
     </div>
-    <div class="col-md-3 city-info-box" ng-if="resident" style="text-align: center;">
-        <div class="city-alive-info-box">
+    <div class="col-md-3 city-info-box" ng-if="resident" style="text-align: center;" ng-cloak>
+        <div class="city-alive-info-box" ng-show="resident.alive !== undefined">
             <div ng-if="resident.alive === false" class="resident-dead">
                 <img src="content/img/resident-dead.png" style="height: 65px" class="resident-dead-img">
                 You are dead
