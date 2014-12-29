@@ -1,4 +1,4 @@
-app.controller('CitiesController',function ($scope, $routeParams, $timeout, $location, $sce, citiesService, authService, modalService, layoutService, rolesService) {
+app.controller('CitiesController',function ($scope, $route, $routeParams, $timeout, $location, $sce, citiesService, authService, modalService, layoutService, rolesService, usersService) {
     "use strict";
 
 
@@ -485,7 +485,6 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
             $scope.appPermissionCreateGamesGranted = null;
         }
 
-
     });
 
 
@@ -516,15 +515,22 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         };
         $scope.myCities = [];
 
-        var emailConfirmationCode = $routeParams["emailConfirmationCode"];
-        if (emailConfirmationCode) {
-            if ($scope.user) {
-                $scope.user['emailConfirmationCode'] = emailConfirmationCode;
-            } else {
-                $scope.user = {emailConfirmationCode : emailConfirmationCode};
+
+        var routePath = $route.current.$$route.originalPath;
+        if (routePath.indexOf('email_confirmation') >= 0) {
+            var emailConfirmationCode = $routeParams["emailConfirmationCode"];
+            if (emailConfirmationCode) {
+                if ($scope.user) {
+                    $scope.user['emailConfirmationCode'] = emailConfirmationCode;
+                } else {
+                    $scope.user = {emailConfirmationCode: emailConfirmationCode};
+                }
+                $location.path('/cities');
             }
-            $location.path('/cities');
         }
+
+
+
 
         $scope.selectedAllCities = {rowId: 0};
         $scope.selectedMyCities = {rowId: 0};

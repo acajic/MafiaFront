@@ -6,7 +6,10 @@ app.config(function ($routeProvider, $locationProvider) {
     // $locationProvider.html5Mode(true);
     $locationProvider.hashPrefix('!');
 
-    $routeProvider.when('/cities/email_confirmation/:emailConfirmationCode', {
+    $routeProvider.when('/unsubscribe', {
+        controller: 'UnsubscribeController',
+        templateUrl: 'app/partials/unsubscribe.html'
+    }).when('/cities/email_confirmation/:emailConfirmationCode', {
         controller: 'CitiesController',
         templateUrl: 'app/partials/cities.html'
     }).when('/cities', {
