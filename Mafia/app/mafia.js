@@ -2,7 +2,7 @@
  
 // app 
  
-var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.pointsAssign', 'timer', 'ui.minLengthNumber', 'ui.dateLocale', 'uniqque_filter', 'ngQuickDate', 'angularUtils.directives.dirDisqus']);
+var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.pointsAssign', 'timer', 'ui.minLengthNumber', 'ui.dateLocale', 'uniqque_filter', 'ngQuickDate', 'angularUtils.directives.dirDisqus', 'ui.acInput', 'ui.acHighlightText']);
 
 app.config(function ($routeProvider, $locationProvider) {
     'use strict';
@@ -10,7 +10,10 @@ app.config(function ($routeProvider, $locationProvider) {
     // $locationProvider.html5Mode(true);
     $locationProvider.hashPrefix('!');
 
-    $routeProvider.when('/cities/email_confirmation/:emailConfirmationCode', {
+    $routeProvider.when('/unsubscribe', {
+        controller: 'UnsubscribeController',
+        templateUrl: 'app/partials/unsubscribe.html'
+    }).when('/cities/email_confirmation/:emailConfirmationCode', {
         controller: 'CitiesController',
         templateUrl: 'app/partials/cities.html'
     }).when('/cities', {
@@ -43,63 +46,9 @@ app.config(function ($routeProvider, $locationProvider) {
     }).when('/cities/:cityId/update', {
         controller: 'CityCreateOrUpdateController',
         templateUrl: 'app/partials/city/createOrUpdate.html'
-//        resolve: {
-//            validate: function($q, $location, $route, citiesService, authService) {
-//                var cityId = $route.current.params['cityId'];
-//
-//                var cityPromise = citiesService.getCity(cityId);
-//                var userMePromise = authService.userMe(false);
-//
-//                $q.all([cityPromise, userMePromise]).then(function(result) {
-//                    var city = result[0];
-//                    var userMe = result[1];
-//
-//
-//                    if (city.user_creator_id == userMe.id) {
-//                        // user is creator of selected city
-//                    } else {
-//                        // user is NOT creator of selected city
-//                        $location.path('/cities');
-//                    }
-//                }, function(reason) {
-//                    $location.path('/cities');
-//                });
-//
-//            }
-//        }
     }).when('/cities/:cityId', {
         controller: 'CityController',
         templateUrl: 'app/partials/city/city.html'
-//        resolve: {
-//            validate: function($q, $location, $route, citiesService, authService) {
-//                var cityId = $route.current.params['cityId'];
-//
-//                var cityPromise = citiesService.getCity(cityId);
-//                var userMePromise = authService.userMe(false);
-//
-//                return $q.all([cityPromise, userMePromise], function(result) {
-//                    var city = result[0];
-//                    var userMe = result[1];
-//
-//
-//                    if (!city) {
-//                        $location.path('/cities');
-//                    }
-//
-//                    var resident = $.grep(city.residents, function (someResident) {
-//                        return someResident.user_id == userMe.id;
-//                    })[0];
-//
-//                    if (!resident) {
-//                        $location.path('/cities');
-//                    }
-//
-//                }, function(reason) {
-//                    $location.path('/cities');
-//                });
-//            }
-//        }
-
     }).when('/cities/:cityId/discussion', {
         controller: 'CityDiscussionController',
         templateUrl: 'app/partials/city/cityDiscussion.html'
@@ -192,7 +141,7 @@ app.controller('AppController', function ($scope) {
  
 // citiesController 
  
-app.controller('CitiesController',function ($scope, $routeParams, $timeout, $location, citiesService, authService, modalService, layoutService, rolesService) {
+app.controller('CitiesController',function ($scope, $route, $routeParams, $timeout, $location, $sce, citiesService, authService, modalService, layoutService, rolesService, usersService) {
     "use strict";
 
 
@@ -232,6 +181,34 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
 
     };
+
+    $scope.allCitiesSearchAction = function() {
+
+        var searchText = $scope.allCitiesFilterModel.searchText;
+        if (searchText.length < 3) {
+            $scope.allSearchCities = [];
+            return;
+        }
+        var allCitiesForSearchTextPromise = citiesService.getAllCitiesForSearch(searchText);
+        allCitiesForSearchTextPromise.then(function(results) {
+            $scope.allSearchCities = results;
+        }, function(reason) {
+            // error handling ignored
+        });
+
+    };
+
+    $scope.allCitiesIsSearchActiveWillChange = function() {
+        $scope.selectedAllCities.rowId = null;
+        if (!$scope.allCitiesFilterModel.isSearchActive) { // about to become TRUE
+            $timeout(function() {
+                $("#search-all-cities-ac-input input[type=text]").focus();
+            }, 100);
+
+        }
+    };
+
+
 
     var pageIndexMyCities = 0;
     var pageSizeMyCities = 10;
@@ -274,8 +251,31 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     };
 
+    $scope.myCitiesIsSearchActiveWillChange = function() {
+        $scope.selectedMyCities.rowId = null;
+        if (!$scope.myCitiesFilterModel.isSearchActive) { // about to become TRUE
+            $timeout(function() {
+                $("#search-my-cities-ac-input input[type=text]").focus();
+            }, 100);
 
+        }
+    };
 
+    $scope.myCitiesSearchAction = function() {
+
+        var searchText = $scope.myCitiesFilterModel.searchText;
+        if (searchText.length < 3) {
+            $scope.mySearchCities = [];
+            return;
+        }
+        var myCitiesForSearchTextPromise = citiesService.getMyCitiesForSearch(searchText);
+        myCitiesForSearchTextPromise.then(function(results) {
+            $scope.mySearchCities = results;
+        }, function(reason) {
+            // error handling ignored
+        });
+
+    };
 
     $scope.newCity = function () {
         $location.path('/cities/create');
@@ -323,7 +323,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         });
 
 
-        var joinCityPromise = citiesService.joinCity(city.id);
+        var joinCityPromise = citiesService.joinCity(city.id, $scope.selectedCity.joinCityPassword);
         joinCityPromise.then(function(result) {
             var updatedCity = result.city;
             $timeout(function() {
@@ -501,6 +501,8 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     $scope.citySelected = function (selectedCity) {
         $scope.selectedCity = selectedCity;
+        if (selectedCity)
+            $scope.joinCityPasswordMatch = (selectedCity.hashed_password || '').length == 0;
     };
 
     $scope.tabSelected = function (tabIndex) {
@@ -508,6 +510,7 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         $scope.selectedMyCities.rowId = 0;
     };
 
+    /*
     function amICreatorOfCity(city) {
         if (city) {
             return city.user_creator_id == authService.user.id;
@@ -525,58 +528,70 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
         return residentMe;
     }
+    */
 
     function classNameForMyCitiesRow(city) {
         if (!city)
             return "";
 
-        if (city.is_member)
-            return "city-row-member";
-        if (city.is_invited)
-            return "city-row-invited";
-        if (city.is_join_requested)
-            return "city-row-join-requested";
+        var classes = '';
 
+        if (city.is_member)
+            classes += "city-row-member";
+        if (city.is_invited)
+            classes += "city-row-invited";
+        if (city.is_join_requested)
+            classes += "city-row-join-requested";
+
+        if (city.id == $scope.selectedMyCities.rowId)
+            classes += " selected";
+
+        return classes;
     }
 
     function classNameForAllCitiesRow(city) {
         if (!city)
             return "";
 
+        var classes = '';
+
         if (city.public)
-            return "city-row-public";
+            classes +=  "city-row-public";
         else
-            return "city-row-private";
+            classes +=  "city-row-private";
+
+        if (city.id == $scope.selectedAllCities.rowId)
+            classes += " selected";
+
+        return classes;
     }
 
     function showEditButtonForCity(city) {
         return city.is_owner;
-        /*
-        if (city)
-            return amICreatorOfCity(city);
-        else
-            return false;
-        */
     }
 
     function showEnterButtonForCity(city) {
-        return city && city.started_at && city.is_member;
+        return city && city.started_at && (city.is_member || city.is_owner);
+    }
 
-        /*if (city && city.started_at)
-            return amIMemberOfCity(city);
-        else
+
+    function showPasswordFieldForCity(city) {
+        if (!city)
             return false;
-        */
+
+        return !city.is_member && !city.is_owner && (city.hashed_password || '').length > 0;
+    }
+
+    function joinCityPasswordDidChange() {
+        var salted_password = $scope.selectedCity.joinCityPassword + ($scope.selectedCity.password_salt || '');
+        var generated_hashed_password = sha256_digest(salted_password);
+        $scope.joinCityPasswordMatch = angular.equals(generated_hashed_password, $scope.selectedCity.hashed_password);
     }
 
     function showJoinButtonForCity(city) {
-        return city && !city.started_at && !city.is_join_requested && !city.is_member && !city.is_invited && !city.is_owner;
-
-        /*if (city && !city.started_at)
-            return !amIMemberOfCity(city);
-        else
-            return false;*/
+        return city && !city.started_at && !city.is_join_requested && !city.is_member && !city.is_invited;
     }
+
 
     function showAcceptInvitationButtonForCity(city) {
         return city && !city.started_at && city.is_invited && !city.is_member;
@@ -584,12 +599,6 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
 
     function showLeaveButtonForCity(city) {
         return city && !city.started_at && city.is_member && !city.is_owner;
-        /*
-        if (city && !city.started_at)
-            return amIMemberOfCity(city) && !amICreatorOfCity(city);
-        else
-            return false;
-        */
     }
 
     function showCancelJoinRequestForCity(city) {
@@ -619,8 +628,13 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
             $scope.appPermissionCreateGamesGranted = null;
         }
 
-
     });
+
+
+    function renderHtml(htmlCode) {
+        return $sce.trustAsHtml(htmlCode);
+    };
+
 
 
 
@@ -637,21 +651,29 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         $scope.allCities = [];
 
         $scope.myCitiesFilterModel = {
+            isOwner: true,
             isMember: true,
             isJoinRequested: true,
             isInvited: true
         };
         $scope.myCities = [];
 
-        var emailConfirmationCode = $routeParams["emailConfirmationCode"];
-        if (emailConfirmationCode) {
-            if ($scope.user) {
-                $scope.user['emailConfirmationCode'] = emailConfirmationCode;
-            } else {
-                $scope.user = {emailConfirmationCode : emailConfirmationCode};
+
+        var routePath = $route.current.$$route.originalPath;
+        if (routePath.indexOf('email_confirmation') >= 0) {
+            var emailConfirmationCode = $routeParams["emailConfirmationCode"];
+            if (emailConfirmationCode) {
+                if ($scope.user) {
+                    $scope.user['emailConfirmationCode'] = emailConfirmationCode;
+                } else {
+                    $scope.user = {emailConfirmationCode: emailConfirmationCode};
+                }
+                $location.path('/cities');
             }
-            $location.path('/cities');
         }
+
+
+
 
         $scope.selectedAllCities = {rowId: 0};
         $scope.selectedMyCities = {rowId: 0};
@@ -662,6 +684,10 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         $scope.classNameForAllCitiesRow = classNameForAllCitiesRow;
         $scope.showEditButtonForCity = showEditButtonForCity;
         $scope.showEnterButtonForCity = showEnterButtonForCity;
+
+        $scope.showPasswordFieldForCity = showPasswordFieldForCity;
+
+        $scope.joinCityPasswordDidChange = joinCityPasswordDidChange;
         $scope.showJoinButtonForCity = showJoinButtonForCity;
         $scope.showAcceptInvitationButtonForCity = showAcceptInvitationButtonForCity;
         $scope.showLeaveButtonForCity = showLeaveButtonForCity;
@@ -673,6 +699,9 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         });
 
         $scope.affiliationIds = rolesService.affiliationIds;
+
+
+        $scope.renderHtml = renderHtml;
     }
 
 }).filter('filterMyCities', function () {
@@ -682,7 +711,8 @@ app.controller('CitiesController',function ($scope, $routeParams, $timeout, $loc
         angular.forEach(cities, function (city) {
             "use strict";
 
-            if ((myCitiesFilterModel.isMember && city.is_member) ||
+            if ((myCitiesFilterModel.isOwner && city.is_owner) ||
+                (myCitiesFilterModel.isMember && city.is_member) ||
                 (myCitiesFilterModel.isJoinRequested && city.is_join_requested) ||
                 (myCitiesFilterModel.isInvited && city.is_invited)) {
 
@@ -770,23 +800,30 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
             $scope.city = city;
 
             var userMe = result[1];
-            $scope.resident = $.grep(city.residents, function(someResident) {
+            var userMeResidents = $.grep(city.residents, function(someResident) {
                 return someResident.user_id == userMe.id;
-            })[0];
+            });
+            if (userMeResidents.length > 0)
+                $scope.resident = userMeResidents[0];
+
+
+            $scope.dayNumberMax = city.current_day_number + 1;
+            $scope.dayNumberMin = Math.max($scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE, 0);
 
             var roleId = result[2];
 
             if (roleId) {
                 $scope.resident.role = city.rolesById[roleId].role;
-                $scope.dayNumberMax = city.current_day_number + 1;
-                $scope.dayNumberMin = Math.max($scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE, 0);
                 initActionResults(cityId, roleId, $scope.dayNumberMin, $scope.dayNumberMax);
-            } else {
+            } else if ($scope.resident) {
                 // user has probably manually deleted the cookie containing their role id
-                $scope.basicValidationErrors.push({msg: 'Select your role.' })
+                $scope.basicValidationErrors.push({msg: 'Select your role.' });
                 $scope.roleChooserEditMode = true;
                 $scope.isLoading = false;
+            } else {
+                initActionResults(cityId, null, $scope.dayNumberMin, $scope.dayNumberMax);
             }
+
         }, function(reason) {
             $scope.isLoading = false;
         });
@@ -906,7 +943,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
             var roleId = residentMeResult.saved_role_id;
             deferred.resolve(roleId);
         }, function(reason) {
-            deferred.reject(reason);
+            deferred.resolve(null);
         });
 
         return deferred.promise;
@@ -1083,9 +1120,14 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
             $scope.generalMessages = [{type: 'success', msg: "Successfully started '" + city.name + "'."}];
         }, function(reason) {
+            var message = '';
+            for (var key in reason.httpObj.responseJSON) {
+                message += reason.httpObj.responseJSON[key] + '. ';
+            }
+
             $timeout(function() {
                 $scope.disableCityControls = false;
-                $scope.generalMessages = [{type: 'danger', msg: 'Failed to start city.' }];
+                $scope.generalMessages = [{type: 'danger', msg: 'Failed to start city. ' + message }];
             });
 
         });
@@ -1249,20 +1291,32 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         });
     }
 
+    function showJoinCityPasswordField(city) {
+        if (!city)
+            return false;
+
+        return !city.is_member && (city.hashed_password || '').length > 0;
+    }
+
+    function joinCityPasswordDidChange() {
+        var salted_password = $scope.city.password + ($scope.city.password_salt || '');
+        var generated_hashed_password = sha256_digest(salted_password);
+        $scope.joinCityPasswordMatch = angular.equals(generated_hashed_password, $scope.city.hashed_password);
+    }
+
     function showJoinButton(city) {
         if (!city)
             return false;
 
-        var resident = $.grep(city.residents, function(someResident) {
-            return $scope.userMe.id == someResident.user_id;
-        })[0];
+        if ($scope.joinCityPasswordMatch === undefined)
+            $scope.joinCityPasswordMatch = city.hashed_password == null || city.is_owner;
 
-        return !isNew(city) && !city.is_owner && !city.started_at && !city.is_member && !city.is_join_requested && !city.is_invited && !city.finished_at;
+        return !isNew(city) && !city.started_at && !city.is_member && !city.is_join_requested && !city.is_invited && !city.finished_at;
     }
 
     function join() {
         $scope.disableCityControls = true;
-        var joinPromise = citiesService.joinCity($scope.city.id);
+        var joinPromise = citiesService.joinCity($scope.city.id, $scope.city.password);
         joinPromise.then(function(result) {
             var cityUpdated = result.city;
             $timeout(function() {
@@ -1369,7 +1423,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
     }
 
-    function isCityModified(city) {
+    function isCityUnmodified(city) {
         return angular.equals(city, originalCity);
     }
 
@@ -2176,7 +2230,10 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.pause = pause;
         $scope.showResumeButton = showResumeButton;
         $scope.resume = resume;
-        $scope.isCityModified = isCityModified;
+        $scope.isCityUnmodified = isCityUnmodified;
+
+        $scope.showJoinCityPasswordField = showJoinCityPasswordField;
+        $scope.joinCityPasswordDidChange = joinCityPasswordDidChange;
 
         $scope.showJoinButton = showJoinButton;
         $scope.join = join;
@@ -2363,6 +2420,39 @@ app.controller('RegisterController', function ($scope, $location, $timeout, user
         $scope.register = register;
         $scope.infos = [];
     }
+
+}); 
+ 
+// unsubscribeController 
+ 
+/**
+ * Created by Andro on 29.12.2014..
+ */
+app.controller('UnsubscribeController', function ($scope, usersService) {
+    "use strict";
+
+    $scope.alerts = [];
+
+    $scope.closeAlert = function (index) {
+        $scope.alerts.splice(index, 1);
+    };
+
+    $scope.unsubscribe = function() {
+        if (!$scope.email) {
+            $scope.alerts.push({type: 'danger', msg: 'Enter email'});
+            return;
+        }
+
+        var unsubscribePromise = usersService.unsubscribeEmail($scope.email);
+        unsubscribePromise.then(function(result) {
+            $scope.alerts.push({type: 'success', msg: "Successfully unsubscribed '" + $scope.email + "'." });
+        }, function(reason) {
+            var additionalText = reason.httpObj.responseText;
+            if (!additionalText)
+                additionalText = "We suggest you send an email to " + usersService.supportEmail + " with title 'unsubscribe' and you will no longer receive any emails from this site.";
+            $scope.alerts.push({type: 'danger', msg: "Failed to unsubscribe. " + additionalText  });
+        });
+    };
 
 }); 
  
@@ -3556,7 +3646,7 @@ app.directive('cityTimer', function() {
             }
 
             $scope.toggleMode = function() {
-                if ($scope.city.finished_at)
+                if ($scope.city.finished_at || !$scope.resident)
                     return;
 
                 $scope.editMode = !$scope.editMode;
@@ -3630,7 +3720,7 @@ app.directive('createPrivateNewsFeedResult', function(actionResultsService) {
             }, true);
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -3679,7 +3769,7 @@ app.directive('createPublicNewsFeedResult', function(actionResultsService) {
 
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -3720,7 +3810,7 @@ app.directive('currentDay', function() {
             }, true);
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -3887,26 +3977,10 @@ app.directive('residents', function($timeout, actionResultsService) {
                     scope.residentsCopied = residents;
                 }
             }, true);
-/*
-
-            scope.$watch('city.residentsById', function(residentsById) {
-                if (!residentsById)
-                    return;
-
-                var residents = [];
-                for (var residentId in residentsById) {
-                    if (residentsById.hasOwnProperty(residentId)) {
-                        var resident = residentsById[residentId];
-                        residents.push(angular.copy(resident));
-                    }
-                }
-                scope.residentsCopied = residents;
-            }, true);
-*/
 
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.city.is_member)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -4201,7 +4275,7 @@ app.directive('actionTypeParamsResult', function($timeout, actionResultsService)
             }, true);
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -4253,6 +4327,197 @@ app.directive('actionTypeParamsResult', function($timeout, actionResultsService)
                 postActionResult(scope.actionResult);
             };
 
+        }
+    };
+}); 
+ 
+// deputyIdentitiesResultDirective 
+ 
+app.directive('deputyIdentitiesResult', function($timeout, actionResultsService) {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/actionResults/deputyIdentitiesResult.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            scope.deadResidentRolesCopied = [];
+            scope.selectedResident = {};
+
+            scope.actionResultCopied = {};
+
+            scope.$watch('[actionResult, city]', function(values) {
+                var actionResult = values[0];
+                if (!actionResult)
+                    return;
+                var result = actionResult.result;
+
+                if (result.success === undefined) {
+                    result.success = true;
+                }
+
+                // city_has_roles, interpret roles in deadResidentRoles
+                var city = values[1];
+                if (!city)
+                    return;
+
+                if (!actionResult.id) {
+                    scope.actionResultCopied = {
+                        action_result_type: {
+                            id: ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES
+                        },
+                        day: $.grep(city.days, function(someDay) {
+                            return someDay.id == city.current_day_id;
+                        })[0]
+                    };
+                } else {
+                    angular.copy(scope.actionResult, scope.actionResultCopied);
+                    scope.actionResultCopied.day = $.grep(city.days, function(someDay) {
+                        return someDay.id == scope.actionResultCopied.day_id;
+                    })[0];
+                }
+
+
+
+                scope.outcome.success = result.success.toString() == 'true';
+
+                if (result.success.toString() == 'false' && !scope.isNew) {
+                    scope.interpretation = "You spent all available actions of this type.";
+                    return;
+                }
+
+                if ((!result.dead_residents_roles || result.dead_residents_roles.length == 0) && !scope.isNew) {
+                    scope.interpretation = "No dead residents.";
+                    return;
+                }
+
+
+
+                var deadResidentRoles = [];
+                angular.forEach(result.dead_residents_roles, function(deadResidentRole) {
+                    deadResidentRoles.push( {
+                        residentId : deadResidentRole.resident_id,
+                        residentName : city.residentsById[deadResidentRole.resident_id].name,
+                        residentUsername : city.residentsById[deadResidentRole.resident_id].username,
+                        residentRoleName : city.rolesById[deadResidentRole.role_id].role.name,
+                        residentRoleId : deadResidentRole.role_id
+                    });
+                });
+                scope.deadResidentRoles = deadResidentRoles;
+                var deadResidentRolesCopied = [];
+                angular.copy(scope.deadResidentRoles, deadResidentRolesCopied);
+                scope.deadResidentRolesCopied = deadResidentRolesCopied;
+
+                var cityResidents = [];
+                angular.copy(city.residents, cityResidents);
+                scope.cityResidents = cityResidents;
+
+
+
+                scope.interpretation = "Info on deceased residents.";
+            }, true);
+
+
+            scope.toggleMode = function() {
+                if (scope.city.finished_at || !scope.resident)
+                    return;
+
+                scope.editMode = !scope.editMode;
+            };
+
+            scope.outcome = {
+                success : true
+            };
+
+            scope.removeFromDeadResidents = function(index) {
+                scope.deadResidentRolesCopied.splice(index, 1);
+            };
+
+            scope.addToDeadResidents = function() {
+                if (!scope.selectedResident || !scope.selectedResident.residentId)
+                    return;
+
+                scope.deadResidentRolesCopied.push(scope.selectedResident);
+                scope.selectedResident = {};
+            };
+
+            scope.selectedToAddDeadResident = function(resident) {
+                var roleId = scope.selectedResident.residentRoleId;
+
+                var selectedResident = {
+                    residentId : resident.id,
+                    residentName : resident.name,
+                    residentUsername : resident.username,
+                    residentRoleName : roleId ? scope.city.rolesById[roleId].role.name : null,
+                    residentRoleId : roleId
+                };
+
+                scope.selectedResident = selectedResident;
+            };
+
+            scope.deleteActionResult = function() {
+                var deleteActionResultPromise = actionResultsService.deleteActionResult(scope.actionResult.id);
+                deleteActionResultPromise.then(function() {
+                    var index = scope.actionResults.indexOfMatchFunction(function(someActionResult) {
+                        return someActionResult.id == scope.actionResult.id;
+                    });
+
+                    if (index < 0)
+                        return;
+
+                    $timeout(function() {
+                        scope.actionResults.splice(index, 1);
+                        scope.editMode = false;
+                    });
+
+                });
+            };
+
+            scope.submitActionResult = function() {
+                var actionResult = {};
+
+                angular.copy(scope.actionResult, actionResult);
+
+                var submitActionResultPromise = actionResultsService.postActionResult(
+                    scope.city.id,
+                    null,
+                    scope.actionResultCopied.action_result_type,
+                    scope.actionResultCopied.action_id,
+                    scope.actionResultCopied.day.id,
+                    {
+                        dead_residents_roles : $.map(scope.deadResidentRolesCopied, function(deadResidentRole) {
+                            return {
+                                resident_id : deadResidentRole.residentId,
+                                role_id : deadResidentRole.residentRoleId
+                            };
+                        }),
+                        success : scope.outcome.success
+                    }
+                );
+
+                submitActionResultPromise.then(function(createdActionResult) {
+                    var index = scope.actionResults.indexOfMatchFunction(function(someActionResult) {
+                        return someActionResult.id == scope.actionResult.id;
+                    });
+
+                    if (index < 0) {
+                        scope.actionResults.splice(0, 0, createdActionResult);
+                    } else {
+                        scope.actionResults.splice(index, 1, createdActionResult);
+                    }
+
+
+                    $timeout(function() {
+                        if (scope.isNew)
+                            scope.hide();
+                        else {
+                            scope.editMode = false;
+                        }
+                    });
+
+
+                });
+            };
         }
     };
 }); 
@@ -4385,7 +4650,7 @@ app.directive('investigateResult', function($timeout, actionResultsService) {
             }, true);
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -4515,7 +4780,7 @@ app.directive('journalistInvestigateResult', function($timeout, actionResultsSer
             }, true);
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -4625,7 +4890,7 @@ app.directive('mafiaMembersResult', function($timeout, actionResultsService) {
             }, true);
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -4760,7 +5025,7 @@ app.directive('protectResult', function($timeout, actionResultsService) {
             }, true);
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -4830,13 +5095,13 @@ app.directive('protectResult', function($timeout, actionResultsService) {
     };
 }); 
  
-// residentBecameSheriffResultDirective 
+// residentBecameDeputyResultDirective 
  
-app.directive('residentBecameSheriffResult', function($timeout, actionResultsService) {
+app.directive('residentBecameDeputyResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/actionResults/residentBecameSheriffResult.html',
+        templateUrl: 'app/directiveTemplates/domain/actionResults/residentBecameDeputyResult.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -4850,12 +5115,12 @@ app.directive('residentBecameSheriffResult', function($timeout, actionResultsSer
                 if (!city)
                     return;
 
-                scope.interpretation = "Sheriff has died and you became the new Sheriff. Congratulations! You should change your acting role to 'Sheriff' if you want your future actions to take effect.";
+                scope.interpretation = "Deputy has died and you became the new Deputy. Congratulations!  You should change your acting role to 'Deputy' if you want your future actions to take effect.";
 
                 if (!actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
-                            id: ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SHERIFF
+                            id: ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY
                         },
                         day: $.grep(city.days, function(someDay) {
                             return someDay.id == city.current_day_id;
@@ -4872,7 +5137,7 @@ app.directive('residentBecameSheriffResult', function($timeout, actionResultsSer
 
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -4935,13 +5200,13 @@ app.directive('residentBecameSheriffResult', function($timeout, actionResultsSer
     };
 }); 
  
-// residentBecamedeputyResultDirective
+// residentBecameSheriffResultDirective 
  
-app.directive('residentBecamedeputyResult', function($timeout, actionResultsService) {
+app.directive('residentBecameSheriffResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/actionResults/residentBecamedeputyResult.html',
+        templateUrl: 'app/directiveTemplates/domain/actionResults/residentBecameSheriffResult.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -4955,12 +5220,12 @@ app.directive('residentBecamedeputyResult', function($timeout, actionResultsServ
                 if (!city)
                     return;
 
-                scope.interpretation = "Silent Sheriff has died and you became the new Silent Sheriff. Congratulations!  You should change your acting role to 'Silent Sheriff' if you want your future actions to take effect.";
+                scope.interpretation = "Sheriff has died and you became the new Sheriff. Congratulations! You should change your acting role to 'Sheriff' if you want your future actions to take effect.";
 
                 if (!actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
-                            id: ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY
+                            id: ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SHERIFF
                         },
                         day: $.grep(city.days, function(someDay) {
                             return someDay.id == city.current_day_id;
@@ -4977,7 +5242,7 @@ app.directive('residentBecamedeputyResult', function($timeout, actionResultsServ
 
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -5128,7 +5393,7 @@ app.directive('sheriffIdentitiesResult', function($timeout, actionResultsService
 
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -5230,197 +5495,6 @@ app.directive('sheriffIdentitiesResult', function($timeout, actionResultsService
     };
 }); 
  
-// deputyIdentitiesResultDirective
- 
-app.directive('deputyIdentitiesResult', function($timeout, actionResultsService) {
-    "use strict";
-    return {
-        restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/actionResults/deputyIdentitiesResult.html',
-        link: function(scope, element, attrs) {
-            "use strict";
-
-            scope.deadResidentRolesCopied = [];
-            scope.selectedResident = {};
-
-            scope.actionResultCopied = {};
-
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
-                if (!actionResult)
-                    return;
-                var result = actionResult.result;
-
-                if (result.success === undefined) {
-                    result.success = true;
-                }
-
-                // city_has_roles, interpret roles in deadResidentRoles
-                var city = values[1];
-                if (!city)
-                    return;
-
-                if (!actionResult.id) {
-                    scope.actionResultCopied = {
-                        action_result_type: {
-                            id: ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES
-                        },
-                        day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
-                        })[0]
-                    };
-                } else {
-                    angular.copy(scope.actionResult, scope.actionResultCopied);
-                    scope.actionResultCopied.day = $.grep(city.days, function(someDay) {
-                        return someDay.id == scope.actionResultCopied.day_id;
-                    })[0];
-                }
-
-
-
-                scope.outcome.success = result.success.toString() == 'true';
-
-                if (result.success.toString() == 'false' && !scope.isNew) {
-                    scope.interpretation = "You spent all available actions of this type.";
-                    return;
-                }
-
-                if ((!result.dead_residents_roles || result.dead_residents_roles.length == 0) && !scope.isNew) {
-                    scope.interpretation = "No dead residents.";
-                    return;
-                }
-
-
-
-                var deadResidentRoles = [];
-                angular.forEach(result.dead_residents_roles, function(deadResidentRole) {
-                    deadResidentRoles.push( {
-                        residentId : deadResidentRole.resident_id,
-                        residentName : city.residentsById[deadResidentRole.resident_id].name,
-                        residentUsername : city.residentsById[deadResidentRole.resident_id].username,
-                        residentRoleName : city.rolesById[deadResidentRole.role_id].role.name,
-                        residentRoleId : deadResidentRole.role_id
-                    });
-                });
-                scope.deadResidentRoles = deadResidentRoles;
-                var deadResidentRolesCopied = [];
-                angular.copy(scope.deadResidentRoles, deadResidentRolesCopied);
-                scope.deadResidentRolesCopied = deadResidentRolesCopied;
-
-                var cityResidents = [];
-                angular.copy(city.residents, cityResidents);
-                scope.cityResidents = cityResidents;
-
-
-
-                scope.interpretation = "Info on deceased residents.";
-            }, true);
-
-
-            scope.toggleMode = function() {
-                if (scope.city.finished_at)
-                    return;
-
-                scope.editMode = !scope.editMode;
-            };
-
-            scope.outcome = {
-                success : true
-            };
-
-            scope.removeFromDeadResidents = function(index) {
-                scope.deadResidentRolesCopied.splice(index, 1);
-            };
-
-            scope.addToDeadResidents = function() {
-                if (!scope.selectedResident || !scope.selectedResident.residentId)
-                    return;
-
-                scope.deadResidentRolesCopied.push(scope.selectedResident);
-                scope.selectedResident = {};
-            };
-
-            scope.selectedToAddDeadResident = function(resident) {
-                var roleId = scope.selectedResident.residentRoleId;
-
-                var selectedResident = {
-                    residentId : resident.id,
-                    residentName : resident.name,
-                    residentUsername : resident.username,
-                    residentRoleName : roleId ? scope.city.rolesById[roleId].role.name : null,
-                    residentRoleId : roleId
-                };
-
-                scope.selectedResident = selectedResident;
-            };
-
-            scope.deleteActionResult = function() {
-                var deleteActionResultPromise = actionResultsService.deleteActionResult(scope.actionResult.id);
-                deleteActionResultPromise.then(function() {
-                    var index = scope.actionResults.indexOfMatchFunction(function(someActionResult) {
-                        return someActionResult.id == scope.actionResult.id;
-                    });
-
-                    if (index < 0)
-                        return;
-
-                    $timeout(function() {
-                        scope.actionResults.splice(index, 1);
-                        scope.editMode = false;
-                    });
-
-                });
-            };
-
-            scope.submitActionResult = function() {
-                var actionResult = {};
-
-                angular.copy(scope.actionResult, actionResult);
-
-                var submitActionResultPromise = actionResultsService.postActionResult(
-                    scope.city.id,
-                    null,
-                    scope.actionResultCopied.action_result_type,
-                    scope.actionResultCopied.action_id,
-                    scope.actionResultCopied.day.id,
-                    {
-                        dead_residents_roles : $.map(scope.deadResidentRolesCopied, function(deadResidentRole) {
-                            return {
-                                resident_id : deadResidentRole.residentId,
-                                role_id : deadResidentRole.residentRoleId
-                            };
-                        }),
-                        success : scope.outcome.success
-                    }
-                );
-
-                submitActionResultPromise.then(function(createdActionResult) {
-                    var index = scope.actionResults.indexOfMatchFunction(function(someActionResult) {
-                        return someActionResult.id == scope.actionResult.id;
-                    });
-
-                    if (index < 0) {
-                        scope.actionResults.splice(0, 0, createdActionResult);
-                    } else {
-                        scope.actionResults.splice(index, 1, createdActionResult);
-                    }
-
-
-                    $timeout(function() {
-                        if (scope.isNew)
-                            scope.hide();
-                        else {
-                            scope.editMode = false;
-                        }
-                    });
-
-
-                });
-            };
-        }
-    };
-}); 
- 
 // tellerVotesResultDirective 
  
 app.directive('tellerVotesResult', function($timeout, actionResultsService) {
@@ -5486,7 +5560,7 @@ app.directive('tellerVotesResult', function($timeout, actionResultsService) {
             }, true);
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -5670,7 +5744,7 @@ app.directive('terroristBombResult', function($timeout, actionResultsService) {
             }, true);
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -5810,7 +5884,7 @@ app.directive('voteMafiaResult', function($timeout, actionResultsService) {
             }, true);
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -5932,7 +6006,7 @@ app.directive('voteResult', function($timeout, actionResultsService) {
             }, true);
 
             scope.toggleMode = function() {
-                if (scope.city.finished_at)
+                if (scope.city.finished_at || !scope.resident)
                     return;
 
                 scope.editMode = !scope.editMode;
@@ -5992,6 +6066,51 @@ app.directive('voteResult', function($timeout, actionResultsService) {
 
                 });
             };
+
+
+        }
+    };
+}); 
+ 
+// deputyIdentitiesActionTypeParamsResultDirective 
+ 
+app.directive('deputyIdentitiesActionTypeParamsResult', function(actionResultsService) {
+    "use strict";
+    return {
+        restrict : 'E',
+        scope: {
+            actionTypeParams: '=',
+            editMode: '='
+        },
+        templateUrl: 'app/directiveTemplates/domain/actionResults/actionTypeParamsResults/deputyIdentitiesActionTypeParamsResult.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            scope.$watch('actionTypeParams', function(actionTypeParams) {
+                if (actionTypeParams.number_of_actions_available === undefined)
+                    return;
+
+                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+
+            });
+
+
+            scope.validateInput = function() {
+                if (scope.actionTypeParams.number_of_actions_available < 0) {
+                    scope.actionTypeParams.number_of_actions_available = 0;
+                }
+            };
+
+            scope.isInfiniteChanged = function(){
+                scope.isInfinite = !scope.isInfinite;
+                if (scope.isInfinite) {
+                    scope.actionTypeParams.number_of_actions_available = -1;
+                } else {
+                    scope.actionTypeParams.number_of_actions_available = 1;
+                }
+            };
+
+
 
 
         }
@@ -6154,51 +6273,6 @@ app.directive('sheriffIdentitiesActionTypeParamsResult', function(actionResultsS
                     scope.actionTypeParams.number_of_actions_available = 1;
                 }
             };
-
-        }
-    };
-}); 
- 
-// deputyIdentitiesActionTypeParamsResultDirective
- 
-app.directive('deputyIdentitiesActionTypeParamsResult', function(actionResultsService) {
-    "use strict";
-    return {
-        restrict : 'E',
-        scope: {
-            actionTypeParams: '=',
-            editMode: '='
-        },
-        templateUrl: 'app/directiveTemplates/domain/actionResults/actionTypeParamsResults/deputyIdentitiesActionTypeParamsResult.html',
-        link: function(scope, element, attrs) {
-            "use strict";
-
-            scope.$watch('actionTypeParams', function(actionTypeParams) {
-                if (actionTypeParams.number_of_actions_available === undefined)
-                    return;
-
-                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
-
-            });
-
-
-            scope.validateInput = function() {
-                if (scope.actionTypeParams.number_of_actions_available < 0) {
-                    scope.actionTypeParams.number_of_actions_available = 0;
-                }
-            };
-
-            scope.isInfiniteChanged = function(){
-                scope.isInfinite = !scope.isInfinite;
-                if (scope.isInfinite) {
-                    scope.actionTypeParams.number_of_actions_available = -1;
-                } else {
-                    scope.actionTypeParams.number_of_actions_available = 1;
-                }
-            };
-
-
-
 
         }
     };
@@ -6419,6 +6493,74 @@ app.directive('ambivalentVote', function($timeout, actionsService) {
                     } else {
                         scope.infos.push({type : 'danger', msg: "Failed to cancel actions." });
                     }
+                });
+            };
+
+        }
+    };
+}); 
+ 
+// deputyIdentitiesDirective 
+ 
+app.directive('deputyIdentities', function($timeout, actionsService, actionResultsService) {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/actions/deputyIdentities.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            scope.actionTypeIds = actionsService.actionTypeIds;
+
+            actionResultsService.getAllActionResultTypesByIds(false).then(function(actionResultTypesByIdsResult) {
+                scope.actionResultTypes = actionResultTypesByIdsResult;
+            });
+
+
+            scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
+                if (!actionTypeParamsResult)
+                    return;
+
+                scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_DEPUTY_IDENTITIES.toString()];
+            });
+
+
+            scope.revealIdentities = function() {
+
+                var postActionPromise = actionsService.postAction(scope.city.id,
+                    scope.roleId,
+                    ACTION_TYPE_ID_DEPUTY_IDENTITIES,
+                    scope.city.current_day_id,
+                    { });
+
+                postActionPromise.then(function() {
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "On the next morning, you will see the true roles of all residents that died since you became the Sheriff."}];
+                    });
+
+                }, function(reason) {
+                    angular.forEach(reason.httpObj.responseJSON, function(error) {
+                        scope.infos.push({type : 'danger', msg: error })
+                    });
+                });
+
+            };
+
+            scope.closeInfoAlert = function(index) {
+                scope.infos.splice(index, 1);
+            };
+
+            scope.cancelUnprocessedActions = function() {
+                var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.roleId, ACTION_TYPE_ID_DEPUTY_IDENTITIES);
+
+                cancelUnprocessedActionsPromise.then(function() {
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "Canceled unprocessed actions."}];
+                    });
+                }, function(reason) {
+                    angular.forEach(reason.httpObj.responseJSON, function(error) {
+                        scope.infos.push({type : 'danger', msg: error })
+                    });
                 });
             };
 
@@ -6658,74 +6800,6 @@ app.directive('sheriffIdentities', function($timeout, actionsService, actionResu
 
             scope.cancelUnprocessedActions = function() {
                 var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.roleId, ACTION_TYPE_ID_SHERIFF_IDENTITIES);
-
-                cancelUnprocessedActionsPromise.then(function() {
-                    $timeout(function() {
-                        scope.infos = [{type:"success", msg: "Canceled unprocessed actions."}];
-                    });
-                }, function(reason) {
-                    angular.forEach(reason.httpObj.responseJSON, function(error) {
-                        scope.infos.push({type : 'danger', msg: error })
-                    });
-                });
-            };
-
-        }
-    };
-}); 
- 
-// deputyIdentitiesDirective
- 
-app.directive('deputyIdentities', function($timeout, actionsService, actionResultsService) {
-    "use strict";
-    return {
-        restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/actions/deputyIdentities.html',
-        link: function(scope, element, attrs) {
-            "use strict";
-
-            scope.actionTypeIds = actionsService.actionTypeIds;
-
-            actionResultsService.getAllActionResultTypesByIds(false).then(function(actionResultTypesByIdsResult) {
-                scope.actionResultTypes = actionResultTypesByIdsResult;
-            });
-
-
-            scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
-                if (!actionTypeParamsResult)
-                    return;
-
-                scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_DEPUTY_IDENTITIES.toString()];
-            });
-
-
-            scope.revealIdentities = function() {
-
-                var postActionPromise = actionsService.postAction(scope.city.id,
-                    scope.roleId,
-                    ACTION_TYPE_ID_DEPUTY_IDENTITIES,
-                    scope.city.current_day_id,
-                    { });
-
-                postActionPromise.then(function() {
-                    $timeout(function() {
-                        scope.infos = [{type:"success", msg: "On the next morning, you will see the true roles of all residents that died since you became the Sheriff."}];
-                    });
-
-                }, function(reason) {
-                    angular.forEach(reason.httpObj.responseJSON, function(error) {
-                        scope.infos.push({type : 'danger', msg: error })
-                    });
-                });
-
-            };
-
-            scope.closeInfoAlert = function(index) {
-                scope.infos.splice(index, 1);
-            };
-
-            scope.cancelUnprocessedActions = function() {
-                var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.roleId, ACTION_TYPE_ID_DEPUTY_IDENTITIES);
 
                 cancelUnprocessedActionsPromise.then(function() {
                     $timeout(function() {
@@ -7799,6 +7873,49 @@ app.directive('citizen', function() {
     };
 }); 
  
+// deputyDirective 
+ 
+app.directive('deputy', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/deputy.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+
+            scope.$watch('actionResults', function(actionResults) {
+                if (!actionResults)
+                    return;
+
+                var index = actionResults.indexOfMatchFunction(function(actionResult) {
+                    return actionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS;
+                });
+
+                if (index >= 0) {
+                    var actionTypeParamsPerRolePerActionType = actionResults[index].result['action_types_params'];
+
+                    if (actionTypeParamsPerRolePerActionType[ROLE_ID_DEPUTY]) {
+                        if (actionTypeParamsPerRolePerActionType[ROLE_ID_DEPUTY][ACTION_TYPE_ID_DEPUTY_IDENTITIES]) {
+                            var deputyIdentitiesActionTypeParams = actionTypeParamsPerRolePerActionType[ROLE_ID_DEPUTY][ACTION_TYPE_ID_DEPUTY_IDENTITIES];
+
+                            var numOfActionsAvailable = deputyIdentitiesActionTypeParams['number_of_actions_available'];
+                            scope.numOfActionsAvailable = numOfActionsAvailable;
+                        }
+                    }
+
+                }
+
+
+            }, true);
+
+
+            scope.roleId = ROLE_ID_DEPUTY;
+
+        }
+    };
+}); 
+ 
 // detectiveDirective 
  
 app.directive('detective', function() {
@@ -7940,49 +8057,6 @@ app.directive('sheriff', function() {
     };
 }); 
  
-// deputyDirective
- 
-app.directive('deputy', function() {
-    "use strict";
-    return {
-        restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/roles/deputy.html',
-        link: function(scope, element, attrs) {
-            "use strict";
-
-
-            scope.$watch('actionResults', function(actionResults) {
-                if (!actionResults)
-                    return;
-
-                var index = actionResults.indexOfMatchFunction(function(actionResult) {
-                    return actionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS;
-                });
-
-                if (index >= 0) {
-                    var actionTypeParamsPerRolePerActionType = actionResults[index].result['action_types_params'];
-
-                    if (actionTypeParamsPerRolePerActionType[ROLE_ID_DEPUTY]) {
-                        if (actionTypeParamsPerRolePerActionType[ROLE_ID_DEPUTY][ACTION_TYPE_ID_DEPUTY_IDENTITIES]) {
-                            var deputyIdentitiesActionTypeParams = actionTypeParamsPerRolePerActionType[ROLE_ID_DEPUTY][ACTION_TYPE_ID_DEPUTY_IDENTITIES];
-
-                            var numOfActionsAvailable = deputyIdentitiesActionTypeParams['number_of_actions_available'];
-                            scope.numOfActionsAvailable = numOfActionsAvailable;
-                        }
-                    }
-
-                }
-
-
-            }, true);
-
-
-            scope.roleId = ROLE_ID_DEPUTY;
-
-        }
-    };
-}); 
- 
 // tellerDirective 
  
 app.directive('teller', function() {
@@ -8073,6 +8147,21 @@ app.directive('citizenDescription', function() {
     };
 }); 
  
+// deputyDescriptionDirective 
+ 
+app.directive('deputyDescription', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/deputy.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            
+        }
+    };
+}); 
+ 
 // detectiveDescriptionDirective 
  
 app.directive('detectiveDescription', function() {
@@ -8155,21 +8244,6 @@ app.directive('sheriffDescription', function() {
     return {
         restrict : 'E',
         templateUrl: 'app/directiveTemplates/domain/roles/descriptions/sheriff.html',
-        link: function(scope, element, attrs) {
-            "use strict";
-
-            
-        }
-    };
-}); 
- 
-// deputyDescriptionDirective
- 
-app.directive('deputyDescription', function() {
-    "use strict";
-    return {
-        restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/deputy.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -8266,7 +8340,8 @@ app.directive('acCheckbox', function() {
         restrict : 'E',
         templateUrl: 'app/directiveTemplates/utility/acCheckbox.html',
         scope: {
-            ngModel: '='
+            ngModel: '=',
+            ngChange: '='
         },
         transclude: true,
         link: function(scope, element, attrs) {
@@ -8290,7 +8365,17 @@ app.directive('acCheckbox', function() {
                     checked.hide();
                     unchecked.show();
                 }
+
+                if (scope.onChange) {
+                    scope.onChange(newNgModel, oldNgModel);
+                }
             });
+
+            scope.checkboxValueWillChange = function() {
+                if (scope.ngChange) {
+                    scope.ngChange();
+                }
+            };
         }
     };
 }); 
@@ -9013,11 +9098,19 @@ app.factory('citiesService', function($q, serverService) {
 
     };
 
+    var getAllCitiesForSearch = function(searchText) {
+        return serverService.get('cities/search/' + searchText, null);
+    };
+
     var getMyCities = function(pageIndex, pageSize) {
         return serverService.get('cities/me', {
             page_index: pageIndex,
             page_size: pageSize
         });
+    };
+
+    var getMyCitiesForSearch = function(searchText) {
+        return serverService.get('cities/me/search/' + searchText, null);
     };
 
     var getCities = function(refresh, pageIndex, pageSize) {
@@ -9052,6 +9145,10 @@ app.factory('citiesService', function($q, serverService) {
             return deferred.promise;
         }
     };
+
+
+
+
 
     var getCityPromisesByCityIds = {};
 
@@ -9149,8 +9246,8 @@ app.factory('citiesService', function($q, serverService) {
         });
     };
 
-    var joinCity = function(cityId) {
-        var joinCityPromise = serverService.post('cities/' + cityId + '/join');
+    var joinCity = function(cityId, joinCityPassword) {
+        var joinCityPromise = serverService.post('cities/' + cityId + '/join', {password : joinCityPassword});
 
         joinCityPromise.then(function(cityUpdated) {
             cacheCity(cityUpdated);
@@ -9230,7 +9327,9 @@ app.factory('citiesService', function($q, serverService) {
 
     return {
         getAllCities : getAllCities,
+        getAllCitiesForSearch : getAllCitiesForSearch,
         getMyCities : getMyCities,
+        getMyCitiesForSearch : getMyCitiesForSearch,
         cities : cities,
         getCity : getCity,
         getCities : getCities,
@@ -9819,7 +9918,11 @@ app.factory('usersService', function($q, serverService) {
         return serverService.post('users/forgot_password', {email : email});
     };
 
-    var userDeleted;
+    var unsubscribeEmail = function(email) {
+        return serverService.post('user_preference/unsubscribe', {email: email});
+    };
+
+    var userDeleted, userPreferenceChangedHashedPassword;
 
     return {
         // allUsersByIds: allUsersByIds,
@@ -9829,8 +9932,11 @@ app.factory('usersService', function($q, serverService) {
         updateUser : updateUser,
         deleteUserById : deleteUserById,
         userDeleted : userDeleted,
+        userPreferenceChangedHashedPassword : userPreferenceChangedHashedPassword,
         allowedEmailPatterns: allowedEmailPatterns,
         getAllowedEmailPatterns : getAllowedEmailPatterns,
-        postForgotPassword : postForgotPassword
+        postForgotPassword : postForgotPassword,
+        unsubscribeEmail : unsubscribeEmail,
+        supportEmail : 'ancajic@gmail.com'
     };
 });
