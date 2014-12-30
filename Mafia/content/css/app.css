@@ -550,10 +550,17 @@ ac-checkbox span {
 }
 
 .city-info-box>div {
-    background-color: rgba(22, 22, 22, 0.35);
+    background-color: #4d4e4b;
+    #background-image: url(../img/metal-pattern2.jpg);
     border-radius: 10px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.50);
     height: 100%;
+
+    color: #303030;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.30), 0px -1px 0px rgba(0,0,0,.7);
+
+    font-size: 20px;
+    font-weight: 700;
 }
 
 
