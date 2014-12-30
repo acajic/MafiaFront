@@ -547,6 +547,7 @@ ac-checkbox span {
 .city-info-box {
     height: 140px;
     padding-right: 15px;
+    margin-bottom: 10px;
 }
 
 .city-info-box>div {
