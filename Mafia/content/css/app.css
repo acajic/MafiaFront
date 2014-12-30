@@ -337,15 +337,12 @@ ac-checkbox span {
 
 /* BEGIN create/edit city */
 
-.general-messages {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
 .alert {
     padding-left: 15px;
     padding-right: 15px;
-    margin-bottom: 0px;
+    margin-bottom: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
 .alert-danger {
@@ -390,7 +387,6 @@ ac-checkbox span {
 .city .general-messages {
     background-color: #322213;
     color: #ffffff;
-
 }
 
 

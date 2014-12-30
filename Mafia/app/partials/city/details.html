@@ -4,7 +4,7 @@
     </div>
 
     <div class="title textonly">{{city.name}} - DETAILS</div>
-    <div id="general-messages">
+    <div class="alert-box general-messages">
         <alert ng-repeat="alert in generalMessages" type="alert.type" close="closeGeneralMessage($index)">{{alert.msg}}</alert>
     </div>
 
