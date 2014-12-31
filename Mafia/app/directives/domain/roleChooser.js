@@ -9,7 +9,8 @@ app.directive('roleChooser', function(residentsService) {
             lockToEditMode: '=',
             editMode: '=',
             enableRoleSaving: '=',
-            disableWarning: '='
+            // disableWarning: '=',
+            handleAlert: '&'
         },
         templateUrl: 'app/directiveTemplates/domain/roleChooser.html',
         link: function(scope, element, attrs) {
@@ -19,7 +20,7 @@ app.directive('roleChooser', function(residentsService) {
                 scope.editMode = true;
 
 
-            scope.infos = [];
+            // scope.infos = [];
 
             scope.$watch('[city, roleId]', function(values) {
                 var city = values[0];
@@ -41,7 +42,9 @@ app.directive('roleChooser', function(residentsService) {
             scope.optionSelected = function(selectedOption) {
                 scope.roleId = selectedOption;
                 if (!scope.disableWarning) {
-                    scope.infos.push({msg: 'Only actions conducted while your true role is selected will be deemed valid.'});
+                    if (scope.handleAlert) {
+                        scope.handleAlert({alert : {msg: 'Only actions conducted while your true role is selected will be deemed valid.'}})
+                    }
                 }
                 if (scope.roleSelected)
                     scope.roleSelected(selectedOption);
@@ -49,21 +52,31 @@ app.directive('roleChooser', function(residentsService) {
 
             scope.saveRole = function() {
                 if (!scope.roleId) {
-                    scope.infos.push({msg: 'Select a role first'});
+                    if (scope.handleAlert) {
+                        scope.handleAlert({alert: {msg: 'Select a role first'}});
+                    }
                     return;
                 }
 
                 var saveRolePromise = residentsService.saveRoleForCityId(scope.city.id, scope.roleId);
                 saveRolePromise.then(function(updatedResident) {
-                    scope.infos.push({type: 'success', msg: 'You will be presented with this role the next time you log in to this game.'});
+                    if (scope.handleAlert) {
+                        scope.handleAlert({alert: {type: 'success', msg: 'You will be presented with this role the next time you log in to this game.'}});
+                    }
+
                 }, function(reason) {
-                    scope.infos.push({type: 'danger', msg: 'Server error. Failed to save role.'});
+                    if (scope.handleAlert) {
+                        scope.handleAlert({alert: {type: 'danger', msg: 'Server error. Failed to save role.'}});
+                    }
+
                 });
             };
 
+            /*
             scope.closeInfoAlert = function(index) {
                 scope.infos.splice(index, 1);
             };
+            */
 
         }
     };

@@ -28,6 +28,21 @@
 
     <div class="cities">
         <tabset>
+            <tab select="tabSelected(2)">
+                <tab-heading>
+                    <i class="glyphicon glyphicon-info-sign"></i> Welcome
+                </tab-heading>
+
+                <div class="col-md-12 cities-info-tab" ng-include src="'app/static/cities/info.html'">
+
+                </div>
+
+                <dir-disqus disqus-shortname="mafiafer" disqus-identifier="{{ url }}" disqus-url="{{ url }}" ready-to-bind="{{ !isLoadingContentAllCities }}"></dir-disqus>
+
+
+            </tab>
+
+
             <tab select="tabSelected(0)">
                 <tab-heading>
                     <i class="glyphicon glyphicon-home"></i> My cities
@@ -201,19 +216,7 @@
         </tab>
 
 
-        <tab select="tabSelected(2)">
-            <tab-heading>
-                <i class="glyphicon glyphicon-info-sign"></i> Info
-            </tab-heading>
 
-            <div class="col-md-12 cities-info-tab" ng-include src="'app/static/cities/info.html'">
-
-            </div>
-
-            <dir-disqus disqus-shortname="mafiafer" disqus-identifier="{{ url }}" disqus-url="{{ url }}" ready-to-bind="{{ !isLoadingContentAllCities }}"></dir-disqus>
-
-
-        </tab>
 
         </tabset>
 

@@ -523,6 +523,23 @@ ac-checkbox span {
     background-color: #191510;
 }
 
+action-result .role-chooser .dropdown-menu {
+    background-color: #ffffff;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.3);
+
+}
+
+action-result .role-chooser .dropdown a {
+    color: #000000;
+}
+
+action-result .role-chooser .dropdown-menu>li>a:hover {
+    background-color: #404040;
+    color: #ffffff;
+}
+
+
+
 .city-info-header input {
     width: 50px;
     text-align: center;
@@ -723,7 +740,7 @@ tr.invite-users-table-loader-row  {
 /* BEGIN role */
 
 #role {
-    min-height: 300px;
+    min-height: 450px;
 }
 
 /* END role */

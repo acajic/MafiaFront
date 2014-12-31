@@ -6,6 +6,10 @@
     <div class="title textonly">{{city.name}}</div>
 
     <div class="city-info-header">
+        <div class="alert-box general-messages">
+            <alert ng-repeat="alert in generalMessages" type="alert.type" close="closeGeneralMessageAlert($index)">{{alert.msg}}</alert>
+        </div>
+
         <div ng-if="!city.finished_at && !city.paused" class="col-md-3 city-info-box" style="text-align: center;">
             <div ng-show="city.current_day_number !== undefined" style="background-position: 0px 0px">
                 <current-day></current-day>
@@ -54,7 +58,7 @@
     <div class="col-md-3 role-chooser-container city-info-box" ng-if="resident" style="text-align: center;">
         <div class="city-role-info-box" ng-show="resident.role" style="background-position: 0px 100px">
             Your role: <br/>
-            <role-chooser city="city" role-id="resident.role.id" role-selected="roleSelected" edit-mode="roleChooserEditMode" enable-role-saving="true"></role-chooser>
+            <role-chooser city="city" role-id="resident.role.id" role-selected="roleSelected" edit-mode="roleChooserEditMode" enable-role-saving="true" handle-alert="handleAlert(alert)"></role-chooser>
         </div>
     </div>
     <div class="col-md-3 city-info-box" ng-if="resident" style="text-align: center;" ng-cloak>
@@ -80,7 +84,7 @@
 
 <div id="content-body">
     <div class="city">
-        <div id="basic-validation-error" style="clear: both">
+        <div class="alert-box basic-validation-error" style="clear: both">
             <alert ng-repeat="alert in basicValidationErrors" type="alert.type" close="closeBasicValidationAlert($index)">{{alert.msg}}</alert>
         </div>
 
