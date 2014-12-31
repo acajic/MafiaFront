@@ -530,6 +530,10 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         }
 
 
+        $scope.isReturningUser = getCookie('isReturningUser');
+        if (!$scope.isReturningUser) {
+            setCookie('isReturningUser', true);
+        }
 
 
         $scope.selectedAllCities = {rowId: 0};
@@ -559,6 +563,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
 
         $scope.renderHtml = renderHtml;
+
     }
 
 }).filter('filterMyCities', function () {
