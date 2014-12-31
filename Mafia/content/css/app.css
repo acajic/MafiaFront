@@ -50,6 +50,16 @@ input, textarea, select {
 }
 
 
+.text-red {
+    color: #560d0b;
+    font-weight: 700;
+}
+
+.text-green {
+    color: #0F3C07;
+    font-weight: 700;
+}
+
 
 
 #header-auth button {
@@ -62,6 +72,7 @@ input, textarea, select {
     background-color: #ffffff;
     padding-bottom: 2000px;
     margin-bottom: -2000px;
+    overflow: auto;
 }
 
 

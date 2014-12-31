@@ -1,20 +1,14 @@
+<h1>Welcome</h1>
 <div ng-include src="'app/static/cities/info/overview.html'">
-    
 </div>
 
 
 
-<accordion close-others="false">
+<h2>Roles</h2>
+<div ng-include src="'app/static/cities/info/roles.html'">
+</div>
 
-    <accordion-group heading="Roles">
-        <div ng-include src="'app/static/cities/info/roles.html'">
-        </div>
-    </accordion-group>
+<h2 id="advanced">Advanced</h2>
+<div ng-include src="'app/static/cities/info/screenshots.html'">
+</div>
 
-    <accordion-group heading="Advanced">
-
-        <div ng-include src="'app/static/cities/info/screenshots.html'">
-        </div>
-
-    </accordion-group>
-</accordion>
