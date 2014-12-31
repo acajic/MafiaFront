@@ -68,20 +68,18 @@ app.factory('authService', function(serverService, $q) {
 
                 userMePromise.then(function(userMe) {
                     angular.copy(userMe, user);
-                    return userMe;
+                    deferred.resolve(userMe);
                 }, function(reason) {
                     angular.copy({}, user);
-                    return reason;
+                    deferred.resolve(null);
                 });
-
-                return userMePromise;
 
             } else {
                 deferred.resolve(user);
             }
         } else {
             angular.copy({}, user);
-            deferred.reject('Cookie token does not exist.');
+            deferred.resolve(null);
         }
 
         return deferred.promise;

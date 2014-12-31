@@ -47,6 +47,7 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
             function signIn() {
                 scope.loader.isLoading = true;
                 var userMePromise;
+
                 if (scope.user['emailConfirmationCode']) {
                     var emailConfirmationCode = scope.user['emailConfirmationCode'];
                     scope.user['emailConfirmationCode'] = null;
@@ -56,12 +57,12 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
                 }
 
                 userMePromise.then(function(userMe) {
+                    scope.loader.isLoading = false;
+                    if (!userMe)
+                        return;
 
                     scope.user = userMe;
                     scope.user.password = "";
-
-                    scope.loader.isLoading = false;
-
                 }, function(reason) {
                     scope.user.id = null;
                     scope.loader.isLoading = false;

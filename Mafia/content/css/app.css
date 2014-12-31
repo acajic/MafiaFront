@@ -282,6 +282,7 @@ input, textarea, select {
 
 .my-cities-with-filters, .all-cities-with-filters, .cities-info-tab {
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 
