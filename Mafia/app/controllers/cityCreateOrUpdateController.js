@@ -376,7 +376,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             return false;
 
         var resident = $.grep(city.residents, function(someResident) {
-            return $scope.userMe.id == someResident.user_id;
+            return ($scope.userMe || {}).id == someResident.user_id;
         })[0];
 
         return !isNew(city) && !amIOwner(city) && !isStartedAndOngoing(city) && !isStartedAndPaused(city) && resident && !city.finished_at;
