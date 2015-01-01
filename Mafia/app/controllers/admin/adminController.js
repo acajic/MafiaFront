@@ -7,6 +7,7 @@ var kAdminQueryModelActions = 'admin_query_model_actions';
 var kAdminQueryModelActionResults = 'admin_query_model_action_results';
 var kAdminQueryModelDays = 'admin_query_model_days';
 var kAdminQueryModelInitialAppRoles = 'admin_query_model_initial_app_roles';
+var kAdminQueryModelPayments = 'admin_query_model_payments';
 
 app.controller('AdminController',function ($scope, $q, $location, usersService, layoutService, citiesService, authService, appRolesService) {
     "use strict";

@@ -838,30 +838,31 @@ tr.invite-users-table-loader-row  {
 
 /* BEGIN admin */
 
-.admin-query-panel {
+.admin-panel {
     background-color: #ffffff;
     color: #000000;
 }
 
-.admin-query-panel input, .admin-query-panel select, .admin-query-panel textarea {
+.admin-panel input, .admin-panel select, .admin-panel textarea {
     color: #000000;
 }
 
+.admin-query-panel>div {
+    min-height: 45px;
+    padding-top: 5px;
+}
 
-.admin-query-panel .row-odd {
+.admin-query-panel>div:nth-child(even) {
     background-color: rgba(200, 192, 27, 0.25);
     min-height: 45px;
 }
 
-.admin-query-panel .row-even {
-    min-height: 45px;
-}
 
-.admin-query-panel .bottom-buttons {
+.admin-panel .bottom-buttons {
     padding: 15px;
 }
 
-.admin-query-panel .top-buttons {
+.admin-panel .top-buttons {
     padding: 15px;
 }
 
