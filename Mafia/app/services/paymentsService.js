@@ -48,7 +48,7 @@ app.factory('paymentsService', function($q, serverService) {
     };
 
     var postPayment = function(userId, paymentType, unitPrice, quantity, infoJson, valid) {
-        return serverService.post('payments', {
+        return serverService.post('payments/payments', {
             payment_log : {
                 user_id: userId,
                 payment_type: paymentType,
