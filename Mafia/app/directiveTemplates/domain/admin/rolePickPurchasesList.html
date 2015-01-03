@@ -1,0 +1,104 @@
+<div class="admin-panel">
+    <div ng-if="queryable" class="admin-query-panel">
+        <div style="clear: both">
+            <p class="col-md-1">Username</p>
+            <input ng-model="queryModel.username">
+        </div>
+        <div style="clear: both">
+            <p class="col-md-1">User Email</p>
+            <input ng-model="queryModel.userEmail">
+        </div>
+
+        <div style="clear: both; overflow: hidden;">
+            <p class="col-md-1">Fulfilled?</p>
+            <select ng-model="queryModel.isFulfilled">
+                <option value="">All</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+
+
+        <div style="clear: both">
+            <p class="col-md-1">City Name</p>
+            <input ng-model="queryModel.cityName">
+        </div>
+
+
+
+        <div style="clear: both; overflow: hidden;">
+            <p class="col-md-1">Roles</p>
+            <div ng-repeat="role in allRoles" class="col-md-1">
+                <input type="checkbox"  ng-checked="queryModel.roleIds.indexOf(role.id) > -1" ng-click="toggleRoleSelection(role)">{{ role.name }}
+            </div>
+        </div>
+
+
+        <div style="clear: both" class="query-model">
+            <p class="col-md-1">City Started At</p>
+            <quick-datepicker ng-model='queryModel.cityStartedAtMin' time-format='HH:mm'
+                              placeholder='Not Set'></quick-datepicker>
+            -
+            <quick-datepicker ng-model='queryModel.cityStartedAtMax' time-format='HH:mm'
+                              placeholder='Not Set'></quick-datepicker>
+        </div>
+
+
+
+
+
+
+        <div style="clear: both" class="query-model row-even">
+            <p class="col-md-1">Created</p>
+            <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm'
+                              placeholder='Not Set'></quick-datepicker>
+            -
+            <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm'
+                              placeholder='Not Set'></quick-datepicker>
+        </div>
+
+        <div class="bottom-buttons">
+            <button class="btn btn-search" ng-click="reloadData(true)">Search</button>
+        </div>
+
+    </div>
+</div>
+
+<div class="admin-results">
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>User</td>
+            <td style="text-align: center;">Fulfilled</td>
+            <td>City</td>
+            <td>City Started At</td>
+            <td>Role</td>
+            <td>Created At</td>
+            <td>Updated At</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="rolePickPurchase in rolePickPurchases">
+            <td>{{ rolePickPurchase.id }}</td>
+            <td>{{ rolePickPurchase.user_id }} {{ rolePickPurchase.user.username }} {{rolePickPurchase.user_email}}</td>
+            <td style="text-align: center;"><img-bool boolean-value="rolePickPurchase.role_pick_id"></img-bool></td>
+            <td>{{ rolePickPurchase.role_pick.city_id }} {{ rolePickPurchase.role_pick.city_name }}</td>
+            <td>{{ rolePickPurchase.role_pick.city_started_at | localeDate }}</td>
+            <td>{{ rolePickPurchase.role_pick.role.name }}</td>
+            <td>{{ rolePickPurchase.created_at | localeDate }}</td>
+            <td>{{ rolePickPurchase.updated_at | localeDate }}</td>
+        </tr>
+        <tr ng-if="isLoadingContent">
+            <td colspan="8" style="text-align: center">
+                <loader size='small'></loader>
+            </td>
+        </tr>
+        <tr ng-hide="isLoadingContent">
+            <td colspan="8">
+                <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
