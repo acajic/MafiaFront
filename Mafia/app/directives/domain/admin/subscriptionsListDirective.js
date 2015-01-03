@@ -4,7 +4,8 @@ app.directive('subscriptionsList', function($q, subscriptionsService) {
         restrict : 'E',
         scope: {
             queryModel: '=',
-            queryable: '='
+            queryable: '=',
+            enableCreating: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/subscriptionsList.html',
         link: function(scope, element, attrs) {

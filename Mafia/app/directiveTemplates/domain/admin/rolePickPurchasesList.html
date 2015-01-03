@@ -1,4 +1,10 @@
 <div class="admin-panel">
+    <div class="top-buttons">
+        <button ng-if="enableCreating" class="btn btn-new" ng-click="newRolePickPurchase()">
+            Create
+        </button>
+    </div>
+
     <div ng-if="queryable" class="admin-query-panel">
         <div style="clear: both">
             <p class="col-md-1">Username</p>

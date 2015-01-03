@@ -77,7 +77,7 @@
                 Initial App Roles
             </tab-heading>
 
-            <initial-app-roles-list query-model="initialAppRolesQueryModel" queryable="true" enable-creating="true"></initial-app-roles-list>
+            <initial-app-roles-list query-model="initialAppRolesQueryModel" queryable="true" enable-creating="userMe.app_role.app_permissions[appPermissions.APP_PERMISSION_ADMIN_WRITE]"></initial-app-roles-list>
 
         </tab>
 
@@ -93,7 +93,7 @@
                         Payments
                     </tab-heading>
 
-                    <payments-list query-model="paymentsQueryModel" queryable="true" enable-creating="true"></payments-list>
+                    <payments-list query-model="paymentsQueryModel" queryable="true" enable-creating="userMe.app_role.app_permissions[appPermissions.APP_PERMISSION_ADMIN_WRITE]"></payments-list>
                 </tab>
 
                 <tab>
@@ -101,7 +101,7 @@
                         Subscriptions
                     </tab-heading>
 
-                    <subscriptions-list query-model="subscriptionsQueryModel" queryable="true" enable-creating="true"></subscriptions-list>
+                    <subscriptions-list query-model="subscriptionsQueryModel" queryable="true" enable-creating="userMe.app_role.app_permissions[appPermissions.APP_PERMISSION_ADMIN_WRITE]"></subscriptions-list>
                 </tab>
 
                 <tab>
@@ -109,7 +109,7 @@
                         Game Purchases
                     </tab-heading>
 
-                    <game-purchases-list query-model="gamePurchasesQueryModel" queryable="true" enable-creating="true"></game-purchases-list>
+                    <game-purchases-list query-model="gamePurchasesQueryModel" queryable="true" enable-creating="userMe.app_role.app_permissions[appPermissions.APP_PERMISSION_ADMIN_WRITE]"></game-purchases-list>
                 </tab>
 
                 <tab>
@@ -117,7 +117,7 @@
                         Role Pick Purchases
                     </tab-heading>
 
-                    <role-pick-purchases-list query-model="rolePickPurchasesQueryModel" queryable="true" enable-creating="true"></role-pick-purchases-list>
+                    <role-pick-purchases-list query-model="rolePickPurchasesQueryModel" queryable="true" enable-creating="userMe.app_role.app_permissions[appPermissions.APP_PERMISSION_ADMIN_WRITE]"></role-pick-purchases-list>
                 </tab>
             </tabset>
 

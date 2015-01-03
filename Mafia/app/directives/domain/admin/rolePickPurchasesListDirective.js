@@ -4,7 +4,8 @@ app.directive('rolePickPurchasesList', function($q, rolePickPurchasesService, ro
         restrict : 'E',
         scope: {
             queryModel: '=',
-            queryable: '='
+            queryable: '=',
+            enableCreating: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/rolePickPurchasesList.html',
         link: function(scope, element, attrs) {

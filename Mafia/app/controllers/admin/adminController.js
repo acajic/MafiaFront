@@ -21,6 +21,15 @@ app.controller('AdminController',function ($scope, $q, $location, usersService, 
         layoutService.setHomeButtonVisible(true);
         layoutService.setAdminButtonVisible(false);
 
+        $scope.appPermissions = usersService.appPermissions;
+
+        var userMePromise = authService.userMe(false);
+        userMePromise.then(function(userMeResult) {
+            $scope.userMe = userMeResult;
+        }, function (reason) {
+            // ignore
+        });
+
         $scope.alerts = [];
 
         var tabActive = layoutService.adminTabsActive;

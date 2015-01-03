@@ -4,7 +4,8 @@ app.directive('paymentsList', function($q, paymentsService) {
         restrict : 'E',
         scope: {
             queryModel: '=',
-            queryable: '='
+            queryable: '=',
+            enableCreating: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/paymentsList.html',
         link: function(scope, element, attrs) {
