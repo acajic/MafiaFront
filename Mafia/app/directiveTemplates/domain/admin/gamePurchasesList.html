@@ -1,0 +1,92 @@
+<div class="admin-panel">
+    <div ng-if="queryable" class="admin-query-panel">
+        <div style="clear: both">
+            <p class="col-md-1">Username</p>
+            <input ng-model="queryModel.username">
+        </div>
+        <div style="clear: both">
+            <p class="col-md-1">User Email</p>
+            <input ng-model="queryModel.userEmail">
+        </div>
+
+        <div style="clear: both; overflow: hidden;">
+            <p class="col-md-1">Used?</p>
+            <select ng-model="queryModel.used">
+                <option value="">All</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+
+
+        <div style="clear: both">
+            <p class="col-md-1">City Name</p>
+            <input ng-model="queryModel.cityName">
+        </div>
+
+        <div style="clear: both" class="query-model">
+            <p class="col-md-1">City Started At</p>
+            <quick-datepicker ng-model='queryModel.cityStartedAtMin' time-format='HH:mm'
+                              placeholder='Not Set'></quick-datepicker>
+            -
+            <quick-datepicker ng-model='queryModel.cityStartedAtMax' time-format='HH:mm'
+                              placeholder='Not Set'></quick-datepicker>
+        </div>
+
+
+
+
+
+
+        <div style="clear: both" class="query-model row-even">
+            <p class="col-md-1">Created</p>
+            <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm'
+                              placeholder='Not Set'></quick-datepicker>
+            -
+            <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm'
+                              placeholder='Not Set'></quick-datepicker>
+        </div>
+
+        <div class="bottom-buttons">
+            <button class="btn btn-search" ng-click="reloadData(true)">Search</button>
+        </div>
+
+    </div>
+</div>
+
+<div class="admin-results">
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>User</td>
+            <td style="text-align: center;">Used</td>
+            <td>City</td>
+            <td>City Started At</td>
+            <td>Created At</td>
+            <td>Updated At</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="gamePurchase in gamePurchases">
+            <td>{{ gamePurchase.id }}</td>
+            <td>{{ gamePurchase.user_id }} {{ gamePurchase.user.username }} {{gamePurchase.user_email}}</td>
+            <td style="text-align: center;"><img-bool boolean-value="gamePurchase.city_id"></img-bool></td>
+            <td>{{ gamePurchase.city_id }} {{ gamePurchase.city_name }}</td>
+            <td>{{ gamePurchase.city_started_at | localeDate }}</td>
+            <td>{{ gamePurchase.created_at | localeDate }}</td>
+            <td>{{ gamePurchase.updated_at | localeDate }}</td>
+        </tr>
+        <tr ng-if="isLoadingContent">
+            <td colspan="7" style="text-align: center">
+                <loader size='small'></loader>
+            </td>
+        </tr>
+        <tr ng-hide="isLoadingContent">
+            <td colspan="7">
+                <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

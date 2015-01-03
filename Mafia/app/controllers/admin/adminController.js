@@ -8,6 +8,9 @@ var kAdminQueryModelActionResults = 'admin_query_model_action_results';
 var kAdminQueryModelDays = 'admin_query_model_days';
 var kAdminQueryModelInitialAppRoles = 'admin_query_model_initial_app_roles';
 var kAdminQueryModelPayments = 'admin_query_model_payments';
+var kAdminQueryModelSubscriptions = 'admin_query_model_subscriptions';
+var kAdminQueryModelGamePurchases = 'admin_query_model_game_purchases';
+var kAdminQueryModelRolePickPurchases = 'admin_query_model_role_pick_purchases';
 
 app.controller('AdminController',function ($scope, $q, $location, usersService, layoutService, citiesService, authService, appRolesService) {
     "use strict";
@@ -73,6 +76,30 @@ app.controller('AdminController',function ($scope, $q, $location, usersService, 
         if (initialAppRolesQueryModelJson) {
             $scope.initialAppRolesQueryModel = JSON.parse(initialAppRolesQueryModelJson);
             convertTimestampsToDates($scope.initialAppRolesQueryModel);
+        }
+
+        var paymentsQueryModelJson = getCookie(kAdminQueryModelPayments);
+        if (paymentsQueryModelJson) {
+            $scope.paymentsQueryModel = JSON.parse(paymentsQueryModelJson);
+            convertTimestampsToDates($scope.paymentsQueryModel);
+        }
+
+        var subscriptionsQueryModelJson = getCookie(kAdminQueryModelSubscriptions);
+        if (subscriptionsQueryModelJson) {
+            $scope.subscriptionsQueryModel = JSON.parse(subscriptionsQueryModelJson);
+            convertTimestampsToDates($scope.subscriptionsQueryModel);
+        }
+
+        var gamePurchasesQueryModelJson = getCookie(kAdminQueryModelGamePurchases);
+        if (gamePurchasesQueryModelJson) {
+            $scope.gamePurchasesQueryModel = JSON.parse(gamePurchasesQueryModelJson);
+            convertTimestampsToDates($scope.gamePurchasesQueryModel);
+        }
+
+        var rolePickPurchasesQueryModelJson = getCookie(kAdminQueryModelRolePickPurchases);
+        if (rolePickPurchasesQueryModelJson) {
+            $scope.rolePickPurchasesQueryModel = JSON.parse(rolePickPurchasesQueryModelJson);
+            convertTimestampsToDates($scope.rolePickPurchasesQueryModel);
         }
 
         $scope.closeAlert = function(index) {

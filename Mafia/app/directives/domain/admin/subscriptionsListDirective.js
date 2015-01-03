@@ -50,13 +50,15 @@ app.directive('subscriptionsList', function($q, subscriptionsService) {
                     scope.subscriptionPurchases = [];
                     if (scope.queryable) {
                         var queryModelForStorage = angular.copy(scope.queryModel);
+                        queryModelForStorage['expirationDateMin'] = queryModelForStorage['expirationDateMin'] ? queryModelForStorage['expirationDateMin'].getTime() : null;
+                        queryModelForStorage['expirationDateMax'] = queryModelForStorage['expirationDateMax'] ? queryModelForStorage['expirationDateMax'].getTime() : null;
                         queryModelForStorage['createdAtMin'] = queryModelForStorage['createdAtMin'] ? queryModelForStorage['createdAtMin'].getTime() : null;
                         queryModelForStorage['createdAtMax'] = queryModelForStorage['createdAtMax'] ? queryModelForStorage['createdAtMax'].getTime() : null;
                         var queryModelJson = JSON.stringify(queryModelForStorage);
                         if (queryModelJson.length < 4000) {
                             var expirationDate = new Date();
                             expirationDate.setDate(expirationDate.getDate() + 7);
-                            setCookie(kAdminQueryModelPayments, queryModelJson, expirationDate);
+                            setCookie(kAdminQueryModelSubscriptions, queryModelJson, expirationDate);
                         }
 
                     }
