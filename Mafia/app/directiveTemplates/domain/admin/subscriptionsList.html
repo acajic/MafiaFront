@@ -77,6 +77,7 @@
             <td style="text-align: center;">Active</td>
             <td>Created At</td>
             <td>Updated At</td>
+            <td>Details</td>
         </tr>
         </thead>
         <tbody>
@@ -90,17 +91,19 @@
             </td>
             <td>{{ subscriptionPurchase.created_at | localeDate }}</td>
             <td>{{ subscriptionPurchase.updated_at | localeDate }}</td>
+            <td><button class="btn btn-details" ng-click="showDetails(subscriptionPurchase)">Details</button></td>
         </tr>
         <tr ng-if="isLoadingContent">
-            <td colspan="7" style="text-align: center">
+            <td colspan="8" style="text-align: center">
                 <loader size='small'></loader>
             </td>
         </tr>
         <tr ng-hide="isLoadingContent">
-            <td colspan="7">
+            <td colspan="8">
                 <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
             </td>
         </tr>
+
         </tbody>
     </table>
 </div>

@@ -659,7 +659,7 @@ td {
     color: #cccccc;
 }
 
-.sidetable tbody td:nth-child(1) {
+.sidetable>tbody>tr>td:nth-child(1) {
     min-width: 200px;
     width: 10%;
     background-color: #404040;
@@ -717,6 +717,17 @@ tr:nth-child(even) {
 
 tr.invite-users-table-loader-row  {
     background: transparent;
+}
+
+.modal-popup {
+    border-radius: 5px;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.55);;
+    background-color: #322213;
+    color: #ffffff;
+}
+
+.modal-popup .bottom-buttons {
+    padding: 5px;
 }
 
 .modal-invite-user {

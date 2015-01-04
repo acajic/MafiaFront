@@ -128,11 +128,6 @@ app.controller('AdminPaymentLogController',function ($scope, $routeParams, $loca
             });
         }
 
-        promise.then(function(result) {
-            $scope.isProcessing = false;
-        }, function (reason) {
-            $scope.isProcessing = false;
-        });
     };
 
     $scope.deletePaymentLog = function() {

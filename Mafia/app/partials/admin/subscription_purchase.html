@@ -1,0 +1,107 @@
+<div id="content-header">
+    <div id="header-auth">
+        <auth></auth>
+    </div>
+
+    <div class="title textonly small">Subscription Purchase</div>
+
+    <div>
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+    </div>
+
+    <div class="admin-edit-entity-button-controls subscription-purchase-button-controls">
+        <button class="btn btn-back" ng-click="cancel()">Back</button>
+        <button class="btn btn-save" ng-click="saveSubscriptionPurchase()" ng-if="canSave" ng-hide="isProcessing">Save</button>
+        <button class="btn btn-delete" ng-click="deleteSubscriptionPurchase()" ng-if="canDelete" ng-hide="isProcessing">Delete</button>
+        <loader size="small" ng-show="isProcessing"></loader>
+    </div>
+</div>
+
+<div id="content-body" class="subscription-purchase">
+    <table class="table sidetable" ng-if="canEdit">
+        <tbody>
+
+        <tr ng-if="inspectedSubscriptionPurchase.id">
+            <td>Id</td>
+            <td> {{ inspectedSubscriptionPurchase.id }} </td>
+        </tr>
+
+        <tr>
+            <td> Payment Log Id </td>
+            <td> <input type="number" ng-model="inspectedSubscriptionPurchase.payment_log.id" step="1"> </td>
+        </tr>
+
+        <tr>
+            <td>User</td>
+            <td>{{ inspectedSubscriptionPurchase.user_id }} {{ inspectedSubscriptionPurchase.user.username }} {{ inspectedSubscriptionPurchase.user_email }}</td>
+        </tr>
+
+        <tr>
+            <td>Subscription Type</td>
+            <td>
+                <select ng-model="inspectedSubscriptionPurchase.subscription_type" ng-options="subscriptionType.id as subscriptionType.name for subscriptionType in allSubscriptionTypes">
+                </select>
+                {{ allSubscriptionTypes[allSubscriptionTypeIds[0]].name }}
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>Expiration Date</td>
+            <td> <quick-datepicker ng-model='inspectedSubscriptionPurchase.expirationDate' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+
+    <table class="table sidetable" ng-if="!canEdit">
+        <tbody>
+
+        <tr>
+            <td>Id</td>
+            <td> {{ inspectedSubscriptionPurchase.id }} </td>
+        </tr>
+
+        <tr>
+            <td> Payment Log Id</td>
+            <td>
+                {{ inspectedSubscriptionPurchase.payment_log_id }}
+            </td>
+        </tr>
+
+        <tr>
+            <td>User</td>
+            <td>{{ inspectedSubscriptionPurchase.user_id }} {{ inspectedSubscriptionPurchase.user.username }} {{ inspectedSubscriptionPurchase.user_email }}</td>
+        </tr>
+
+        <tr>
+            <td>Subscription Type</td>
+            <td>
+                {{ allSubscriptionTypes[inspectedPaymentLog.subscription_type].name }}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Expiration Date</td>
+            <td> {{ inspectedSubscriptionPurchase.expiration_date | localeDate }} </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<script type="text/ng-template" id="deleteModalContent.html">
+    <div class="modal-popup">
+        <div class="modal-header">
+            <div>
+            <h3 style="display: inline">Delete this subscription purchase?</h3> <h3 style="display: inline; color: red;">*</h3>
+            </div>
+            <p style="color:red; display: inline"> * </p> - cannot be undone
+        </div>
+        <div class="bottom-buttons">
+            <button ng-click="cancel()" class="btn btn-back">Cancel</button>
+            <button ng-click="ok()" class="btn btn-delete">Confirm</button>
+        </div>
+    </div>
+</script>

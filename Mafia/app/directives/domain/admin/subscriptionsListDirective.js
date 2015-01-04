@@ -1,4 +1,4 @@
-app.directive('subscriptionsList', function($q, subscriptionsService) {
+app.directive('subscriptionsList', function($location, $q, subscriptionsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -33,6 +33,15 @@ app.directive('subscriptionsList', function($q, subscriptionsService) {
                 } else {
                     scope.queryModel.subscriptionTypes.splice(index, 1);
                 }
+            };
+
+
+
+            scope.newSubscriptionPurchase = function () {
+                $location.path('admin/subscription_purchase/new');
+            };
+            scope.showDetails = function (subscriptionPurchase) {
+                $location.path('admin/subscription_purchase/' + subscriptionPurchase.id);
             };
 
 
@@ -92,5 +101,6 @@ app.directive('subscriptionsList', function($q, subscriptionsService) {
             reloadData();
 
         }
+
     };
 });

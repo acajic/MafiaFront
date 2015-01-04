@@ -4,15 +4,14 @@ var SUBSCRIPTION_TYPE_1_YEAR = 2;
 app.factory('subscriptionsService', function($q, serverService) {
     "use strict";
 
-    var subscriptionTypes = {};
-    subscriptionTypes[SUBSCRIPTION_TYPE_1_MONTH] = {
+    var subscriptionTypes = [{
         id: SUBSCRIPTION_TYPE_1_MONTH,
         name: '1 Month Subscription'
-    };
-    subscriptionTypes[SUBSCRIPTION_TYPE_1_YEAR] = {
+    },
+    {
         id: SUBSCRIPTION_TYPE_1_YEAR,
         name: '1 Year Subscription'
-    };
+    }];
 
 
     var getAllSubscriptions = function(queryModel, pageIndex, pageSize) {
@@ -34,17 +33,44 @@ app.factory('subscriptionsService', function($q, serverService) {
     };
 
 
-    var postSubscription = function() {
-        return serverService.post('purchases/subscription_purchases', {
-            subscription_purchase : {
+    var getSubscriptionPurchaseById = function (subscriptionPurchaseId) {
+        return serverService.get('purchases/subscription_purchases/' + subscriptionPurchaseId);
+    };
 
-            }
+    var getNewSubscriptionPurchase = function () {
+        return serverService.get('purchases/subscription_purchases/new');
+    };
+
+    var postCreateSubscriptionPurchase = function(subscriptionPurchase) {
+        return serverService.post('purchases/subscription_purchases', {
+            subscription_purchase : subscriptionPurchase
         });
+    };
+
+    var putUpdateSubscriptionPurchase = function(subscriptionPurchaseId, subscriptionPurchase) {
+        return serverService.put('purchases/subscription_purchases/' + subscriptionPurchaseId, {
+            subscription_purchase: subscriptionPurchase
+        });
+    };
+
+    var deleteSubscriptionPurchase = function (subscriptionPurchaseId) {
+        return serverService.delete('purchases/subscription_purchases/' + subscriptionPurchaseId);
+    };
+
+    var notifications = {
+        subscriptionPurchaseCreated : null,
+        subscriptionPurchaseDeleted : null
     };
 
     return {
         subscriptionTypes: subscriptionTypes,
         getAllSubscriptions: getAllSubscriptions,
-        postSubscription: postSubscription
+        getSubscriptionPurchaseById: getSubscriptionPurchaseById,
+        getNewSubscriptionPurchase: getNewSubscriptionPurchase,
+        postCreateSubscriptionPurchase: postCreateSubscriptionPurchase,
+        putUpdateSubscriptionPurchase: putUpdateSubscriptionPurchase,
+        deleteSubscriptionPurchase: deleteSubscriptionPurchase,
+        notifications: notifications
+
     };
 });

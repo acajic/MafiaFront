@@ -123,13 +123,18 @@
 </div>
 
 <script type="text/ng-template" id="deleteModalContent.html">
-    <div class="modal-header">
-        <div>
-        <h3 style="display: inline">Delete this payment log?</h3> <h3 style="display: inline; color: red;">*</h3>
+    <div class="modal-popup">
+        <div class="modal-header">
+            <div>
+            <h3 style="display: inline">Delete this payment log?</h3> <h3 style="display: inline; color: red;">*</h3>
+            </div>
+            <p style="color:red; display: inline"> * </p> - cannot be undone
         </div>
-        <p style="color:red; display: inline"> * </p> - cannot be undone
-    </div>
 
-    <button ng-click="cancel()" class="btn btn-default">Cancel</button>
-    <button ng-click="ok()" class="btn btn-danger">Confirm</button>
+
+        <div class="bottom-buttons">
+            <button ng-click="cancel()" class="btn btn-back">Cancel</button>
+            <button ng-click="ok()" class="btn btn-delete">Confirm</button>
+        </div>
+    </div>
 </script>
