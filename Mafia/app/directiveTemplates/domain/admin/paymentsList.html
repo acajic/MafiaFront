@@ -44,6 +44,15 @@
         </div>
 
         <div style="clear: both; overflow: hidden;">
+            <p class="col-md-1">Sandbox?</p>
+            <select ng-model="queryModel.isSandbox">
+                <option value="">All</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+
+        <div style="clear: both; overflow: hidden;">
             <p class="col-md-1">Valid?</p>
             <select ng-model="queryModel.isPaymentValid">
                 <option value="">All</option>
@@ -51,6 +60,8 @@
                 <option value="false">No</option>
             </select>
         </div>
+
+
 
         <div style="clear: both">
             <p class="col-md-1">Info JSON</p>
@@ -86,9 +97,11 @@
             <td>Quantity</td>
             <td>Total Price</td>
             <td>Info JSON</td>
+            <td>Sandbox</td>
             <td>Valid</td>
             <td>Created At</td>
             <td>Updated At</td>
+            <td>Details</td>
         </tr>
         </thead>
         <tbody>
@@ -101,18 +114,22 @@
             <td style="text-align: center">${{ paymentLog.total_price}}</td>
             <td>{{ paymentLog.info_json }}</td>
             <td style="text-align: center;">
+                <img-bool boolean-value="paymentLog.is_sandbox"></img-bool>
+            </td>
+            <td style="text-align: center;">
                 <img-bool boolean-value="paymentLog.is_payment_valid"></img-bool>
             </td>
             <td>{{ paymentLog.created_at | localeDate }}</td>
             <td>{{ paymentLog.updated_at | localeDate }}</td>
+            <td><button class="btn btn-details" ng-click="showDetails(paymentLog)">Details</button></td>
         </tr>
         <tr ng-if="isLoadingContent">
-            <td colspan="10" style="text-align: center">
+            <td colspan="12" style="text-align: center">
                 <loader size='small'></loader>
             </td>
         </tr>
         <tr ng-hide="isLoadingContent">
-            <td colspan="10">
+            <td colspan="12">
                 <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
             </td>
         </tr>

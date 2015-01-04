@@ -1,0 +1,135 @@
+<div id="content-header">
+    <div id="header-auth">
+        <auth></auth>
+    </div>
+
+    <div class="title textonly small">Payment Log</div>
+
+    <div>
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+    </div>
+
+    <div class="admin-edit-entity-button-controls payment-log-button-controls">
+        <button class="btn btn-back" ng-click="cancel()">Back</button>
+        <button class="btn btn-save" ng-click="savePaymentLog()" ng-if="canSave" ng-hide="isProcessing">Save</button>
+        <button class="btn btn-delete" ng-click="deletePaymentLog()" ng-if="canDelete" ng-hide="isProcessing">Delete</button>
+        <loader size="small" ng-show="isProcessing"></loader>
+    </div>
+</div>
+
+<div id="content-body" class="payment-log">
+    <table class="table sidetable" ng-if="canEdit">
+        <tbody>
+
+        <tr ng-if="inspectedPaymentLog.id">
+            <td>Id</td>
+            <td> {{ inspectedPaymentLog.id }} </td>
+        </tr>
+
+        <tr>
+            <td>User</td>
+            <td>
+                <input type="text" ng-model="tempUser.username" placeholder="Username" typeahead="user.username for user in getUsersByUsername($viewValue)" typeahead-loading="loadingUsers" typeahead-on-select="selectUser($item)" typeahead-wait-ms="300" typeahead-min-length=2>
+                <loader size="small" ng-show="loadingUsers"></loader>
+                Currently selected: {{inspectedPaymentLog.user.username}}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Payment Type</td>
+            <td>
+                <select ng-model="inspectedPaymentLog.payment_type.id" ng-options="paymentType.id as paymentType.name for paymentType in allPaymentTypes">
+                </select>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>Unit Price ($)</td>
+            <td> <input type="number" ng-model="inspectedPaymentLog.unit_price"> </td>
+        </tr>
+
+        <tr>
+            <td>Quantity</td>
+            <td> <input type="number" step="1" ng-model="inspectedPaymentLog.quantity"> </td>
+        </tr>
+
+        <tr>
+            <td>Total Price</td>
+            <td> ${{ inspectedPaymentLog.unit_price * inspectedPaymentLog.quantity }} </td>
+        </tr>
+
+        <tr>
+            <td>Info Json</td>
+            <td> <textarea ng-model="inspectedPaymentLog.info_json" ></textarea> </td>
+        </tr>
+
+        <tr>
+            <td>Is Payment Valid?</td>
+            <td> <input type="checkbox" ng-model="inspectedPaymentLog.is_payment_valid"> </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+
+    <table class="table sidetable" ng-if="!canEdit">
+        <tbody>
+
+        <tr>
+            <td>Id</td>
+            <td> {{ inspectedPaymentLog.id }} </td>
+        </tr>
+
+        <tr>
+            <td>User</td>
+            <td>{{ inspectedPaymentLog.user_id }} {{ inspectedPaymentLog.user.name }} {{ inspectedPaymentLog.user_email }}</td>
+        </tr>
+
+        <tr>
+            <td>Payment Type</td>
+            <td>
+                {{ inspectedPaymentLog.payment_type.name }}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Unit Price ($)</td>
+            <td> ${{ inspectedPaymentLog.unit_price }} </td>
+        </tr>
+
+        <tr>
+            <td>Quantity</td>
+            <td> {{ inspectedPaymentLog.quantity }} </td>
+        </tr>
+
+        <tr>
+            <td>Total Price</td>
+            <td> ${{ inspectedPaymentLog.unit_price * inspectedPaymentLog.quantity }} </td>
+        </tr>
+
+        <tr>
+            <td>Info Json</td>
+            <td> {{ inspectedPaymentLog.info_json }} </td>
+        </tr>
+
+        <tr>
+            <td>Is Payment Valid?</td>
+            <td> <img-bool boolean-value="inspectedPaymentLog.is_payment_valid"></img-bool> </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<script type="text/ng-template" id="deleteModalContent.html">
+    <div class="modal-header">
+        <div>
+        <h3 style="display: inline">Delete this payment log?</h3> <h3 style="display: inline; color: red;">*</h3>
+        </div>
+        <p style="color:red; display: inline"> * </p> - cannot be undone
+    </div>
+
+    <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+    <button ng-click="ok()" class="btn btn-danger">Confirm</button>
+</script>

@@ -68,7 +68,7 @@ app.controller('AdminInitialAppRoleController',function ($scope, $routeParams, $
                 }
             }
 
-            $scope.alerts.push({type: 'danger', msg: 'Error updating city. ' + msg});
+            $scope.alerts.push({type: 'danger', msg: 'Error creating initial app role. ' + msg});
         });
     };
 
@@ -83,7 +83,7 @@ app.controller('AdminInitialAppRoleController',function ($scope, $routeParams, $
             $scope.alerts.push({type: 'success', msg: 'Successfully updated'});
         }, function(reason) {
             $scope.isProcessing = false;
-            $scope.alerts.push({type: 'danger', msg: 'Error updating city'});
+            $scope.alerts.push({type: 'danger', msg: 'Error updating initial app role.'});
         });
     };
 
@@ -115,7 +115,7 @@ app.controller('AdminInitialAppRoleController',function ($scope, $routeParams, $
     var openDeletionModal = function() {
         var modalInstance = $modal.open({
             templateUrl: 'deleteModalContent.html',
-            controller: DeleteCityModalInstanceCtrl,
+            controller: DeleteInitialAppRoleModalInstanceCtrl,
             resolve: {
             }
         });
@@ -133,7 +133,7 @@ app.controller('AdminInitialAppRoleController',function ($scope, $routeParams, $
         });
     };
 
-    var DeleteCityModalInstanceCtrl = function ($scope, $modalInstance) {
+    var DeleteInitialAppRoleModalInstanceCtrl = function ($scope, $modalInstance) {
 
         $scope.ok = function () {
             $modalInstance.close();

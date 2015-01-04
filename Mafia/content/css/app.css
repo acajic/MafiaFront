@@ -396,6 +396,10 @@ ac-checkbox span {
 }
 
 
+.role-big-loader {
+    text-align: center;
+}
+
 .city .general-messages {
     background-color: #322213;
     color: #ffffff;
@@ -872,7 +876,7 @@ tr.invite-users-table-loader-row  {
     margin-bottom: -600px;
 }
 
-.initial-app-role-button-controls, .new-initial-app-role-button-controls, .admin-city-button-controls, .admin-user-button-controls {
+.initial-app-role-button-controls, .admin-edit-entity-button-controls, .admin-city-button-controls, .admin-user-button-controls {
     padding-left: 15px;
     padding-right: 15px;
     padding-bottom: 15px;

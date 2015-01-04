@@ -1,4 +1,4 @@
-app.directive('paymentsList', function($q, paymentsService) {
+app.directive('paymentsList', function($location, $q, paymentsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -44,6 +44,16 @@ app.directive('paymentsList', function($q, paymentsService) {
                 scope.queryModel = {
                 };
             }
+
+            scope.showDetails = function(paymentLog) {
+                $location.path('admin/payment_log/' + paymentLog.id);
+            };
+
+
+            scope.newPaymentLog = function () {
+                $location.path('admin/payment_log/new');
+            };
+
 
             var reloadData = function(refresh) {
                 scope.isLoadingContent = true;

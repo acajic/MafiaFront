@@ -47,23 +47,44 @@ app.factory('paymentsService', function($q, serverService) {
         return serverService.get('payments/payment_types');
     };
 
-    var postPayment = function(userId, paymentType, unitPrice, quantity, infoJson, valid) {
+    var getPaymentLogById = function (paymentLogId) {
+        return serverService.get('payments/payments/' + paymentLogId);
+    };
+
+    var getNewPaymentLog = function () {
+        return serverService.get('payments/payments/new');
+    };
+
+    var postCreatePaymentLog = function(paymentLog) {
         return serverService.post('payments/payments', {
-            payment_log : {
-                user_id: userId,
-                payment_type: paymentType,
-                unit_price: unitPrice,
-                quantity: quantity,
-                info_json: infoJson,
-                valid: valid
-            }
+            payment_log: paymentLog
         });
+    };
+
+    var putUpdatePaymentLog = function(paymentLogId, paymentLog) {
+        return serverService.put('payments/payments/' + paymentLogId, {
+            payment_log: paymentLog
+        });
+    };
+
+    var deletePaymentLog = function (paymentLogId) {
+        return serverService.delete('payments/payments/' + paymentLogId);
+    };
+
+    var notifications = {
+        paymentLogCreated : null,
+        paymentLogDeleted : null
     };
 
     return {
         paymentTypes: paymentTypes,
         getAllPayments: getAllPayments,
         getAllPaymentTypes: getAllPaymentTypes,
-        postPayment: postPayment
+        getPaymentLogById: getPaymentLogById,
+        getNewPaymentLog: getNewPaymentLog,
+        postCreatePaymentLog: postCreatePaymentLog,
+        putUpdatePaymentLog: putUpdatePaymentLog,
+        deletePaymentLog: deletePaymentLog,
+        notifications: notifications
     };
 });

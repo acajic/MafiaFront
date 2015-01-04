@@ -9,7 +9,7 @@
         <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
     </div>
 
-    <div class="new-initial-app-role-button-controls">
+    <div class="admin-edit-entity-button-controls new-initial-app-role-button-controls">
         <button class="btn btn-back" ng-click="cancel()">Back</button>
         <button class="btn btn-save" ng-click="createInitialAppRole()" ng-hide="isProcessing">Create</button>
         <loader size="small" ng-if="isProcessing"></loader>
