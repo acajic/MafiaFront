@@ -1,4 +1,4 @@
-app.directive('gamePurchasesList', function($q, gamePurchasesService) {
+app.directive('gamePurchasesList', function($location, $q, gamePurchasesService) {
     "use strict";
     return {
         restrict : 'E',
@@ -22,6 +22,15 @@ app.directive('gamePurchasesList', function($q, gamePurchasesService) {
                 scope.queryModel = {
                 };
             }
+
+
+            scope.newGamePurchase = function () {
+                $location.path('/admin/game_purchase/new');
+            };
+
+            scope.showDetails = function(gamePurchase) {
+                $location.path('admin/game_purchase/' + gamePurchase.id);
+            };
 
             var reloadData = function(refresh) {
                 scope.isLoadingContent = true;

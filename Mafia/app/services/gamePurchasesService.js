@@ -20,17 +20,44 @@ app.factory('gamePurchasesService', function($q, serverService) {
         });
     };
 
+    var getGamePurchaseById = function (gamePurchaseId) {
+        return serverService.get('purchases/game_purchases/' + gamePurchaseId);
+    };
 
-    var postGamePurchase = function() {
+    var getNewGamePurchase = function () {
+        return serverService.get('purchases/game_purchases/new');
+    };
+
+
+    var postCreateGamePurchase = function(gamePurchase) {
         return serverService.post('purchases/game_purchases', {
-            game_purchase : {
-
-            }
+            game_purchase : gamePurchase
         });
+    };
+
+
+    var putUpdateGamePurchase = function(gamePurchaseId, gamePurchase) {
+        return serverService.put('purchases/game_purchases/' + gamePurchaseId, {
+            game_purchase: gamePurchase
+        });
+    };
+
+    var deleteGamePurchase = function (gamePurchaseId) {
+        return serverService.delete('purchases/game_purchases/' + gamePurchaseId);
+    };
+
+    var notifications = {
+        gamePurchaseCreated : null,
+        gamePurchaseDeleted : null
     };
 
     return {
         getAllGamePurchases: getAllGamePurchases,
-        postGamePurchase: postGamePurchase
+        getGamePurchaseById: getGamePurchaseById,
+        getNewGamePurchase: getNewGamePurchase,
+        postCreateGamePurchase: postCreateGamePurchase,
+        putUpdateGamePurchase: putUpdateGamePurchase,
+        deleteGamePurchase: deleteGamePurchase,
+        notifications: notifications
     };
 });

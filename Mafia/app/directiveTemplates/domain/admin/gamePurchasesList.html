@@ -71,6 +71,7 @@
             <td>City Started At</td>
             <td>Created At</td>
             <td>Updated At</td>
+            <td>Details</td>
         </tr>
         </thead>
         <tbody>
@@ -82,14 +83,15 @@
             <td>{{ gamePurchase.city_started_at | localeDate }}</td>
             <td>{{ gamePurchase.created_at | localeDate }}</td>
             <td>{{ gamePurchase.updated_at | localeDate }}</td>
+            <td><button class="btn btn-details" ng-click="showDetails(gamePurchase)">Details</button></td>
         </tr>
         <tr ng-if="isLoadingContent">
-            <td colspan="7" style="text-align: center">
+            <td colspan="8" style="text-align: center">
                 <loader size='small'></loader>
             </td>
         </tr>
         <tr ng-hide="isLoadingContent">
-            <td colspan="7">
+            <td colspan="8">
                 <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
             </td>
         </tr>
