@@ -22,16 +22,43 @@ app.factory('rolePickPurchasesService', function($q, serverService) {
     };
 
 
-    var postRolePickPurchase = function() {
-        return serverService.post('purchases/role_pick_purchases', {
-            role_pick_purchase : {
+    var getRolePickPurchaseById = function (rolePickPurchaseId) {
+        return serverService.get('purchases/role_pick_purchases/' + rolePickPurchaseId);
+    };
 
-            }
+    var getNewRolePickPurchase = function () {
+        return serverService.get('purchases/role_pick_purchases/new');
+    };
+
+    var postCreateRolePickPurchase = function(rolePickPurchase) {
+        return serverService.post('purchases/role_pick_purchases', {
+            role_pick_purchase : rolePickPurchase
         });
+    };
+
+
+    var putUpdateRolePickPurchase = function(rolePickPurchaseId, rolePickPurchase) {
+        return serverService.put('purchases/role_pick_purchases/' + rolePickPurchaseId, {
+            role_pick_purchase: rolePickPurchase
+        });
+    };
+
+    var deleteRolePickPurchase = function (rolePickPurchaseId) {
+        return serverService.delete('purchases/role_pick_purchases/' + rolePickPurchaseId);
+    };
+
+    var notifications = {
+        rolePickPurchaseCreated : null,
+        rolePickPurchaseDeleted : null
     };
 
     return {
         getAllRolePickPurchases: getAllRolePickPurchases,
-        postRolePickPurchase: postRolePickPurchase
+        getRolePickPurchaseById: getRolePickPurchaseById,
+        getNewRolePickPurchase: getNewRolePickPurchase,
+        postCreateRolePickPurchase: postCreateRolePickPurchase,
+        putUpdateRolePickPurchase: putUpdateRolePickPurchase,
+        deleteRolePickPurchase: deleteRolePickPurchase,
+        notifications: notifications
     };
 });

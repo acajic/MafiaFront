@@ -147,7 +147,7 @@ app.config(function ($routeProvider, $locationProvider) {
         }
     }).when('/admin/initial_app_role/new', {
         controller: 'AdminInitialAppRoleController',
-        templateUrl: 'app/partials/admin/new_initial_app_role.html',
+        templateUrl: 'app/partials/admin/newInitialAppRole.html',
         resolve: {
             validate: function($q, $location, $route, authService) {
                 var userMePromise = authService.userMe(false);
@@ -161,7 +161,7 @@ app.config(function ($routeProvider, $locationProvider) {
         }
     }).when('/admin/initial_app_role/:initial_app_role_id', {
         controller: 'AdminInitialAppRoleController',
-        templateUrl: 'app/partials/admin/initial_app_role.html',
+        templateUrl: 'app/partials/admin/initialAppRole.html',
         resolve: {
             validate: function($q, $location, $route, authService) {
                 var userMePromise = authService.userMe(false);

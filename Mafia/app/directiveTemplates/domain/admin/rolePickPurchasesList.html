@@ -82,6 +82,7 @@
             <td>Role</td>
             <td>Created At</td>
             <td>Updated At</td>
+            <td>Details</td>
         </tr>
         </thead>
         <tbody>
@@ -94,14 +95,15 @@
             <td>{{ rolePickPurchase.role_pick.role.name }}</td>
             <td>{{ rolePickPurchase.created_at | localeDate }}</td>
             <td>{{ rolePickPurchase.updated_at | localeDate }}</td>
+            <td><button class="btn btn-details" ng-click="showDetails(rolePickPurchase)">Details</button></td>
         </tr>
         <tr ng-if="isLoadingContent">
-            <td colspan="8" style="text-align: center">
+            <td colspan="9" style="text-align: center">
                 <loader size='small'></loader>
             </td>
         </tr>
         <tr ng-hide="isLoadingContent">
-            <td colspan="8">
+            <td colspan="9">
                 <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
             </td>
         </tr>

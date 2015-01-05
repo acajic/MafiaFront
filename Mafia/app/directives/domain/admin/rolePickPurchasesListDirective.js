@@ -1,4 +1,4 @@
-app.directive('rolePickPurchasesList', function($q, rolePickPurchasesService, rolesService) {
+app.directive('rolePickPurchasesList', function($location, $q, rolePickPurchasesService, rolesService) {
     "use strict";
     return {
         restrict : 'E',
@@ -36,6 +36,14 @@ app.directive('rolePickPurchasesList', function($q, rolePickPurchasesService, ro
                 scope.queryModel = {
                 };
             }
+
+            scope.newRolePickPurchase = function () {
+                $location.path('/admin/role_pick_purchase/new');
+            };
+
+            scope.showDetails = function(rolePickPurchase) {
+                $location.path('admin/role_pick_purchase/' + rolePickPurchase.id);
+            };
 
             var reloadData = function(refresh) {
                 scope.isLoadingContent = true;

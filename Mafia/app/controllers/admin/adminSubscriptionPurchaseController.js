@@ -95,7 +95,13 @@ app.controller('AdminSubscriptionPurchaseController',function ($scope, $routePar
                 $scope.alerts.push({type: 'success', msg: 'Successfully updated'});
             }, function (reason) {
                 $scope.isProcessing = false;
-                $scope.alerts.push({type: 'danger', msg: 'Error updating subscription purchase.'});
+                var message = 'Error updating subscription purchase. ';
+                for (var key in reason.httpObj.responseJSON) {
+                    angular.forEach(reason.httpObj.responseJSON[key], function (error) {
+                        message += error + '. ';
+                    });
+                }
+                $scope.alerts.push({type: 'danger', msg: message});
             });
         } else {
             subscriptionsService.postCreateSubscriptionPurchase($scope.inspectedSubscriptionPurchase).then(function(result) {
@@ -104,7 +110,13 @@ app.controller('AdminSubscriptionPurchaseController',function ($scope, $routePar
                 $scope.alerts.push({type: 'success', msg: 'Successfully created'});
             }, function (reason) {
                 $scope.isProcessing = false;
-                $scope.alerts.push({type: 'danger', msg: 'Error creating subscription purchase.'});
+                var message = 'Error creating subscription purchase. ';
+                for (var key in reason.httpObj.responseJSON) {
+                    angular.forEach(reason.httpObj.responseJSON[key], function (error) {
+                        message += error + '. ';
+                    });
+                }
+                $scope.alerts.push({type: 'danger', msg: message});
             });
         }
 

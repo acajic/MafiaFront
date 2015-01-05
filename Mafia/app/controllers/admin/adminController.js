@@ -12,7 +12,7 @@ var kAdminQueryModelSubscriptions = 'admin_query_model_subscriptions';
 var kAdminQueryModelGamePurchases = 'admin_query_model_game_purchases';
 var kAdminQueryModelRolePickPurchases = 'admin_query_model_role_pick_purchases';
 
-app.controller('AdminController',function ($scope, $q, $location, usersService, layoutService, citiesService, authService, appRolesService) {
+app.controller('AdminController',function ($scope, $q, $location, usersService, layoutService, citiesService, authService, appRolesService, paymentsService, subscriptionsService, gamePurchasesService, rolePickPurchasesService) {
     "use strict";
 
     init();
@@ -136,6 +136,27 @@ app.controller('AdminController',function ($scope, $q, $location, usersService, 
 
             appRolesService.notifications.initialAppRoleDeleted = null;
         }
+
+        if (paymentsService.notifications.paymentLogDeleted) {
+            $scope.alerts.push({type: 'success', msg: "Successfully deleted payment log for user with email '" + paymentsService.notifications.paymentLogDeleted.user_email + "'"});
+            paymentsService.notifications.paymentLogDeleted = null;
+        }
+
+        if (subscriptionsService.notifications.subscriptionPurchaseDeleted) {
+            $scope.alerts.push({type: 'success', msg: "Successfully deleted subscription purchase for user with email '" + subscriptionsService.notifications.subscriptionPurchaseDeleted.user_email + "'"});
+            subscriptionsService.notifications.subscriptionPurchaseDeleted = null;
+        }
+
+        if (gamePurchasesService.notifications.gamePurchaseDeleted) {
+            $scope.alerts.push({type: 'success', msg: "Successfully deleted game purchase for user with email '" + gamePurchasesService.notifications.gamePurchaseDeleted.user_email + "'"});
+            gamePurchasesService.notifications.gamePurchaseDeleted = null;
+        }
+
+        if (rolePickPurchasesService.notifications.rolePickPurchaseDeleted) {
+            $scope.alerts.push({type: 'success', msg: "Successfully deleted role pick purchase for user with email '" + rolePickPurchasesService.notifications.rolePickPurchaseDeleted.user_email + "'"});
+            rolePickPurchasesService.notifications.rolePickPurchaseDeleted = null;
+        }
+
     }
 
 

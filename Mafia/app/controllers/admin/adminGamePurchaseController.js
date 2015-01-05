@@ -59,14 +59,14 @@ app.controller('AdminGamePurchaseController',function ($scope, $routeParams, $lo
             $location.path('admin/game_purchase/' + gamePurchaseResult.id);
         }, function(reason) {
             $scope.isProcessing = false;
-            var msg = '';
+            var message = 'Error creating game purchase. ';
             for (var key in reason.httpObj.responseJSON) {
-                if (reason.httpObj.responseJSON.hasOwnProperty(key)) {
-                    msg += reason.httpObj.responseJSON[key];
-                }
+                angular.forEach(reason.httpObj.responseJSON[key], function (error) {
+                    message += error + '. ';
+                });
             }
 
-            $scope.alerts.push({type: 'danger', msg: 'Error creating game purchase. ' + msg});
+            $scope.alerts.push({type: 'danger', msg: message});
         });
     };
 
@@ -102,7 +102,13 @@ app.controller('AdminGamePurchaseController',function ($scope, $routeParams, $lo
                 $scope.alerts.push({type: 'success', msg: 'Successfully updated'});
             }, function (reason) {
                 $scope.isProcessing = false;
-                $scope.alerts.push({type: 'danger', msg: 'Error updating game purchase.'});
+                var message = 'Error updating game purchase. ';
+                for (var key in reason.httpObj.responseJSON) {
+                    angular.forEach(reason.httpObj.responseJSON[key], function (error) {
+                        message += error + '. ';
+                    });
+                }
+                $scope.alerts.push({type: 'danger', msg: message});
             });
         } else {
             gamePurchasesService.postCreateGamePurchase($scope.inspectedGamePurchase).then(function(result) {
@@ -111,7 +117,13 @@ app.controller('AdminGamePurchaseController',function ($scope, $routeParams, $lo
                 $scope.alerts.push({type: 'success', msg: 'Successfully created'});
             }, function (reason) {
                 $scope.isProcessing = false;
-                $scope.alerts.push({type: 'danger', msg: 'Error creating game purchase.'});
+                var message = 'Error creating game purchase. ';
+                for (var key in reason.httpObj.responseJSON) {
+                    angular.forEach(reason.httpObj.responseJSON[key], function (error) {
+                        message += error + '. ';
+                    });
+                }
+                $scope.alerts.push({type: 'danger', msg: message});
             });
         }
 

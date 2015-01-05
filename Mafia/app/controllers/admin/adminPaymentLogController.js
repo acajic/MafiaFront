@@ -115,7 +115,13 @@ app.controller('AdminPaymentLogController',function ($scope, $routeParams, $loca
                 $scope.alerts.push({type: 'success', msg: 'Successfully updated'});
             }, function (reason) {
                 $scope.isProcessing = false;
-                $scope.alerts.push({type: 'danger', msg: 'Error updating payment log.'});
+                var message = 'Error updating payment log. ';
+                for (var key in reason.httpObj.responseJSON) {
+                    angular.forEach(reason.httpObj.responseJSON[key], function (error) {
+                        message += error + '. ';
+                    });
+                }
+                $scope.alerts.push({type: 'danger', msg: message});
             });
         } else {
             paymentsService.postCreatePaymentLog($scope.inspectedPaymentLog).then(function(result) {
@@ -124,7 +130,13 @@ app.controller('AdminPaymentLogController',function ($scope, $routeParams, $loca
                 $scope.alerts.push({type: 'success', msg: 'Successfully created'});
             }, function (reason) {
                 $scope.isProcessing = false;
-                $scope.alerts.push({type: 'danger', msg: 'Error creating payment log.'});
+                var message = 'Error creating payment log. ';
+                for (var key in reason.httpObj.responseJSON) {
+                    angular.forEach(reason.httpObj.responseJSON[key], function (error) {
+                        message += error + '. ';
+                    });
+                }
+                $scope.alerts.push({type: 'danger', msg: message});
             });
         }
 
