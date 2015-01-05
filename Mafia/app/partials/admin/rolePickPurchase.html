@@ -27,14 +27,29 @@
         </tr>
 
         <tr>
+            <td>Existing Payment Log?</td>
+            <td> <input type="checkbox" ng-model="inspectedRolePickPurchase.existingPaymentLog" ng-disabled="inspectedRolePickPurchase.payment_log.id != null"> </td>
+        </tr>
+
+        <tr ng-show="inspectedRolePickPurchase.existingPaymentLog">
             <td> Payment Log Id </td>
             <td> <input type="number" ng-model="inspectedRolePickPurchase.payment_log.id" step="1"> </td>
         </tr>
-
-        <tr>
+        <tr ng-show="inspectedRolePickPurchase.existingPaymentLog">
             <td>User</td>
             <td>{{ inspectedRolePickPurchase.user_id }} {{ inspectedRolePickPurchase.user.username }} {{ inspectedRolePickPurchase.user_email }}</td>
         </tr>
+
+        <tr ng-hide="inspectedRolePickPurchase.existingPaymentLog">
+            <td>User</td>
+            <td>
+                <input type="text" ng-model="tempUser.username" placeholder="Username" typeahead="user.username for user in getUsersByUsername($viewValue)" typeahead-loading="loadingUsers" typeahead-on-select="selectUser($item)" typeahead-wait-ms="300" typeahead-min-length=2>
+                <loader size="small" ng-show="loadingUsers"></loader>
+                Currently selected: {{inspectedRolePickPurchase.user.username}}
+            </td>
+        </tr>
+
+
 
         <tr ng-if="inspectedRolePickPurchase.created_at">
             <td>Created At</td>

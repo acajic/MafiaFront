@@ -1,4 +1,4 @@
-app.controller('AdminRolePickPurchaseController',function ($scope, $routeParams, $location, $modal, authService, layoutService, rolePickPurchasesService, citiesService, rolesService) {
+app.controller('AdminRolePickPurchaseController',function ($scope, $routeParams, $location, $modal, authService, layoutService, rolePickPurchasesService, citiesService, rolesService, usersService) {
     "use strict";
 
     init();
@@ -31,8 +31,11 @@ app.controller('AdminRolePickPurchaseController',function ($scope, $routeParams,
         } else {
             rolePickPurchasePromise = rolePickPurchasesService.getNewRolePickPurchase();
         }
+
+
         rolePickPurchasePromise.then(function(rolePickPurchaseResult) {
             $scope.inspectedRolePickPurchase = rolePickPurchaseResult;
+            $scope.inspectedRolePickPurchase.existingPaymentLog = ($scope.inspectedRolePickPurchase.payment_log || {}).id;
         });
 
 
@@ -53,6 +56,24 @@ app.controller('AdminRolePickPurchaseController',function ($scope, $routeParams,
     $scope.selectCity = function (city) {
         $scope.inspectedRolePickPurchase.role_pick.city = city;
         $scope.tempCity = angular.copy(city);
+    };
+
+    $scope.tempUser = {};
+
+    $scope.getUsersByUsername = function(username) {
+        $scope.loadingUsers = true;
+        return usersService.getAllUsers({username: username}).then(function(users) {
+            $scope.loadingUsers = false;
+            return users;
+        }, function(reason) {
+            $scope.loadingUsers = false;
+            return reason;
+        });
+    };
+
+    $scope.selectUser = function (user) {
+        $scope.tempUser = angular.copy(user);
+        $scope.inspectedRolePickPurchase.user = user;
     };
 
     $scope.createRolePickPurchase = function() {
@@ -105,6 +126,7 @@ app.controller('AdminRolePickPurchaseController',function ($scope, $routeParams,
             rolePickPurchasesService.putUpdateRolePickPurchase($scope.inspectedRolePickPurchase.id, $scope.inspectedRolePickPurchase).then(function(result) {
                 $scope.isProcessing = false;
                 $scope.inspectedRolePickPurchase = result;
+                $scope.inspectedRolePickPurchase.existingPaymentLog = (result || {}).id;
                 $scope.alerts.push({type: 'success', msg: 'Successfully updated'});
             }, function (reason) {
                 $scope.isProcessing = false;
@@ -121,6 +143,7 @@ app.controller('AdminRolePickPurchaseController',function ($scope, $routeParams,
             rolePickPurchasesService.postCreateRolePickPurchase($scope.inspectedRolePickPurchase).then(function(result) {
                 $scope.isProcessing = false;
                 $scope.inspectedRolePickPurchase = result;
+                $scope.inspectedRolePickPurchase.existingPaymentLog = (result.payment_log || {}).id;
                 $scope.alerts.push({type: 'success', msg: 'Successfully created'});
             }, function (reason) {
                 $scope.isProcessing = false;

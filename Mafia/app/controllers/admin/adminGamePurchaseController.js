@@ -1,4 +1,4 @@
-app.controller('AdminGamePurchaseController',function ($scope, $routeParams, $location, $modal, authService, layoutService, gamePurchasesService, citiesService) {
+app.controller('AdminGamePurchaseController',function ($scope, $routeParams, $location, $modal, authService, layoutService, gamePurchasesService, citiesService, usersService) {
     "use strict";
 
     init();
@@ -25,8 +25,11 @@ app.controller('AdminGamePurchaseController',function ($scope, $routeParams, $lo
         } else {
             gamePurchasePromise = gamePurchasesService.getNewGamePurchase();
         }
+
+
         gamePurchasePromise.then(function(gamePurchaseResult) {
             $scope.inspectedGamePurchase = gamePurchaseResult;
+            $scope.inspectedGamePurchase.existingPaymentLog = (gamePurchaseResult.payment_log || {}).id;
         });
 
 
@@ -38,6 +41,24 @@ app.controller('AdminGamePurchaseController',function ($scope, $routeParams, $lo
         });
 
     }
+
+    $scope.tempUser = {};
+
+    $scope.getUsersByUsername = function(username) {
+        $scope.loadingUsers = true;
+        return usersService.getAllUsers({username: username}).then(function(users) {
+            $scope.loadingUsers = false;
+            return users;
+        }, function(reason) {
+            $scope.loadingUsers = false;
+            return reason;
+        });
+    };
+
+    $scope.selectUser = function (user) {
+        $scope.tempUser = angular.copy(user);
+        $scope.inspectedGamePurchase.user = user;
+    };
 
 
     $scope.getCitiesByName = function(cityName) {
@@ -99,6 +120,7 @@ app.controller('AdminGamePurchaseController',function ($scope, $routeParams, $lo
             gamePurchasesService.putUpdateGamePurchase($scope.inspectedGamePurchase.id, $scope.inspectedGamePurchase).then(function(result) {
                 $scope.isProcessing = false;
                 $scope.inspectedGamePurchase = result;
+                $scope.inspectedGamePurchase.existingPaymentLog = (result.payment_log || {}).id;
                 $scope.alerts.push({type: 'success', msg: 'Successfully updated'});
             }, function (reason) {
                 $scope.isProcessing = false;
@@ -114,6 +136,7 @@ app.controller('AdminGamePurchaseController',function ($scope, $routeParams, $lo
             gamePurchasesService.postCreateGamePurchase($scope.inspectedGamePurchase).then(function(result) {
                 $scope.isProcessing = false;
                 $scope.inspectedGamePurchase = result;
+                $scope.inspectedGamePurchase.existingPaymentLog = (result.payment_log || {}).id;
                 $scope.alerts.push({type: 'success', msg: 'Successfully created'});
             }, function (reason) {
                 $scope.isProcessing = false;

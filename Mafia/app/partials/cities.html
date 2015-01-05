@@ -14,7 +14,7 @@
 
     <div class="cities-top-button-controls-bar">
         <button ng-click="newCity()" ng-if="appPermissionCreateGamesGranted || user.unused_game_purchases.length" class="btn btn-create-new-city"><i class="glyphicon glyphicon-plus"></i>Create a new town</button>
-        <p ng-if="!appPermissionCreateGamesGranted && user.unused_game_purchases.length">You can start {{user.unused_game_purchases.length}} more {{user.unused_game_purchases.length == 1 ? 'city' : 'cities'}}.</p>
+        <p ng-if="!appPermissionCreateGamesGranted && user.unused_game_purchases.length">You can start {{user.unused_game_purchases.length}} more {{user.unused_game_purchases.length == 1 ? 'game' : 'games'}}.</p>
     </div>
 
 </div>

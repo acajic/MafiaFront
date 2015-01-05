@@ -1,4 +1,4 @@
-app.controller('AdminSubscriptionPurchaseController',function ($scope, $routeParams, $location, $modal, authService, layoutService, subscriptionsService) {
+app.controller('AdminSubscriptionPurchaseController',function ($scope, $routeParams, $location, $modal, authService, layoutService, subscriptionsService, usersService) {
     "use strict";
 
     init();
@@ -25,8 +25,11 @@ app.controller('AdminSubscriptionPurchaseController',function ($scope, $routePar
         } else {
             subscriptionPurchasePromise = subscriptionsService.getNewSubscriptionPurchase();
         }
+
+
         subscriptionPurchasePromise.then(function(subscriptionPurchaseResult) {
             $scope.inspectedSubscriptionPurchase = subscriptionPurchaseResult;
+            $scope.inspectedSubscriptionPurchase.existingPaymentLog = (subscriptionPurchaseResult.payment_log || {}).id != null;
         });
 
 
@@ -73,6 +76,25 @@ app.controller('AdminSubscriptionPurchaseController',function ($scope, $routePar
     };
 
 
+    $scope.tempUser = {};
+
+    $scope.getUsersByUsername = function(username) {
+        $scope.loadingUsers = true;
+        return usersService.getAllUsers({username: username}).then(function(users) {
+            $scope.loadingUsers = false;
+            return users;
+        }, function(reason) {
+            $scope.loadingUsers = false;
+            return reason;
+        });
+    };
+
+    $scope.selectUser = function (user) {
+        $scope.tempUser = angular.copy(user);
+        $scope.inspectedSubscriptionPurchase.user = user;
+    };
+
+
 
     $scope.$watch('[inspectedSubscriptionPurchase, userMe]', function(newValues, oldValues) {
         var inspectedSubscriptionPurchase = newValues[0];
@@ -92,6 +114,7 @@ app.controller('AdminSubscriptionPurchaseController',function ($scope, $routePar
             subscriptionsService.putUpdateSubscriptionPurchase($scope.inspectedSubscriptionPurchase.id, $scope.inspectedSubscriptionPurchase).then(function(result) {
                 $scope.isProcessing = false;
                 $scope.inspectedSubscriptionPurchase = result;
+                $scope.inspectedSubscriptionPurchase.existingPaymentLog = (result.payment_log || {}).id != null;
                 $scope.alerts.push({type: 'success', msg: 'Successfully updated'});
             }, function (reason) {
                 $scope.isProcessing = false;
@@ -107,6 +130,7 @@ app.controller('AdminSubscriptionPurchaseController',function ($scope, $routePar
             subscriptionsService.postCreateSubscriptionPurchase($scope.inspectedSubscriptionPurchase).then(function(result) {
                 $scope.isProcessing = false;
                 $scope.inspectedSubscriptionPurchase = result;
+                $scope.inspectedSubscriptionPurchase.existingPaymentLog = (result.payment_log || {}).id != null;
                 $scope.alerts.push({type: 'success', msg: 'Successfully created'});
             }, function (reason) {
                 $scope.isProcessing = false;

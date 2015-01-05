@@ -27,14 +27,29 @@
         </tr>
 
         <tr>
+            <td>Existing Payment Log?</td>
+            <td> <input type="checkbox" ng-model="inspectedSubscriptionPurchase.existingPaymentLog" ng-disabled="inspectedSubscriptionPurchase.payment_log.id != null"> </td>
+        </tr>
+
+        <tr ng-show="inspectedSubscriptionPurchase.existingPaymentLog">
             <td> Payment Log Id </td>
             <td> <input type="number" ng-model="inspectedSubscriptionPurchase.payment_log.id" step="1"> </td>
         </tr>
-
-        <tr>
+        <tr ng-show="inspectedSubscriptionPurchase.existingPaymentLog">
             <td>User</td>
             <td>{{ inspectedSubscriptionPurchase.user_id }} {{ inspectedSubscriptionPurchase.user.username }} {{ inspectedSubscriptionPurchase.user_email }}</td>
         </tr>
+
+        <tr ng-hide="inspectedSubscriptionPurchase.existingPaymentLog">
+            <td>User</td>
+            <td>
+                <input type="text" ng-model="tempUser.username" placeholder="Username" typeahead="user.username for user in getUsersByUsername($viewValue)" typeahead-loading="loadingUsers" typeahead-on-select="selectUser($item)" typeahead-wait-ms="300" typeahead-min-length=2>
+                <loader size="small" ng-show="loadingUsers"></loader>
+                Currently selected: {{inspectedSubscriptionPurchase.user.username}}
+            </td>
+        </tr>
+
+
 
         <tr>
             <td>Subscription Type</td>
@@ -46,7 +61,7 @@
 
         <tr>
             <td>Expiration Date</td>
-            <td> <quick-datepicker ng-model='inspectedSubscriptionPurchase.expirationDate' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> </td>
+            <td> <quick-datepicker ng-model='inspectedSubscriptionPurchase.expiration_date' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> </td>
         </tr>
 
         </tbody>
