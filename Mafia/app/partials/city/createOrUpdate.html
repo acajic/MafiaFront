@@ -39,7 +39,7 @@
         <alert ng-repeat="alert in generalMessages" type="alert.type" close="closeGeneralMessage($index)">{{alert.msg}}</alert>
     </div>
 
-    <div ng-if="disableCityControls">
+    <div ng-if="disableCityControls" style="text-align: center;">
         <loader></loader>
     </div>
 
