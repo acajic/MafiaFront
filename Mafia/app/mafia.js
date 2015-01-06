@@ -803,12 +803,8 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         if (routePath.indexOf('email_confirmation') >= 0) {
             var emailConfirmationCode = $routeParams["emailConfirmationCode"];
             if (emailConfirmationCode) {
-                if ($scope.user) {
-                    $scope.user['emailConfirmationCode'] = emailConfirmationCode;
-                } else {
-                    $scope.user = {emailConfirmationCode: emailConfirmationCode};
-                }
-                $location.path('/cities');
+                authService.emailConfirmation.code = emailConfirmationCode;
+                // $location.path('/cities');
             }
         }
 
@@ -2585,6 +2581,9 @@ app.controller('RegisterController', function ($scope, $location, $timeout, user
             for (var key in reason.httpObj.responseJSON) {
                 if (reason.httpObj.responseJSON.hasOwnProperty(key))
                     $scope.registerInfos.push({type : 'danger', msg: key + " " + reason.httpObj.responseJSON[key] });
+            }
+            if (!reason.httpObj.responseJSON) {
+                $scope.registerInfos.push({type : 'danger', msg: 'Server error' });
             }
         });
     };
@@ -4471,10 +4470,11 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
                 isLoading: false
             };
 
-            scope.$watch('user', function(newUser) {
-                if (newUser['emailConfirmationCode']) {
-                    if (!newUser.id)
-                        signIn();
+            scope.emailConfirmation = authService.emailConfirmation;
+
+            scope.$watch('emailConfirmation', function(newEmailConfirmation) {
+                if (newEmailConfirmation.code && !scope.user.id) {
+                    signIn();
                 }
             }, true);
 
@@ -4484,9 +4484,9 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
                 scope.loader.isLoading = true;
                 var userMePromise;
 
-                if (scope.user['emailConfirmationCode']) {
-                    var emailConfirmationCode = scope.user['emailConfirmationCode'];
-                    scope.user['emailConfirmationCode'] = null;
+                if (authService.emailConfirmation.code) {
+                    var emailConfirmationCode = authService.emailConfirmation.code;
+                    authService.emailConfirmation.code = null;
                     userMePromise = authService.exchangeEmailConfirmationCode(emailConfirmationCode);
                 } else {
                     userMePromise = authService.authenticate(scope.user.username, scope.user.password);
@@ -10773,6 +10773,10 @@ app.factory('authService', function(serverService, $q) {
         });;
     };
 
+    var emailConfirmation = {
+        code: null
+    };
+
     var exchangeEmailConfirmationCode = function(emailConfirmationCode) {
         var userMePromise = serverService.post('exchange_email_confirmation_code', {email_confirmation_code : emailConfirmationCode});
 
@@ -10831,6 +10835,7 @@ app.factory('authService', function(serverService, $q) {
         user: user,
         authenticate: authenticate,
         impersonationAuthenticate: impersonationAuthenticate,
+        emailConfirmation: emailConfirmation,
         exchangeEmailConfirmationCode: exchangeEmailConfirmationCode,
         userMe: userMe,
         notifications: notifications,
