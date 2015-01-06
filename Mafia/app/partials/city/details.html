@@ -258,15 +258,15 @@
 
                         <table class="table">
                             <thead>
-                            <tr ng-show="user.role_picks.length">
-                                <td>Requested Role</td>
-                                <td>Request Date</td>
-                                <td>Granted</td>
-                                <td ng-if="!city.started_at">Cancel</td>
+                            <tr ng-show="city.role_picks.length">
+                                <td style="text-align: center">Requested Role</td>
+                                <td style="text-align: center">Request Date</td>
+                                <td style="text-align: center">Granted</td>
+                                <td ng-if="!city.started_at" style="text-align: center">Cancel</td>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="rolePick in user.role_picks | filter: { city_id : city.id} ">
+                            <tr ng-repeat="rolePick in city.role_picks">
                                 <td style="text-align: center">{{rolePick.role.name}}</td>
                                 <td style="text-align: center">{{rolePick.created_at | localeDate}}</td>
                                 <td ng-if="city.started_at" style="text-align: center"><img-bool boolean-value="rolePick.role_pick_purchase_id"></img-bool> </td>
@@ -279,18 +279,18 @@
                             <thead>
                             <tr>
                                 <td colspan="3">Select a role</td>
-                                <td>Submit</td>
+                                <td style="text-align: center">Submit</td>
                             </tr>
                             </thead>
                             <tr class="new-role-pick-row" ng-if="!city.started_at">
                                 <td colspan="3">
-                                    <select style="width: 100%" ng-model="newRolePickCityHasRole"
-                                            ng-options="cityHasRole.role.name for cityHasRole in city.city_has_roles | uniqque: { role : 'id'}"
-                                            ng-change="changeNewRolePickRole(newRolePickCityHasRole)">
+                                    <select style="width: 100%" ng-model="newRolePickRole"
+                                            ng-options="role.name for role in allRoles"
+                                            ng-change="changeNewRolePickRole(newRolePickRole)">
                                     </select>
                                 </td>
                                 <td style="text-align: center">
-                                    <button class="btn btn-save" tooltip="Submit this role request" ng-click="submitRolePick()" ng-disabled="!newRolePickCityHasRole"><i class="glyphicon glyphicon-ok-sign"></i>Submit</button>
+                                    <button class="btn btn-save" tooltip="Submit this role request" ng-click="submitRolePick()" ng-disabled="!newRolePickRole"><i class="glyphicon glyphicon-ok-sign"></i>Submit</button>
 
                                     <loader ng-show="isSubmittingRolePick" size="small"></loader>
                                 </td>

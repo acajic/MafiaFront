@@ -1011,20 +1011,29 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
     }, true);
 
 
-    function changeNewRolePickRole(cityHasRole) {
-        $scope.newRolePickCityHasRole = cityHasRole;
+    function changeNewRolePickRole(role) {
+        $scope.newRolePickRole = role;
     }
 
     function submitRolePick() {
-        if (!$scope.newRolePickCityHasRole)
+        if (!$scope.newRolePickRole)
             return;
 
+        var alreadyPickedIndex = $scope.city.role_picks.indexOfMatchFunction(function (rolePick) {
+            return rolePick.role.id == $scope.newRolePickRole.id;
+        });
+        if (alreadyPickedIndex >= 0)
+            return;
+
+
         $scope.isSubmittingRolePick = true;
-        var createRolePickPromise = rolePicksService.createRolePick($scope.city, $scope.newRolePickCityHasRole.role);
+        var createRolePickPromise = rolePicksService.createRolePick($scope.city, $scope.newRolePickRole);
 
         createRolePickPromise.then(function(createdRolePick) {
             $scope.city.role_picks.push(createdRolePick);
             $scope.isSubmittingRolePick = false;
+
+            $scope.userMe.role_picks.push(createdRolePick);
         }, function(reason) {
             $scope.isSubmittingRolePick = false;
         });
@@ -1036,9 +1045,16 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             var index = $scope.city.role_picks.indexOf(rolePick);
             $scope.city.role_picks.splice(index, 1)
             $scope.deletingRolePickId = null;
+
+            index = $scope.userMe.role_picks.indexOfMatchFunction(function (rolePick) {
+                return rolePick.id == rolePick.id;
+            });
+            if (index >= 0) {
+                $scope.userMe.role_picks.splice(index, 1);
+            }
+
         }, function(reason) {
             $scope.deletingRolePickId = null;
-
         });
 
     }
