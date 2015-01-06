@@ -46,6 +46,10 @@ app.factory('authService', function(serverService, $q) {
         });;
     };
 
+    var emailConfirmation = {
+        code: null
+    };
+
     var exchangeEmailConfirmationCode = function(emailConfirmationCode) {
         var userMePromise = serverService.post('exchange_email_confirmation_code', {email_confirmation_code : emailConfirmationCode});
 
@@ -104,6 +108,7 @@ app.factory('authService', function(serverService, $q) {
         user: user,
         authenticate: authenticate,
         impersonationAuthenticate: impersonationAuthenticate,
+        emailConfirmation: emailConfirmation,
         exchangeEmailConfirmationCode: exchangeEmailConfirmationCode,
         userMe: userMe,
         notifications: notifications,
