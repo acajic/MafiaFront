@@ -5,8 +5,8 @@
 
     <div class="title textonly">Register</div>
 
-    <div id="info-box">
-        <alert ng-repeat="alert in infos" type="alert.type" close="closeInfoAlert($index)">{{alert.msg}}</alert>
+    <div>
+        <alert ng-repeat="alert in registerInfos" type="alert.type" close="closeRegisterInfoAlert($index)">{{alert.msg}}</alert>
     </div>
 
     <div class="register-buttons-bar">
@@ -40,7 +40,7 @@
         <p class="warning-appendix">*</p> - required fields
 
         <br>
-        <button class="btn btn-save" ng-click="register()">Register</button>
+        <button class="btn btn-save" ng-click="registerUser()">Register</button>
     </div>
 
     <div ng-show="isLoading">
