@@ -520,12 +520,8 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         if (routePath.indexOf('email_confirmation') >= 0) {
             var emailConfirmationCode = $routeParams["emailConfirmationCode"];
             if (emailConfirmationCode) {
-                if ($scope.user) {
-                    $scope.user['emailConfirmationCode'] = emailConfirmationCode;
-                } else {
-                    $scope.user = {emailConfirmationCode: emailConfirmationCode};
-                }
-                $location.path('/cities');
+                authService.emailConfirmation.code = emailConfirmationCode;
+                // $location.path('/cities');
             }
         }
 

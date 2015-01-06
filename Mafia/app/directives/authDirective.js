@@ -35,10 +35,11 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
                 isLoading: false
             };
 
-            scope.$watch('user', function(newUser) {
-                if (newUser['emailConfirmationCode']) {
-                    if (!newUser.id)
-                        signIn();
+            scope.emailConfirmation = authService.emailConfirmation;
+
+            scope.$watch('emailConfirmation', function(newEmailConfirmation) {
+                if (newEmailConfirmation.code && !scope.user.id) {
+                    signIn();
                 }
             }, true);
 
@@ -48,9 +49,9 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
                 scope.loader.isLoading = true;
                 var userMePromise;
 
-                if (scope.user['emailConfirmationCode']) {
-                    var emailConfirmationCode = scope.user['emailConfirmationCode'];
-                    scope.user['emailConfirmationCode'] = null;
+                if (authService.emailConfirmation.code) {
+                    var emailConfirmationCode = authService.emailConfirmation.code;
+                    authService.emailConfirmation.code = null;
                     userMePromise = authService.exchangeEmailConfirmationCode(emailConfirmationCode);
                 } else {
                     userMePromise = authService.authenticate(scope.user.username, scope.user.password);

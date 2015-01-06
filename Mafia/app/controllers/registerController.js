@@ -41,6 +41,9 @@ app.controller('RegisterController', function ($scope, $location, $timeout, user
                 if (reason.httpObj.responseJSON.hasOwnProperty(key))
                     $scope.registerInfos.push({type : 'danger', msg: key + " " + reason.httpObj.responseJSON[key] });
             }
+            if (!reason.httpObj.responseJSON) {
+                $scope.registerInfos.push({type : 'danger', msg: 'Server error' });
+            }
         });
     };
 
