@@ -89,7 +89,9 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
         $scope.disableCityControls = true;
         var startCityPromise = citiesService.startCity($scope.city.id);
-        startCityPromise.then(function(city) {
+        startCityPromise.then(function(cityAndUserResult) {
+            var city = cityAndUserResult['city'];
+
             $timeout(function() {
                 $scope.disableCityControls = false;
             });
@@ -99,6 +101,11 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             $scope.city = city;
 
             $scope.generalMessages = [{type: 'success', msg: "Successfully started '" + city.name + "'."}];
+
+
+            var user = cityAndUserResult['user'];
+            angular.copy(user, $scope.userMe);
+
         }, function(reason) {
             var message = '';
             for (var key in reason.httpObj.responseJSON) {

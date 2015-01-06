@@ -17,7 +17,7 @@ app.factory('authService', function(serverService, $q) {
             userMePromise = userMePromise.then(function(userMe) {
                 angular.copy(userMe, user);
                 serverService.setAuthToken(userMe.auth_token.token_string, userMe.auth_token.expiration_date);
-                return userMe;
+                return user;
             });
 
             return userMePromise;
@@ -42,7 +42,7 @@ app.factory('authService', function(serverService, $q) {
         return serverService.get('impersonate_login/'+userId).then(function(impersonatedUser) {
             angular.copy(impersonatedUser, user);
             serverService.setAuthToken(impersonatedUser.auth_token.token_string, impersonatedUser.auth_token.expiration_date);
-            return impersonatedUser;
+            return user;
         });;
     };
 
@@ -52,7 +52,7 @@ app.factory('authService', function(serverService, $q) {
         userMePromise = userMePromise.then(function(userMe) {
             angular.copy(userMe, user);
             serverService.setAuthToken(userMe.auth_token.token_string, userMe.auth_token.expiration_date);
-            return userMe;
+            return user;
         });
 
         return userMePromise;
@@ -68,7 +68,7 @@ app.factory('authService', function(serverService, $q) {
 
                 userMePromise.then(function(userMe) {
                     angular.copy(userMe, user);
-                    deferred.resolve(userMe);
+                    deferred.resolve(user);
                 }, function(reason) {
                     angular.copy({}, user);
                     deferred.resolve(null);
@@ -97,6 +97,8 @@ app.factory('authService', function(serverService, $q) {
         serverService.setAuthToken("", null);
         return signOutPromise;
     };
+
+
 
     return {
         user: user,
