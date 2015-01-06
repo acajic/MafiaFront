@@ -49,9 +49,16 @@ input, textarea, select {
     border-radius: 4px;
 }
 
-i {
+.btn i {
+    margin-left: -4px;
     margin-right: 4px;
 }
+
+.btn.notext i {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
 
 .text-red {
     color: #560d0b;

@@ -256,7 +256,7 @@
                             <tr ng-repeat="(index, invitedUser) in invitedUsers" class="invite-added-row">
                                 <td>{{ invitedUser.username }}</td>
                                 <td>{{ invitedUser.email }}</td>
-                                <td><button ng-click="removeInvitedUser(index)" class="btn btn-delete"><i class="glyphicon glyphicon-minus"></i></button></td>
+                                <td><button ng-click="removeInvitedUser(index)" class="btn btn-delete notext"><i class="glyphicon glyphicon-minus"></i></button></td>
                             </tr>
 
 
@@ -268,7 +268,7 @@
                                     <input type="text" ng-model="newInvitedUser.email" placeholder="Email" typeahead="user.email for user in getUsersByEmail($viewValue)" typeahead-loading="loadingUsers" typeahead-on-select="setNewInvitedUser($item)" typeahead-wait-ms="300" typeahead-min-length=2 class="form-control">
                                 </td>
                                 <td>
-                                    <button ng-click="addInvitedUser()" class="btn btn-invite" popover="Add player to the list" popover-trigger="mouseenter" popover-placement="right"><i class="glyphicon glyphicon-plus"></i></button>
+                                    <button ng-click="addInvitedUser()" class="btn btn-invite notext" popover="Add player to the list" popover-trigger="mouseenter" popover-placement="right"><i class="glyphicon glyphicon-plus"></i></button>
                                 </td>
                             </tr>
                             <tr class="invite-users-table-loader-row">

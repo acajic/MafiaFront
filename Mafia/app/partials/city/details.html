@@ -233,9 +233,13 @@
                             <i class="fa fa-flag"></i> Role Picks
                         </tab-heading>
 
+                        <!--
                         <p style="font-size: 120%"> You have <b>{{user.role_pick_purchases.length}} Role Pick{{user.role_pick_purchases.length == 1 ? '' : 's'}}</b> at your disposal. </p>
+                        -->
+
 
                         <div ng-if="!city.started_at">
+
                             <p style="font-size: 120%"> You have <b>{{user.role_pick_purchases.length}} Role Pick{{user.role_pick_purchases.length == 1 ? '' : 's'}}</b> at your disposal. </p>
 
                             When you have Role Picks to spend, you can submit as many role requests as you want. When the game starts, and the roles are being distributed,
@@ -268,7 +272,7 @@
                                 <td ng-if="city.started_at" style="text-align: center"><img-bool boolean-value="rolePick.role_pick_purchase_id"></img-bool> </td>
                                 <td ng-if="!city.started_at" style="text-align: center"><i class="glyphicon glyphicon-question-sign" tooltip="Game hasn't started yet"></i></td>
                                 <td ng-if="!city.started_at" style="text-align: center">
-                                    <button tooltip="Cancel this role request" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
+                                    <button class="btn btn-delete notext" tooltip="Cancel this role request" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
                                     <loader ng-show="deletingRolePickId == rolePick.id" size="small"></loader>
                                 </td>
                             </tr>
@@ -286,7 +290,7 @@
                                     </select>
                                 </td>
                                 <td style="text-align: center">
-                                    <button tooltip="Submit this role request" ng-click="submitRolePick()" ng-disabled="!newRolePickCityHasRole"><i class="glyphicon glyphicon-ok-sign"></i>Submit</button>
+                                    <button class="btn btn-save" tooltip="Submit this role request" ng-click="submitRolePick()" ng-disabled="!newRolePickCityHasRole"><i class="glyphicon glyphicon-ok-sign"></i>Submit</button>
 
                                     <loader ng-show="isSubmittingRolePick" size="small"></loader>
                                 </td>

@@ -92,9 +92,10 @@ app.factory('authService', function(serverService, $q) {
 
     var signOut = function() {
         angular.copy({}, user);
-        return serverService.delete("logout");
-        serverService.setAuthToken("", null);
 
+        var signOutPromise = serverService.delete("logout");
+        serverService.setAuthToken("", null);
+        return signOutPromise;
     };
 
     return {
