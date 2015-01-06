@@ -200,8 +200,8 @@
                     <tr ng-repeat="(index, joinRequest) in city.join_requests">
                         <td>{{joinRequest.user_id}}</td>
                         <td>{{joinRequest.username}}</td>
-                        <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-success" ng-click="acceptJoinRequest(index)"><i class="glyphicon glyphicon-ok"></i></button></td>
-                        <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-danger" ng-click="rejectJoinRequest(index)"><i class="glyphicon glyphicon-remove"></i></button></td>
+                        <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-success notext" ng-click="acceptJoinRequest(index)"><i class="glyphicon glyphicon-ok"></i></button></td>
+                        <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-danger notext" ng-click="rejectJoinRequest(index)"><i class="glyphicon glyphicon-remove"></i></button></td>
                     </tr>
                     </tbody>
                 </table>
@@ -295,7 +295,7 @@
                     <i class="glyphicon glyphicon-time"></i> Day cycles
                 </tab-heading>
 
-                <div id="day-cycle-validation-error">
+                <div>
                     <alert ng-repeat="alert in dayCycleValidationErrors" type="alert.type" close="closeDayCycleValidationAlert($index)">{{alert.msg}}</alert>
                 </div>
 
@@ -324,18 +324,18 @@
                                 </div>
                             </td>
                             <td class="col-sm-1">
-                                <button class="btn btn-default" ng-if="city.day_cycles.length > 1" ng-click="removeDayCycle(index)"><i class="glyphicon glyphicon-minus"></i></button>
+                                <button class="btn btn-delete notext" ng-if="city.day_cycles.length > 1" ng-click="removeDayCycle(index)"><i class="glyphicon glyphicon-minus"></i></button>
                             </td>
                         </tr>
                         <tr ng-if="!showAddDayCycle && (!city.started_at || city.paused)">
                             <td colspan="3">
-                                <button class="btn btn-default narrow-horizontal-button" ng-click="toggleShowAddDayCycle()"><i class="glyphicon glyphicon-chevron-down"></i></button>
+                                <button class="btn btn-default narrow-horizontal-button notext" ng-click="toggleShowAddDayCycle()"><i class="glyphicon glyphicon-chevron-down"></i></button>
                                 <!-- <a href="" ng-if="!showAddDayCycle && !city.started_at" ng-click="toggleShowAddDayCycle()">+</a> -->
                             </td>
                         </tr>
                         <tr ng-if="showAddDayCycle && (!city.started_at || city.paused)">
                             <td colspan="3">
-                                <button class="btn btn-default narrow-horizontal-button" ng-click="toggleShowAddDayCycle()"><i class="glyphicon glyphicon-chevron-up"></i></button>
+                                <button class="btn btn-default narrow-horizontal-button notext" ng-click="toggleShowAddDayCycle()"><i class="glyphicon glyphicon-chevron-up"></i></button>
                                 <!-- <a href="" ng-if="!showAddDayCycle && !city.started_at" ng-click="toggleShowAddDayCycle()">+</a> -->
                             </td>
                         </tr>
@@ -352,7 +352,7 @@
                                 </div>
                             </td>
                             <td class="col-sm-1">
-                                <button  class="btn btn-default" ng-click="addDayCycle()"><i class="glyphicon glyphicon-plus"></i></button>
+                                <button  class="btn btn-save notext" ng-click="addDayCycle()"><i class="glyphicon glyphicon-plus"></i></button>
                             </td>
                         </tr>
 
@@ -508,7 +508,7 @@
                                     <td ng-if="city.started_at" style="text-align: center"><img-bool boolean-value="rolePick.role_pick_purchase_id"></img-bool> </td>
                                     <td ng-if="!city.started_at" style="text-align: center"><i class="glyphicon glyphicon-question-sign" tooltip="Game hasn't started yet"></i></td>
                                     <td ng-if="!city.started_at" style="text-align: center">
-                                        <button class="btn btn-delete" tooltip="Cancel this role request" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
+                                        <button class="btn btn-delete notext" tooltip="Cancel this role request" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
                                         <loader ng-show="deletingRolePickId == rolePick.id" size="small"></loader>
                                     </td>
                                 </tr>

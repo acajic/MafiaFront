@@ -7,7 +7,8 @@
     <input ng-if="city.residents" type="text" typeahead-on-select="selectVotedResident($item)" ng-model="selected" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control">
     <a href="" ng-if="votedResident" ng-click="blankActionResult()">x</a> {{ votedResident.name }}
 
-    <button ng-if="isNew" ng-click="hide()"><i class="glyphicon glyphicon-ban-circle"></i></button>
-    <button ng-if="!isNew" ng-click="deleteActionResult()"><i class="glyphicon glyphicon-trash"></i></button>
-    <button ng-click="submitActionResult()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+
+    <button class="btn btn-back notext" ng-if="isNew" ng-click="hide()" tooltip="Hide"><i class="glyphicon glyphicon-ban-circle"></i></button>
+    <button class="btn btn-delete notext" ng-if="!isNew" ng-click="deleteActionResult()" tooltip="Remove"><i class="glyphicon glyphicon-trash"></i></button>
+    <button class="btn btn-save notext" ng-click="submitActionResult()" tooltip="Save"><i class="glyphicon glyphicon-floppy-disk"></i></button>
 </div>
