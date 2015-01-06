@@ -1,0 +1,138 @@
+<div class="admin-panel">
+    <div class="top-buttons">
+        <button ng-if="enableCreating" class="btn btn-new" ng-click="newPaymentLog()">
+            Create
+        </button>
+    </div>
+
+    <div ng-if="queryable" class="admin-query-panel">
+        <div style="clear: both">
+            <p class="col-md-1">Username</p>
+            <input ng-model="queryModel.username">
+        </div>
+        <div style="clear: both">
+            <p class="col-md-1">User Email</p>
+            <input ng-model="queryModel.userEmail">
+        </div>
+        <div style="clear: both">
+            <p class="col-md-1">City Name</p>
+            <input ng-model="queryModel.cityName">
+        </div>
+
+        <div style="clear: both; overflow: hidden;">
+            <p class="col-md-1">Payment Types</p>
+
+            <div ng-repeat="paymentType in allPaymentTypes" class="col-md-1">
+                <input type="checkbox" ng-checked="queryModel.paymentTypeIds.indexOf(paymentType.id) > -1"
+                       ng-click="togglePaymentTypeSelection(paymentType)">{{ paymentType.name }}
+            </div>
+        </div>
+
+        <div style="clear: both">
+            <p class="col-md-1">Unit Price ($)</p>
+            <input type="number" ng-model="queryModel.unitPriceMin"> - <input type="number" ng-model="queryModel.unitPriceMax">
+        </div>
+
+        <div style="clear: both">
+            <p class="col-md-1">Quantity</p>
+            <input type="number" ng-model="queryModel.quantityMin"> - <input type="number" ng-model="queryModel.quantityMax">
+        </div>
+
+        <div style="clear: both">
+            <p class="col-md-1">Total Price ($)</p>
+            <input type="number" ng-model="queryModel.totalPriceMin"> - <input type="number" ng-model="queryModel.totalPriceMax">
+        </div>
+
+        <div style="clear: both; overflow: hidden;">
+            <p class="col-md-1">Sandbox?</p>
+            <select ng-model="queryModel.isSandbox">
+                <option value="">All</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+
+        <div style="clear: both; overflow: hidden;">
+            <p class="col-md-1">Valid?</p>
+            <select ng-model="queryModel.isPaymentValid">
+                <option value="">All</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+
+
+
+        <div style="clear: both">
+            <p class="col-md-1">Info JSON</p>
+            <textarea ng-model="queryModel.infoJson"></textarea>
+        </div>
+
+
+
+        <div style="clear: both" class="query-model row-even">
+            <p class="col-md-1">Created</p>
+            <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm'
+                              placeholder='Not Set'></quick-datepicker>
+            -
+            <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm'
+                              placeholder='Not Set'></quick-datepicker>
+        </div>
+
+        <div class="bottom-buttons">
+            <button class="btn btn-search" ng-click="reloadData(true)">Search</button>
+        </div>
+
+    </div>
+</div>
+
+<div class="admin-results">
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>User</td>
+            <td>Payment Type</td>
+            <td>Unit Price</td>
+            <td>Quantity</td>
+            <td>Total Price</td>
+            <td>Info JSON</td>
+            <td>Sandbox</td>
+            <td>Valid</td>
+            <td>Created At</td>
+            <td>Updated At</td>
+            <td>Details</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="paymentLog in paymentLogs">
+            <td>{{ paymentLog.id }}</td>
+            <td>{{ paymentLog.user_id }} {{ paymentLog.user.username }} {{paymentLog.user_email}}</td>
+            <td>{{ paymentLog.payment_type.name}}</td>
+            <td style="text-align: center">${{ paymentLog.unit_price }}</td>
+            <td style="text-align: center">{{ paymentLog.quantity }}</td>
+            <td style="text-align: center">${{ paymentLog.total_price}}</td>
+            <td>{{ paymentLog.info_json }}</td>
+            <td style="text-align: center;">
+                <img-bool boolean-value="paymentLog.is_sandbox"></img-bool>
+            </td>
+            <td style="text-align: center;">
+                <img-bool boolean-value="paymentLog.is_payment_valid"></img-bool>
+            </td>
+            <td>{{ paymentLog.created_at | localeDate }}</td>
+            <td>{{ paymentLog.updated_at | localeDate }}</td>
+            <td><button class="btn btn-details" ng-click="showDetails(paymentLog)">Details</button></td>
+        </tr>
+        <tr ng-if="isLoadingContent">
+            <td colspan="12" style="text-align: center">
+                <loader size='small'></loader>
+            </td>
+        </tr>
+        <tr ng-hide="isLoadingContent">
+            <td colspan="12">
+                <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

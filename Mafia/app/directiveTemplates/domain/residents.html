@@ -15,7 +15,7 @@
         <tbody>
         <tr ng-repeat="resident in residentsCopied">
             <td>{{ resident.name }}</td>
-            <td><img-alive boolean-value="resident.alive"></img-alive></td>
+            <td style="width: 20%"><img-alive boolean-value="resident.alive"></img-alive></td>
         </tr>
         </tbody>
     </table>
@@ -29,16 +29,19 @@
         <thead>
         <tr>
             <td>Name</td>
-            <td>Alive</td>
+            <td>
+                Alive
+                <button class="btn btn-save" ng-click="submitActionResult()" tooltip="Save"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+            </td>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="resident in residentsCopied">
             <td>{{ resident.name }}</td>
-            <td><input type="checkbox" ng-model="resident.alive"></td>
+            <td style="width: 20%"><input type="checkbox" ng-model="resident.alive"></td>
         </tr>
         </tbody>
     </table>
 
-    <button ng-click="submitActionResult()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+
 </div>

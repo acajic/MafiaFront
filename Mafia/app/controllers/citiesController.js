@@ -436,7 +436,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         if (!city)
             return false;
 
-        return !city.is_member && !city.is_owner && (city.hashed_password || '').length > 0;
+        return !city.is_member && !city.is_owner && !city.started_at && !city.public && (city.hashed_password || '').length > 0 && $scope.user.id;
     }
 
     function joinCityPasswordDidChange() {
@@ -446,7 +446,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     }
 
     function showJoinButtonForCity(city) {
-        return city && !city.started_at && !city.is_join_requested && !city.is_member && !city.is_invited;
+        return city && !city.started_at && !city.is_join_requested && !city.is_member && !city.is_invited && $scope.user.id;
     }
 
 
@@ -530,6 +530,10 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         }
 
 
+        $scope.isReturningUser = getCookie('isReturningUser');
+        if (!$scope.isReturningUser) {
+            setCookie('isReturningUser', true);
+        }
 
 
         $scope.selectedAllCities = {rowId: 0};
@@ -559,6 +563,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
 
         $scope.renderHtml = renderHtml;
+
     }
 
 }).filter('filterMyCities', function () {

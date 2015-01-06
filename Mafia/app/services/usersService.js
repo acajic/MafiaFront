@@ -6,6 +6,13 @@ var APP_PERMISSION_ADMIN_WRITE = 4;
 app.factory('usersService', function($q, serverService) {
     "use strict";
 
+    var appPermissions = {
+        APP_PERMISSION_PARTICIPATE: APP_PERMISSION_PARTICIPATE,
+        APP_PERMISSION_CREATE_GAMES: APP_PERMISSION_CREATE_GAMES,
+        APP_PERMISSION_ADMIN_READ: APP_PERMISSION_ADMIN_READ,
+        APP_PERMISSION_ADMIN_WRITE: APP_PERMISSION_ADMIN_WRITE
+    };
+
 
     // var allUsersByIds = {};
 
@@ -83,6 +90,7 @@ app.factory('usersService', function($q, serverService) {
     var userDeleted, userPreferenceChangedHashedPassword;
 
     return {
+        appPermissions: appPermissions,
         // allUsersByIds: allUsersByIds,
         getAllUsers: getAllUsers,
         getUserById: getUserById,

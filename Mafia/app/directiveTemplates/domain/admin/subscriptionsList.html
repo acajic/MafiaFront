@@ -1,0 +1,109 @@
+<div class="admin-panel">
+    <div class="top-buttons">
+        <button ng-if="enableCreating" class="btn btn-new" ng-click="newSubscriptionPurchase()">
+            Create
+        </button>
+    </div>
+
+    <div ng-if="queryable" class="admin-query-panel">
+        <div style="clear: both">
+            <p class="col-md-1">Username</p>
+            <input ng-model="queryModel.username">
+        </div>
+        <div style="clear: both">
+            <p class="col-md-1">User Email</p>
+            <input ng-model="queryModel.userEmail">
+        </div>
+
+
+        <div style="clear: both; overflow: hidden;">
+            <p class="col-md-1">Subscription Types</p>
+
+            <div ng-repeat="subscriptionType in allSubscriptionTypes" class="col-md-1">
+                <input type="checkbox" ng-checked="queryModel.subscriptionTypes.indexOf(subscriptionType.id) > -1"
+                       ng-click="togglePaymentTypeSelection(subscriptionType)">{{ subscriptionType.name }}
+            </div>
+        </div>
+
+
+        <div style="clear: both" class="query-model">
+            <p class="col-md-1">Expiration Date</p>
+            <quick-datepicker ng-model='queryModel.expirationDateMin' time-format='HH:mm'
+                              placeholder='Not Set'></quick-datepicker>
+            -
+            <quick-datepicker ng-model='queryModel.expirationDateMax' time-format='HH:mm'
+                              placeholder='Not Set'></quick-datepicker>
+        </div>
+
+
+
+        <div style="clear: both; overflow: hidden;">
+            <p class="col-md-1">Active?</p>
+            <select ng-model="queryModel.active">
+                <option value="">All</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+
+
+
+
+
+        <div style="clear: both" class="query-model row-even">
+            <p class="col-md-1">Created</p>
+            <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm'
+                              placeholder='Not Set'></quick-datepicker>
+            -
+            <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm'
+                              placeholder='Not Set'></quick-datepicker>
+        </div>
+
+        <div class="bottom-buttons">
+            <button class="btn btn-search" ng-click="reloadData(true)">Search</button>
+        </div>
+
+    </div>
+</div>
+
+<div class="admin-results">
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>User</td>
+            <td>Subscription Type</td>
+            <td>Expiration Date</td>
+            <td style="text-align: center;">Active</td>
+            <td>Created At</td>
+            <td>Updated At</td>
+            <td>Details</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="subscriptionPurchase in subscriptionPurchases">
+            <td>{{ subscriptionPurchase.id }}</td>
+            <td>{{ subscriptionPurchase.user_id }} {{ subscriptionPurchase.user.username }} {{subscriptionPurchase.user_email}}</td>
+            <td>{{ allSubscriptionTypes[subscriptionPurchase.subscription_type].name }}</td>
+            <td>{{ subscriptionPurchase.expiration_date | localeDate }}</td>
+            <td style="text-align: center;">
+                <img-bool boolean-value="subscriptionPurchase.is_active"></img-bool>
+            </td>
+            <td>{{ subscriptionPurchase.created_at | localeDate }}</td>
+            <td>{{ subscriptionPurchase.updated_at | localeDate }}</td>
+            <td><button class="btn btn-details" ng-click="showDetails(subscriptionPurchase)">Details</button></td>
+        </tr>
+        <tr ng-if="isLoadingContent">
+            <td colspan="8" style="text-align: center">
+                <loader size='small'></loader>
+            </td>
+        </tr>
+        <tr ng-hide="isLoadingContent">
+            <td colspan="8">
+                <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>

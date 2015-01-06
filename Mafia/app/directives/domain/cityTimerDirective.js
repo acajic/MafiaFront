@@ -145,7 +145,7 @@ app.directive('cityTimer', function() {
             }
 
             $scope.toggleMode = function() {
-                if ($scope.city.finished_at || !$scope.resident)
+                if ($scope.city.finished_at)
                     return;
 
                 $scope.editMode = !$scope.editMode;

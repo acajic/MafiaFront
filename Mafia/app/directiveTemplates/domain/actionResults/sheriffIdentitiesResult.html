@@ -1,7 +1,7 @@
 <div ng-if="!editMode" ng-dblclick="toggleMode()">
     Day {{ actionResult.day_number }}
 
-    <img src="content/img/sheriff-identities-icon.png" style="width: 25px;"/>
+    <img src="content/img/sheriff-icon.ico" style="width: 25px;"/>
     {{ interpretation }}
     <table class="table table-striped">
     <thead>
@@ -25,7 +25,7 @@
     {{ actionResult.day_number !== undefined ? actionResult.day_number : city.current_day_number}}
 -->
 
-    <img src="content/img/sheriff-identities-icon.png" style="width: 25px;"/>
+    <img src="content/img/sheriff-icon.ico" style="width: 25px;"/>
     {{ interpretation }}
     <table class="table table-striped">
         <thead>
@@ -37,7 +37,7 @@
         <tbody>
         <tr ng-repeat="(index, deadResidentRole) in deadResidentRolesCopied">
             <td> <a ng-click="removeFromDeadResidents(index)">x</a> {{ deadResidentRole.residentName }} </td>
-            <td><role-chooser city="city" role-id="deadResidentRole.residentRoleId" lock-to-edit-mode="true" edit-mode="true" disable-warning="true"></role-chooser> </td>
+            <td><role-chooser city="city" role-id="deadResidentRole.residentRoleId" lock-to-edit-mode="true" edit-mode="true"></role-chooser> </td>
         </tr>
         <tr>
 
@@ -45,7 +45,7 @@
                 <a ng-click="addToDeadResidents()">+</a>
                 <input ng-if="city.residents" type="text" typeahead-on-select="selectedToAddDeadResident($item)" ng-model="selectedResident.residentName" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control">
             </td>
-            <td><role-chooser city="city" role-id="selectedResident.residentRoleId" role-selected="" lock-to-edit-mode="true" edit-mode="true" disable-warning="true"></role-chooser></td>
+            <td><role-chooser city="city" role-id="selectedResident.residentRoleId" role-selected="" lock-to-edit-mode="true" edit-mode="true"></role-chooser></td>
         </tr>
         </tbody>
     </table>

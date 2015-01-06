@@ -17,7 +17,7 @@ app.factory('authService', function(serverService, $q) {
             userMePromise = userMePromise.then(function(userMe) {
                 angular.copy(userMe, user);
                 serverService.setAuthToken(userMe.auth_token.token_string, userMe.auth_token.expiration_date);
-                return userMe;
+                return user;
             });
 
             return userMePromise;
@@ -42,7 +42,7 @@ app.factory('authService', function(serverService, $q) {
         return serverService.get('impersonate_login/'+userId).then(function(impersonatedUser) {
             angular.copy(impersonatedUser, user);
             serverService.setAuthToken(impersonatedUser.auth_token.token_string, impersonatedUser.auth_token.expiration_date);
-            return impersonatedUser;
+            return user;
         });;
     };
 
@@ -52,7 +52,7 @@ app.factory('authService', function(serverService, $q) {
         userMePromise = userMePromise.then(function(userMe) {
             angular.copy(userMe, user);
             serverService.setAuthToken(userMe.auth_token.token_string, userMe.auth_token.expiration_date);
-            return userMe;
+            return user;
         });
 
         return userMePromise;
@@ -68,20 +68,18 @@ app.factory('authService', function(serverService, $q) {
 
                 userMePromise.then(function(userMe) {
                     angular.copy(userMe, user);
-                    return userMe;
+                    deferred.resolve(user);
                 }, function(reason) {
                     angular.copy({}, user);
-                    return reason;
+                    deferred.resolve(null);
                 });
-
-                return userMePromise;
 
             } else {
                 deferred.resolve(user);
             }
         } else {
             angular.copy({}, user);
-            deferred.reject('Cookie token does not exist.');
+            deferred.resolve(null);
         }
 
         return deferred.promise;
@@ -94,10 +92,13 @@ app.factory('authService', function(serverService, $q) {
 
     var signOut = function() {
         angular.copy({}, user);
-        return serverService.delete("logout");
-        serverService.setAuthToken("", null);
 
+        var signOutPromise = serverService.delete("logout");
+        serverService.setAuthToken("", null);
+        return signOutPromise;
     };
+
+
 
     return {
         user: user,

@@ -132,14 +132,14 @@
                                     <tr>
                                         <td>Type</td>
                                         <td>Expiration Date</td>
-                                        <td>Valid</td>
+                                        <td>Active</td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="subscriptionPurchase in user.subscription_purchases">
                                         <td>{{subscriptionPurchase.subscription_type}}</td>
                                         <td>{{subscriptionPurchase.expiration_date | localeDate}}</td>
-                                        <td><img-bool boolean-value="subscriptionPurchase.is_valid"></img-bool> </td>
+                                        <td><img-bool boolean-value="subscriptionPurchase.is_active"></img-bool> </td>
                                     </tr>
                                 </tbody>
 
@@ -183,7 +183,7 @@
                                 <tbody>
                                     <tr ng-repeat="rolePickPurchase in user.role_pick_purchases">
                                         <td>{{rolePickPurchase.created_at | localeDate}}</td>
-                                        <td><img-bool boolean-value="rolePickPurchase.role_pick"></img-bool></td>
+                                        <td><img-bool boolean-value="rolePickPurchase.role_pick.id"></img-bool></td>
                                         <td>{{rolePickPurchase.role_pick.city_started_at | localeDate}}</td>
                                         <td>{{rolePickPurchase.role_pick.city_name}}</td>
                                         <td>{{rolePickPurchase.role_pick.role.name}}</td>

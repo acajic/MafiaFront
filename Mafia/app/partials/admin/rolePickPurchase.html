@@ -1,0 +1,172 @@
+<div id="content-header">
+    <div id="header-auth">
+        <auth></auth>
+    </div>
+
+    <div class="title textonly small">Role Pick Purchase</div>
+
+    <div>
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+    </div>
+
+    <div class="admin-edit-entity-button-controls role-pick-purchase-button-controls">
+        <button class="btn btn-back" ng-click="cancel()">Back</button>
+        <button class="btn btn-save" ng-click="saveRolePickPurchase()" ng-if="canSave" ng-hide="isProcessing">Save</button>
+        <button class="btn btn-delete" ng-click="deleteRolePickPurchase()" ng-if="canDelete" ng-hide="isProcessing">Delete</button>
+        <loader size="small" ng-show="isProcessing"></loader>
+    </div>
+</div>
+
+<div id="content-body" class="role-pick-purchase">
+    <table class="table sidetable" ng-if="canEdit">
+        <tbody>
+
+        <tr ng-if="inspectedRolePickPurchase.id">
+            <td>Id</td>
+            <td> {{ inspectedRolePickPurchase.id }} </td>
+        </tr>
+
+        <tr>
+            <td>Existing Payment Log?</td>
+            <td> <input type="checkbox" ng-model="inspectedRolePickPurchase.existingPaymentLog" ng-disabled="inspectedRolePickPurchase.payment_log.id != null"> </td>
+        </tr>
+
+        <tr ng-show="inspectedRolePickPurchase.existingPaymentLog">
+            <td> Payment Log Id </td>
+            <td> <input type="number" ng-model="inspectedRolePickPurchase.payment_log.id" step="1"> </td>
+        </tr>
+        <tr ng-show="inspectedRolePickPurchase.existingPaymentLog">
+            <td>User</td>
+            <td>{{ inspectedRolePickPurchase.user_id }} {{ inspectedRolePickPurchase.user.username }} {{ inspectedRolePickPurchase.user_email }}</td>
+        </tr>
+
+        <tr ng-hide="inspectedRolePickPurchase.existingPaymentLog">
+            <td>User</td>
+            <td>
+                <input type="text" ng-model="tempUser.username" placeholder="Username" typeahead="user.username for user in getUsersByUsername($viewValue)" typeahead-loading="loadingUsers" typeahead-on-select="selectUser($item)" typeahead-wait-ms="300" typeahead-min-length=2>
+                <loader size="small" ng-show="loadingUsers"></loader>
+                Currently selected: {{inspectedRolePickPurchase.user.username}}
+            </td>
+        </tr>
+
+
+
+        <tr ng-if="inspectedRolePickPurchase.created_at">
+            <td>Created At</td>
+            <td>{{ inspectedRolePickPurchase.created_at | localeDate }}</td>
+        </tr>
+
+        <tr ng-if="inspectedRolePickPurchase.updated_at">
+            <td>Updated At</td>
+            <td>{{ inspectedRolePickPurchase.updated_at | localeDate }}</td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style="text-align: center;">Role Pick</td>
+        </tr>
+
+        <tr ng-if="inspectedRolePickPurchase.role_pick.id">
+            <td>Role Pick Id</td>
+            <td> {{ inspectedRolePickPurchase.role_pick.id }} </td>
+        </tr>
+
+        <tr>
+            <td>City</td>
+            <td>
+                <input type="text" ng-model="tempCity.name" placeholder="City Name" typeahead="city.name for city in getCitiesByName($viewValue)" typeahead-loading="loadingCities" typeahead-on-select="selectCity($item)" typeahead-wait-ms="300" typeahead-min-length=2>
+                <loader size="small" ng-show="loadingCities"></loader>
+                Currently selected: {{ inspectedRolePickPurchase.role_pick.city.name }}
+            </td>
+        </tr>
+
+        <tr>
+            <td>City Started At</td>
+            <td>{{ inspectedRolePickPurchase.city_started_at | localeDate }}</td>
+        </tr>
+
+        <tr>
+            <td>Role</td>
+            <td>
+                <select ng-model="inspectedRolePickPurchase.role_pick.role.id" ng-options="role.id as role.name for role in allRoles">
+                </select>
+            </td>
+        </tr>
+
+
+
+
+        </tbody>
+    </table>
+
+
+    <table class="table sidetable" ng-if="!canEdit">
+        <tbody>
+
+        <tr>
+            <td>Id</td>
+            <td> {{ inspectedRolePickPurchase.id }} </td>
+        </tr>
+
+        <tr>
+            <td> Payment Log Id</td>
+            <td>
+                {{ inspectedRolePickPurchase.payment_log.id }}
+            </td>
+        </tr>
+
+        <tr>
+            <td>User</td>
+            <td>{{ inspectedRolePickPurchase.user_id }} {{ inspectedRolePickPurchase.user.username }} {{ inspectedRolePickPurchase.user_email }}</td>
+        </tr>
+
+        <tr>
+            <td>Role Pick Id</td>
+            <td>{{ inspectedRolePickPurchase.role_pick.id }}</td>
+        </tr>
+
+        <tr>
+            <td>City</td>
+            <td>
+                {{ inspectedRolePickPurchase.role_pick.city_name }}
+            </td>
+        </tr>
+
+        <tr>
+            <td>City Started At</td>
+            <td>{{ inspectedRolePickPurchase.city_started_at | localeDate }}</td>
+        </tr>
+
+        <tr>
+            <td>Role</td>
+            <td> {{ inspectedRolePickPurchase.role_pick.role.name }}</td>
+        </tr>
+
+        <tr ng-if="inspectedGamePurchase.created_at">
+            <td>Created At</td>
+            <td>{{ inspectedRolePickPurchase.created_at | localeDate }}</td>
+        </tr>
+
+        <tr ng-if="inspectedGamePurchase.updated_at">
+            <td>Updated At</td>
+            <td>{{ inspectedRolePickPurchase.updated_at | localeDate }}</td>
+        </tr>
+
+
+        </tbody>
+    </table>
+</div>
+
+<script type="text/ng-template" id="deleteModalContent.html">
+    <div class="modal-popup">
+        <div class="modal-header">
+            <div>
+            <h3 style="display: inline">Delete this role pick purchase?</h3> <h3 style="display: inline; color: red;">*</h3>
+            </div>
+            <p style="color:red; display: inline"> * </p> - cannot be undone
+        </div>
+        <div class="bottom-buttons">
+            <button ng-click="cancel()" class="btn btn-back">Cancel</button>
+            <button ng-click="ok()" class="btn btn-delete">Confirm</button>
+        </div>
+    </div>
+</script>

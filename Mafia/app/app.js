@@ -92,7 +92,7 @@ app.config(function ($routeProvider, $locationProvider) {
         }
     }).when('/admin/initial_app_role/new', {
         controller: 'AdminInitialAppRoleController',
-        templateUrl: 'app/partials/admin/new_initial_app_role.html',
+        templateUrl: 'app/partials/admin/newInitialAppRole.html',
         resolve: {
             validate: function($q, $location, $route, authService) {
                 var userMePromise = authService.userMe(false);
@@ -106,13 +106,153 @@ app.config(function ($routeProvider, $locationProvider) {
         }
     }).when('/admin/initial_app_role/:initial_app_role_id', {
         controller: 'AdminInitialAppRoleController',
-        templateUrl: 'app/partials/admin/initial_app_role.html',
+        templateUrl: 'app/partials/admin/initialAppRole.html',
         resolve: {
             validate: function($q, $location, $route, authService) {
                 var userMePromise = authService.userMe(false);
 
                 return userMePromise.then(function(userMe) {
                     if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
+    }).when('/admin/granted_app_role/new', {
+        controller: 'AdminGrantedAppRoleController',
+        templateUrl: 'app/partials/admin/grantedAppRole.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
+    }).when('/admin/granted_app_role/:granted_app_role_id', {
+        controller: 'AdminGrantedAppRoleController',
+        templateUrl: 'app/partials/admin/grantedAppRole.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
+    }).when('/admin/payment_log/new', {
+        controller: 'AdminPaymentLogController',
+        templateUrl: 'app/partials/admin/paymentLog.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
+    }).when('/admin/payment_log/:payment_log_id', {
+        controller: 'AdminPaymentLogController',
+        templateUrl: 'app/partials/admin/paymentLog.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
+    }).when('/admin/subscription_purchase/new', {
+        controller: 'AdminSubscriptionPurchaseController',
+        templateUrl: 'app/partials/admin/subscriptionPurchase.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
+    }).when('/admin/subscription_purchase/:subscription_purchase_id', {
+        controller: 'AdminSubscriptionPurchaseController',
+        templateUrl: 'app/partials/admin/subscriptionPurchase.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
+    }).when('/admin/game_purchase/new', {
+        controller: 'AdminGamePurchaseController',
+        templateUrl: 'app/partials/admin/gamePurchase.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
+    }).when('/admin/game_purchase/:game_purchase_id', {
+        controller: 'AdminGamePurchaseController',
+        templateUrl: 'app/partials/admin/gamePurchase.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
+    }).when('/admin/role_pick_purchase/new', {
+        controller: 'AdminRolePickPurchaseController',
+        templateUrl: 'app/partials/admin/rolePickPurchase.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
+    }).when('/admin/role_pick_purchase/:role_pick_purchase_id', {
+        controller: 'AdminRolePickPurchaseController',
+        templateUrl: 'app/partials/admin/rolePickPurchase.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
                         $location.path('/cities');
                     }
                 });

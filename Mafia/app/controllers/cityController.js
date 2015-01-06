@@ -229,6 +229,14 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         $scope.basicValidationErrors.splice(index, 1);
     }
 
+    function handleAlert(alert) {
+        $scope.generalMessages.push(alert);
+    }
+
+    function closeGeneralMessageAlert(index) {
+        $scope.generalMessages.splice(index, 1);
+    }
+
     function cityRoleIdCookieKey(cityId, userId) {
         if (!cityId)
             return null;
@@ -257,7 +265,10 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         $scope.refreshCountdownTicks = 0;
 
         $scope.basicValidationErrors = [];
+        $scope.generalMessages = [];
         $scope.closeBasicValidationAlert = closeBasicValidationAlert;
+        $scope.closeGeneralMessageAlert = closeGeneralMessageAlert;
+        $scope.handleAlert = handleAlert;
         $scope.roleSelected = roleSelected;
         $scope.joinDiscussion = joinDiscussion;
 

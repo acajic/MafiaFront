@@ -3,8 +3,14 @@
         <auth></auth>
     </div>
 
-    <div class="title textonly" ng-if="city.id">EDIT CITY - {{city.name}}</div>
-    <div class="title textonly" ng-if="!city.id">CREATE CITY</div>
+    <div class="title textonly">
+        <div ng-if="city.id">
+            EDIT TOWN - {{city.name}}
+        </div>
+        <div ng-if="city && !city.id">
+            CREATE TOWN
+        </div>
+    </div>
 
     <div class="city-control-buttons-bar">
         <button ng-click="back()" class="btn btn-back"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
@@ -35,11 +41,11 @@
 
 
 
-    <div class="general-messages">
+    <div class="alert-box general-messages">
         <alert ng-repeat="alert in generalMessages" type="alert.type" close="closeGeneralMessage($index)">{{alert.msg}}</alert>
     </div>
 
-    <div ng-if="disableCityControls">
+    <div ng-if="disableCityControls" style="text-align: center;">
         <loader></loader>
     </div>
 
@@ -47,7 +53,10 @@
 </div>
 
 <div id="content-body">
-    <div class="city">
+    <div style="text-align: center;" ng-hide="city">
+        <loader size="large" style="margin: 10px"></loader>
+    </div>
+    <div class="city" ng-show="city">
 
         <tabset>
             <tab>
@@ -91,8 +100,10 @@
                         <tr ng-if="city.started_at">
                             <td class="col-md-1 gray-cell">Visibility</td>
                             <td>
-                                <img-bool boolean-value="city.public"></img-bool>
-                                <span ng-if="city.password && city.is_owner">Password: {{city.password}}</span>
+                                <div style="display: inline;" tooltip="{{ city.public ? 'Public' : 'Private'}}">
+                                    <img-bool boolean-value="city.public"></img-bool>
+                                </div>
+                                <span ng-if="city.password && city.is_owner" ng-hide="city.public">Password: {{city.password}}</span>
                             </td>
                         </tr>
                         <tr ng-if="city.id === undefined">
@@ -245,7 +256,7 @@
                             <tr ng-repeat="(index, invitedUser) in invitedUsers" class="invite-added-row">
                                 <td>{{ invitedUser.username }}</td>
                                 <td>{{ invitedUser.email }}</td>
-                                <td><button ng-click="removeInvitedUser(index)" class="btn btn-delete"><i class="glyphicon glyphicon-minus"></i></button></td>
+                                <td><button ng-click="removeInvitedUser(index)" class="btn btn-delete notext"><i class="glyphicon glyphicon-minus"></i></button></td>
                             </tr>
 
 
@@ -257,7 +268,7 @@
                                     <input type="text" ng-model="newInvitedUser.email" placeholder="Email" typeahead="user.email for user in getUsersByEmail($viewValue)" typeahead-loading="loadingUsers" typeahead-on-select="setNewInvitedUser($item)" typeahead-wait-ms="300" typeahead-min-length=2 class="form-control">
                                 </td>
                                 <td>
-                                    <button ng-click="addInvitedUser()" class="btn btn-invite" popover="Add player to the list" popover-trigger="mouseenter" popover-placement="right"><i class="glyphicon glyphicon-plus"></i></button>
+                                    <button ng-click="addInvitedUser()" class="btn btn-invite notext" popover="Add player to the list" popover-trigger="mouseenter" popover-placement="right"><i class="glyphicon glyphicon-plus"></i></button>
                                 </td>
                             </tr>
                             <tr class="invite-users-table-loader-row">
@@ -289,7 +300,9 @@
                 </div>
 
                 Minimum duration of a day/night phase is 4 minutes. <br/>
+                <!--
                 In an attempt to evenly distribute the server workload, try setting unexpected minute values for time: 09:43, 15:11, 23:39, ...
+                -->
                 <table class="table">
                     <thead>
                         <tr>
@@ -482,10 +495,10 @@
                             <table class="table center-aligned-table">
                                 <thead>
                                 <tr ng-show="city.role_picks.length">
-                                    <td>Requested Role</td>
-                                    <td>Request Date</td>
-                                    <td>Granted</td>
-                                    <td ng-if="!city.started_at">Cancel</td>
+                                    <td style="text-align: center">Requested Role</td>
+                                    <td style="text-align: center">Request Date</td>
+                                    <td style="text-align: center">Granted</td>
+                                    <td ng-if="!city.started_at" style="text-align: center;">Cancel</td>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -500,20 +513,20 @@
                                     </td>
                                 </tr>
                                 <thead>
-                                <tr>
+                                <tr ng-if="!city.started_at">
                                     <td colspan="3">Select a role</td>
-                                    <td>Submit</td>
+                                    <td style="text-align: center;">Submit</td>
                                 </tr>
                                 </thead>
                                 <tr class="new-role-pick-row" ng-if="!city.started_at">
                                     <td colspan="3">
-                                        <select style="width: 100%" ng-model="newRolePickCityHasRole"
-                                                ng-options="cityHasRole.role.name for cityHasRole in city.city_has_roles | uniqque: { role : 'id'}"
-                                                ng-change="changeNewRolePickRole(newRolePickCityHasRole)">
+                                        <select style="width: 100%" ng-model="newRolePickRole"
+                                                ng-options="role.name for role in allRoles"
+                                                ng-change="changeNewRolePickRole(newRolePickRole)">
                                         </select>
                                     </td>
                                     <td style="text-align: center">
-                                        <button class="btn btn-save" tooltip="Submit this role request" ng-click="submitRolePick()" ng-disabled="!newRolePickCityHasRole"><i class="glyphicon glyphicon-ok-sign"></i>Submit</button>
+                                        <button class="btn btn-save" tooltip="Submit this role request" ng-click="submitRolePick()" ng-disabled="!newRolePickRole"><i class="glyphicon glyphicon-ok-sign"></i>Submit</button>
 
                                         <loader ng-show="isSubmittingRolePick" size="small"></loader>
                                     </td>

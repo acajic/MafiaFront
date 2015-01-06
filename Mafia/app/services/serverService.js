@@ -124,8 +124,11 @@ function setCookie(cname, cvalue, expirationDate) {
     var d;
     if (expirationDate && expirationDate.getMonth)
         d = expirationDate;
-    else
-        d = new Date(expirationDate);
+    else {
+        d = new Date();
+        d.setFullYear(d.getFullYear()+1);
+    }
+
 
     var expires = "expires=" + d.toGMTString();
     document.cookie = cname + "=" + cvalue + "; " + expires;

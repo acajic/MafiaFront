@@ -89,7 +89,9 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
         $scope.disableCityControls = true;
         var startCityPromise = citiesService.startCity($scope.city.id);
-        startCityPromise.then(function(city) {
+        startCityPromise.then(function(cityAndUserResult) {
+            var city = cityAndUserResult['city'];
+
             $timeout(function() {
                 $scope.disableCityControls = false;
             });
@@ -99,6 +101,11 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             $scope.city = city;
 
             $scope.generalMessages = [{type: 'success', msg: "Successfully started '" + city.name + "'."}];
+
+
+            var user = cityAndUserResult['user'];
+            angular.copy(user, $scope.userMe);
+
         }, function(reason) {
             var message = '';
             for (var key in reason.httpObj.responseJSON) {
@@ -275,7 +282,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         if (!city)
             return false;
 
-        return !city.is_member && (city.hashed_password || '').length > 0;
+        return !city.is_member && !city.started_at && !city.public && (city.hashed_password || '').length > 0 && $scope.userMe;
     }
 
     function joinCityPasswordDidChange() {
@@ -291,7 +298,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         if ($scope.joinCityPasswordMatch === undefined)
             $scope.joinCityPasswordMatch = city.hashed_password == null || city.is_owner;
 
-        return !isNew(city) && !city.started_at && !city.is_member && !city.is_join_requested && !city.is_invited && !city.finished_at;
+        return !isNew(city) && !city.started_at && !city.is_member && !city.is_join_requested && !city.is_invited && !city.finished_at && $scope.userMe;
     }
 
     function join() {
@@ -376,7 +383,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             return false;
 
         var resident = $.grep(city.residents, function(someResident) {
-            return $scope.userMe.id == someResident.user_id;
+            return ($scope.userMe || {}).id == someResident.user_id;
         })[0];
 
         return !isNew(city) && !amIOwner(city) && !isStartedAndOngoing(city) && !isStartedAndPaused(city) && resident && !city.finished_at;
@@ -1004,20 +1011,29 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
     }, true);
 
 
-    function changeNewRolePickRole(cityHasRole) {
-        $scope.newRolePickCityHasRole = cityHasRole;
+    function changeNewRolePickRole(role) {
+        $scope.newRolePickRole = role;
     }
 
     function submitRolePick() {
-        if (!$scope.newRolePickCityHasRole)
+        if (!$scope.newRolePickRole)
             return;
 
-        $scope.isSubmittingRolePick = true;
-        var createRolePickPromise = rolePicksService.createRolePick($scope.city, $scope.newRolePickCityHasRole.role);
+        var alreadyPickedIndex = $scope.city.role_picks.indexOfMatchFunction(function (rolePick) {
+            return rolePick.role.id == $scope.newRolePickRole.id;
+        });
+        if (alreadyPickedIndex >= 0)
+            return;
 
-        createRolePickPromise.then(function(createdRolePick) {
+
+        $scope.isSubmittingRolePick = true;
+        var createMyRolePickPromise = rolePicksService.createMyRolePick($scope.city, $scope.newRolePickRole);
+
+        createMyRolePickPromise.then(function(createdRolePick) {
             $scope.city.role_picks.push(createdRolePick);
             $scope.isSubmittingRolePick = false;
+
+            $scope.userMe.role_picks.push(createdRolePick);
         }, function(reason) {
             $scope.isSubmittingRolePick = false;
         });
@@ -1027,11 +1043,18 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.deletingRolePickId = rolePick.id;
         rolePicksService.deleteRolePickById(rolePick.id).then(function() {
             var index = $scope.city.role_picks.indexOf(rolePick);
-            $scope.city.role_picks.splice(index, 1)
-            $scope.deletingRolePickId = null;
-        }, function(reason) {
+            $scope.city.role_picks.splice(index, 1);
             $scope.deletingRolePickId = null;
 
+            index = $scope.userMe.role_picks.indexOfMatchFunction(function (rolePick) {
+                return rolePick.id == rolePick.id;
+            });
+            if (index >= 0) {
+                $scope.userMe.role_picks.splice(index, 1);
+            }
+
+        }, function(reason) {
+            $scope.deletingRolePickId = null;
         });
 
     }

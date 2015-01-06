@@ -2,14 +2,14 @@ app.factory('rolePicksService', function(serverService) {
     "use strict";
 
     var getMyRolePicks = function(pageIndex, pageSize) {
-        return serverService.get('role_picks', {
+        return serverService.get('role_picks/me', {
             pageIndex: pageIndex,
             pageSize: pageSize
         });
     };
 
-    var createRolePick = function(city, role) {
-        return serverService.post('role_picks', {
+    var createMyRolePick = function(city, role) {
+        return serverService.post('role_picks/me', {
             role_pick: {
                 city_id : city.id,
                 role_id : role.id
@@ -23,7 +23,7 @@ app.factory('rolePicksService', function(serverService) {
 
     return {
         getMyRolePicks: getMyRolePicks,
-        createRolePick: createRolePick,
+        createMyRolePick: createMyRolePick,
         deleteRolePickById: deleteRolePickById
     };
 });

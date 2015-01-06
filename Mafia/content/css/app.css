@@ -49,6 +49,26 @@ input, textarea, select {
     border-radius: 4px;
 }
 
+.btn i {
+    margin-left: -4px;
+    margin-right: 4px;
+}
+
+.btn.notext i {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+
+.text-red {
+    color: #560d0b;
+    font-weight: 700;
+}
+
+.text-green {
+    color: #0F3C07;
+    font-weight: 700;
+}
 
 
 
@@ -62,6 +82,7 @@ input, textarea, select {
     background-color: #ffffff;
     padding-bottom: 2000px;
     margin-bottom: -2000px;
+    overflow: auto;
 }
 
 
@@ -271,6 +292,7 @@ input, textarea, select {
 
 .my-cities-with-filters, .all-cities-with-filters, .cities-info-tab {
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 
@@ -337,15 +359,12 @@ ac-checkbox span {
 
 /* BEGIN create/edit city */
 
-.general-messages {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
 .alert {
     padding-left: 15px;
     padding-right: 15px;
-    margin-bottom: 0px;
+    margin-bottom: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
 .alert-danger {
@@ -387,10 +406,13 @@ ac-checkbox span {
 }
 
 
+.role-big-loader {
+    text-align: center;
+}
+
 .city .general-messages {
     background-color: #322213;
     color: #ffffff;
-
 }
 
 
@@ -527,6 +549,23 @@ ac-checkbox span {
     background-color: #191510;
 }
 
+action-result .role-chooser .dropdown-menu {
+    background-color: #ffffff;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.3);
+
+}
+
+action-result .role-chooser .dropdown a {
+    color: #000000;
+}
+
+action-result .role-chooser .dropdown-menu>li>a:hover {
+    background-color: #404040;
+    color: #ffffff;
+}
+
+
+
 .city-info-header input {
     width: 50px;
     text-align: center;
@@ -547,13 +586,21 @@ ac-checkbox span {
 .city-info-box {
     height: 140px;
     padding-right: 15px;
+    margin-bottom: 10px;
 }
 
 .city-info-box>div {
-    background-color: rgba(22, 22, 22, 0.35);
+    background-color: #4d4e4b;
+    #background-image: url(../img/metal-pattern2.jpg);
     border-radius: 10px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.50);
     height: 100%;
+
+    color: #303030;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.30), 0px -1px 0px rgba(0,0,0,.7);
+
+    font-size: 20px;
+    font-weight: 700;
 }
 
 
@@ -622,7 +669,7 @@ td {
     color: #cccccc;
 }
 
-.sidetable tbody td:nth-child(1) {
+.sidetable>tbody>tr>td:nth-child(1) {
     min-width: 200px;
     width: 10%;
     background-color: #404040;
@@ -682,6 +729,17 @@ tr.invite-users-table-loader-row  {
     background: transparent;
 }
 
+.modal-popup {
+    border-radius: 5px;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.55);;
+    background-color: #322213;
+    color: #ffffff;
+}
+
+.modal-popup .bottom-buttons {
+    padding: 5px;
+}
+
 .modal-invite-user {
     background-color: #ffffff;
     border-radius: 5px;
@@ -719,7 +777,7 @@ tr.invite-users-table-loader-row  {
 /* BEGIN role */
 
 #role {
-    min-height: 300px;
+    min-height: 450px;
 }
 
 /* END role */
@@ -805,30 +863,31 @@ tr.invite-users-table-loader-row  {
 
 /* BEGIN admin */
 
-.admin-query-panel {
+.admin-panel {
     background-color: #ffffff;
     color: #000000;
 }
 
-.admin-query-panel input, .admin-query-panel select, .admin-query-panel textarea {
+.admin-panel input, .admin-panel select, .admin-panel textarea {
     color: #000000;
 }
 
+.admin-query-panel>div {
+    min-height: 45px;
+    padding-top: 5px;
+}
 
-.admin-query-panel .row-odd {
+.admin-query-panel>div:nth-child(even) {
     background-color: rgba(200, 192, 27, 0.25);
     min-height: 45px;
 }
 
-.admin-query-panel .row-even {
-    min-height: 45px;
-}
 
-.admin-query-panel .bottom-buttons {
+.admin-panel .bottom-buttons {
     padding: 15px;
 }
 
-.admin-query-panel .top-buttons {
+.admin-panel .top-buttons {
     padding: 15px;
 }
 
@@ -838,7 +897,7 @@ tr.invite-users-table-loader-row  {
     margin-bottom: -600px;
 }
 
-.initial-app-role-button-controls, .new-initial-app-role-button-controls, .admin-city-button-controls, .admin-user-button-controls {
+.initial-app-role-button-controls, .admin-edit-entity-button-controls, .admin-city-button-controls, .admin-user-button-controls {
     padding-left: 15px;
     padding-right: 15px;
     padding-bottom: 15px;
