@@ -99,7 +99,7 @@
                                 <td></td>
                                 <td><i class="glyphicon glyphicon-question-sign" tooltip="Game has not started yet"></i></td>
                                 <td>
-                                    <button class="btn btn-delete" tooltip="Cancel this Role Pick" ng-if="!rolePick.city_started_at" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
+                                    <button class="btn btn-delete notext" tooltip="Cancel this Role Pick" ng-if="!rolePick.city_started_at" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
                                     <loader ng-show="deletingRolePickId == rolePick.id" size="small"></loader>
                                 </td>
                             </tr>

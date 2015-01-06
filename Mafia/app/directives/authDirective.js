@@ -38,7 +38,7 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
             scope.emailConfirmation = authService.emailConfirmation;
 
             scope.$watch('emailConfirmation', function(newEmailConfirmation) {
-                if (newEmailConfirmation.code && !scope.user.id) {
+               if (newEmailConfirmation.code && !scope.user.id) {
                     signIn();
                 }
             }, true);
