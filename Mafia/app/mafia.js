@@ -2050,26 +2050,30 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
         var newDayCycle = angular.copy($scope.newDayCycle);
 
-        var isValid = true;
+
         var newIndex;
         var previousNightEndedMinutesAgo = 24*60;
 
-        isValid = validateDayCycle(newDayCycle, $scope.city.day_cycles);
+        var isValid = validateDayCycle(newDayCycle, $scope.city.day_cycles);
         if (!isValid) {
             return;
         }
 
-        for (var index in $scope.city.day_cycles) {
+
+        for (var index = 0; index < $scope.city.day_cycles.length; index++) {
             var dayCycle = $scope.city.day_cycles[index];
             // new day cycle should entirely fit into one night of already existing day cycle
             var endedMinutesAgo = minutesDifference(dayCycle.night_start, newDayCycle.day_start);
             if (endedMinutesAgo < previousNightEndedMinutesAgo) {
                 previousNightEndedMinutesAgo = endedMinutesAgo;
+                newIndex = index+1;
+                /*
                 if (newDayCycle.day_start < dayCycle.day_start) {
                     newIndex = (index+1)%$scope.city.day_cycles.length;
                 } else {
                     newIndex = index+1;
                 }
+                */
 
             }
         }
