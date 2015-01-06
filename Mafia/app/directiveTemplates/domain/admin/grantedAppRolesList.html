@@ -1,0 +1,90 @@
+<div class="admin-panel">
+    <div class="top-buttons">
+        <button ng-if="enableCreating" class="btn btn-new" ng-click="newGrantedAppRole()">Create</button>
+    </div>
+
+    <div ng-if="queryable" class="admin-query-panel">
+
+        <div style="clear: both" class="row-odd">
+            <p class="col-md-1">Email</p>
+            <input ng-model="queryModel.email">
+        </div>
+
+        <div style="clear: both" class="row-even">
+            <p class="col-md-1">Username</p>
+            <input ng-model="queryModel.username">
+        </div>
+
+        <div style="clear: both; overflow: hidden;" class="row-even">
+            <p class="col-md-1">App Roles</p>
+            <div ng-repeat="appRole in allAppRoles" class="col-md-1">
+                <input type="checkbox"  ng-checked="queryModel.appRoleIds.indexOf(appRole.id) > -1" ng-click="toggleAppRoleSelection(appRole)">{{ appRole.name }}
+            </div>
+        </div>
+
+
+        <div style="clear: both" class="row-odd">
+            <p class="col-md-1">Description</p>
+            <input ng-model="queryModel.description">
+        </div>
+
+        <div style="clear: both" class="query-model">
+            <p class="col-md-1">Expiration Date</p>
+            <quick-datepicker ng-model='queryModel.expirationDateMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.expirationDateMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+        </div>
+
+        <div style="clear: both" class="query-model row-even">
+            <p class="col-md-1">Created</p>
+            <quick-datepicker ng-model='queryModel.createdAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.createdAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+        </div>
+
+        <div style="clear: both" class="query-model row-odd">
+            <p class="col-md-1">Updated</p>
+            <quick-datepicker ng-model='queryModel.updatedAtMin' time-format='HH:mm' placeholder='Not Set'></quick-datepicker> - <quick-datepicker ng-model='queryModel.updatedAtMax' time-format='HH:mm' placeholder='Not Set'></quick-datepicker>
+        </div>
+
+        <div class="bottom-buttons">
+            <button class="btn btn-search" ng-click="reloadData(true)">Search</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="admin-results">
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>User</td>
+            <td>App Role</td>
+            <td>Description</td>
+            <td>Expiration Date</td>
+            <td>Created At</td>
+            <td>Updated At</td>
+            <td>Details</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="grantedAppRole in grantedAppRoles">
+            <td>{{ grantedAppRole.id }}</td>
+            <td>{{ grantedAppRole.user_id }} {{ grantedAppRole.user.username }} {{ grantedAppRole.user.email }}</td>
+            <td>{{ grantedAppRole.app_role.name }}</td>
+            <td>{{ grantedAppRole.description }}</td>
+            <td>{{ grantedAppRole.expiration_date | localeDate }}</td>
+            <td>{{ grantedAppRole.created_at | localeDate }}</td>
+            <td>{{ grantedAppRole.updated_at | localeDate }}</td>
+            <td><button class="btn btn-details" ng-click="showDetails(grantedAppRole)">Details</button></td>
+        </tr>
+        <tr ng-if="isLoadingContent">
+            <td colspan="8" style="text-align: center">
+                <loader size='small'></loader>
+            </td>
+        </tr>
+        <tr ng-hide="isLoadingContent">
+            <td colspan="8">
+                <button class="btn btn-block" ng-click="reloadData()" ng-hide="noMoreContent">More</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -275,7 +275,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         if (!city)
             return false;
 
-        return !city.is_member && (city.hashed_password || '').length > 0 && $scope.userMe;
+        return !city.is_member && !city.started_at && !city.public && (city.hashed_password || '').length > 0 && $scope.userMe;
     }
 
     function joinCityPasswordDidChange() {

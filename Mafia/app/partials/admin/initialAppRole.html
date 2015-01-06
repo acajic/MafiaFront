@@ -5,11 +5,11 @@
 
     <div class="title textonly small">Initial app role</div>
 
-    <div class="alert">
+    <div>
         <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
     </div>
 
-    <div class="initial-app-role-button-controls">
+    <div class="admin-edit-entity-button-controls initial-app-role-button-controls">
         <button class="btn btn-back" ng-click="cancel()">Back</button>
         <button class="btn btn-save" ng-click="saveInitialAppRole()" ng-if="canSave" ng-hide="isProcessing">Save</button>
         <button class="btn btn-delete" ng-click="deleteInitialAppRole()" ng-if="canDelete" ng-hide="isProcessing">Delete</button>
@@ -18,7 +18,7 @@
 </div>
 
 <div id="content-body" class="initial-app-role">
-    <table class="table sidetable">
+    <table class="table sidetable" ng-if="canEdit">
         <tbody>
 
         <tr>
@@ -52,6 +52,43 @@
         <tr>
             <td>Enabled</td>
             <td> <input type="checkbox" ng-model="inspectedInitialAppRole.enabled"> </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+
+    <table class="table sidetable" ng-if="!canEdit">
+        <tbody>
+
+        <tr>
+            <td>Description</td>
+            <td> {{inspectedInitialAppRole.description}} </td>
+        </tr>
+
+        <tr>
+            <td>Email</td>
+            <td> {{inspectedInitialAppRole.email}} </td>
+        </tr>
+
+        <tr>
+            <td>Email Pattern</td>
+            <td> {{inspectedInitialAppRole.email_pattern}} </td>
+        </tr>
+
+        <tr>
+            <td>App Role</td>
+            <td>{{inspectedInitialAppRole.app_role.name}}</td>
+        </tr>
+
+        <tr>
+            <td>Priority</td>
+            <td> {{inspectedInitialAppRole.priority }}</td>
+        </tr>
+
+        <tr>
+            <td>Enabled</td>
+            <td> <img-bool ng-model="inspectedInitialAppRole.enabled"></img-bool> </td>
         </tr>
 
         </tbody>

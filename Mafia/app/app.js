@@ -118,6 +118,34 @@ app.config(function ($routeProvider, $locationProvider) {
                 });
             }
         }
+    }).when('/admin/granted_app_role/new', {
+        controller: 'AdminGrantedAppRoleController',
+        templateUrl: 'app/partials/admin/grantedAppRole.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
+    }).when('/admin/granted_app_role/:granted_app_role_id', {
+        controller: 'AdminGrantedAppRoleController',
+        templateUrl: 'app/partials/admin/grantedAppRole.html',
+        resolve: {
+            validate: function($q, $location, $route, authService) {
+                var userMePromise = authService.userMe(false);
+
+                return userMePromise.then(function(userMe) {
+                    if (!userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
+                        $location.path('/cities');
+                    }
+                });
+            }
+        }
     }).when('/admin/payment_log/new', {
         controller: 'AdminPaymentLogController',
         templateUrl: 'app/partials/admin/paymentLog.html',

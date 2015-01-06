@@ -9,7 +9,7 @@ angular.module('ui.acHighlightText', []).filter('acHighlightText', function () {
         if (!searchText)
             return inputString;
 
-        var index = inputString.indexOf(searchText);
+        var index = inputString.toLowerCase().indexOf(searchText.toLowerCase());
         if (index < 0)
             return inputString;
         else {

@@ -49,6 +49,9 @@ input, textarea, select {
     border-radius: 4px;
 }
 
+i {
+    margin-right: 4px;
+}
 
 .text-red {
     color: #560d0b;

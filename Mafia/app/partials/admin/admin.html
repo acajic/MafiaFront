@@ -76,12 +76,31 @@
 
         <tab active="tabActive[6]" select="tabSelected()">
             <tab-heading>
-                Initial App Roles
+                App Roles
             </tab-heading>
 
-            <initial-app-roles-list query-model="initialAppRolesQueryModel" queryable="true" enable-creating="userMe.app_role.app_permissions[appPermissions.APP_PERMISSION_ADMIN_WRITE]"></initial-app-roles-list>
+            <tabset>
+                <tab>
+                    <tab-heading>
+                        Initial
+                    </tab-heading>
+
+                    <initial-app-roles-list query-model="initialAppRolesQueryModel" queryable="true" enable-creating="userMe.app_role.app_permissions[appPermissions.APP_PERMISSION_ADMIN_WRITE]"></initial-app-roles-list>
+                </tab>
+
+                <tab>
+                    <tab-heading>
+                        Granted
+                    </tab-heading>
+
+                    <granted-app-roles-list query-model="initialAppRolesQueryModel" queryable="true" enable-creating="userMe.app_role.app_permissions[appPermissions.APP_PERMISSION_ADMIN_WRITE]"></granted-app-roles-list>
+
+                </tab>
+            </tabset>
 
         </tab>
+
+
 
 
         <tab active="tabActive[7]" select="tabSelected()">

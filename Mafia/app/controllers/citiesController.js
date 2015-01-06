@@ -436,7 +436,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         if (!city)
             return false;
 
-        return !city.is_member && !city.is_owner && (city.hashed_password || '').length > 0 && $scope.user.id;
+        return !city.is_member && !city.is_owner && !city.started_at && !city.public && (city.hashed_password || '').length > 0 && $scope.user.id;
     }
 
     function joinCityPasswordDidChange() {

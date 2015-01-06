@@ -3,8 +3,14 @@
         <auth></auth>
     </div>
 
-    <div class="title textonly" ng-if="city.id">EDIT TOWN - {{city.name}}</div>
-    <div class="title textonly" ng-if="!city.id">CREATE TOWN</div>
+    <div class="title textonly">
+        <div ng-if="city.id">
+            EDIT TOWN - {{city.name}}
+        </div>
+        <div ng-if="city && !city.id">
+            CREATE TOWN
+        </div>
+    </div>
 
     <div class="city-control-buttons-bar">
         <button ng-click="back()" class="btn btn-back"><i class="glyphicon glyphicon-chevron-left"></i>Back</button>
@@ -47,7 +53,10 @@
 </div>
 
 <div id="content-body">
-    <div class="city">
+    <div style="text-align: center;" ng-hide="city">
+        <loader size="large" style="margin: 10px"></loader>
+    </div>
+    <div class="city" ng-show="city">
 
         <tabset>
             <tab>
@@ -91,8 +100,10 @@
                         <tr ng-if="city.started_at">
                             <td class="col-md-1 gray-cell">Visibility</td>
                             <td>
-                                <img-bool boolean-value="city.public"></img-bool>
-                                <span ng-if="city.password && city.is_owner">Password: {{city.password}}</span>
+                                <div style="display: inline;" tooltip="{{ city.public ? 'Public' : 'Private'}}">
+                                    <img-bool boolean-value="city.public"></img-bool>
+                                </div>
+                                <span ng-if="city.password && city.is_owner" ng-hide="city.public">Password: {{city.password}}</span>
                             </td>
                         </tr>
                         <tr ng-if="city.id === undefined">

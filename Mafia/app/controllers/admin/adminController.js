@@ -7,10 +7,12 @@ var kAdminQueryModelActions = 'admin_query_model_actions';
 var kAdminQueryModelActionResults = 'admin_query_model_action_results';
 var kAdminQueryModelDays = 'admin_query_model_days';
 var kAdminQueryModelInitialAppRoles = 'admin_query_model_initial_app_roles';
+var kAdminQueryModelGrantedAppRoles = 'admin_query_model_granted_app_roles';
 var kAdminQueryModelPayments = 'admin_query_model_payments';
 var kAdminQueryModelSubscriptions = 'admin_query_model_subscriptions';
 var kAdminQueryModelGamePurchases = 'admin_query_model_game_purchases';
 var kAdminQueryModelRolePickPurchases = 'admin_query_model_role_pick_purchases';
+
 
 app.controller('AdminController',function ($scope, $q, $location, usersService, layoutService, citiesService, authService, appRolesService, paymentsService, subscriptionsService, gamePurchasesService, rolePickPurchasesService) {
     "use strict";

@@ -132,14 +132,14 @@
                                     <tr>
                                         <td>Type</td>
                                         <td>Expiration Date</td>
-                                        <td>Valid</td>
+                                        <td>Active</td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="subscriptionPurchase in user.subscription_purchases">
                                         <td>{{subscriptionPurchase.subscription_type}}</td>
                                         <td>{{subscriptionPurchase.expiration_date | localeDate}}</td>
-                                        <td><img-bool boolean-value="subscriptionPurchase.is_valid"></img-bool> </td>
+                                        <td><img-bool boolean-value="subscriptionPurchase.is_active"></img-bool> </td>
                                     </tr>
                                 </tbody>
 
