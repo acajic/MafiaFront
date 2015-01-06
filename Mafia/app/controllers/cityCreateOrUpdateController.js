@@ -1027,9 +1027,9 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
 
         $scope.isSubmittingRolePick = true;
-        var createRolePickPromise = rolePicksService.createRolePick($scope.city, $scope.newRolePickRole);
+        var createMyRolePickPromise = rolePicksService.createMyRolePick($scope.city, $scope.newRolePickRole);
 
-        createRolePickPromise.then(function(createdRolePick) {
+        createMyRolePickPromise.then(function(createdRolePick) {
             $scope.city.role_picks.push(createdRolePick);
             $scope.isSubmittingRolePick = false;
 
@@ -1043,7 +1043,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.deletingRolePickId = rolePick.id;
         rolePicksService.deleteRolePickById(rolePick.id).then(function() {
             var index = $scope.city.role_picks.indexOf(rolePick);
-            $scope.city.role_picks.splice(index, 1)
+            $scope.city.role_picks.splice(index, 1);
             $scope.deletingRolePickId = null;
 
             index = $scope.userMe.role_picks.indexOfMatchFunction(function (rolePick) {
