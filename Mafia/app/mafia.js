@@ -1975,12 +1975,12 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         var isCircular = rangeStart > rangeEnd;
 
         if (isCircular) {
-            return Math.min(rangeStart - moment, moment - rangeEnd);
-            // return moment < rangeStart || rangeEnd < moment;
-        } else {
-            return Math.min(moment - rangeStart, rangeEnd - moment)
-            // return rangeStart < moment && moment < rangeEnd;
+            rangeEnd += 24*60;
+            if (moment < rangeStart)
+                moment += 24*60;
         }
+
+        return Math.min(moment - rangeStart, rangeEnd - moment)
     }
 
     function validateDayCycle(dayCycle, dayCycles) {
@@ -4473,7 +4473,7 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
             scope.emailConfirmation = authService.emailConfirmation;
 
             scope.$watch('emailConfirmation', function(newEmailConfirmation) {
-                if (newEmailConfirmation.code && !scope.user.id) {
+               if (newEmailConfirmation.code && !scope.user.id) {
                     signIn();
                 }
             }, true);
