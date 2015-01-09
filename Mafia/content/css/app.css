@@ -536,6 +536,23 @@ ac-checkbox span {
     color: #000000;
 }
 
+
+.dropdown-menu {
+    position: relative;
+    float: none;
+    top: 0px !important;
+}
+
+action-result .btn {
+    margin-right: 4px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+action-result input {
+    margin-top: 4px;
+}
+
 .role-chooser .dropdown-menu {
     background-color: #251B13;
     box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.55);

@@ -99,6 +99,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             initDayCycles(city);
             angular.copy(city, originalCity);
             $scope.city = city;
+            citiesService.cacheCity(city);
 
             $scope.generalMessages = [{type: 'success', msg: "Successfully started '" + city.name + "'."}];
 
