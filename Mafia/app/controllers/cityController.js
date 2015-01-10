@@ -16,10 +16,10 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         var cityPromise = citiesService.getCity(cityId);
 
         var userMePromise = authService.userMe();
-        var roleIdPromise = getRoleId(cityId);
+        // var roleIdPromise = getRoleId(cityId);
 
         $scope.isLoading = true;
-        $q.all([cityPromise, userMePromise, roleIdPromise]).then(function(result) {
+        $q.all([cityPromise, userMePromise]).then(function(result) {
 
 
             var city = result[0];
@@ -62,9 +62,24 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
                 $scope.resident = userMeResidents[0];
 
 
+
             $scope.dayNumberMax = city.current_day_number + 1;
             $scope.dayNumberMin = Math.max($scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE, 0);
 
+            var savedRole = $scope.resident.saved_role;
+            if (savedRole.id) {
+                $scope.resident.role = savedRole;
+                initActionResults(cityId, savedRole.id, $scope.dayNumberMin, $scope.dayNumberMax);
+            } else if ($scope.resident) {
+                // user has probably manually deleted the cookie containing their role id
+                $scope.basicValidationErrors.push({msg: 'Select your role.' });
+                $scope.roleChooserEditMode = true;
+                $scope.isLoading = false;
+            } else {
+                initActionResults(cityId, null, $scope.dayNumberMin, $scope.dayNumberMax);
+            }
+
+            /*
             var roleId = result[2];
 
             if (roleId) {
@@ -78,6 +93,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
             } else {
                 initActionResults(cityId, null, $scope.dayNumberMin, $scope.dayNumberMax);
             }
+            */
 
         }, function(reason) {
             $scope.isLoading = false;
@@ -191,6 +207,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         });
     }
 
+    /*
     function getRoleId(cityId) {
         var deferred = $q.defer();
 
@@ -203,6 +220,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
 
         return deferred.promise;
     }
+    */
 
     function setCookieRoleId(cityId, userId, roleId) {
         var expirationDate = new Date();
