@@ -50,7 +50,13 @@
                         </div>
                         DAYTIME
                     </div>
-                    <div ng-if="!city.paused_during_day"> <i class="fa fa-moon-o fa-3x"></i><i class="glyphicon glyphicon-pause"></i> NIGHTTIME</div>
+                    <div ng-if="!city.paused_during_day">
+                        <i class="fa fa-moon-o fa-3x"></i>
+                        <div class="day-cycle-phase-pause" style="display: inline;">
+                            <i class="glyphicon glyphicon-pause"></i>
+                        </div>
+                        NIGHTTIME
+                    </div>
                 </div>
                 Paused at: {{ city.last_paused_at | localeDate }}
             </div>
