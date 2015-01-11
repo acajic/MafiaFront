@@ -334,6 +334,49 @@ ac-checkbox span {
 
 /* END ac-highlight-text-matched */
 
+/* BEGIN ac-timezone-picker */
+
+.ac-timezone-picker-column {
+    text-align: center;
+    width: 40px;
+    float: left;
+}
+
+.ac-timezone-picker-column.ac-timezone-picker-colon {
+    width: 8px;
+    font-size: 20px;
+    font-weight: 900;
+    margin-top: 20px;
+}
+
+.ac-timezone-picker-column.ac-timezone-picker-sign {
+    padding-top: 27px;
+    width: 20px;
+}
+
+.ac-timezone-picker-column>button, .ac-timezone-picker-column>input {
+    width: 100%;
+}
+
+.ac-timezone-picker-column>button {
+    height: 20px;
+}
+
+.ac-timezone-picker-column .btn i {
+    margin-left: 0px;
+    margin-right: 0px;
+    top: -4px;
+}
+
+.ac-timezone-picker-column>input {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    text-align: center;
+}
+
+
+/* END ac-timezone-picker */
+
 
 .city-filters ac-checkbox span {
     padding: 4px;
@@ -463,6 +506,12 @@ ac-checkbox span {
 .create-edit-city-roles-tab .nav-tabs>li>a:hover {
     background-color: #2f2f2f;
     color: #ffffff;
+}
+
+.create-edit-city-select-timezone-current-time {
+    margin-top: 27px;
+    float: left;
+    margin-left: 4px;
 }
 
 .details-city-roles-tab .nav-tabs>li.active>a {

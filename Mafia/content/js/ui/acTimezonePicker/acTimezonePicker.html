@@ -1,0 +1,23 @@
+<div ng-if="useBootstrap" class="ac-timezone-picker">
+    <div class="ac-timezone-picker-column ac-timezone-picker-sign">
+        <i class="glyphicon glyphicon-minus" ng-show="ngModel < 0"></i>
+        <i class="glyphicon glyphicon-plus" ng-hide="ngModel < 0"></i>
+    </div>
+    <div class="ac-timezone-picker-column">
+        <button class="btn btn-default" ng-click="hourPlus()"><i class="glyphicon glyphicon-chevron-up" ng-disabled="ngModel > 11*60"></i></button>
+        <input type="text" disabled ng-model="hour" class="ac-timezone-picker hour-input">
+        <button class="btn btn-default" ng-click="hourMinus()"><i class="glyphicon glyphicon-chevron-down" ng-disabled="ngModel < -11*60"></i></button>
+    </div>
+    <div class="ac-timezone-picker-column ac-timezone-picker-colon">:</div>
+    <div class="ac-timezone-picker-column">
+        <button class="btn btn-default" ng-click="minutePlus()"><i class="glyphicon glyphicon-chevron-up" ng-disabled="ngModel >= 12*60"></i></button>
+        <input type="text" disabled ng-model="minute" class="ac-timezone-picker minute-input">
+        <button class="btn btn-default" ng-click="minuteMinus()"><i class="glyphicon glyphicon-chevron-down" ng-disabled="ngModel <= -12*60"></i></button>
+    </div>
+</div>
+<div ng-if="!useBootstrap">
+
+</div>
+
+
+

@@ -179,7 +179,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
             var deleteCityPromise = citiesService.deleteCity($scope.city.id, password);
             deleteCityPromise.then(function() {
-                $location.path('');
+                $location.path('cities');
             }, function(reason) {
                 $scope.generalMessages.push({type: 'danger', msg: "City is not deleted." });
             });
@@ -415,7 +415,20 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         return angular.equals(city, originalCity);
     }
 
+
+    var timerLastMidnightUTC = null;
+
     function initTimezone(city) {
+
+        // var lastMidnight = date.getTime() - date.getHours()*60*60*1000 - date.getMinutes()*60*1000 - date.getSeconds()*1000 - date.getMilliseconds();
+        var date = new Date();
+
+        var timerLastMidnight = date.getTime() - date.getHours()*60*60*1000 - date.getMinutes()*60*1000 - date.getSeconds()*1000 - date.getMilliseconds();
+        var timezoneOffset = date.getTimezoneOffset()*60*1000;
+        timerLastMidnightUTC = timerLastMidnight - timezoneOffset;
+        $scope.timerLastMidnightTimezoned = timerLastMidnightUTC - city.timezone*60*1000;
+
+        /*
         var timezoneMinutes = city.timezone;
         var sign = timezoneMinutes?timezoneMinutes<0?-1:1:0;
 
@@ -427,8 +440,14 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             timeDate : timeDate,
             sign : signSymbol
         };
+        */
     }
 
+    $scope.$watch("city.timezone", function (newTimezone) {
+        $scope.timerLastMidnightTimezoned = timerLastMidnightUTC - newTimezone*60*1000;
+    });
+
+    /*
     function timezoneChanged() {
         if ($scope.timezone.timeDate.getHours() > 12) {
             $scope.timezone.timeDate = $scope.timezone.oldTimeDate;
@@ -442,6 +461,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.timezone.oldTimeDate = $scope.timezone.timeDate;
         $scope.timezone.oldSign = $scope.timezone.sign;
     }
+    */
 
     function closeBasicValidationAlert(index) {
         $scope.basicValidationErrors.splice(index, 1);
@@ -1260,7 +1280,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
         $scope.basicValidationErrors = [];
         $scope.timezone = {};
-        $scope.timezoneChanged = timezoneChanged;
+        // $scope.timezoneChanged = timezoneChanged;
 
 
         $scope.cancelInvitation = cancelInvitation;

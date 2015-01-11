@@ -21,15 +21,19 @@
         <div ng-hide="disableCityControls" style="display: inline">
 
             <script type="text/ng-template" id="deleteModalContent.html">
-                <div class="modal-header">
-                    <h3>Delete this city?</h3>
-                </div>
-                <div class="modal-body">
-                    Enter password: <input type="password" ng-model="credentials.password">
-                </div>
+                <div class="modal-popup">
+                    <div class="modal-header">
+                        <h3>Delete this city?</h3>
+                    </div>
+                    <div class="modal-body">
+                        Enter password: <input type="password" ng-model="credentials.password">
+                    </div>
 
-                <button ng-click="cancel()" class="btn btn-default">Cancel</button>
-                <button ng-click="ok()" class="btn btn-danger">Confirm</button>
+                    <div class="bottom-buttons">
+                        <button ng-click="cancel()" class="btn btn-back">Cancel</button>
+                        <button ng-click="ok()" class="btn btn-delete">Confirm</button>
+                    </div>
+                </div>
             </script>
 
             <button ng-if="showDeleteButton(city)" ng-click="deleteCity()" class="btn btn-delete"><i class="glyphicon glyphicon-trash"></i>Delete</button>
@@ -94,7 +98,7 @@
                                     <span class="checked"><i class="fa fa-toggle-on"></i> (Public)</span>
 
                                 </ac-checkbox>
-                                <input type="text" placeholder="password (optional)" ng-model="city.password" ng-hide="city.public" />
+                                <input type="text" placeholder="password (optional)" ng-model="city.password" ng-hide="city.public" tooltip="If you don't set password, players will request to join and you will approve them one by one." />
                             </td>
                         </tr>
                         <tr ng-if="city.started_at">
@@ -118,10 +122,18 @@
                             <td class="col-md-1 gray-cell">Timezone</td>
                             <td class="create-edit-city-select-timezone">
 
+                                <ac-timezone-picker ng-model="city.timezone" use-bootstrap="true"></ac-timezone-picker>
+
+                                <div class="create-edit-city-select-timezone-current-time">
+                                    Current time: <timer start-time="timerLastMidnightTimezoned" interval="500" autostart="false">{{ hours| minLength:2}}:{{ minutes | minLength:2}}:{{seconds | minLength:2}}</timer>
+                                </div>
+
+                                <!--
                                 <select ng-model="timezone.sign" ng-options="i for i in ['+', '-']" ng-change="timezoneChanged()">
                                 </select>
 
                                 <timepicker style="display: inline-block" ng-model="timezone.timeDate" ng-change="timezoneChanged()" hour-step="1" minute-step="15" show-meridian="false" mousewheel="false"></timepicker>
+                                -->
                             </td>
                         </tr>
                         <tr ng-if="city.started_at">
