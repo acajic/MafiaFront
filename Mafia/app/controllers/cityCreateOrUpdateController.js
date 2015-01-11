@@ -411,6 +411,26 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
     }
 
+    function showEnterButton(city) {
+        if (!city)
+            return false;
+
+        var resident = $.grep(city.residents, function(someResident) {
+            return ($scope.userMe || {}).id == someResident.user_id;
+        })[0];
+
+        return city.started_at && resident;
+    }
+
+    function enterCity() {
+        $scope.disableCityControls = true;
+        $timeout(function () {
+            $scope.disableCityControls = false;
+            $location.path('cities/'+$scope.city.id);
+        }, 50);
+
+    }
+
     function isCityUnmodified(city) {
         return angular.equals(city, originalCity);
     }
@@ -1274,6 +1294,9 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
         $scope.showLeaveButton = showLeaveButton;
         $scope.leave = leave;
+
+        $scope.showEnterButton = showEnterButton;
+        $scope.enterCity = enterCity;
 
         $scope.closeBasicValidationAlert = closeBasicValidationAlert;
 

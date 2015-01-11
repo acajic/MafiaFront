@@ -15,6 +15,8 @@
     <div class="cities-top-button-controls-bar">
         <button ng-click="newCity()" ng-if="appPermissionCreateGamesGranted || user.unused_game_purchases.length" class="btn btn-create-new-city"><i class="glyphicon glyphicon-plus"></i>Create a new town</button>
         <p ng-if="!appPermissionCreateGamesGranted && user.unused_game_purchases.length">You can start {{user.unused_game_purchases.length}} more {{user.unused_game_purchases.length == 1 ? 'game' : 'games'}}.</p>
+
+        <loader ng-show="isOpeningNewCity" size="small"></loader>
     </div>
 
 </div>
@@ -275,7 +277,7 @@
             <button ng-if="showCancelJoinRequestForCity(selectedCity)" ng-click="cancelJoinRequestForCity(selectedCity)" class="btn btn-cancel-join-request-city"><i class="glyphicon glyphicon-remove-circle"></i>Cancel Join Request</button>
 
 
-            <loader ng-if="isPerformingCityOperation" size="small"></loader>
+            <loader ng-show="isPerformingCityOperation" size="small"></loader>
 
             <div style="clear: both"></div>
         </div>
