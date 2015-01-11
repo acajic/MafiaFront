@@ -714,6 +714,10 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
         clearNewInvitedUser();
 
+        $scope.enterOnInviteInput = function() {
+            $scope.addInvitedUser();
+        };
+
         $scope.addInvitedUser = function () {
             if (!$scope.newInvitedUser.id) {
                 if ($scope.newInvitedUser.email) {
@@ -783,6 +787,8 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             $modalInstance.dismiss('cancel');
         };
     };
+
+
 
 
     /*

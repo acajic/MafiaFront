@@ -590,6 +590,7 @@ ac-checkbox span {
     position: relative;
     float: none;
     top: 0px !important;
+    left: 20px !important;
 }
 
 action-result .btn {
