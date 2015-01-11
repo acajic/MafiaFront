@@ -135,37 +135,24 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.newCity = function () {
+        $scope.isOpeningNewCity = true;
+
         $location.path('/cities/create');
     };
 
     $scope.editCity = function (city) {
-        $timeout(function() {
-            $scope.isPerformingCityOperation = true;
-        });
-
-
+        $scope.isPerformingCityOperation = true;
         $location.path('/cities/' + city.id + '/update');
-
-
     };
 
     $scope.showCity = function(city) {
-        $timeout(function() {
-            $scope.isPerformingCityOperation = true;
-        });
-
+        $scope.isPerformingCityOperation = true;
         $location.path('/cities/' + city.id + "/details");
-
     };
 
     $scope.enterCity = function(city) {
-
-        $timeout(function() {
-            $scope.isPerformingCityOperation = true;
-        });
-
+        $scope.isPerformingCityOperation = true;
         $location.path('/cities/' + city.id);
-
     };
 
     $scope.alerts = [];
@@ -175,10 +162,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.joinCity = function(city) {
-        $timeout(function() {
-            $scope.isPerformingCityOperation = true;
-        });
-
+        $scope.isPerformingCityOperation = true;
 
         var joinCityPromise = citiesService.joinCity(city.id, $scope.selectedCity.joinCityPassword);
         joinCityPromise.then(function(result) {
@@ -204,12 +188,12 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
             });
 
         });
+
     };
 
     $scope.acceptInvitationForCity = function(city) {
-        $timeout(function() {
-            $scope.isPerformingCityOperation = true;
-        });
+
+        $scope.isPerformingCityOperation = true;
 
 
         var acceptInvitationPromise = citiesService.acceptInvitation(city.id);
@@ -233,12 +217,14 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
         });
 
+
+
+
     };
 
     $scope.leaveCity = function(city) {
-        $timeout(function() {
-            $scope.isPerformingCityOperation = true;
-        });
+        $scope.isPerformingCityOperation = true;
+
 
 
         var leaveCityPromise = citiesService.leaveCity(city.id);
@@ -275,9 +261,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.cancelJoinRequestForCity = function(city) {
-        $timeout(function() {
-            $scope.isPerformingCityOperation = true;
-        });
+        $scope.isPerformingCityOperation = true;
 
 
         var cancelJoinRequestPromise = citiesService.cancelJoinRequest(city.id);

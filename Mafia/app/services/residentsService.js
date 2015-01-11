@@ -24,9 +24,11 @@ app.factory('residentsService', function($q, serverService) {
         });
     };
 
+    /*
     var getResidentMeForCityId = function(cityId) {
         return serverService.get('residents/me', {city_id : cityId});
     };
+    */
 
     var saveRoleForCityId = function(cityId, roleId) {
         return serverService.post('residents/save_role', {
@@ -37,7 +39,7 @@ app.factory('residentsService', function($q, serverService) {
 
     return {
         getAllResidents : getAllResidents,
-        getResidentMeForCityId : getResidentMeForCityId,
+        // getResidentMeForCityId : getResidentMeForCityId,
         saveRoleForCityId : saveRoleForCityId
     };
 });

@@ -10,12 +10,12 @@
             <alert ng-repeat="alert in generalMessages" type="alert.type" close="closeGeneralMessageAlert($index)">{{alert.msg}}</alert>
         </div>
 
-        <div ng-if="!city.finished_at && !city.paused" class="col-md-3 city-info-box" style="text-align: center;">
+        <div ng-if="!city.finished_at" class="col-md-3 city-info-box" style="text-align: center;">
             <div ng-show="city.current_day_number !== undefined" style="background-position: 0px 0px">
                 <current-day></current-day>
             </div>
         </div>
-        <div ng-if="!city.finished_at && !city.paused" class="col-md-3 city-info-box" style="text-align: center;" ng-cloak>
+        <div ng-if="!city.finished_at && !city.paused" class="col-md-3 city-info-box" style="text-align: center;">
             <div ng-show="city.timezone !== undefined" style="background-position: 0px 50px">
                 <city-timer city="city" next-moment="nextMoment" on-day-start="" on-night-start=""></city-timer>
 
@@ -32,22 +32,26 @@
                 </div>
             </div>
         </div>
-        <div ng-if="city.finished_at" class="col-md-6 city-info-box city-info-box-game-over" ng-cloak>
+        <div ng-if="city.finished_at" class="col-md-6 city-info-box city-info-box-game-over">
             <div style="background-position: 0px 50px">
                 <img src="content/img/lock-icon.png" style="width: 100px; height: 100px;" />
                 Game over. {{ gameOverDeclarationOfWinners }}
             </div>
         </div>
-        <div ng-if="city.paused" class="col-md-6 city-info-box city-info-box-game-paused">
+        <div ng-if="city.paused" class="col-md-3 city-info-box city-info-box-game-paused" style="text-align: center;">
             <div style="background-position: 0px 50px">
-                <current-day></current-day>
+                <city-timer city="city" next-moment="nextMoment" on-day-start="" on-night-start=""></city-timer>
 
                 <div class="day-cycle-phase">
-                    <img ng-if="city.paused_during_day" src="content/img/day.png" style="width: 100px; height: 100px;" />
-                    <img ng-if="!city.paused_during_day" src="content/img/night.png" style="width: 100px; height: 100px;" />
+                    <div ng-if="city.paused_during_day">
+                        <i class="fa fa-sun-o fa-3x"></i>
+                        <div class="day-cycle-phase-pause" style="display: inline;">
+                            <i class="glyphicon glyphicon-pause"></i>
+                        </div>
+                        DAYTIME
+                    </div>
+                    <div ng-if="!city.paused_during_day"> <i class="fa fa-moon-o fa-3x"></i><i class="glyphicon glyphicon-pause"></i> NIGHTTIME</div>
                 </div>
-
-                <img src="content/img/pause-icon.png" style="width: 100px; height: 100px;" />
                 Paused at: {{ city.last_paused_at | localeDate }}
             </div>
         </div>
@@ -56,15 +60,15 @@
     </div>
 
     <div class="col-md-3 role-chooser-container city-info-box" ng-if="resident" style="text-align: center;">
-        <div class="city-role-info-box" ng-show="resident.role" style="background-position: 0px 100px">
+        <div class="city-role-info-box" ng-show="resident.id" style="background-position: 0px 100px">
             Your role: <br/>
             <role-chooser city="city" role-id="resident.role.id" role-selected="roleSelected" edit-mode="roleChooserEditMode" enable-role-saving="true" handle-alert="handleAlert(alert)"></role-chooser>
         </div>
     </div>
-    <div class="col-md-3 city-info-box" ng-if="resident" style="text-align: center;" ng-cloak>
+    <div class="col-md-3 city-info-box" ng-if="resident" style="text-align: center;">
         <div class="city-alive-info-box" ng-show="resident.alive !== undefined" style="background-position: 0px 150px">
             <div ng-if="resident.alive === false" class="resident-dead">
-                <img src="content/img/resident-dead.png" style="height: 65px" class="resident-dead-img">
+                <i class="glyphicon glyphicon-heart-empty" style="font-size: 65px;"></i>
                 You are dead
             </div>
             <div ng-if="resident.alive === true" class="resident-alive">
@@ -84,9 +88,9 @@
 
 <div id="content-body">
     <div class="city">
-        <div class="alert-box basic-validation-error" style="clear: both">
-            <alert ng-repeat="alert in basicValidationErrors" type="alert.type" close="closeBasicValidationAlert($index)">{{alert.msg}}</alert>
-        </div>
+
+        <alert ng-repeat="alert in basicValidationErrors" type="alert.type" close="closeBasicValidationAlert($index)">{{alert.msg}}</alert>
+
 
         <role city="city"
               resident="resident"

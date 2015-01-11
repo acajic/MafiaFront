@@ -275,6 +275,7 @@ app.factory('citiesService', function($q, serverService) {
         getMyCitiesForSearch : getMyCitiesForSearch,
         cities : cities,
         getCity : getCity,
+        cacheCity: cacheCity,
         getCities : getCities,
         newCity : newCity,
         getNewCity : getNewCity,
