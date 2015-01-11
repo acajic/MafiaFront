@@ -141,7 +141,7 @@
                         <tr ng-if="city.started_at">
                             <td class="col-md-1 gray-cell">Timezone</td>
                             <td>
-                                {{timezone.sign}} {{ ("0"+timezone.timeDate.getHours()).slice(-2) }} : {{ ("0"+timezone.timeDate.getMinutes()).slice(-2) }}
+                                <timezone minutes="city.timezone"></timezone>
                             </td>
                         </tr>
                         <tr ng-if="city.id != undefined">

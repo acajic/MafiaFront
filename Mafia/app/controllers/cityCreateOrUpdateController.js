@@ -227,7 +227,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
             initDayCycles(cityUpdated);
             $scope.city = cityUpdated;
-            originalCity = cityUpdated;
+            angular.copy(cityUpdated,originalCity);
 
 
         }, function(reason) {
@@ -263,7 +263,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
             initDayCycles(cityUpdated);
             $scope.city = cityUpdated;
-            originalCity = cityUpdated;
+            angular.copy(cityUpdated, originalCity);
         }, function(reason) {
             $timeout(function() {
                 $scope.disableCityControls = false;
@@ -605,7 +605,8 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
                 $scope.city.residents = result.city.residents;
                 $scope.city.invitations = result.city.invitations;
                 $scope.city.join_requests = result.city.join_requests;
-                originalCity = result.city;
+                angular.copy(result.city, originalCity);
+
 
 
                 if (result.already_joined_users && result.already_joined_users.length > 0) {

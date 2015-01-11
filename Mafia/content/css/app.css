@@ -898,6 +898,11 @@ tr.invite-users-table-loader-row  {
     padding-top: 24px;
 }
 
+.day-cycle-phase-pause>i {
+    top: 5px;
+    font-size: 3em;
+}
+
 .popover {
     font-size: 14px;
     width: 350px;

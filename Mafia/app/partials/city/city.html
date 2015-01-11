@@ -10,7 +10,7 @@
             <alert ng-repeat="alert in generalMessages" type="alert.type" close="closeGeneralMessageAlert($index)">{{alert.msg}}</alert>
         </div>
 
-        <div ng-if="!city.finished_at && !city.paused" class="col-md-3 city-info-box" style="text-align: center;">
+        <div ng-if="!city.finished_at" class="col-md-3 city-info-box" style="text-align: center;">
             <div ng-show="city.current_day_number !== undefined" style="background-position: 0px 0px">
                 <current-day></current-day>
             </div>
@@ -38,16 +38,20 @@
                 Game over. {{ gameOverDeclarationOfWinners }}
             </div>
         </div>
-        <div ng-if="city.paused" class="col-md-6 city-info-box city-info-box-game-paused">
+        <div ng-if="city.paused" class="col-md-3 city-info-box city-info-box-game-paused" style="text-align: center;">
             <div style="background-position: 0px 50px">
-                <current-day></current-day>
+                <city-timer city="city" next-moment="nextMoment" on-day-start="" on-night-start=""></city-timer>
 
                 <div class="day-cycle-phase">
-                    <img ng-if="city.paused_during_day" src="content/img/day.png" style="width: 100px; height: 100px;" />
-                    <img ng-if="!city.paused_during_day" src="content/img/night.png" style="width: 100px; height: 100px;" />
+                    <div ng-if="city.paused_during_day">
+                        <i class="fa fa-sun-o fa-3x"></i>
+                        <div class="day-cycle-phase-pause" style="display: inline;">
+                            <i class="glyphicon glyphicon-pause"></i>
+                        </div>
+                        DAYTIME
+                    </div>
+                    <div ng-if="!city.paused_during_day"> <i class="fa fa-moon-o fa-3x"></i><i class="glyphicon glyphicon-pause"></i> NIGHTTIME</div>
                 </div>
-
-                <img src="content/img/pause-icon.png" style="width: 100px; height: 100px;" />
                 Paused at: {{ city.last_paused_at | localeDate }}
             </div>
         </div>
