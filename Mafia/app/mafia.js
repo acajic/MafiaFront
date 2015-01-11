@@ -2,7 +2,7 @@
  
 // app 
  
-var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.pointsAssign', 'timer', 'ui.minLengthNumber', 'ui.dateLocale', 'uniqque_filter', 'ngQuickDate', 'angularUtils.directives.dirDisqus', 'ui.acInput', 'ui.acHighlightText']);
+var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.pointsAssign', 'timer', 'ui.minLengthNumber', 'ui.dateLocale', 'uniqque_filter', 'ngQuickDate', 'angularUtils.directives.dirDisqus', 'ui.acInput', 'ui.acHighlightText', 'ui.acTimezonePicker']);
 
 app.config(function ($routeProvider, $locationProvider) {
     'use strict';
@@ -418,37 +418,24 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.newCity = function () {
+        $scope.isOpeningNewCity = true;
+
         $location.path('/cities/create');
     };
 
     $scope.editCity = function (city) {
-        $timeout(function() {
-            $scope.isPerformingCityOperation = true;
-        });
-
-
+        $scope.isPerformingCityOperation = true;
         $location.path('/cities/' + city.id + '/update');
-
-
     };
 
     $scope.showCity = function(city) {
-        $timeout(function() {
-            $scope.isPerformingCityOperation = true;
-        });
-
+        $scope.isPerformingCityOperation = true;
         $location.path('/cities/' + city.id + "/details");
-
     };
 
     $scope.enterCity = function(city) {
-
-        $timeout(function() {
-            $scope.isPerformingCityOperation = true;
-        });
-
+        $scope.isPerformingCityOperation = true;
         $location.path('/cities/' + city.id);
-
     };
 
     $scope.alerts = [];
@@ -458,10 +445,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.joinCity = function(city) {
-        $timeout(function() {
-            $scope.isPerformingCityOperation = true;
-        });
-
+        $scope.isPerformingCityOperation = true;
 
         var joinCityPromise = citiesService.joinCity(city.id, $scope.selectedCity.joinCityPassword);
         joinCityPromise.then(function(result) {
@@ -487,12 +471,12 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
             });
 
         });
+
     };
 
     $scope.acceptInvitationForCity = function(city) {
-        $timeout(function() {
-            $scope.isPerformingCityOperation = true;
-        });
+
+        $scope.isPerformingCityOperation = true;
 
 
         var acceptInvitationPromise = citiesService.acceptInvitation(city.id);
@@ -516,12 +500,14 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
         });
 
+
+
+
     };
 
     $scope.leaveCity = function(city) {
-        $timeout(function() {
-            $scope.isPerformingCityOperation = true;
-        });
+        $scope.isPerformingCityOperation = true;
+
 
 
         var leaveCityPromise = citiesService.leaveCity(city.id);
@@ -558,9 +544,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.cancelJoinRequestForCity = function(city) {
-        $timeout(function() {
-            $scope.isPerformingCityOperation = true;
-        });
+        $scope.isPerformingCityOperation = true;
 
 
         var cancelJoinRequestPromise = citiesService.cancelJoinRequest(city.id);
@@ -902,10 +886,10 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         var cityPromise = citiesService.getCity(cityId);
 
         var userMePromise = authService.userMe();
-        var roleIdPromise = getRoleId(cityId);
+        // var roleIdPromise = getRoleId(cityId);
 
         $scope.isLoading = true;
-        $q.all([cityPromise, userMePromise, roleIdPromise]).then(function(result) {
+        $q.all([cityPromise, userMePromise]).then(function(result) {
 
 
             var city = result[0];
@@ -948,9 +932,27 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
                 $scope.resident = userMeResidents[0];
 
 
+
             $scope.dayNumberMax = city.current_day_number + 1;
             $scope.dayNumberMin = Math.max($scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE, 0);
 
+            if ($scope.resident) {
+                var savedRole = $scope.resident.saved_role;
+                if (savedRole && savedRole.id) {
+                    $scope.resident.role = savedRole;
+                    initActionResults(cityId, savedRole.id, $scope.dayNumberMin, $scope.dayNumberMax);
+                } else if ($scope.resident) {
+                    // user has probably manually deleted the cookie containing their role id
+                    $scope.basicValidationErrors.push({msg: 'Select your role.' });
+                    $scope.roleChooserEditMode = true;
+                    $scope.isLoading = false;
+                }
+            } else {
+                initActionResults(cityId, null, $scope.dayNumberMin, $scope.dayNumberMax);
+            }
+
+
+            /*
             var roleId = result[2];
 
             if (roleId) {
@@ -964,6 +966,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
             } else {
                 initActionResults(cityId, null, $scope.dayNumberMin, $scope.dayNumberMax);
             }
+            */
 
         }, function(reason) {
             $scope.isLoading = false;
@@ -1077,6 +1080,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         });
     }
 
+    /*
     function getRoleId(cityId) {
         var deferred = $q.defer();
 
@@ -1089,6 +1093,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
 
         return deferred.promise;
     }
+    */
 
     function setCookieRoleId(cityId, userId, roleId) {
         var expirationDate = new Date();
@@ -1271,6 +1276,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             initDayCycles(city);
             angular.copy(city, originalCity);
             $scope.city = city;
+            citiesService.cacheCity(city);
 
             $scope.generalMessages = [{type: 'success', msg: "Successfully started '" + city.name + "'."}];
 
@@ -1350,7 +1356,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
             var deleteCityPromise = citiesService.deleteCity($scope.city.id, password);
             deleteCityPromise.then(function() {
-                $location.path('');
+                $location.path('cities');
             }, function(reason) {
                 $scope.generalMessages.push({type: 'danger', msg: "City is not deleted." });
             });
@@ -1398,7 +1404,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
             initDayCycles(cityUpdated);
             $scope.city = cityUpdated;
-            originalCity = cityUpdated;
+            angular.copy(cityUpdated,originalCity);
 
 
         }, function(reason) {
@@ -1434,7 +1440,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
             initDayCycles(cityUpdated);
             $scope.city = cityUpdated;
-            originalCity = cityUpdated;
+            angular.copy(cityUpdated, originalCity);
         }, function(reason) {
             $timeout(function() {
                 $scope.disableCityControls = false;
@@ -1582,11 +1588,44 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
     }
 
+    function showEnterButton(city) {
+        if (!city)
+            return false;
+
+        var resident = $.grep(city.residents, function(someResident) {
+            return ($scope.userMe || {}).id == someResident.user_id;
+        })[0];
+
+        return city.started_at && resident;
+    }
+
+    function enterCity() {
+        $scope.disableCityControls = true;
+        $timeout(function () {
+            $scope.disableCityControls = false;
+            $location.path('cities/'+$scope.city.id);
+        }, 50);
+
+    }
+
     function isCityUnmodified(city) {
         return angular.equals(city, originalCity);
     }
 
+
+    var timerLastMidnightUTC = null;
+
     function initTimezone(city) {
+
+        // var lastMidnight = date.getTime() - date.getHours()*60*60*1000 - date.getMinutes()*60*1000 - date.getSeconds()*1000 - date.getMilliseconds();
+        var date = new Date();
+
+        var timerLastMidnight = date.getTime() - date.getHours()*60*60*1000 - date.getMinutes()*60*1000 - date.getSeconds()*1000 - date.getMilliseconds();
+        var timezoneOffset = date.getTimezoneOffset()*60*1000;
+        timerLastMidnightUTC = timerLastMidnight - timezoneOffset;
+        $scope.timerLastMidnightTimezoned = timerLastMidnightUTC - city.timezone*60*1000;
+
+        /*
         var timezoneMinutes = city.timezone;
         var sign = timezoneMinutes?timezoneMinutes<0?-1:1:0;
 
@@ -1598,8 +1637,14 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             timeDate : timeDate,
             sign : signSymbol
         };
+        */
     }
 
+    $scope.$watch("city.timezone", function (newTimezone) {
+        $scope.timerLastMidnightTimezoned = timerLastMidnightUTC - newTimezone*60*1000;
+    });
+
+    /*
     function timezoneChanged() {
         if ($scope.timezone.timeDate.getHours() > 12) {
             $scope.timezone.timeDate = $scope.timezone.oldTimeDate;
@@ -1613,6 +1658,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.timezone.oldTimeDate = $scope.timezone.timeDate;
         $scope.timezone.oldSign = $scope.timezone.sign;
     }
+    */
 
     function closeBasicValidationAlert(index) {
         $scope.basicValidationErrors.splice(index, 1);
@@ -1736,7 +1782,8 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
                 $scope.city.residents = result.city.residents;
                 $scope.city.invitations = result.city.invitations;
                 $scope.city.join_requests = result.city.join_requests;
-                originalCity = result.city;
+                angular.copy(result.city, originalCity);
+
 
 
                 if (result.already_joined_users && result.already_joined_users.length > 0) {
@@ -1844,6 +1891,10 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
         clearNewInvitedUser();
 
+        $scope.enterOnInviteInput = function() {
+            $scope.addInvitedUser();
+        };
+
         $scope.addInvitedUser = function () {
             if (!$scope.newInvitedUser.id) {
                 if ($scope.newInvitedUser.email) {
@@ -1913,6 +1964,8 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             $modalInstance.dismiss('cancel');
         };
     };
+
+
 
 
     /*
@@ -2426,12 +2479,15 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.showLeaveButton = showLeaveButton;
         $scope.leave = leave;
 
+        $scope.showEnterButton = showEnterButton;
+        $scope.enterCity = enterCity;
+
         $scope.closeBasicValidationAlert = closeBasicValidationAlert;
 
 
         $scope.basicValidationErrors = [];
         $scope.timezone = {};
-        $scope.timezoneChanged = timezoneChanged;
+        // $scope.timezoneChanged = timezoneChanged;
 
 
         $scope.cancelInvitation = cancelInvitation;
@@ -5399,9 +5455,9 @@ app.directive('timezone', function() {
         template: '{{timezone}}',
         link: function(scope, element, attrs) {
             "use strict";
-            scope.$watch('minutes', function(value) {
-                var minutes = scope.minutes;
-                var sign = minutes?minutes<0?-1:1:0;
+
+            function timezoneFromMinutes(minutes) {
+                var sign = minutes < 0 ? -1 : 1;
 
                 var hours = Math.floor(Math.abs(minutes) / 60);
                 var sign = sign >= 0 ? '' : '-';
@@ -5409,8 +5465,20 @@ app.directive('timezone', function() {
                 var minutes = (Math.abs(minutes)) % 60;
                 minutes = '0' + minutes;
 
-                scope.timezone = sign + hours.substr(hours.length-2) + ":" + minutes.substr(minutes.length-2);
+                var timezoneString = sign + hours.substr(hours.length-2) + ":" + minutes.substr(minutes.length-2);
+                return timezoneString;
+            }
+
+            scope.timezone = timezoneFromMinutes(scope.minutes);
+
+            scope.$watch('minutes', function(value) {
+                if (!value)
+                    return;
+
+                scope.timezone = timezoneFromMinutes(value);
             });
+
+
 
         }
     };
@@ -11126,6 +11194,7 @@ app.factory('citiesService', function($q, serverService) {
         getMyCitiesForSearch : getMyCitiesForSearch,
         cities : cities,
         getCity : getCity,
+        cacheCity: cacheCity,
         getCities : getCities,
         newCity : newCity,
         getNewCity : getNewCity,
@@ -11487,9 +11556,11 @@ app.factory('residentsService', function($q, serverService) {
         });
     };
 
+    /*
     var getResidentMeForCityId = function(cityId) {
         return serverService.get('residents/me', {city_id : cityId});
     };
+    */
 
     var saveRoleForCityId = function(cityId, roleId) {
         return serverService.post('residents/save_role', {
@@ -11500,7 +11571,7 @@ app.factory('residentsService', function($q, serverService) {
 
     return {
         getAllResidents : getAllResidents,
-        getResidentMeForCityId : getResidentMeForCityId,
+        // getResidentMeForCityId : getResidentMeForCityId,
         saveRoleForCityId : saveRoleForCityId
     };
 }); 
