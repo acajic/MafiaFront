@@ -1,8 +1,8 @@
-app.directive('ambivalentVote', function($timeout, actionsService) {
+app.directive('elderVote', function($timeout, actionsService) {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/actions/ambivalentVote.html',
+        templateUrl: 'app/directiveTemplates/domain/actions/elderVote.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -13,7 +13,7 @@ app.directive('ambivalentVote', function($timeout, actionsService) {
 
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.resident.role.id,
-                    ACTION_TYPE_ID_AMBIVALENT_VOTE,
+                    ACTION_TYPE_ID_ELDER_VOTE,
                     scope.city.current_day_id,
                     { target_id : selectedResident.id });
 
@@ -32,7 +32,7 @@ app.directive('ambivalentVote', function($timeout, actionsService) {
             };
 
             scope.cancelUnprocessedActions = function() {
-                var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.resident.role.id, ACTION_TYPE_ID_AMBIVALENT_VOTE);
+                var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.resident.role.id, ACTION_TYPE_ID_ELDER_VOTE);
 
 
                 cancelUnprocessedActionsPromise.then(function() {
