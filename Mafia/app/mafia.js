@@ -7694,64 +7694,6 @@ app.directive('terroristBombActionTypeParamsResult', function(actionResultsServi
     };
 }); 
  
-// ambivalentVoteDirective 
- 
-app.directive('ambivalentVote', function($timeout, actionsService) {
-    "use strict";
-    return {
-        restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/actions/ambivalentVote.html',
-        link: function(scope, element, attrs) {
-            "use strict";
-
-            scope.voteOnSelect = function(selectedResident) {
-                if (!selectedResident)
-                    return;
-
-
-                var postActionPromise = actionsService.postAction(scope.city.id,
-                    scope.resident.role.id,
-                    ACTION_TYPE_ID_AMBIVALENT_VOTE,
-                    scope.city.current_day_id,
-                    { target_id : selectedResident.id });
-
-                postActionPromise.then(function() {
-                    $timeout(function() {
-                        scope.infos = [{type:"success", msg: "Voted for " + selectedResident.name + "."}];
-                    });
-                }, function(reason, ee) {
-                    scope.infos = [{type:"danger", msg: reason}];
-                })
-
-            };
-
-            scope.closeInfoAlert = function(index) {
-                scope.infos.splice(index, 1);
-            };
-
-            scope.cancelUnprocessedActions = function() {
-                var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.resident.role.id, ACTION_TYPE_ID_AMBIVALENT_VOTE);
-
-
-                cancelUnprocessedActionsPromise.then(function() {
-                    $timeout(function() {
-                        scope.infos = [{type:"success", msg: "Canceled unprocessed actions."}];
-                    });
-                }, function(reason) {
-                    if (reason.httpObj.responseJSON) {
-                        angular.forEach(reason.httpObj.responseJSON, function(error) {
-                            scope.infos.push({type : 'danger', msg: error });
-                        });
-                    } else {
-                        scope.infos.push({type : 'danger', msg: "Failed to cancel actions." });
-                    }
-                });
-            };
-
-        }
-    };
-}); 
- 
 // deputyIdentitiesDirective 
  
 app.directive('deputyIdentities', function($timeout, actionsService, actionResultsService) {
@@ -7813,6 +7755,64 @@ app.directive('deputyIdentities', function($timeout, actionsService, actionResul
                     angular.forEach(reason.httpObj.responseJSON, function(error) {
                         scope.infos.push({type : 'danger', msg: error })
                     });
+                });
+            };
+
+        }
+    };
+}); 
+ 
+// elderDirective 
+ 
+app.directive('elderVote', function($timeout, actionsService) {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/actions/elderVote.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            scope.voteOnSelect = function(selectedResident) {
+                if (!selectedResident)
+                    return;
+
+
+                var postActionPromise = actionsService.postAction(scope.city.id,
+                    scope.resident.role.id,
+                    ACTION_TYPE_ID_ELDER_VOTE,
+                    scope.city.current_day_id,
+                    { target_id : selectedResident.id });
+
+                postActionPromise.then(function() {
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "Voted for " + selectedResident.name + "."}];
+                    });
+                }, function(reason, ee) {
+                    scope.infos = [{type:"danger", msg: reason}];
+                })
+
+            };
+
+            scope.closeInfoAlert = function(index) {
+                scope.infos.splice(index, 1);
+            };
+
+            scope.cancelUnprocessedActions = function() {
+                var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.resident.role.id, ACTION_TYPE_ID_ELDER_VOTE);
+
+
+                cancelUnprocessedActionsPromise.then(function() {
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "Canceled unprocessed actions."}];
+                    });
+                }, function(reason) {
+                    if (reason.httpObj.responseJSON) {
+                        angular.forEach(reason.httpObj.responseJSON, function(error) {
+                            scope.infos.push({type : 'danger', msg: error });
+                        });
+                    } else {
+                        scope.infos.push({type : 'danger', msg: "Failed to cancel actions." });
+                    }
                 });
             };
 
@@ -9639,22 +9639,6 @@ app.directive('usersList', function($q, $location, usersService, appRolesService
     };
 }); 
  
-// ambivalentCitizenDirective 
- 
-app.directive('ambivalentCitizen', function() {
-    "use strict";
-    return {
-        restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/roles/ambivalentCitizen.html',
-        link: function(scope, element, attrs) {
-            "use strict";
-
-            scope.roleId = ROLE_ID_AMBIVALENT_CITIZEN;
-
-        }
-    };
-}); 
- 
 // citizenDirective 
  
 app.directive('citizen', function() {
@@ -9743,6 +9727,22 @@ app.directive('doctor', function() {
             "use strict";
 
             scope.roleId = ROLE_ID_DOCTOR;
+
+        }
+    };
+}); 
+ 
+// elderDirective 
+ 
+app.directive('elder', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/elder.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            scope.roleId = ROLE_ID_ELDER_CITIZEN;
 
         }
     };
@@ -9916,22 +9916,6 @@ app.directive('terrorist', function() {
     };
 }); 
  
-// ambivalentCitizenDescriptionDirective 
- 
-app.directive('ambivalentCitizenDescription', function() {
-    "use strict";
-    return {
-        restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/ambivalentCitizen.html',
-        link: function(scope, element, attrs) {
-            "use strict";
-
-
-
-        }
-    };
-}); 
- 
 // citizenDescriptionDirective 
  
 app.directive('citizenDescription', function() {
@@ -9986,6 +9970,22 @@ app.directive('doctorDescription', function() {
         templateUrl: 'app/directiveTemplates/domain/roles/descriptions/doctor.html',
         link: function(scope, element, attrs) {
             "use strict";
+
+
+        }
+    };
+}); 
+ 
+// elderDescriptionDirective 
+ 
+app.directive('elderDescription', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/elder.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
 
 
         }
@@ -10526,7 +10526,7 @@ var ACTION_TYPE_ID_TELLER_VOTES = 6;
 var ACTION_TYPE_ID_TERRORIST_BOMB = 7;
 var ACTION_TYPE_ID_JOURNALIST_INVESTIGATE = 10;
 var ACTION_TYPE_ID_DEPUTY_IDENTITIES = 11;
-var ACTION_TYPE_ID_AMBIVALENT_VOTE = 12;
+var ACTION_TYPE_ID_ELDER_VOTE = 12;
 
 app.factory('actionsService', function($q, serverService) {
     "use strict";
@@ -10541,7 +10541,7 @@ app.factory('actionsService', function($q, serverService) {
         ACTION_TYPE_ID_TERRORIST_BOMB : ACTION_TYPE_ID_TERRORIST_BOMB,
         ACTION_TYPE_ID_JOURNALIST_INVESTIGATE : ACTION_TYPE_ID_JOURNALIST_INVESTIGATE,
         ACTION_TYPE_ID_DEPUTY_IDENTITIES : ACTION_TYPE_ID_DEPUTY_IDENTITIES,
-        ACTION_TYPE_ID_AMBIVALENT_VOTE : ACTION_TYPE_ID_AMBIVALENT_VOTE
+        ACTION_TYPE_ID_ELDER_VOTE : ACTION_TYPE_ID_ELDER_VOTE
     };
 
 
@@ -11691,7 +11691,7 @@ var ROLE_ID_TERRORIST = 7;
 var ROLE_ID_JOURNALIST = 8;
 var ROLE_ID_FUGITIVE = 9;
 var ROLE_ID_DEPUTY = 10;
-var ROLE_ID_AMBIVALENT_CITIZEN = 11;
+var ROLE_ID_ELDER = 11;
 
 app.factory('rolesService', function(serverService, $q) {
     "use strict";
@@ -11712,7 +11712,7 @@ app.factory('rolesService', function(serverService, $q) {
         ROLE_ID_JOURNALIST : ROLE_ID_JOURNALIST,
         ROLE_ID_FUGITIVE : ROLE_ID_FUGITIVE,
         ROLE_ID_DEPUTY : ROLE_ID_DEPUTY,
-        ROLE_ID_AMBIVALENT_CITIZEN : ROLE_ID_AMBIVALENT_CITIZEN
+        ROLE_ID_ELDER : ROLE_ID_ELDER
     };
 
     var allRoles;
