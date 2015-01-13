@@ -124,6 +124,10 @@ app.factory('citiesService', function($q, serverService) {
         }
     }
 
+    function deleteAllCachedCities() {
+        getCityPromisesByCityIds = {};
+    }
+
     var getNewCity = function() {
         if (newCity.user_creator_id) {
             var deferred = $q.defer();
@@ -276,6 +280,7 @@ app.factory('citiesService', function($q, serverService) {
         cities : cities,
         getCity : getCity,
         cacheCity: cacheCity,
+        deleteAllCachedCities: deleteAllCachedCities,
         getCities : getCities,
         newCity : newCity,
         getNewCity : getNewCity,

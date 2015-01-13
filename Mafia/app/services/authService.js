@@ -1,7 +1,7 @@
 var URL_USERS_ME = 'users/me';
 var URL_LOGIN = 'login';
 
-app.factory('authService', function(serverService, $q) {
+app.factory('authService', function(serverService, $q, citiesService) {
     "use strict";
 
     var user = {};
@@ -99,6 +99,7 @@ app.factory('authService', function(serverService, $q) {
 
         var signOutPromise = serverService.delete("logout");
         serverService.setAuthToken("", null);
+        citiesService.deleteAllCachedCities();
         return signOutPromise;
     };
 
