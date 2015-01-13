@@ -10800,7 +10800,7 @@ app.factory('appRolesService', function($q, serverService) {
 var URL_USERS_ME = 'users/me';
 var URL_LOGIN = 'login';
 
-app.factory('authService', function(serverService, $q) {
+app.factory('authService', function(serverService, $q, citiesService) {
     "use strict";
 
     var user = {};
@@ -10898,6 +10898,7 @@ app.factory('authService', function(serverService, $q) {
 
         var signOutPromise = serverService.delete("logout");
         serverService.setAuthToken("", null);
+        citiesService.deleteAllCachedCities();
         return signOutPromise;
     };
 
@@ -11041,6 +11042,10 @@ app.factory('citiesService', function($q, serverService) {
             else
                 cities.push(cityUpdated);
         }
+    }
+
+    function deleteAllCachedCities() {
+        getCityPromisesByCityIds = {};
     }
 
     var getNewCity = function() {
@@ -11195,6 +11200,7 @@ app.factory('citiesService', function($q, serverService) {
         cities : cities,
         getCity : getCity,
         cacheCity: cacheCity,
+        deleteAllCachedCities: deleteAllCachedCities,
         getCities : getCities,
         newCity : newCity,
         getNewCity : getNewCity,
