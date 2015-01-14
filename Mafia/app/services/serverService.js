@@ -1,7 +1,7 @@
 app.service('serverService', function ($q) {
     "use strict";
 
-    var productionServer = 'http://188.226.245.205:3000';
+    var productionServer = 'http://188.226.245.205';
     var developmentServer = 'http://localhost:3000';
 
     this.serverHost = productionServer;
