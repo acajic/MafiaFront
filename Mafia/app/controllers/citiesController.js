@@ -137,22 +137,36 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     $scope.newCity = function () {
         $scope.isOpeningNewCity = true;
 
-        $location.path('/cities/create');
+        $timeout(function () {
+            $location.path('/cities/create');
+        }, 20);
+
     };
 
     $scope.editCity = function (city) {
         $scope.isPerformingCityOperation = true;
-        $location.path('/cities/' + city.id + '/update');
+
+        $timeout(function () {
+            $location.path('/cities/' + city.id + '/update');
+        }, 20);
     };
 
     $scope.showCity = function(city) {
         $scope.isPerformingCityOperation = true;
-        $location.path('/cities/' + city.id + "/details");
+
+        $timeout(function () {
+            $location.path('/cities/' + city.id + "/details");
+        }, 20);
+
     };
 
     $scope.enterCity = function(city) {
         $scope.isPerformingCityOperation = true;
-        $location.path('/cities/' + city.id);
+
+        $timeout(function () {
+            $location.path('/cities/' + city.id);
+        }, 20);
+
     };
 
     $scope.alerts = [];
@@ -163,6 +177,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
     $scope.joinCity = function(city) {
         $scope.isPerformingCityOperation = true;
+
 
         var joinCityPromise = citiesService.joinCity(city.id, $scope.selectedCity.joinCityPassword);
         joinCityPromise.then(function(result) {
