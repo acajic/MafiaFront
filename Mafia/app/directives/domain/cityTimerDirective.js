@@ -1,4 +1,4 @@
-app.directive('cityTimer', function() {
+app.directive('cityTimer', function($timeout) {
     "use strict";
     return {
         restrict : 'E',
@@ -29,7 +29,7 @@ app.directive('cityTimer', function() {
                     return;
 
                 initClock(city);
-                initEarliestMoment(city);
+                // initEarliestMoment(city);
 
             });
 
@@ -57,12 +57,15 @@ app.directive('cityTimer', function() {
                 $scope.lastMidnight = lastMidnight;
             }
 
+            /*
             var earliestMoment = {
                 time : 24*60,
                 isDayStart : true
             };
+            */
             var previousTickNextMoment = {};
 
+            /*
             function initEarliestMoment(city) {
                 for (var index in city.day_cycles) {
                     var dayCycle = city.day_cycles[index];
@@ -76,6 +79,15 @@ app.directive('cityTimer', function() {
                     }
                 }
             }
+            */
+
+            function timeBetween(start, end) {
+                while (end < start)
+                    end += 24*60;
+
+                return end - start;
+            }
+
 
             // var previousTickTime = 0;
 
@@ -99,27 +111,22 @@ app.directive('cityTimer', function() {
                 };
                 var minimumDiff = 60*24;
 
-                for (var index in dayCycles) {
+                for (var index = 0; index < dayCycles.length; index++) {
                     var dayCycle = dayCycles[index];
-                    var diff = nextMoment.time - dayCycle.day_start;
-                    if (diff >= 0 && diff < minimumDiff && dayCycle.day_start > timeInMinutes) {
+                    var diff = timeBetween(timeInMinutes, dayCycle.day_start);
+                    if (diff < minimumDiff) {
                         minimumDiff = diff;
                         nextMoment.time = dayCycle.day_start;
                         nextMoment.isDayStart = true;
                     }
 
-                    diff = nextMoment.time - dayCycle.night_start;
-                    if (diff >= 0 && diff < minimumDiff && dayCycle.night_start > timeInMinutes) {
+                    diff = timeBetween(timeInMinutes, dayCycle.night_start);
+                    if (diff < minimumDiff) {
                         minimumDiff = diff;
                         nextMoment.time = dayCycle.night_start;
                         nextMoment.isDayStart = false;
                     }
                 }
-                if (nextMoment.time == 24*60) {
-                    nextMoment.time = earliestMoment.time;
-                    nextMoment.isDayStart = earliestMoment.isDayStart;
-                }
-
 
                 if (previousTickNextMoment.time && previousTickNextMoment.time != nextMoment.time) {
                     // day start or night start happened while page was showing
@@ -138,8 +145,11 @@ app.directive('cityTimer', function() {
                 }
 
                 $scope.refreshCountdownTicks = Math.max(0, $scope.refreshCountdownTicks-1);
-                $scope.nextMoment.time = nextMoment.time;
-                $scope.nextMoment.isDayStart = nextMoment.isDayStart;
+                $timeout(function () {
+                    $scope.nextMoment.time = nextMoment.time;
+                    $scope.nextMoment.isDayStart = nextMoment.isDayStart;
+                });
+
 
 
             }
