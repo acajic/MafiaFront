@@ -1,14 +1,14 @@
 /**
  * Created by Andro on 11.1.2015..
  */
-var scripts = document.getElementsByTagName("script");
-var currentScriptPath = scripts[scripts.length-1].src;
+// var scripts = document.getElementsByTagName("script");
+// var currentScriptPath = scripts[scripts.length-1].src;
 
 angular.module('ui.acTimezonePicker', []).directive('acTimezonePicker', function($timeout) {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: currentScriptPath.replace('acTimezonePicker.js', 'acTimezonePicker.html'),
+        templateUrl: 'content/js/ui/acTimezonePicker/acTimezonePicker.html',//currentScriptPath.replace('acTimezonePicker.js', 'acTimezonePicker.html'),
         scope: {
             ngModel: '=',
             useBootstrap: '@'
