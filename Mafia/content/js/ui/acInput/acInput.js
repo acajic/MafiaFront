@@ -1,11 +1,11 @@
-// var scripts = document.getElementsByTagName("script");
-// var currentScriptPath = scripts[scripts.length-1].src;
+var scripts = document.getElementsByTagName("script");
+var acInputScriptPath = scripts[scripts.length-1].src;
 
 angular.module('ui.acInput', []).directive('acInput', function($timeout) {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: 'content/js/ui/acInput/acInput.html',//currentScriptPath.replace('acInput.js', 'acInput.html'),
+        templateUrl: acInputScriptPath.replace('acInput.js', 'acInput.html'), // 'content/js/ui/acInput/acInput.html',
         scope: {
             ngModel: '=',
             delay: '=',
