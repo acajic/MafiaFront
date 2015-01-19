@@ -100,7 +100,7 @@
                                     <span class="checked"><i class="fa fa-toggle-on"></i> (Public)</span>
 
                                 </ac-checkbox>
-                                <input type="text" placeholder="password (optional)" ng-model="city.password" ng-hide="city.public" tooltip="If you don't set password, players will request to join and you will approve them one by one." />
+                                <input type="text" placeholder="password (optional)" ng-model="city.password" ng-hide="city.public" tooltip="If you don't set password, players will request to join and you will have to manually approve them one by one." />
                             </td>
                         </tr>
                         <tr ng-if="city.started_at">
@@ -165,7 +165,7 @@
             </tab>
 
 
-            <tab>
+            <tab ng-show="city.id">
                 <tab-heading>
                     <i class="glyphicon glyphicon-user"></i> Residents
                 </tab-heading>
@@ -304,7 +304,7 @@
             </tab>
 
 
-            <tab>
+            <tab ng-show="city.id">
                 <tab-heading>
                     <i class="glyphicon glyphicon-time"></i> Day cycles
                 </tab-heading>
@@ -391,7 +391,7 @@
 
 
 
-            <tab>
+            <tab ng-show="city.id">
                 <tab-heading>
                     <i class="glyphicon glyphicon-tower"></i> Roles
                 </tab-heading>
@@ -556,6 +556,7 @@
             </tab>
 
 
+            <!--
             <tab>
                 <tab-heading>
                     <i class="glyphicon glyphicon-wrench"></i> Other
@@ -569,7 +570,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="gameEndCondition in allGameEndConditions">
-                        <td class="col-sm-1"><input type="checkbox" ng-model="checkedGameEndConditions[gameEndCondition.id]" ng-change="toggleGameEndCondition(gameEndCondition.id)" disabled></td> <!-- ng-disabled="city.started_at" -->
+                        <td class="col-sm-1"><input type="checkbox" ng-model="checkedGameEndConditions[gameEndCondition.id]" ng-change="toggleGameEndCondition(gameEndCondition.id)" disabled></td>
                         <td>{{ gameEndCondition.name }}</td>
                         <td>{{ gameEndCondition.description }}</td>
                     </tr>
@@ -584,13 +585,14 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="selfGeneratedResultType in allSelfGeneratedResultTypes">
-                        <td class="col-sm-1"><input type="checkbox" ng-model="checkedSelfGeneratedResultTypes[selfGeneratedResultType.id]" ng-change="toggleSelfGeneratedResultType(selfGeneratedResultType.id)" disabled></td> <!-- ng-disabled="city.started_at" -->
+                        <td class="col-sm-1"><input type="checkbox" ng-model="checkedSelfGeneratedResultTypes[selfGeneratedResultType.id]" ng-change="toggleSelfGeneratedResultType(selfGeneratedResultType.id)" disabled></td>
                         <td> {{ selfGeneratedResultType.name }} </td>
                         <td> {{ selfGeneratedResultType.description }} </td>
                     </tr>
                     </tbody>
                 </table>
             </tab>
+        -->
         </tabset>
 
 
