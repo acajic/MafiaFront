@@ -1248,7 +1248,11 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             initSelfGeneratedResultTypes(city);
 
             angular.copy(city, originalCity);
-            $scope.city = city;
+
+            $timeout(function () {
+                $scope.city = city;
+            });
+
         });
 
         var allGameEndConditionsPromise = gameEndConditionsService.getAllGameEndConditions(false);
