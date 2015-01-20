@@ -305,6 +305,7 @@
             </tab>
 
 
+            <!--
             <tab>
                 <tab-heading>
                     <i class="glyphicon glyphicon-wrench"></i> Other
@@ -318,7 +319,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="gameEndCondition in allGameEndConditions">
-                        <td class="col-sm-1"><input type="checkbox" ng-model="checkedGameEndConditions[gameEndCondition.id]" ng-change="toggleGameEndCondition(gameEndCondition.id)" disabled></td> <!-- ng-disabled="city.started_at" -->
+                        <td class="col-sm-1"><input type="checkbox" ng-model="checkedGameEndConditions[gameEndCondition.id]" ng-change="toggleGameEndCondition(gameEndCondition.id)" disabled></td>
                         <td>{{ gameEndCondition.name }}</td>
                         <td>{{ gameEndCondition.description }}</td>
                     </tr>
@@ -333,13 +334,14 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="selfGeneratedResultType in allSelfGeneratedResultTypes">
-                        <td class="col-sm-1"><input type="checkbox" ng-model="checkedSelfGeneratedResultTypes[selfGeneratedResultType.id]" ng-change="toggleSelfGeneratedResultType(selfGeneratedResultType.id)" disabled></td> <!-- ng-disabled="city.started_at" -->
+                        <td class="col-sm-1"><input type="checkbox" ng-model="checkedSelfGeneratedResultTypes[selfGeneratedResultType.id]" ng-change="toggleSelfGeneratedResultType(selfGeneratedResultType.id)" disabled></td>
                         <td> {{ selfGeneratedResultType.name }} </td>
                         <td> {{ selfGeneratedResultType.description }} </td>
                     </tr>
                     </tbody>
                 </table>
             </tab>
+            -->
         </tabset>
 
 
