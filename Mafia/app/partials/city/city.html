@@ -10,12 +10,12 @@
             <alert ng-repeat="alert in generalMessages" type="alert.type" close="closeGeneralMessageAlert($index)">{{alert.msg}}</alert>
         </div>
 
-        <div ng-if="!city.finished_at" class="col-md-3 city-info-box" style="text-align: center;">
+        <div ng-if="!city.finished_at" class="col-md-3 city-info-box">
             <div ng-show="city.current_day_number !== undefined" style="background-position: 0px 0px">
                 <current-day></current-day>
             </div>
         </div>
-        <div ng-if="!city.finished_at && !city.paused" class="col-md-3 city-info-box" style="text-align: center;">
+        <div ng-if="!city.finished_at && !city.paused" class="col-md-3 city-info-box">
             <div ng-show="city.timezone !== undefined" style="background-position: 0px 50px">
                 <city-timer city="city" next-moment="nextMoment" on-day-start="" on-night-start=""></city-timer>
 
@@ -34,11 +34,13 @@
         </div>
         <div ng-if="city.finished_at" class="col-md-6 city-info-box city-info-box-game-over">
             <div style="background-position: 0px 50px">
-                <img src="content/img/lock-icon.png" style="width: 100px; height: 100px;" />
-                Game over. {{ gameOverDeclarationOfWinners }}
+                <i class="fa fa-lock fa-5x"></i>
+                <div>
+                    Game over. {{ gameOverDeclarationOfWinners }}
+                </div>
             </div>
         </div>
-        <div ng-if="city.paused" class="col-md-3 city-info-box city-info-box-game-paused" style="text-align: center;">
+        <div ng-if="city.paused" class="col-md-3 city-info-box city-info-box-game-paused">
             <div style="background-position: 0px 50px">
                 <city-timer city="city" next-moment="nextMoment" on-day-start="" on-night-start=""></city-timer>
 
