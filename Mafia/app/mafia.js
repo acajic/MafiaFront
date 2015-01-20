@@ -3679,6 +3679,8 @@ app.controller('AdminInitialAppRoleController',function ($scope, $routeParams, $
         return appRolesService.postCreateInitialAppRole($scope.inspectedInitialAppRole).then(function(initialAppRoleResult) {
             $scope.isProcessing = false;
 
+            $scope.inspectedInitialAppRole = initialAppRoleResult;
+
             appRolesService.notifications.initialAppRoleCreated = initialAppRoleResult;
             $location.path('admin/initial_app_role/' + initialAppRoleResult.id);
         }, function(reason) {
