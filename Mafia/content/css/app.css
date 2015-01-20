@@ -587,10 +587,8 @@ ac-checkbox span {
 
 
 .dropdown-menu {
-    position: relative;
-    float: none;
-    top: 0px !important;
-    left: 20px !important;
+    top: auto;
+    left: auto;
 }
 
 action-result .btn {
