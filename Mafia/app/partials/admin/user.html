@@ -5,7 +5,7 @@
 
     <div class="title textonly small">User: {{inspectedUser.username}}</div>
 
-    <div class="alert">
+    <div>
         <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
     </div>
 
