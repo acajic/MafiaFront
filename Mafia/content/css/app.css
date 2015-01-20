@@ -654,6 +654,7 @@ action-result .role-chooser .dropdown-menu>li>a:hover {
     height: 140px;
     padding-right: 15px;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .city-info-box>div {
@@ -897,6 +898,10 @@ tr.invite-users-table-loader-row  {
 
 .city-alive-info-box {
     padding-top: 24px;
+}
+
+.city-info-box-game-over {
+
 }
 
 .day-cycle-phase-pause>i {

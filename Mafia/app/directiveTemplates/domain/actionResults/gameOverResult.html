@@ -14,7 +14,7 @@
             <td>{{ resident.name }}</td>
             <td><img-alive boolean-value="resident.alive"></img-alive></td>
             <td>{{ resident.role.name }}</td>
-            <td><i class="fa fa-trophy fa-2x"></i></td>
+            <td><i class="fa fa-trophy fa-2x" ng-show="resident.won"></i></td>
         </tr>
         </tbody>
     </table>
