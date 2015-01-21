@@ -916,11 +916,11 @@ tr.invite-users-table-loader-row  {
 
 /* BEGIN gameOverResult */
 
-.resident-row-won {
+tr.resident-row-won {
     background-color: rgba(52, 252, 72, 0.23);
 }
 
-.resident-row-lost {
+tr.resident-row-lost {
     background-color: rgba(187, 20, 0, 0.25);
 }
 
