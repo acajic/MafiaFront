@@ -18,6 +18,9 @@ var ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY = 13;
 var ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS = 14;
 var ACTION_RESULT_TYPE_ID_GAME_OVER = 15;
 
+var ACTION_RESULT_TYPE_ID_REVIVAL_OCCURED = 17;
+var ACTION_RESULT_TYPE_ID_REVIVAL_REVEALED = 18;
+
 
 
 var ACTION_RESULTS_DAYS_PER_PAGE = 7;
@@ -40,7 +43,9 @@ app.factory('actionResultsService', function($q, serverService) {
         ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES : ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES,
         ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY : ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY,
         ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS : ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS,
-        ACTION_RESULT_TYPE_ID_GAME_OVER : ACTION_RESULT_TYPE_ID_GAME_OVER
+        ACTION_RESULT_TYPE_ID_GAME_OVER : ACTION_RESULT_TYPE_ID_GAME_OVER,
+        ACTION_RESULT_TYPE_ID_REVIVAL_OCCURED : ACTION_RESULT_TYPE_ID_REVIVAL_OCCURED,
+        ACTION_RESULT_TYPE_ID_REVIVAL_REVEALED : ACTION_RESULT_TYPE_ID_REVIVAL_REVEALED
     };
 
     var privateActionResultTypesForRole = function(role) {
@@ -80,6 +85,12 @@ app.factory('actionResultsService', function($q, serverService) {
 
         if (city.rolesById[ROLE_ID_DEPUTY] && city.rolesById[ROLE_ID_DEPUTY].quantity > 0)
             publicActionResultTypeIds.push(ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY);
+
+        if (city.rolesById[ROLE_ID_NECROMANCER] && city.rolesById[ROLE_ID_NECROMANCER].quantity > 0) {
+            publicActionResultTypeIds.push(ACTION_RESULT_TYPE_ID_REVIVAL_OCCURED);
+            publicActionResultTypeIds.push(ACTION_RESULT_TYPE_ID_REVIVAL_REVEALED);
+        }
+
 
         return publicActionResultTypeIds;
     };
@@ -180,7 +191,9 @@ app.factory('actionResultsService', function($q, serverService) {
                     someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_TERRORIST_BOMB ||
                     (someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_SHERIFF_IDENTITIES && shouldShowSheriffIdentitiesResult(someActionResult)) ||
                     someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SHERIFF ||
-                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY
+                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY ||
+                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_REVIVAL_OCCURED ||
+                    someActionResult.action_result_type.id == ACTION_RESULT_TYPE_ID_REVIVAL_REVEALED
                 );
         });
     };

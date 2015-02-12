@@ -1,13 +1,12 @@
-app.directive('terroristBombResult', function($timeout, actionResultsService) {
+app.directive('revivalOccurredResult', function($timeout, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
-        templateUrl: 'app/directiveTemplates/domain/actionResults/terroristBombResult.html',
+        templateUrl: 'app/directiveTemplates/domain/actionResults/revivalOccurredResult.html',
         link: function(scope, element, attrs) {
             "use strict";
 
             scope.targetResident = {};
-            scope.collaterals = [];
 
             scope.actionResultCopied = {};
 
@@ -34,7 +33,7 @@ app.directive('terroristBombResult', function($timeout, actionResultsService) {
                 if (!actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
-                            id: ACTION_RESULT_TYPE_ID_TERRORIST_BOMB
+                            id: ACTION_RESULT_TYPE_ID_REVIVAL_OCCURED
                         },
                         day: $.grep(city.days, function(someDay) {
                             return someDay.id == city.current_day_id;
@@ -48,23 +47,17 @@ app.directive('terroristBombResult', function($timeout, actionResultsService) {
                 }
 
                 scope.actionTypeParamsResult = actionResults[actionTypeParamsResultIndex];
-                // when creating new terrorist bomb result, offer to the user the right number of collaterals
-                scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[ROLE_ID_TERRORIST][ACTION_TYPE_ID_TERRORIST_BOMB.toString()];
 
-
-                if (!result.success || !result.target_ids.length) {
+                if (!result.success || result.days_until_reveal === undefined) {
                     return;
                 }
 
-                var killedResidents = "";
-                var collaterals = [];
-                angular.forEach(result.target_ids, function(residentId) {
-                    killedResidents += scope.city.residentsById[residentId].name + ", ";
-                    collaterals.push(angular.copy(scope.city.residentsById[residentId]));
-                });
-                scope.collaterals = collaterals;
-                killedResidents = killedResidents.substring(0, killedResidents.length - 2);
-                scope.interpretation = "There was a terrorist bombing. Residents " + killedResidents + " were killed in the explosion.";
+
+
+                scope.days_until_reveal = result.days_until_reveal;
+                var revelation_string = scope.days_until_reveal == 1 ? "On the next morning it will be revealed who was revived." : "In " + scope.days_until_reveal + " days it will be revealed who was revived.";
+
+                scope.interpretation = "Necromancer raised someone from the dead. " + revelation_string;
 
             }, true);
 
@@ -73,19 +66,6 @@ app.directive('terroristBombResult', function($timeout, actionResultsService) {
                     return;
 
                 scope.editMode = !scope.editMode;
-            };
-
-            scope.addCollateralResident = function() {
-                var randomResident = angular.copy(scope.city.residents[Math.floor(Math.random()*scope.city.residents.length)]);
-                scope.collaterals.push(randomResident);
-            };
-
-            scope.selectCollateralResident = function(index, resident) {
-                scope.collaterals.splice(index, 1, resident);
-            };
-
-            scope.deleteCollateralResidentAtIndex = function(index) {
-                scope.collaterals.splice(index, 1);
             };
 
 
