@@ -6,8 +6,6 @@ app.directive('revivalOccurredResult', function($timeout, actionResultsService) 
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.targetResident = {};
-
             scope.actionResultCopied = {};
 
             scope.$watch('[actionResult, actionResults, city]', function(values) {
@@ -25,6 +23,9 @@ app.directive('revivalOccurredResult', function($timeout, actionResultsService) 
                 if (actionTypeParamsResultIndex < 0) {
                     return;
                 }
+                scope.actionTypeParamsResult = actionResults[actionTypeParamsResultIndex];
+                scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[ROLE_ID_NECROMANCER][ACTION_TYPE_ID_REVIVE.toString()];
+                var daysUntilReveal = scope.actionTypeParamsDictionary['days_until_reveal'];
 
                 var city = values[2];
                 if (!city)
@@ -33,29 +34,25 @@ app.directive('revivalOccurredResult', function($timeout, actionResultsService) 
                 if (!actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
-                            id: ACTION_RESULT_TYPE_ID_REVIVAL_OCCURED
+                            id: ACTION_RESULT_TYPE_ID_REVIVAL_OCCURRED
                         },
-                        day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
-                        })[0]
+                        day: city.current_day,
+                        result: {
+                            days_until_reveal : daysUntilReveal
+                        }
                     };
-                } else {
-                    angular.copy(scope.actionResult, scope.actionResultCopied);
-                    scope.actionResultCopied.day = $.grep(city.days, function(someDay) {
-                        return someDay.id == scope.actionResultCopied.day_id;
-                    })[0];
+                    return;
                 }
 
-                scope.actionTypeParamsResult = actionResults[actionTypeParamsResultIndex];
+                angular.copy(scope.actionResult, scope.actionResultCopied);
+                scope.actionResultCopied.day = city.daysById[scope.actionResultCopied.day_id];
 
-                if (!result.success || result.days_until_reveal === undefined) {
+                if (result.days_until_reveal === undefined) {
                     return;
                 }
 
 
-
-                scope.days_until_reveal = result.days_until_reveal;
-                var revelation_string = scope.days_until_reveal == 1 ? "On the next morning it will be revealed who was revived." : "In " + scope.days_until_reveal + " days it will be revealed who was revived.";
+                var revelation_string = scope.daysUntilReveal == 1 ? "On the next morning it will be revealed who was revived." : "In " + result.days_until_reveal + " days it will be revealed who was revived.";
 
                 scope.interpretation = "Necromancer raised someone from the dead. " + revelation_string;
 
@@ -94,12 +91,7 @@ app.directive('revivalOccurredResult', function($timeout, actionResultsService) 
                     scope.actionResultCopied.action_result_type,
                     scope.actionResultCopied.action_id,
                     scope.actionResultCopied.day.id,
-                    {
-                        target_ids : $.map(scope.collaterals, function(someResident) {
-                            return someResident.id;
-                        }),
-                        success : true
-                    }
+                    scope.actionResultCopied.result
                 );
 
                 postActionResultPromise.then(function(createdActionResult) {

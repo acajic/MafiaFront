@@ -39,6 +39,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
                 daysById[someDay.id] = someDay;
             });
             city.daysById = daysById;
+            city.current_day = daysById[city.current_day.id];
 
             var rolesById = {};
             angular.forEach(city.city_has_roles, function(cityHasRole) {
@@ -49,6 +50,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
                     };
                 }
                 rolesById[cityHasRole.role.id].quantity += 1;
+                includeImplicatedRoles(cityHasRole.role, rolesById);
             });
             city.rolesById = rolesById;
 
@@ -63,7 +65,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
 
 
 
-            $scope.dayNumberMax = city.current_day_number + 1;
+            $scope.dayNumberMax = city.current_day.number + 1;
             $scope.dayNumberMin = Math.max($scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE, 0);
 
             if ($scope.resident) {
@@ -100,6 +102,18 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
 
         }, function(reason) {
             $scope.isLoading = false;
+        });
+    }
+
+    function includeImplicatedRoles(role, rolesById) {
+        angular.forEach(role.implicated_roles, function (implicatedRole) {
+            if (!rolesById[implicatedRole.id]) {
+                rolesById[implicatedRole.id] = {
+                    role: implicatedRole,
+                    quantity: 0
+                };
+                includeImplicatedRoles(implicatedRole, rolesById);
+            }
         });
     }
 
@@ -176,12 +190,12 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         if (!$scope.city)
             return false;
 
-        return $scope.dayNumberMax <= $scope.city.current_day_number;
+        return $scope.dayNumberMax <= $scope.city.current_day.number;
     }
 
     function loadMoreRecentActionResults() {
-        if ($scope.dayNumberMax <= $scope.city.current_day_number) {
-            $scope.dayNumberMax = Math.min($scope.dayNumberMax + ACTION_RESULTS_DAYS_PER_PAGE, $scope.city.current_day_number+1);
+        if ($scope.dayNumberMax <= $scope.city.current_day.number) {
+            $scope.dayNumberMax = Math.min($scope.dayNumberMax + ACTION_RESULTS_DAYS_PER_PAGE, $scope.city.current_day.number+1);
             $scope.dayNumberMin = $scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE;
             $timeout(function() {
                 $scope.isLoadingActionResults = true;

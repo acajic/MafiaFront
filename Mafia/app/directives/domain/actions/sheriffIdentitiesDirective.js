@@ -25,7 +25,7 @@ app.directive('sheriffIdentities', function($timeout, actionsService, actionResu
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.roleId,
                     ACTION_TYPE_ID_SHERIFF_IDENTITIES,
-                    scope.city.current_day_id,
+                    scope.city.current_day.id,
                     { });
 
                 postActionPromise.then(function() {

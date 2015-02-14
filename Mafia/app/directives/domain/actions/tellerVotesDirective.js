@@ -27,7 +27,7 @@ app.directive('tellerVotes', function($timeout, actionsService, actionResultsSer
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.roleId,
                     ACTION_TYPE_ID_TELLER_VOTES,
-                    scope.city.current_day_id,
+                    scope.city.current_day.id,
                     { });
 
                 postActionPromise.then(function() {

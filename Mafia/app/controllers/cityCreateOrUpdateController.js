@@ -978,17 +978,22 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
     function initCityHasRoles(city, allRoles) {
         var roleQuantitiesPerRoleId = {};
         angular.forEach(allRoles, function(role) {
-            var roleQuantity = {
-                role: role,
-                quantity: 0
-            };
+            if (role.is_starting_role) {
+                var roleQuantity = {
+                    role: role,
+                    quantity: 0
+                };
 
-            roleQuantitiesPerRoleId[role.id] = roleQuantity;
+                roleQuantitiesPerRoleId[role.id] = roleQuantity;
+            } else {
+                // non-starting roles (like Zombie) are not included
+            }
         });
 
         if (city) {
             angular.forEach(city.city_has_roles, function(cityHasRole) {
-                roleQuantitiesPerRoleId[cityHasRole.role.id].quantity += 1;
+                if (roleQuantitiesPerRoleId[cityHasRole.role.id] !== undefined)
+                    roleQuantitiesPerRoleId[cityHasRole.role.id].quantity += 1;
             });
         }
 
@@ -1024,11 +1029,17 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
         var city_has_roles = angular.copy($scope.city.city_has_roles);
 
-        angular.forEach(newRoleQuantities, function(someRoleQuantity) {
+        var cityHasRolesByRoleId = {};
+        angular.forEach(city_has_roles, function (cityHasRole) {
+            if (!cityHasRolesByRoleId[cityHasRole.role.id]) {
+                cityHasRolesByRoleId[cityHasRole.role.id] = [];
+            }
+            cityHasRolesByRoleId[cityHasRole.role.id].push(cityHasRole);
+        });
 
-            var city_has_roles_of_type = $.grep(city_has_roles, function(someCityHasRole) {
-                return someCityHasRole.role.id == someRoleQuantity.role.id;
-            });
+        angular.forEach(newRoleQuantities, function(someRoleQuantity) {
+            var city_has_roles_of_type = cityHasRolesByRoleId[someRoleQuantity.role.id] || [];
+
             while (city_has_roles_of_type.length < someRoleQuantity.quantity) {
                 var last_city_has_role = city_has_roles_of_type[city_has_roles_of_type.length-1];
                 if (!last_city_has_role) {
@@ -1380,6 +1391,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
                         if (Object.keys(someActionType.action_type_params).length === 0) {
                         } else {
                             filteredCityHasRoles.push(cityHasRole);
+                            roleProcessed = true;
                         }
                     }
                 }

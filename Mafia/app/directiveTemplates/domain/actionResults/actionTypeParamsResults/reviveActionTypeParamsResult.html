@@ -1,0 +1,9 @@
+<div ng-if="!editMode">
+    Days until reveal: {{ actionTypeParams ? actionTypeParams.days_until_reveal : 1 }}
+
+</div>
+<div ng-if="editMode">
+
+
+    Days until reveal: <input type="number" ng-model="reviveProps.daysUntilReveal">
+</div>

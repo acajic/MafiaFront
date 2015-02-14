@@ -20,7 +20,7 @@ app.directive('journalistInvestigate', function($timeout, actionsService) {
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.roleId,
                     ACTION_TYPE_ID_JOURNALIST_INVESTIGATE,
-                    scope.city.current_day_id,
+                    scope.city.current_day.id,
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {

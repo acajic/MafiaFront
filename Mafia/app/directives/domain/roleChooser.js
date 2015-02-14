@@ -20,18 +20,27 @@ app.directive('roleChooser', function(residentsService) {
                 scope.editMode = true;
 
 
-            // scope.infos = [];
+            scope.cityRoles = [];
 
-            scope.$watch('[city, roleId]', function(values) {
-                var city = values[0];
-                if (!city)
+
+            scope.$watch('[city.rolesById, roleId]', function(values) {
+                var rolesById = values[0];
+                if (!rolesById)
                     return;
 
-                initRoleLabel();
+                var cityRoles = [];
+                for (var roleId in rolesById) {
+                    if (rolesById.hasOwnProperty(roleId)) {
+                        cityRoles.push(rolesById[roleId].role);
+                    }
+                }
+                scope.cityRoles = cityRoles;
+
+                initRoleLabel(rolesById);
             }, true);
 
-            function initRoleLabel() {
-                scope.roleLabel = ((scope.city && scope.roleId) ? scope.city.rolesById[scope.roleId].role : {}).name || "Select a role";
+            function initRoleLabel(rolesById) {
+                scope.roleLabel = (scope.roleId ? rolesById[scope.roleId].role : {}).name || "Select a role";
             }
 
             scope.toggleMode = function() {

@@ -14,7 +14,7 @@ app.directive('elderVote', function($timeout, actionsService) {
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.resident.role.id,
                     ACTION_TYPE_ID_ELDER_VOTE,
-                    scope.city.current_day_id,
+                    scope.city.current_day.id,
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {

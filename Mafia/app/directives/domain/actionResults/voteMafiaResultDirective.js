@@ -24,9 +24,7 @@ app.directive('voteMafiaResult', function($timeout, actionResultsService) {
                         action_result_type: {
                             id: ACTION_RESULT_TYPE_ID_VOTE_MAFIA
                         },
-                        day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
-                        })[0]
+                        day: city.current_day
                     };
                 } else {
                     angular.copy(scope.actionResult, scope.actionResultCopied);
