@@ -24,8 +24,8 @@ app.directive('mafiaMembersResult', function($timeout, actionResultsService) {
                     return;
                 }
 
-                scope.mafiaMembers = $.map(result.mafia_members, function(someMafiaMember) {
-                    return angular.copy(city.residentsById[someMafiaMember.resident_id]);
+                scope.mafiaMembers = $.map(result.mafia_members, function(someMafiaMemberResidentId) {
+                    return angular.copy(city.residentsById[someMafiaMemberResidentId]);
                 });
 
 
@@ -84,7 +84,7 @@ app.directive('mafiaMembersResult', function($timeout, actionResultsService) {
                     null,
                     {
                         mafia_members: $.map(scope.mafiaMembers, function(someResident) {
-                            return { resident_id : someResident.id}
+                            return someResident.id
                         })
                     }
                 );
