@@ -25,7 +25,7 @@ app.directive('timezone', function() {
             scope.timezone = timezoneFromMinutes(scope.minutes);
 
             scope.$watch('minutes', function(value) {
-                if (!value)
+                if (value === undefined)
                     return;
 
                 scope.timezone = timezoneFromMinutes(value);
