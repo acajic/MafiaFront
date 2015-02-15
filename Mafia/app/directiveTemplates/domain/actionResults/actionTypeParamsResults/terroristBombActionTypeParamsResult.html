@@ -2,6 +2,8 @@
     Detonation delay: {{ actionTypeParams ? actionTypeParams.detonation_delay : '5m' }}
     Number of collateral victims: {{ actionTypeParams ? actionTypeParams.number_of_collaterals : 1 }}
 
+    <button class="btn btn-default notext btn-toggle-edit-mode btn-toggle-edit-mode-small" ng-click="toggleMode()" tooltip="Alter"><i class="glyphicon glyphicon-edit"></i></button>
+
 </div>
 <div ng-if="editMode">
 

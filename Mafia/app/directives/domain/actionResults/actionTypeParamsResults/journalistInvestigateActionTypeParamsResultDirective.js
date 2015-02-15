@@ -4,7 +4,8 @@ app.directive('journalistInvestigateActionTypeParamsResult', function(actionResu
         restrict : 'E',
         scope: {
             actionTypeParams: '=',
-            editMode: '='
+            editMode: '=',
+            toggleMode: '&'
         },
         templateUrl: 'app/directiveTemplates/domain/actionResults/actionTypeParamsResults/journalistInvestigateActionTypeParamsResult.html',
         link: function(scope, element, attrs) {

@@ -7,6 +7,7 @@
 
     <div ng-dblclick="toggleMode()" ng-if="!editMode">
         {{ roleLabel }}
+        <button class="btn btn-default notext btn-toggle-edit-mode btn-toggle-edit-mode-small" ng-click="toggleMode()" tooltip="Alter"><i class="glyphicon glyphicon-edit"></i></button>
     </div>
 
     <div ng-dblclick="toggleMode()" ng-if="editMode">
@@ -14,12 +15,13 @@
             <a class="dropdown-toggle">
                 {{ roleLabel }}
             </a>
-            <button ng-if="enableRoleSaving && roleId" class="btn btn-save notext" ng-click="saveRole()" popover="Make this role appear after login." popover-trigger="mouseenter" popover-placement="right"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+            <button ng-if="enableRoleSaving && roleId" class="btn btn-save notext" ng-click="saveRole()" tooltip="Make this role appear after login"><i class="glyphicon glyphicon-floppy-disk"></i></button>
             <ul class="dropdown-menu">
                 <li ng-repeat="role in cityRoles">
                     <a ng-click="optionSelected(role.id)">{{role.name}}</a>
                 </li>
             </ul>
         </div>
+        <button class="btn btn-default notext btn-toggle-edit-mode" ng-click="toggleMode()" tooltip="Change role for this session"><i class="glyphicon glyphicon-edit"></i></button>
     </div>
 </div>

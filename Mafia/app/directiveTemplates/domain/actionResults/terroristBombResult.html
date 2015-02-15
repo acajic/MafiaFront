@@ -1,6 +1,7 @@
 <div ng-dblclick="toggleMode()" ng-if="!editMode">
 Day {{ actionResult.day_number }} <i class="fa fa-bomb"></i>
 {{ interpretation }}
+    <button class="btn btn-default notext btn-toggle-edit-mode btn-toggle-edit-mode-small" ng-click="toggleMode()" tooltip="Alter"><i class="glyphicon glyphicon-edit"></i></button>
 </div>
 
 <div ng-dblclick="toggleMode()" ng-if="editMode">
@@ -13,7 +14,7 @@ Day {{ actionResult.day_number }} <i class="fa fa-bomb"></i>
     </div>
     <a ng-click="addCollateralResident()">+</a>
 
-
+    <button class="btn btn-default notext btn-toggle-edit-mode" ng-if="!isNew" ng-click="toggleMode()" tooltip="Cancel"><i class="glyphicon glyphicon-edit"></i></button>
     <button class="btn btn-back notext" ng-if="isNew" ng-click="hide()" tooltip="Hide"><i class="glyphicon glyphicon-ban-circle"></i></button>
     <button class="btn btn-delete notext" ng-if="!isNew" ng-click="deleteActionResult()" tooltip="Remove"><i class="glyphicon glyphicon-trash"></i></button>
     <button class="btn btn-save notext" ng-click="submitActionResult()" tooltip="Save"><i class="glyphicon glyphicon-floppy-disk"></i></button>

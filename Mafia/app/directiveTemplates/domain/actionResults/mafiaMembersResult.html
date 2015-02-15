@@ -5,7 +5,10 @@
         <thead>
         <tr>
             <td>Name</td>
-            <td>Alive</td>
+            <td>
+                Alive
+                <button class="btn btn-default notext btn-toggle-edit-mode" ng-click="toggleMode()" tooltip="Alter"><i class="glyphicon glyphicon-edit"></i></button>
+            </td>
         </tr>
         </thead>
         <tbody>
@@ -24,7 +27,10 @@
         <thead>
         <tr>
             <td>Name</td>
-            <td>Alive</td>
+            <td>
+                Alive
+                <button class="btn btn-default notext btn-toggle-edit-mode" ng-if="!isNew" ng-click="toggleMode()" tooltip="Cancel"><i class="glyphicon glyphicon-edit"></i></button>
+            </td>
         </tr>
         </thead>
         <tbody>

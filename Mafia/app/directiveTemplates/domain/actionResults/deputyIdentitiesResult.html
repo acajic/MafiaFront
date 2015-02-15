@@ -7,7 +7,10 @@
     <thead>
     <tr>
         <td>Resident</td>
-        <td>Role</td>
+        <td>
+            Role
+            <button class="btn btn-default notext btn-toggle-edit-mode" ng-click="toggleMode()" tooltip="Alter"><i class="glyphicon glyphicon-edit"></i></button>
+        </td>
     </tr>
     </thead>
     <tbody>
@@ -31,7 +34,10 @@
         <thead>
         <tr>
             <td>Resident</td>
-            <td>Role</td>
+            <td>
+                Role
+                <button class="btn btn-default notext btn-toggle-edit-mode" ng-if="!isNew" ng-click="toggleMode()" tooltip="Cancel"><i class="glyphicon glyphicon-edit"></i></button>
+            </td>
         </tr>
         </thead>
         <tbody>

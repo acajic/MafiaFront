@@ -9,7 +9,10 @@
         <thead>
         <tr>
             <td>Username</td>
-            <td>Alive</td>
+            <td>
+                Alive
+                <button class="btn btn-default notext btn-toggle-edit-mode" ng-click="toggleMode()" tooltip="Alter"><i class="glyphicon glyphicon-edit"></i></button>
+            </td>
         </tr>
         </thead>
         <tbody>
@@ -19,6 +22,7 @@
         </tr>
         </tbody>
     </table>
+
 
 
 </div>
@@ -31,7 +35,8 @@
             <td>Name</td>
             <td>
                 Alive
-                <button class="btn btn-save notext" ng-click="submitActionResult()" tooltip="Save"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+                <button class="btn btn-default notext btn-toggle-edit-mode" ng-click="toggleMode()" tooltip="Save for this session (will revert to old state on page refresh)"><i class="glyphicon glyphicon-edit"></i></button>
+                <button class="btn btn-save notext" ng-click="submitActionResult()" tooltip="Save permanently (will refresh on the next morning or evening)"><i class="glyphicon glyphicon-floppy-disk"></i></button>
             </td>
         </tr>
         </thead>

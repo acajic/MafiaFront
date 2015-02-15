@@ -225,7 +225,7 @@ input, textarea, select {
     padding-bottom: 15px;
 }
 
-.btn-back, .btn-join-discussion {
+.btn-back, .btn-join-discussion, .btn-toggle-edit-mode {
      background-color: #232323;
      border: 1px solid #0d0d0d;
      color: #ffffff;
@@ -236,7 +236,7 @@ input, textarea, select {
     padding-right: 15px;
 }
 
-.btn-back:hover, .btn-join-discussion:hover {
+.btn-back:hover, .btn-join-discussion:hover, .btn-toggle-edit-mode:hover {
     background-color: #161616;
     color: #ffffff;
 }
@@ -914,6 +914,34 @@ tr.invite-users-table-loader-row  {
 
 /* END */
 
+
+/* BEGIN toggle mode */
+
+.btn-toggle-edit-mode {
+    display: none;
+    opacity: 0.2;
+    #box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.50);
+}
+
+.btn-toggle-edit-mode-small {
+    font-size: 10px;
+    padding: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+
+}
+
+
+.floating-toggle-edit-mode {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+/* END */
+
+
+
 /* BEGIN gameOverResult */
 
 tr.resident-row-won {
@@ -985,3 +1013,63 @@ tr.resident-row-lost {
 
 
 /* END admin */
+
+
+
+
+
+
+/* BEGIN responsive css */
+
+
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+    .btn-toggle-edit-mode {
+        display: inline;
+    }
+
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen
+and (max-width : 320px) {
+    .btn-toggle-edit-mode {
+        display: inline;
+    }
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px) {
+    .btn-toggle-edit-mode {
+        display: inline;
+    }
+}
+
+/* iPads (landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape) {
+    .btn-toggle-edit-mode {
+        display: inline;
+    }
+}
+
+/* iPads (portrait) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+    .btn-toggle-edit-mode {
+        display: inline;
+    }
+}
+
+
+
+/* END responsive css */
