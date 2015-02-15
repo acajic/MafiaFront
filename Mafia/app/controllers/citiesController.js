@@ -8,6 +8,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     $scope.url = $location.absUrl();
 
     $scope.reloadAllCities = function(refresh) {
+        refreshDateNow();
 
         $scope.isLoadingContentAllCities = true;
         $scope.showLoadAdditionalAllCitiesButton = false;
@@ -71,6 +72,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     var pageSizeMyCities = 10;
 
     $scope.reloadMyCities = function(refresh) {
+        refreshDateNow();
 
         $scope.isLoadingContentMyCities = true;
         $scope.showLoadAdditionalMyCitiesButton = false;
@@ -459,6 +461,11 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
     function showCancelJoinRequestForCity(city) {
         return city && city.is_join_requested && !city.is_member;
+    }
+
+
+    function refreshDateNow() {
+        $scope.dateNow = new Date();
     }
 
     $scope.$watch("user", function (newUser, oldUser) {
