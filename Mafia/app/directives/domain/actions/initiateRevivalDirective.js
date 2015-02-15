@@ -1,4 +1,4 @@
-app.directive('initiateRevival', function($timeout, $q, actionsService) {
+app.directive('initiateRevival', function($timeout, $q, actionsService,actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -13,8 +13,8 @@ app.directive('initiateRevival', function($timeout, $q, actionsService) {
                 if (!actionTypeParamsResult)
                     return;
 
-                scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_INITIATE_REVIVAL.toString()];
-
+                scope.initiateRevivalActionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_INITIATE_REVIVAL.toString()];
+                scope.reviveActionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_REVIVE.toString()];
             }, true);
 
             scope.infos = [];
