@@ -4,7 +4,8 @@ app.directive('terroristBombActionTypeParamsResult', function(actionResultsServi
         restrict : 'E',
         scope: {
             actionTypeParams: '=',
-            editMode: '='
+            editMode: '=',
+            toggleMode: '&'
         },
         templateUrl: 'app/directiveTemplates/domain/actionResults/actionTypeParamsResults/terroristBombActionTypeParamsResult.html',
         link: function(scope, element, attrs) {
@@ -41,15 +42,6 @@ app.directive('terroristBombActionTypeParamsResult', function(actionResultsServi
 
             }, true);
 
-
-
-            var isTimeIntervalValid = function(timeIntervalString) {
-                if (!timeIntervalString)
-                    return false;
-
-                var lastChar = timeIntervalString.slice(-1);
-                return !isNaN(timeIntervalString.slice(0,-1)) && (lastChar == 'h' || lastChar == 'm' || lastChar == 's')
-            };
 
             var isDetonationNumberValid = function(detonationNumber) {
 

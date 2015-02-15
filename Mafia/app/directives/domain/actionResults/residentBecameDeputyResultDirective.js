@@ -23,9 +23,7 @@ app.directive('residentBecameDeputyResult', function($timeout, actionResultsServ
                         action_result_type: {
                             id: ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY
                         },
-                        day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
-                        })[0]
+                        day: city.current_day
                     };
                     return;
                 }

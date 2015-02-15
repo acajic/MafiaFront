@@ -7,7 +7,10 @@
     <thead>
     <tr>
         <td>Resident</td>
-        <td>Role</td>
+        <td>
+            Role
+            <button class="btn btn-default notext btn-toggle-edit-mode" ng-click="toggleMode()" tooltip="Alter"><i class="glyphicon glyphicon-edit"></i></button>
+        </td>
     </tr>
     </thead>
     <tbody>
@@ -22,7 +25,7 @@
 <div ng-if="editMode" ng-dblclick="toggleMode()">
     Day <select ng-model="actionResultCopied.day" ng-options="day.number for day in city.days"></select>
     <!--
-    {{ actionResult.day_number !== undefined ? actionResult.day_number : city.current_day_number}}
+    {{ actionResult.day_number !== undefined ? actionResult.day_number : city.current_day.number}}
 -->
 
     <img src="content/img/sheriff-icon.ico" style="width: 25px;"/>
@@ -31,7 +34,10 @@
         <thead>
         <tr>
             <td>Resident</td>
-            <td>Role</td>
+            <td>
+                Role
+                <button class="btn btn-default notext btn-toggle-edit-mode" ng-if="!isNew" ng-click="toggleMode()" tooltip="Cancel"><i class="glyphicon glyphicon-edit"></i></button>
+            </td>
         </tr>
         </thead>
         <tbody>

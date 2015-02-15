@@ -1,13 +1,14 @@
 
 <div ng-if="!editMode" ng-dblclick="toggleMode()">
     Day {{ actionResult.day_number }} <img src="content/img/detective-icon.png" style="width: 25px;"/> {{ interpretation }}
+    <button class="btn btn-default notext btn-toggle-edit-mode btn-toggle-edit-mode-small" ng-click="toggleMode()" tooltip="Alter"><i class="glyphicon glyphicon-edit"></i></button>
 </div>
 <div ng-if="editMode" ng-dblclick="toggleMode()">
     Day <select ng-model="actionResultCopied.day" ng-options="day.number for day in city.days"></select>
     <input ng-if="city.residents" type="text" typeahead-on-select="selectInvestigatedResident($item)" ng-model="investigatedResident.name" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" class="form-control">
     <input type="checkbox" ng-model="outcome.success"> Is Mafia
 
-
+    <button class="btn btn-default notext btn-toggle-edit-mode" ng-if="!isNew" ng-click="toggleMode()" tooltip="Cancel"><i class="glyphicon glyphicon-edit"></i></button>
     <button class="btn btn-back notext" ng-if="isNew" ng-click="hide()" tooltip="Hide"><i class="glyphicon glyphicon-ban-circle"></i></button>
     <button class="btn btn-delete notext" ng-if="!isNew" ng-click="deleteActionResult()" tooltip="Remove"><i class="glyphicon glyphicon-trash"></i></button>
     <button class="btn btn-save notext" ng-click="submitActionResult()" tooltip="Save"><i class="glyphicon glyphicon-floppy-disk"></i></button>

@@ -1,0 +1,19 @@
+<action-type-params-result city="city" resident="resident" action-result="actionTypeParamsResult" action-results="actionResults" action-type-id="actionTypeIds.ACTION_TYPE_ID_INITIATE_REVIVAL" role-id="roleId"></action-type-params-result>
+<action-type-params-result city="city" resident="resident" action-result="actionTypeParamsResult" action-results="actionResults" action-type-id="actionTypeIds.ACTION_TYPE_ID_REVIVE" role-id="roleId"></action-type-params-result>
+
+
+<div ng-if="reviveActionTypeParamsDictionary.number_of_actions_available != 0">
+    <div id="info-box">
+        <alert ng-repeat="alert in infos" type="alert.type" close="closeInfoAlert($index)">{{alert.msg}}</alert>
+    </div>
+    <div>
+        <i class="glyphicon glyphicon-screenshot"></i>Revive
+    </div>
+    <div class="col-md-1 nopadding" style="text-align: center">
+        <button ng-click="cancelUnprocessedActions()" class="btn btn-erease notext" popover="Cancel all unprocessed actions of this type" popover-trigger="mouseenter" popover-placement="right"><i class="fa fa-eraser"></i></button>
+    </div>
+    <div class="col-md-11 nopadding">
+        <input ng-if="city.residents" type="text" typeahead-on-select="initiateRevivalOnSelect($item)" ng-model="selectedResident.name" typeahead="otherResident.name for otherResident in city.residents | filter:$viewValue" typeahead-wait-ms="200" class="form-control" popover="Select a dead player to revive & recruit into the Mafia." popover-trigger="focus">
+    </div>
+
+</div>

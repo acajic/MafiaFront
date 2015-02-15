@@ -1,0 +1,16 @@
+<div ng-if="!editMode">
+    Initiate revival delay: {{ actionTypeParams ? actionTypeParams.revival_delay : '5m' }}
+
+    <button class="btn btn-default notext btn-toggle-edit-mode btn-toggle-edit-mode-small" ng-click="toggleMode()" tooltip="Alter"><i class="glyphicon glyphicon-edit"></i></button>
+
+</div>
+<div ng-if="editMode">
+
+
+    Initiate revival delay: <input type="number" ng-model="initiateRevivalProps.revivalDelayNumber">
+    <select ng-model="initiateRevivalProps.revivalDelayTimeInterval">
+        <option value="s"> seconds </option>
+        <option value="m"> minutes </option>
+        <option value="h"> hours </option>
+    </select>
+</div>

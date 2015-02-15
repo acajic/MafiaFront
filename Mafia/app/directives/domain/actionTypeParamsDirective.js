@@ -5,7 +5,8 @@ app.directive('actionTypeParams', function(actionsService) {
         scope: {
             actionTypeId: '=',
             actionTypeParams: '=',
-            editMode: '='
+            editMode: '=',
+            toggleMode: '&'
         },
         templateUrl: 'app/directiveTemplates/domain/actionTypeParams.html',
         link: function(scope, element, attrs) {

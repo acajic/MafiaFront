@@ -29,16 +29,14 @@ app.directive('terroristBombResult', function($timeout, actionResultsService) {
 
                 var city = values[2];
                 if (!city)
-                    return
+                    return;
 
                 if (!actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
                             id: ACTION_RESULT_TYPE_ID_TERRORIST_BOMB
                         },
-                        day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
-                        })[0]
+                        day: city.current_day
                     };
                 } else {
                     angular.copy(scope.actionResult, scope.actionResultCopied);

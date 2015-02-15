@@ -948,7 +948,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
 
 
 
-            $scope.dayNumberMax = city.current_day_number + 1;
+            $scope.dayNumberMax = city.current_day.number + 1;
             $scope.dayNumberMin = Math.max($scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE, 0);
 
             if ($scope.resident) {
@@ -1061,12 +1061,12 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         if (!$scope.city)
             return false;
 
-        return $scope.dayNumberMax <= $scope.city.current_day_number;
+        return $scope.dayNumberMax <= $scope.city.current_day.number;
     }
 
     function loadMoreRecentActionResults() {
-        if ($scope.dayNumberMax <= $scope.city.current_day_number) {
-            $scope.dayNumberMax = Math.min($scope.dayNumberMax + ACTION_RESULTS_DAYS_PER_PAGE, $scope.city.current_day_number+1);
+        if ($scope.dayNumberMax <= $scope.city.current_day.number) {
+            $scope.dayNumberMax = Math.min($scope.dayNumberMax + ACTION_RESULTS_DAYS_PER_PAGE, $scope.city.current_day.number+1);
             $scope.dayNumberMin = $scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE;
             $timeout(function() {
                 $scope.isLoadingActionResults = true;
@@ -5650,7 +5650,7 @@ app.directive('deputyIdentitiesResult', function($timeout, actionResultsService)
                             id: ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES
                         },
                         day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
+                            return someDay.id == city.current_day.id;
                         })[0]
                     };
                 } else {
@@ -5905,7 +5905,7 @@ app.directive('investigateResult', function($timeout, actionResultsService) {
                             id: ACTION_RESULT_TYPE_ID_INVESTIGATE
                         },
                         day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
+                            return someDay.id == city.current_day.id;
                         })[0]
                     };
                 } else {
@@ -6035,7 +6035,7 @@ app.directive('journalistInvestigateResult', function($timeout, actionResultsSer
                             id: ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE
                         },
                         day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
+                            return someDay.id == city.current_day.id;
                         })[0]
                     };
                 } else {
@@ -6282,7 +6282,7 @@ app.directive('protectResult', function($timeout, actionResultsService) {
                             id: ACTION_RESULT_TYPE_ID_PROTECT
                         },
                         day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
+                            return someDay.id == city.current_day.id;
                         })[0]
                     };
                     return;
@@ -6406,7 +6406,7 @@ app.directive('residentBecameDeputyResult', function($timeout, actionResultsServ
                             id: ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY
                         },
                         day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
+                            return someDay.id == city.current_day.id;
                         })[0]
                     };
                     return;
@@ -6511,7 +6511,7 @@ app.directive('residentBecameSheriffResult', function($timeout, actionResultsSer
                             id: ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SHERIFF
                         },
                         day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
+                            return someDay.id == city.current_day.id;
                         })[0]
                     };
                     return;
@@ -6624,7 +6624,7 @@ app.directive('sheriffIdentitiesResult', function($timeout, actionResultsService
                             id: ACTION_RESULT_TYPE_ID_SHERIFF_IDENTITIES
                         },
                         day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
+                            return someDay.id == city.current_day.id;
                         })[0]
                     };
                 } else {
@@ -6813,7 +6813,7 @@ app.directive('tellerVotesResult', function($timeout, actionResultsService) {
                             id: ACTION_RESULT_TYPE_ID_TELLER_VOTES
                         },
                         day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
+                            return someDay.id == city.current_day.id;
                         })[0]
                     };
                 } else {
@@ -6995,7 +6995,7 @@ app.directive('terroristBombResult', function($timeout, actionResultsService) {
                             id: ACTION_RESULT_TYPE_ID_TERRORIST_BOMB
                         },
                         day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
+                            return someDay.id == city.current_day.id;
                         })[0]
                     };
                 } else {
@@ -7136,7 +7136,7 @@ app.directive('voteMafiaResult', function($timeout, actionResultsService) {
                             id: ACTION_RESULT_TYPE_ID_VOTE_MAFIA
                         },
                         day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
+                            return someDay.id == city.current_day.id;
                         })[0]
                     };
                 } else {
@@ -7266,7 +7266,7 @@ app.directive('voteResult', function($timeout, actionResultsService) {
                             id: ACTION_RESULT_TYPE_ID_VOTE
                         },
                         day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
+                            return someDay.id == city.current_day.id;
                         })[0]
                     };
                 } else {
@@ -7755,7 +7755,7 @@ app.directive('deputyIdentities', function($timeout, actionsService, actionResul
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.roleId,
                     ACTION_TYPE_ID_DEPUTY_IDENTITIES,
-                    scope.city.current_day_id,
+                    scope.city.current_day.id,
                     { });
 
                 postActionPromise.then(function() {
@@ -7811,7 +7811,7 @@ app.directive('elderVote', function($timeout, actionsService) {
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.resident.role.id,
                     ACTION_TYPE_ID_ELDER_VOTE,
-                    scope.city.current_day_id,
+                    scope.city.current_day.id,
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {
@@ -7876,7 +7876,7 @@ app.directive('investigate', function($timeout, actionsService) {
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.roleId,
                     ACTION_TYPE_ID_INVESTIGATE,
-                    scope.city.current_day_id,
+                    scope.city.current_day.id,
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {
@@ -7936,7 +7936,7 @@ app.directive('journalistInvestigate', function($timeout, actionsService) {
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.roleId,
                     ACTION_TYPE_ID_JOURNALIST_INVESTIGATE,
-                    scope.city.current_day_id,
+                    scope.city.current_day.id,
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {
@@ -7996,7 +7996,7 @@ app.directive('protect', function($timeout, actionsService) {
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.roleId,
                     ACTION_TYPE_ID_PROTECT,
-                    scope.city.current_day_id,
+                    scope.city.current_day.id,
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {
@@ -8062,7 +8062,7 @@ app.directive('sheriffIdentities', function($timeout, actionsService, actionResu
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.roleId,
                     ACTION_TYPE_ID_SHERIFF_IDENTITIES,
-                    scope.city.current_day_id,
+                    scope.city.current_day.id,
                     { });
 
                 postActionPromise.then(function() {
@@ -8130,7 +8130,7 @@ app.directive('tellerVotes', function($timeout, actionsService, actionResultsSer
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.roleId,
                     ACTION_TYPE_ID_TELLER_VOTES,
-                    scope.city.current_day_id,
+                    scope.city.current_day.id,
                     { });
 
                 postActionPromise.then(function() {
@@ -8199,7 +8199,7 @@ app.directive('terroristBomb', function($timeout, actionsService) {
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.roleId,
                     ACTION_TYPE_ID_TERRORIST_BOMB,
-                    scope.city.current_day_id,
+                    scope.city.current_day.id,
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {
@@ -8254,7 +8254,7 @@ app.directive('vote', function($timeout, actionsService) {
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.resident.role.id,
                     ACTION_TYPE_ID_VOTE,
-                    scope.city.current_day_id,
+                    scope.city.current_day.id,
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {
@@ -8312,7 +8312,7 @@ app.directive('voteMafia', function($timeout, actionsService) {
                 var postActionPromise = actionsService.postAction(scope.city.id,
                     scope.roleId,
                     ACTION_TYPE_ID_VOTE_MAFIA,
-                    scope.city.current_day_id,
+                    scope.city.current_day.id,
                     { target_id : selectedResident.id });
 
                 postActionPromise.then(function() {

@@ -34,7 +34,9 @@ app.directive('privateNewsFeed', function(actionResultsService) {
                 var role = rolesById[scope.roleId].role;
                 var showingActionResults = {};
                 angular.forEach(role.action_types, function(someActionType) {
-                    showingActionResults[someActionType.action_result_type.id] = true;
+                    if (someActionType.action_result_type) {
+                        showingActionResults[someActionType.action_result_type.id] = true;
+                    }
                 });
 
                 var filteredActionResults = $.grep(privateActionResults, function(someActionResult) {

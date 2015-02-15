@@ -25,9 +25,7 @@ app.directive('journalistInvestigateResult', function($timeout, actionResultsSer
                         action_result_type: {
                             id: ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE
                         },
-                        day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
-                        })[0]
+                        day: city.current_day
                     };
                 } else {
                     angular.copy(scope.actionResult, scope.actionResultCopied);

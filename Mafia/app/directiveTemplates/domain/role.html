@@ -19,6 +19,10 @@
 
     <elder ng-if="resident.role.id == roleIds.ROLE_ID_ELDER"></elder>
 
+    <necromancer ng-if="resident.role.id == roleIds.ROLE_ID_NECROMANCER"></necromancer>
+
+    <zombie  ng-if="resident.role.id == roleIds.ROLE_ID_ZOMBIE"></zombie>
+
     <div style="clear: both"></div>
 </div>
 <div ng-show="isLoading" class="role-big-loader">

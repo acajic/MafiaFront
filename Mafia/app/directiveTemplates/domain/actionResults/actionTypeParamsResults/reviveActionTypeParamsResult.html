@@ -1,0 +1,25 @@
+<div ng-if="!editMode">
+    Days until reveal: {{ actionTypeParams ? actionTypeParams.days_until_reveal : 1 }}
+
+    <div ng-if="actionTypeParams.number_of_actions_available == 0" style="display: inline">
+        No more actions of this type avaialable.
+    </div>
+    <div ng-if="actionTypeParams.number_of_actions_available > 0" style="display: inline">
+        {{ actionTypeParams.number_of_actions_available }} action{{ actionTypeParams.number_of_actions_available == 1 ? '' : 's' }} available.
+    </div>
+    <div ng-if="actionTypeParams.number_of_actions_available < 0" style="display: inline">
+        Unlimited.
+    </div>
+
+    <button class="btn btn-default notext btn-toggle-edit-mode btn-toggle-edit-mode-small" ng-click="toggleMode()" tooltip="Alter"><i class="glyphicon glyphicon-edit"></i></button>
+
+</div>
+<div ng-if="editMode">
+
+
+    Days until reveal: <input type="number" ng-model="reviveProps.daysUntilReveal">
+
+
+    Number of actions available: <input type="number" ng-model="actionTypeParams.number_of_actions_available" ng-change="validateInput()" ng-hide="isInfinite">
+    <input type="checkbox" ng-model="isInfinite" ng-change="isInfiniteChanged()"> Infinite?
+</div>

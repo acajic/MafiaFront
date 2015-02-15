@@ -1,0 +1,40 @@
+<tabset>
+    <tab active="tabActive[0]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-eye-open"></i> Public
+        </tab-heading>
+
+        <public-tab city="city" role-id="roleId" resident="resident" action-results="actionResults" action-results-by-type="actionResultsByType"  is-loading-action-results="isLoadingActionResults" day-number-min="dayNumberMin" day-number-max="dayNumberMax" has-earlier-action-results="hasEarlierActionResults"  load-earlier-action-results="loadEarlierActionResults" has-more-recent-action-results="hasMoreRecentActionResults" load-more-recent-action-results="loadMoreRecentActionResults"></public-tab>
+
+    </tab>
+
+    <tab active="tabActive[1]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-eye-close"></i> Special
+        </tab-heading>
+
+        <div class="col-md-6 nopadding">
+            <special-actions city="city" role-id="roleId" resident="resident" action-results="actionResults" action-results-by-type="actionResultsByType"></special-actions>
+        </div>
+        <div class="col-md-6">
+            <div ng-hide="isLoadingActionResults">
+                <private-news-feed city="city" role-id="roleId" resident="resident" action-results="actionResults" is-loading-action-results="isLoadingActionResults" day-number-min="dayNumberMin" day-number-max="dayNumberMax" has-earlier-action-results="hasEarlierActionResults"  load-earlier-action-results="loadEarlierActionResults" has-more-recent-action-results="hasMoreRecentActionResults" load-more-recent-action-results="loadMoreRecentActionResults"></private-news-feed>
+                <div style="clear: both;"></div>
+                <button class="btn btn-link" style="float: left;" ng-if="hasMoreRecentActionResults()" ng-click="loadMoreRecentActionResults()">< More Recent</button>
+                <button class="btn btn-link" style="float: right;" ng-if="hasEarlierActionResults()" ng-click="loadEarlierActionResults()">Earlier ></button>
+                <div style="clear: both;"></div>
+            </div>
+            <loader size="large" ng-show="isLoadingActionResults" center></loader>
+        </div>
+
+    </tab>
+
+    <tab active="tabActive[2]">
+        <tab-heading>
+            <i class="glyphicon glyphicon-info-sign"></i> Info
+        </tab-heading>
+
+        <necromancer-description></necromancer-description>
+
+    </tab>
+</tabset>

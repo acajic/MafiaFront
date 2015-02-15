@@ -91,6 +91,7 @@
                                 </span>
                             </td>
                             <td style="text-align: center;">Membership</td>
+                            <td style="text-align: center;">Created</td>
                             <td style="text-align: center;">Status</td>
                         </tr>
                         </thead>
@@ -104,17 +105,18 @@
                                     <i class="fa fa-question-circle" ng-if="city.is_join_requested"></i>
                                     <i class="fa fa-envelope" ng-if="city.is_invited"></i>
                                 </td>
+                                <td style="text-align: center;"> <ac-relative-date ng-model="city.created_at" date-now="dateNow"></ac-relative-date> </td>
                                 <td style="text-align: center;">
                                     <img-city-status city="city"></img-city-status>
                                 </td>
                             </tr>
                             <tr ng-if="isLoadingContentMyCities">
-                                <td colspan="3" style="text-align: center">
+                                <td colspan="4" style="text-align: center">
                                     <loader size='small'></loader>
                                 </td>
                             </tr>
                             <tr ng-show="showLoadAdditionalMyCitiesButton">
-                                <td colspan="3">
+                                <td colspan="4">
                                     <button class="btn btn-block" ng-click="reloadMyCities()">More</button>
                                 </td>
                             </tr>
@@ -129,6 +131,7 @@
                                     <i class="fa fa-question-circle" ng-if="city.is_join_requested"></i>
                                     <i class="fa fa-envelope" ng-if="city.is_invited"></i>
                                 </td>
+                                <td style="text-align: center;"> <ac-relative-date ng-model="city.created_at" date-now="dateNow"></ac-relative-date> </td>
                                 <td style="text-align: center;">
                                     <img-city-status city="city"></img-city-status>
                                 </td>
@@ -173,6 +176,7 @@
                             </span>
                         </td>
                         <td style="text-align: center">Visibility</td>
+                        <td style="text-align: center;">Created</td>
                         <td style="text-align: center">Status</td>
                     </tr>
                     </thead>
@@ -184,17 +188,18 @@
                                 <i class="glyphicon glyphicon-eye-close" ng-if="!city.public"></i>
                                 <i class="glyphicon glyphicon-eye-open" ng-if="city.public"></i>
                             </td>
+                            <td style="text-align: center;"> <ac-relative-date ng-model="city.created_at" date-now="dateNow"></ac-relative-date> </td>
                             <td style="text-align: center;">
                                 <img-city-status city="city"></img-city-status>
                             </td>
                         </tr>
                         <tr ng-show="isLoadingContentAllCities">
-                            <td colspan="3" style="text-align: center">
+                            <td colspan="4" style="text-align: center">
                                 <loader size='small'></loader>
                             </td>
                         </tr>
                         <tr ng-show="showLoadAdditionalAllCitiesButton">
-                            <td colspan="3">
+                            <td colspan="4">
                                 <button class="btn btn-block" ng-click="reloadAllCities()">More</button>
                             </td>
                         </tr>
@@ -207,6 +212,7 @@
                                 <i class="glyphicon glyphicon-eye-close" ng-if="!city.public"></i>
                                 <i class="glyphicon glyphicon-eye-open" ng-if="city.public"></i>
                             </td>
+                            <td style="text-align: center;"> <ac-relative-date ng-model="city.created_at" date-now="dateNow"></ac-relative-date> </td>
                             <td style="text-align: center;">
                                 <img-city-status city="city"></img-city-status>
                             </td>

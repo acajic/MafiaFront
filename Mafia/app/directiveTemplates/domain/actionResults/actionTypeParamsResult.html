@@ -3,8 +3,9 @@
 </div>
 <div ng-dblclick="toggleMode()">
 
-<action-type-params action-type-id="actionTypeId" action-type-params="actionTypeParams" edit-mode="editMode"></action-type-params>
+    <action-type-params action-type-id="actionTypeId" action-type-params="actionTypeParams" edit-mode="editMode" toggle-mode="toggleMode()"></action-type-params>
 
-<!-- <button class="btn btn-delete notext" ng-click="deleteActionResult()" ng-if="editMode"><i class="glyphicon glyphicon-trash"></i></button> -->
-<button class="btn btn-save notext" ng-click="submitActionResult()" ng-if="editMode"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+    <button class="btn btn-default notext btn-toggle-edit-mode" ng-click="toggleMode()" ng-if="editMode" tooltip="Cancel"><i class="glyphicon glyphicon-edit"></i></button>
+    <!-- <button class="btn btn-delete notext" ng-click="deleteActionResult()" ng-if="editMode"><i class="glyphicon glyphicon-trash"></i></button> -->
+    <button class="btn btn-save notext" ng-click="submitActionResult()" ng-if="editMode"><i class="glyphicon glyphicon-floppy-disk"></i></button>
 </div>

@@ -4,7 +4,8 @@ app.directive('sheriffIdentitiesActionTypeParamsResult', function(actionResultsS
         restrict : 'E',
         scope: {
             actionTypeParams: '=',
-            editMode: '='
+            editMode: '=',
+            toggleMode: '&'
         },
         templateUrl: 'app/directiveTemplates/domain/actionResults/actionTypeParamsResults/sheriffIdentitiesActionTypeParamsResult.html',
         link: function(scope, element, attrs) {

@@ -14,7 +14,7 @@
         <td>{{role.name}}</td>
         <td>
             <ul>
-                <li ng-repeat="actionType in role.action_types">
+                <li ng-repeat="actionType in role.action_types | filter : { can_submit_manually : true }">
                     {{actionType.name}}
                 </li>
             </ul>
@@ -30,7 +30,7 @@
         <td>{{role.name}}</td>
         <td>
             <ul>
-                <li ng-repeat="actionType in role.action_types">
+                <li ng-repeat="actionType in role.action_types | filter : { can_submit_manually : true }">
                     {{actionType.name}}
                 </li>
             </ul>

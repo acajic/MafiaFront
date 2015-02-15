@@ -25,9 +25,7 @@ app.directive('protectResult', function($timeout, actionResultsService) {
                         action_result_type: {
                             id: ACTION_RESULT_TYPE_ID_PROTECT
                         },
-                        day: $.grep(city.days, function(someDay) {
-                            return someDay.id == city.current_day_id;
-                        })[0]
+                        day: city.current_day
                     };
                     return;
                 }
