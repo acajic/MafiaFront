@@ -1,4 +1,4 @@
-app.controller('AdminCityController',function ($scope, $routeParams, $location, $modal, authService, layoutService, citiesService) {
+app.controller('AdminCityController',function ($scope, $routeParams, $location, $modal, $q, authService, layoutService, citiesService) {
     "use strict";
 
     init();
@@ -10,27 +10,38 @@ app.controller('AdminCityController',function ($scope, $routeParams, $location, 
         $scope.alerts = [];
 
         var cityId = $routeParams['city_id'];
-        if (cityId) {
-            citiesService.getCity(cityId).then(function(cityResult) {
-                $scope.inspectedCity = cityResult;
+        var cityPromise = citiesService.getCity(cityId).then(function(cityResult) {
+            setInspectedCity(cityResult);
 
-            });
-        }
+            return cityResult;
+        });
 
-        authService.userMe(false).then(function(userMeResult) {
+
+        var userMePromise = authService.userMe(false).then(function(userMeResult) {
             $scope.userMe = userMeResult;
             $scope.canSave = userMeResult.app_role.app_permissions[APP_PERMISSION_ADMIN_READ];
             $scope.canDelete = userMeResult.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE];
+
+            return userMeResult;
+        });
+
+
+        $q.all([cityPromise, userMePromise]).then(function (results) {
+            var inspectedCity = results[0];
+            var userMe = results[1];
+            $scope.canTriggerPhases = inspectedCity.started_at && !inspectedCity.finished_at && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ];
+            $scope.canChangeAvailability = !inspectedCity.started_at && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ];
         });
 
     }
 
-    $scope.$watch('inspectedCity.timezone', function(city) {
+    function setInspectedCity(city) {
+        $scope.inspectedCity = city;
         initTimezone();
-    });
+    }
 
     var initTimezone = function() {
-        if (!$scope.inspectedCity || !$scope.inspectedCity.timezone)
+        if (!$scope.inspectedCity || $scope.inspectedCity.timezone === undefined)
             return;
 
         $scope.timezoneString = ($scope.inspectedCity.timezone >= 0 ? '+' : '-') + $scope.minutesToString(Math.abs(parseInt($scope.inspectedCity.timezone)))
@@ -44,7 +55,8 @@ app.controller('AdminCityController',function ($scope, $routeParams, $location, 
         return citiesService.updateCity($scope.inspectedCity).then(function(cityResult) {
             $scope.isProcessing = false;
 
-            $scope.inspectedCity = cityResult;
+
+            setInspectedCity(cityResult);
             $scope.alerts.push({type: 'success', msg: 'Successfully updated'});
         }, function(reason) {
             $scope.isProcessing = false;
@@ -59,21 +71,6 @@ app.controller('AdminCityController',function ($scope, $routeParams, $location, 
     $scope.closeAlert = function(index) {
         $scope.alerts.splice(index, 1);
     };
-
-
-
-    $scope.$watch('[inspectedCity, userMe]', function(newValues, oldValues) {
-        var inspectedCity = newValues[0];
-        var userMe = newValues[1];
-        if (!inspectedCity || !userMe) {
-            $scope.canTriggerPhases = false;
-            return;
-        }
-
-        $scope.canTriggerPhases = inspectedCity.started_at && !inspectedCity.finished_at && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ];
-        $scope.canChangeAvailability = !inspectedCity.started_at && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ];
-    }, true);
-
 
     $scope.deleteCity = function() {
         openDeletionModal();
@@ -129,7 +126,8 @@ app.controller('AdminCityController',function ($scope, $routeParams, $location, 
             $scope.isTriggeringGamePhase = true;
             citiesService.triggerDayStart($scope.inspectedCity.id).then(function(updatedCityResult) {
                 $scope.isTriggeringGamePhase = false;
-                $scope.inspectedCity = updatedCityResult;
+
+                setInspectedCity(updatedCityResult);
                 $scope.alerts.push({type: 'success', msg: "Day start successfully triggered." });
             }, function(reason) {
                 $scope.isTriggeringGamePhase = false;
@@ -169,7 +167,8 @@ app.controller('AdminCityController',function ($scope, $routeParams, $location, 
             $scope.isTriggeringGamePhase = true;
             citiesService.triggerNightStart($scope.inspectedCity.id).then(function(updatedCityResult) {
                 $scope.isTriggeringGamePhase = false;
-                $scope.inspectedCity = updatedCityResult;
+
+                setInspectedCity(updatedCityResult);
                 $scope.alerts.push({type: 'success', msg: "Night start successfully triggered." });
             }, function(reason) {
                 $scope.isTriggeringGamePhase = false;
