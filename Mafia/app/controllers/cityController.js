@@ -117,14 +117,14 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         });
     }
 
-    $scope.$watch('[actionResults, city.residentsById]', function(values) {
-        var actionResults = values[0];
+    $scope.$watch('actionResults', function(actionResults) {
+        // var actionResults = values[0];
         if (!actionResults)
             return;
 
-        var residentsById = values[1];
-        if (!residentsById)
-            return;
+//        var residentsById = values[1];
+//        if (!residentsById)
+//            return;
 
         var actionResultsByType = {};
         angular.forEach(actionResults, function(someActionResult) {
@@ -141,7 +141,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
             var residentsResult = actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS][0];
             if (residentsResult) {
                 angular.forEach(residentsResult.result.residents, function(someResidentStatus) {
-                    residentsById[someResidentStatus.id].alive = someResidentStatus.alive;
+                    $scope.city.residentsById[someResidentStatus.id].alive = someResidentStatus.alive;
                 });
                 $scope.residentsResult = residentsResult;
             }
