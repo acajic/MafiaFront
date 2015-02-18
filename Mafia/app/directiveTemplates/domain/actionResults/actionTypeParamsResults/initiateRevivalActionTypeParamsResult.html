@@ -7,8 +7,8 @@
 <div ng-if="editMode">
 
 
-    Initiate revival delay: <input type="number" ng-model="initiateRevivalProps.revivalDelayNumber">
-    <select ng-model="initiateRevivalProps.revivalDelayTimeInterval">
+    Initiate revival delay: <input type="number" ng-model="initiateRevivalProps.revivalDelayNumber" ng-change="revivalDelayNumberDidChange()">
+    <select ng-model="initiateRevivalProps.revivalDelayTimeInterval" ng-change="revivalDelayTimeIntervalDidChange()">
         <option value="s"> seconds </option>
         <option value="m"> minutes </option>
         <option value="h"> hours </option>

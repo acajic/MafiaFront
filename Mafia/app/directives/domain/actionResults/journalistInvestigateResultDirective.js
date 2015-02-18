@@ -13,14 +13,13 @@ app.directive('journalistInvestigateResult', function($timeout, actionResultsSer
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+                var actionResult = scope.actionResult;
                 var result = actionResult.result;
 
-                var city = values[1];
-                if (!city)
-                    return;
-                if (!actionResult.id) {
+                var city = scope.city;
+
+                if (!actionResult || !actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
                             id: ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE
@@ -49,7 +48,9 @@ app.directive('journalistInvestigateResult', function($timeout, actionResultsSer
                 }
 
                 scope.investigatedResident = investigatedResident;
-            }, true);
+            }
+
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)

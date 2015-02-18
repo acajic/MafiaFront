@@ -8,13 +8,14 @@ app.directive('revivalOccurredResult', function($timeout, actionResultsService) 
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, actionResults, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+
+                var actionResult = scope.actionResult;
                 var result = actionResult.result;
                 if (!result)
                     return;
 
-                var actionResults = values[1];
+                var actionResults = scope.actionResults;
                 if (!actionResults)
                     return;
                 var actionTypeParamsResultIndex = actionResults.indexOfMatchFunction(function (someActionResult) {
@@ -27,7 +28,7 @@ app.directive('revivalOccurredResult', function($timeout, actionResultsService) 
                 scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[ROLE_ID_NECROMANCER][ACTION_TYPE_ID_REVIVE.toString()];
                 var daysUntilReveal = scope.actionTypeParamsDictionary['days_until_reveal'];
 
-                var city = values[2];
+                var city = scope.city;
                 if (!city)
                     return;
 
@@ -56,7 +57,9 @@ app.directive('revivalOccurredResult', function($timeout, actionResultsService) 
 
                 scope.interpretation = "Necromancer raised someone from the dead. " + revelation_string;
 
-            }, true);
+            }
+
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)

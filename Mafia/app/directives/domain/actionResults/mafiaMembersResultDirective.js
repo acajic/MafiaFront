@@ -8,15 +8,15 @@ app.directive('mafiaMembersResult', function($timeout, actionResultsService) {
 
             scope.mafiaMembers = [];
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+                var actionResult = scope.actionResult;
                 var result = actionResult.result;
 
                 if (!result) {
                     return;
                 }
 
-                var city = values[1];
+                var city = scope.city;
 
                 scope.interpretation = "Mafia members";
 
@@ -31,7 +31,9 @@ app.directive('mafiaMembersResult', function($timeout, actionResultsService) {
 
 
 
-            }, true);
+            }
+
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)

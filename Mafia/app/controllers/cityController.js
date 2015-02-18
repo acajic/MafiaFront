@@ -72,7 +72,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
                 var savedRole = $scope.resident.saved_role;
                 if (savedRole && savedRole.id) {
                     $scope.resident.role = savedRole;
-                    initActionResults(cityId, savedRole.id, $scope.dayNumberMin, $scope.dayNumberMax);
+                    getActionResults(cityId, savedRole.id, $scope.dayNumberMin, $scope.dayNumberMax);
                 } else if ($scope.resident) {
                     // user has probably manually deleted the cookie containing their role id
                     $scope.basicValidationErrors.push({msg: 'Select your role.' });
@@ -80,25 +80,8 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
                     $scope.isLoading = false;
                 }
             } else {
-                initActionResults(cityId, null, $scope.dayNumberMin, $scope.dayNumberMax);
+                getActionResults(cityId, null, $scope.dayNumberMin, $scope.dayNumberMax);
             }
-
-
-            /*
-            var roleId = result[2];
-
-            if (roleId) {
-                $scope.resident.role = city.rolesById[roleId].role;
-                initActionResults(cityId, roleId, $scope.dayNumberMin, $scope.dayNumberMax);
-            } else if ($scope.resident) {
-                // user has probably manually deleted the cookie containing their role id
-                $scope.basicValidationErrors.push({msg: 'Select your role.' });
-                $scope.roleChooserEditMode = true;
-                $scope.isLoading = false;
-            } else {
-                initActionResults(cityId, null, $scope.dayNumberMin, $scope.dayNumberMax);
-            }
-            */
 
         }, function(reason) {
             $scope.isLoading = false;
@@ -117,14 +100,65 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         });
     }
 
-    $scope.$watch('actionResults', function(actionResults) {
-        // var actionResults = values[0];
+
+    function hasEarlierActionResults() {
+        return $scope.dayNumberMin > 0;
+    }
+
+    function loadEarlierActionResults() {
+        if ($scope.dayNumberMin > 0) {
+
+            $scope.dayNumberMin = Math.max(0, $scope.dayNumberMin - ACTION_RESULTS_DAYS_PER_PAGE);
+            $scope.dayNumberMax = $scope.dayNumberMin + ACTION_RESULTS_DAYS_PER_PAGE;
+            $timeout(function() {
+                $scope.isLoadingActionResults = true;
+            });
+            getActionResults($scope.city.id, $scope.resident.role.id, $scope.dayNumberMin, $scope.dayNumberMax);
+        }
+    }
+
+    function hasMoreRecentActionResults() {
+        if (!$scope.city)
+            return false;
+
+        return $scope.dayNumberMax <= $scope.city.current_day.number;
+    }
+
+    function loadMoreRecentActionResults() {
+        if ($scope.dayNumberMax <= $scope.city.current_day.number) {
+            $scope.dayNumberMax = Math.min($scope.dayNumberMax + ACTION_RESULTS_DAYS_PER_PAGE, $scope.city.current_day.number+1);
+            $scope.dayNumberMin = $scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE;
+            $timeout(function() {
+                $scope.isLoadingActionResults = true;
+            });
+            getActionResults($scope.city.id, $scope.resident.role.id, $scope.dayNumberMin, $scope.dayNumberMax);
+        }
+    }
+
+    function getActionResults(cityId, roleId, dayNumberMin, dayNumberMax) {
+
+        actionResultsService.getActionResults(cityId, roleId, dayNumberMin, dayNumberMax).then(function(result) {
+            initActionResults(result);
+
+            $timeout(function() {
+                $scope.isLoading = false;
+                $scope.isLoadingActionResults = false;
+            });
+
+        }, function(reason) {
+            $timeout(function() {
+                $scope.isLoading = false;
+                $scope.isLoadingActionResults = false;
+                angular.forEach(reason.httpObj.responseJSON, function(error) {
+                    $scope.basicValidationErrors.push({type : 'danger', msg: error });
+                });
+            });
+        });
+    }
+
+    function initActionResults(actionResults) {
         if (!actionResults)
             return;
-
-//        var residentsById = values[1];
-//        if (!residentsById)
-//            return;
 
         var actionResultsByType = {};
         angular.forEach(actionResults, function(someActionResult) {
@@ -164,80 +198,8 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
             }
         }
 
-    }, true);
-
-
-
-
-
-    function hasEarlierActionResults() {
-        return $scope.dayNumberMin > 0;
+        $scope.actionResults = actionResults;
     }
-
-    function loadEarlierActionResults() {
-        if ($scope.dayNumberMin > 0) {
-
-            $scope.dayNumberMin = Math.max(0, $scope.dayNumberMin - ACTION_RESULTS_DAYS_PER_PAGE);
-            $scope.dayNumberMax = $scope.dayNumberMin + ACTION_RESULTS_DAYS_PER_PAGE;
-            $timeout(function() {
-                $scope.isLoadingActionResults = true;
-            });
-            initActionResults($scope.city.id, $scope.resident.role.id, $scope.dayNumberMin, $scope.dayNumberMax);
-        }
-    }
-
-    function hasMoreRecentActionResults() {
-        if (!$scope.city)
-            return false;
-
-        return $scope.dayNumberMax <= $scope.city.current_day.number;
-    }
-
-    function loadMoreRecentActionResults() {
-        if ($scope.dayNumberMax <= $scope.city.current_day.number) {
-            $scope.dayNumberMax = Math.min($scope.dayNumberMax + ACTION_RESULTS_DAYS_PER_PAGE, $scope.city.current_day.number+1);
-            $scope.dayNumberMin = $scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE;
-            $timeout(function() {
-                $scope.isLoadingActionResults = true;
-            });
-            initActionResults($scope.city.id, $scope.resident.role.id, $scope.dayNumberMin, $scope.dayNumberMax);
-        }
-    }
-
-    function initActionResults(cityId, roleId, dayNumberMin, dayNumberMax) {
-
-        actionResultsService.getActionResults(cityId, roleId, dayNumberMin, dayNumberMax).then(function(result) {
-            $scope.actionResults = result;
-            $timeout(function() {
-                $scope.isLoading = false;
-                $scope.isLoadingActionResults = false;
-            });
-
-        }, function(reason) {
-            $timeout(function() {
-                $scope.isLoading = false;
-                $scope.isLoadingActionResults = false;
-                angular.forEach(reason.httpObj.responseJSON, function(error) {
-                    $scope.basicValidationErrors.push({type : 'danger', msg: error });
-                });
-            });
-        });
-    }
-
-    /*
-    function getRoleId(cityId) {
-        var deferred = $q.defer();
-
-        residentsService.getResidentMeForCityId(cityId).then(function(residentMeResult) {
-            var roleId = residentMeResult.saved_role_id;
-            deferred.resolve(roleId);
-        }, function(reason) {
-            deferred.resolve(null);
-        });
-
-        return deferred.promise;
-    }
-    */
 
     function setCookieRoleId(cityId, userId, roleId) {
         var expirationDate = new Date();
@@ -256,7 +218,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         var shouldRefreshActionResults = $scope.resident.role == null;
         $scope.resident.role = $scope.city.rolesById[roleId].role;
         if (shouldRefreshActionResults)
-            initActionResults($scope.city.id, roleId, $scope.dayNumberMin, $scope.dayNumberMax);
+            getActionResults($scope.city.id, roleId, $scope.dayNumberMin, $scope.dayNumberMax);
         setCookieRoleId($scope.city.id, authService.user.id, roleId);
     }
 

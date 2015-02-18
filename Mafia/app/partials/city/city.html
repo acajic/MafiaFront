@@ -100,7 +100,8 @@
         <alert ng-repeat="alert in basicValidationErrors" type="alert.type" close="closeBasicValidationAlert($index)">{{alert.msg}}</alert>
 
 
-        <role city="city"
+        <role ng-if="city && resident && actionResults"
+              city="city"
               resident="resident"
               action-results="actionResults"
               is-loading="isLoading"

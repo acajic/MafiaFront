@@ -8,11 +8,12 @@ app.directive('residentBecameSheriffResult', function($timeout, actionResultsSer
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+
+                var actionResult = scope.actionResult;
 
                 // city_has_roles, interpret roles in deadResidentRoles
-                var city = values[1];
+                var city = scope.city;
                 if (!city)
                     return;
 
@@ -32,8 +33,9 @@ app.directive('residentBecameSheriffResult', function($timeout, actionResultsSer
                 scope.actionResultCopied.day = $.grep(city.days, function(someDay) {
                     return someDay.id == scope.actionResultCopied.day_id;
                 })[0];
-            }, true);
+            }
 
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
