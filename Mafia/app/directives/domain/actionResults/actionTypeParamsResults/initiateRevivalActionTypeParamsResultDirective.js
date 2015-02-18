@@ -25,16 +25,17 @@ app.directive('initiateRevivalActionTypeParamsResult', function(actionResultsSer
             };
 
 
-            var isRevivalDelayNumberValid = function(revivalDelayNumber) {
-
-                return revivalDelayNumber > 0 && revivalDelayNumber < 60;
+            var correctedRevivalDelayNumber = function(revivalDelayNumber) {
+                if (revivalDelayNumber < 1)
+                    return 1;
+                if (revivalDelayNumber > 59)
+                    return 59;
+                return revivalDelayNumber;
             };
 
             scope.revivalDelayNumberDidChange = function () {
+                scope.initiateRevivalProps.revivalDelayNumber = correctedRevivalDelayNumber(scope.initiateRevivalProps.revivalDelayNumber);
 
-                if (!isRevivalDelayNumberValid(scope.initiateRevivalProps.revivalDelayNumber)) {
-                    scope.initiateRevivalProps.revivalDelayNumber = 5;
-                }
                 var lastChar = scope.actionTypeParams.revival_delay.slice(-1);
                 scope.actionTypeParams.revival_delay = '' + scope.initiateRevivalProps.revivalDelayNumber + lastChar;
             };

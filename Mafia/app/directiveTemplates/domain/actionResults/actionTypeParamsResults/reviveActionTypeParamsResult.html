@@ -8,7 +8,7 @@
         {{ actionTypeParams.number_of_actions_available }} action{{ actionTypeParams.number_of_actions_available == 1 ? '' : 's' }} available.
     </div>
     <div ng-if="actionTypeParams.number_of_actions_available < 0" style="display: inline">
-        Unlimited.
+        Number of actions available: Unlimited.
     </div>
 
     <button class="btn btn-default notext btn-toggle-edit-mode btn-toggle-edit-mode-small" ng-click="toggleMode()" tooltip="Alter"><i class="glyphicon glyphicon-edit"></i></button>
@@ -17,7 +17,7 @@
 <div ng-if="editMode">
 
 
-    Days until reveal: <input type="number" ng-model="reviveProps.daysUntilReveal">
+    Days until reveal: <input type="number" ng-model="reviveProps.daysUntilReveal" ng-change="daysUntilRevealDidChange()">
 
 
     Number of actions available: <input type="number" ng-model="actionTypeParams.number_of_actions_available" ng-change="validateInput()" ng-hide="isInfinite">

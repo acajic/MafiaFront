@@ -11,8 +11,8 @@ app.directive('sheriffIdentitiesResult', function($timeout, actionResultsService
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+                var actionResult = scope.actionResult;
                 if (!actionResult)
                     return;
                 var result = actionResult.result;
@@ -22,7 +22,7 @@ app.directive('sheriffIdentitiesResult', function($timeout, actionResultsService
                 }
 
                 // city_has_roles, interpret roles in deadResidentRoles
-                var city = values[1];
+                var city = scope.city;
                 if (!city)
                     return;
 
@@ -78,7 +78,10 @@ app.directive('sheriffIdentitiesResult', function($timeout, actionResultsService
 
 
                 scope.interpretation = "Sheriff revealed info on deceased residents.";
-            }, true);
+            }
+
+            init();
+
 
 
             scope.toggleMode = function() {

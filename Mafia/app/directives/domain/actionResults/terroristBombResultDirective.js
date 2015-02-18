@@ -11,13 +11,13 @@ app.directive('terroristBombResult', function($timeout, actionResultsService) {
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, actionResults, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+                var actionResult = scope.actionResult;
                 var result = actionResult.result;
                 if (!result)
                     return;
 
-                var actionResults = values[1];
+                var actionResults = scope.actionResults;
                 if (!actionResults)
                     return;
                 var actionTypeParamsResultIndex = actionResults.indexOfMatchFunction(function (someActionResult) {
@@ -27,7 +27,7 @@ app.directive('terroristBombResult', function($timeout, actionResultsService) {
                     return;
                 }
 
-                var city = values[2];
+                var city = scope.city;
                 if (!city)
                     return;
 
@@ -64,7 +64,10 @@ app.directive('terroristBombResult', function($timeout, actionResultsService) {
                 killedResidents = killedResidents.substring(0, killedResidents.length - 2);
                 scope.interpretation = "There was a terrorist bombing. Residents " + killedResidents + " were killed in the explosion.";
 
-            }, true);
+            }
+
+            init();
+
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)

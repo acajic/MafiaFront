@@ -11,13 +11,13 @@ app.directive('tellerVotesActionTypeParamsResult', function(actionResultsService
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.$watch('actionTypeParams', function(actionTypeParams) {
-                if (actionTypeParams.number_of_actions_available === undefined)
-                    return;
 
-                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+            if (scope.actionTypeParams.number_of_actions_available === undefined)
+                return;
 
-            });
+            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
+
+
 
             scope.validateInput = function() {
                 if (scope.actionTypeParams.number_of_actions_available < 0) {

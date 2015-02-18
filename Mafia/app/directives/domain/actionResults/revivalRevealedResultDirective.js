@@ -10,18 +10,18 @@ app.directive('revivalRevealedResult', function($timeout, actionResultsService) 
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, actionResults, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+                var actionResult = scope.actionResult;
                 var result = actionResult.result;
                 if (!result)
                     return;
 
-                var actionResults = values[1];
+                var actionResults = scope.actionResults;
                 if (!actionResults)
                     return;
 
 
-                var city = values[2];
+                var city = scope.city;
                 if (!city)
                     return;
 
@@ -53,7 +53,11 @@ app.directive('revivalRevealedResult', function($timeout, actionResultsService) 
                 }
                 scope.revivedResident = revivedResident;
 
-            }, true);
+            }
+
+            init();
+
+
 
 
             scope.selectRevivedResident = function (resident) {
