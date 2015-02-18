@@ -9,17 +9,12 @@ app.directive('voteMafiaResult', function($timeout, actionResultsService) {
             scope.killedResident = {};
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
-                if (!actionResult)
-                    return;
+            function init() {
+                var actionResult = scope.actionResult;;
 
+                var city = scope.city;
 
-                var city = values[1];
-                if (!city)
-                    return;
-
-                if (!actionResult.id) {
+                if (!actionResult || !actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
                             id: ACTION_RESULT_TYPE_ID_VOTE_MAFIA
@@ -51,7 +46,8 @@ app.directive('voteMafiaResult', function($timeout, actionResultsService) {
                     scope.interpretation = "Mafia did not manage to kill a citizen last night. Hurray!";
 
 
-            }, true);
+            }
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
