@@ -77,7 +77,7 @@
 
                     </div>
 
-                    <table interactive-table selected-row-id="selectedMyCities.rowId" class="table table-cities">
+                    <table selected-row-id="selectedMyCities.rowId" class="table table-cities">
                         <thead>
                         <tr>
                             <td>
@@ -96,7 +96,7 @@
                         </tr>
                         </thead>
                         <tbody ng-if="!myCitiesFilterModel.isSearchActive">
-                            <tr ng-repeat="city in myCities | filterMyCities:myCitiesFilterModel" ng-class="classNameForMyCitiesRow(city)">
+                            <tr ng-repeat="city in myCities | filterMyCities:myCitiesFilterModel" ng-class="classNameForMyCitiesRow(city)" ng-click="selectCity(city)">
                                 <input type="hidden" name="id" value="{{ city.id }}">
                                 <td>{{city.name}}</td>
                                 <td style="text-align: center;">
@@ -162,7 +162,7 @@
                     </ac-checkbox>
 
                 </div>
-                <table interactive-table selected-row-id="selectedAllCities.rowId" class="table table-cities">
+                <table selected-row-id="selectedAllCities.rowId" class="table table-cities">
                     <thead>
                     <tr>
                         <td>
@@ -181,7 +181,7 @@
                     </tr>
                     </thead>
                     <tbody ng-if="!allCitiesFilterModel.isSearchActive">
-                        <tr ng-repeat="city in allCities | filterAllCities:allCitiesFilterModel" ng-class="classNameForAllCitiesRow(city)">
+                        <tr ng-repeat="city in allCities | filterAllCities:allCitiesFilterModel" ng-class="classNameForAllCitiesRow(city)" ng-click="selectCity(city)">
                             <input type="hidden" name="id" value="{{ city.id }}">
                             <td>{{city.name}}</td>
                             <td style="text-align: center">
@@ -271,8 +271,8 @@
                 </tbody>
             </table>
 
-            <button ng-if="showEditButtonForCity(selectedCity)" ng-click="editCity(selectedCity)" class="btn btn-edit-city"><i class="glyphicon glyphicon-cog"></i>Edit</button>
-            <button ng-if="!showEditButtonForCity(selectedCity)" ng-click="showCity(selectedCity)" class="btn btn-details-city"><i class="glyphicon glyphicon-dashboard"></i>Details</button>
+            <button ng-if="selectedCity.is_owner" ng-click="editCity(selectedCity)" class="btn btn-edit-city"><i class="glyphicon glyphicon-cog"></i>Edit</button>
+            <button ng-if="!selectedCity.is_owner" ng-click="showCity(selectedCity)" class="btn btn-details-city"><i class="glyphicon glyphicon-dashboard"></i>Details</button>
             <button ng-if="showEnterButtonForCity(selectedCity)" ng-click="enterCity(selectedCity)" class="btn btn-enter-city"><i class="fa fa-gamepad"></i>Enter</button>
 
             <input type="password" placeholder="password" ng-model="selectedCity.joinCityPassword" ng-if="showPasswordFieldForCity(selectedCity)" ng-change="joinCityPasswordDidChange()" />
