@@ -13,10 +13,17 @@ app.directive('actionResult', function(actionResultsService) {
             hide: '='
         },
         templateUrl: 'app/directiveTemplates/domain/actionResult.html',
-        link: function(scope, element, attrs) {
-            "use strict";
+        compile: function (element, attrs) {
+            return {
+                pre: function (scope, element, attrs) {
 
-            scope.actionResultTypeIds = actionResultsService.actionResultTypeIds;
+                },
+                post: function (scope, element, attrs) {
+                    "use strict";
+
+                    scope.actionResultTypeIds = actionResultsService.actionResultTypeIds;
+                }
+            };
         }
     };
 });
