@@ -68,6 +68,10 @@ app.directive('actionTypeParamsResult', function($timeout, actionResultsService)
                         return someActionResult.id == scope.actionResult.id;
                     });
 
+
+                    scope.actionResult = createdActionResult;
+                    init();
+
                     $timeout(function() {
                         scope.actionResults.splice(index, 1, createdActionResult);
                         scope.editMode = false;

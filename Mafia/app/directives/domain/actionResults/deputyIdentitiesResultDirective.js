@@ -171,6 +171,8 @@ app.directive('deputyIdentitiesResult', function($timeout, actionResultsService)
                     } else {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
+                    scope.actionResult = createdActionResult;
+                    init();
 
 
                     $timeout(function() {

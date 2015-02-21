@@ -97,13 +97,18 @@ app.directive('mafiaMembersResult', function($timeout, actionResultsService) {
 
                     $timeout(function() {
                         if (index < 0) {
-                            index = 0;
                             scope.actionResults.splice(0, 0, createdActionResult);
                         } else {
                             scope.actionResults.splice(index, 1, createdActionResult);
                         }
+
+                        scope.actionResult = createdActionResult;
+                        init();
+
                         if (scope.isNew)
                             scope.hide();
+                        else
+                            scope.editMode = false;
                     });
 
 

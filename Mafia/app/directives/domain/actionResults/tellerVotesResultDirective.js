@@ -157,6 +157,9 @@ app.directive('tellerVotesResult', function($timeout, actionResultsService) {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
 
+                    scope.actionResult = createdActionResult;
+                    init();
+
 
                     $timeout(function() {
                         if (scope.isNew)

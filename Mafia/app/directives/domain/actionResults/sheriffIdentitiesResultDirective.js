@@ -172,13 +172,16 @@ app.directive('sheriffIdentitiesResult', function($timeout, actionResultsService
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
 
-                   $timeout(function() {
-                       if (scope.isNew)
-                           scope.hide();
-                       else {
-                           scope.editMode = false;
-                       }
-                   });
+                    scope.actionResult = createdActionResult;
+                    init();
+
+                    $timeout(function() {
+                        if (scope.isNew)
+                            scope.hide();
+                        else {
+                            scope.editMode = false;
+                        }
+                    });
 
 
                 });

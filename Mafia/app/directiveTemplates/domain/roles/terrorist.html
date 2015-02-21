@@ -14,7 +14,7 @@
         </tab-heading>
 
         <div class="col-md-6 nopadding">
-            <special-actions city="city" role-id="roleId" resident="resident" action-results="actionResults" action-results-by-type="actionResultsByType"></special-actions>
+            <special-actions ng-if="!city.finished_at" city="city" role-id="roleId" resident="resident" action-results="actionResults" action-results-by-type="actionResultsByType"></special-actions>
         </div>
         <div class="col-md-6">
             <div ng-hide="isLoadingActionResults">
