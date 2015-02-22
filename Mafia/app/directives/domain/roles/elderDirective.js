@@ -6,7 +6,7 @@ app.directive('elder', function() {
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.roleId = ROLE_ID_ELDER_CITIZEN;
+            scope.roleId = ROLE_ID_ELDER;
 
         }
     };
