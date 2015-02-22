@@ -26,7 +26,9 @@
                 <button class="btn btn-link col-md-3" style="float: right; text-align: right;" ng-show="hasEarlierActionResults()" ng-click="loadEarlierActionResults()">Earlier ></button>
                 <div style="clear: both;"></div>
             </div>
-            <loader size="large" ng-show="isLoadingActionResults" center></loader>
+            <div class="horizontal-center">
+                <loader size="large" ng-show="isLoadingActionResults"></loader>
+            </div>
         </div>
 
     </tab>

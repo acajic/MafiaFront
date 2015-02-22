@@ -8,9 +8,6 @@ app.directive('loader', function() {
 
             scope.size = attrs.size;
 
-            if (attrs['center'] !== undefined) {
-                scope.style = "display: block; margin: 0 auto;";
-            }
         }
     };
 });

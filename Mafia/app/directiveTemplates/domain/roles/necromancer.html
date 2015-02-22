@@ -24,7 +24,10 @@
                 <button class="btn btn-link" style="float: right;" ng-if="hasEarlierActionResults()" ng-click="loadEarlierActionResults()">Earlier ></button>
                 <div style="clear: both;"></div>
             </div>
-            <loader size="large" ng-show="isLoadingActionResults" center></loader>
+            <div class="horizontal-center">
+                <loader size="large" ng-show="isLoadingActionResults"></loader>
+            </div>
+
         </div>
 
     </tab>

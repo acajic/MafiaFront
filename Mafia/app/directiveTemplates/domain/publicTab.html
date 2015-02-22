@@ -8,5 +8,8 @@
 </div>
 <div class="col-md-6">
     <public-news-feed ng-if="actionResults" ng-hide="isLoadingActionResults" city="city" role-id="roleId" resident="resident" action-results="actionResults" day-number-min="dayNumberMin" day-number-max="dayNumberMax" has-earlier-action-results="hasEarlierActionResults"  load-earlier-action-results="loadEarlierActionResults" has-more-recent-action-results="hasMoreRecentActionResults" load-more-recent-action-results="loadMoreRecentActionResults"></public-news-feed>
-    <loader size="large" ng-show="isLoadingActionResults" center></loader>
+    <div class="horizontal-center">
+        <loader size="large" ng-show="isLoadingActionResults"></loader>
+    </div>
+
 </div>
