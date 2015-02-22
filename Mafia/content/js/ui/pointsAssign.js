@@ -1,65 +1,86 @@
 angular.module('ui.pointsAssign', [])
     .controller('PointsAssignController', ['$scope', '$attrs', '$parse', function($scope, $attrs, $parse) {
 
-        // $scope.maxRange = angular.isDefined($attrs.max) ? $scope.$parent.$eval($attrs.max) : 5;
+
         $scope.stateZero = angular.isDefined($attrs.stateZero) ? $scope.$parent.$eval($attrs.stateZero) : null;
         $scope.stateOn = angular.isDefined($attrs.stateOn) ? $scope.$parent.$eval($attrs.stateOn) : null;
         $scope.stateOff = angular.isDefined($attrs.stateOff) ? $scope.$parent.$eval($attrs.stateOff) : null;
 
-        var createRateObjects = function(states) {
-            var defaultOptions = {
-                stateOn: $scope.stateOn,
-                stateOff: $scope.stateOff
-            };
+        var defaultOptions = {
+            stateOn: $scope.stateOn,
+            stateOff: $scope.stateOff
+        };
 
-            if (states.length == 0) {
-                states[0] = angular.extend({ index: 0 }, {stateOn: $scope.stateZero, stateOff:$scope.stateZero}, states[0]);
-                return states;
-            }
-            states[0] = angular.extend({ index: 0 }, {stateOn: $scope.stateZero, stateOff:$scope.stateZero}, states[0]);
+        var preloadedRateObjects = [];
 
-            for (var i = 1, n = states.length; i <= n; i++) {
-                states[i] = angular.extend({ index: i }, defaultOptions, states[i]);
+        var preloadRateObjects = function (size) {
+            preloadRateObjectsWithStates(new Array(size));
+        };
+
+        var preloadRateObjectsWithStates = function (states) {
+
+            if (preloadedRateObjects.length < states.length+1) {
+                if (preloadedRateObjects.length == 0) {
+                    preloadedRateObjects.push(angular.extend({ index: 0 }, {stateOn: $scope.stateZero, stateOff: $scope.stateZero}, states[0]));
+                }
+
+
+                for (var i = preloadedRateObjects.length, n = states.length; i <= n; i++) {
+                    preloadedRateObjects[i] = angular.extend({ index: i }, defaultOptions, states[i]);
+                }
+
+            } else {
+                preloadedRateObjects = preloadedRateObjects.slice(0, states.length+1);
             }
+
+
+
+        };
+
+        var createRateObjects = function(size) {
+            var states = preloadedRateObjects.slice(0, size+1);
             return states;
         };
 
         // Get objects used in template
 
-        var initRange = function() {
-            $scope.range = angular.isDefined($attrs.ratingStates) ?  createRateObjects(angular.copy($scope.$parent.$eval($attrs.ratingStates))) : createRateObjects(new Array(Math.max($scope.value, $scope.unused + $scope.value)));
+        var init = function() {
+            var unused = $scope.unused === undefined ? 0 : $scope.unused;
+            $scope.val = $scope.value;
+
+            preloadRateObjects($scope.max);
+
+
+            $scope.range = createRateObjects(Math.max($scope.value, unused + $scope.value));
         };
 
-        initRange();
+        init();
 
 
         $scope.rate = function(value) {
             if ( $scope.value !== value && !$scope.readonly ) {
                 $scope.value = value;
+                $scope.val = value;
 
+                $scope.onChange({roleId: $scope.pointAssignId, newQuantity: $scope.value});
             }
         };
 
         $scope.$watch('unused', function(newVal) {
             "use strict";
-            initRange();
+            preloadRateObjects($scope.max);
+            init();
         });
 
         $scope.enter = function(value) {
             if ( ! $scope.readonly ) {
                 $scope.val = value;
             }
-            $scope.onHover({value: value});
         };
 
         $scope.reset = function() {
-            $scope.val = angular.copy($scope.value);
-            $scope.onLeave();
+            $scope.val = $scope.value;
         };
-
-        $scope.$watch('value', function(value) {
-            $scope.val = value;
-        });
 
         $scope.readonly = false;
         if ($attrs.readonly) {
@@ -75,8 +96,9 @@ angular.module('ui.pointsAssign', [])
             scope: {
                 value: '=',
                 unused: '=',
-                onHover: '&',
-                onLeave: '&'
+                max: '=',
+                pointAssignId: '@',
+                onChange: '&'
             },
             controller: 'PointsAssignController',
             template: '<span ng-mouseleave="reset()">' +

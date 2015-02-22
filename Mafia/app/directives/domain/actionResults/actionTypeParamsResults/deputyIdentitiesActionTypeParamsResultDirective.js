@@ -14,7 +14,7 @@ app.directive('deputyIdentitiesActionTypeParamsResult', function(actionResultsSe
             if (scope.actionTypeParams.number_of_actions_available === undefined)
                 return;
 
-            scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
 
 
 

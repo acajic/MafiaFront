@@ -1023,11 +1023,13 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         return availableRoles - usedRoles;
     }
 
-    $scope.$watch('roleQuantities', function(newRoleQuantities) {
-        if (!$scope.city)
-            return;
+    $scope.roleQuantityDidChange = function (roleId, newQuantity) {
 
-        var city_has_roles = angular.copy($scope.city.city_has_roles);
+        var roleQuantity = $scope.roleQuantities[roleId-1];
+        roleQuantity.quantity = newQuantity;
+        var newRoleQuantities = $scope.roleQuantities;
+
+        var city_has_roles = $scope.city.city_has_roles;
 
         var cityHasRolesByRoleId = {};
         angular.forEach(city_has_roles, function (cityHasRole) {
@@ -1071,7 +1073,9 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         });
         $scope.city.city_has_roles = city_has_roles;
         $scope.remainingRoles = remainingRoleCount($scope.city);
-    }, true);
+    };
+
+
 
 
     function changeNewRolePickRole(role) {
