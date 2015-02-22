@@ -59,6 +59,10 @@ input, textarea, select {
     margin-right: 0px;
 }
 
+.tooltip {
+    width: 200px;
+}
+
 
 .text-red {
     color: #560d0b;
