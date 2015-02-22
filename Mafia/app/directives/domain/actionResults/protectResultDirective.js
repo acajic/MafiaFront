@@ -12,15 +12,11 @@ app.directive('protectResult', function($timeout, actionResultsService) {
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
-                var result = actionResult.result;
+            var city = scope.city;
 
-                var city = values[1];
-                if (!city)
-                    return;
-
-                if (!actionResult.id) {
+            function init() {
+                var actionResult = scope.actionResult;
+                if (!actionResult || !actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
                             id: ACTION_RESULT_TYPE_ID_PROTECT
@@ -29,9 +25,11 @@ app.directive('protectResult', function($timeout, actionResultsService) {
                     };
                     return;
                 }
+                var result = actionResult.result;
+
 
                 angular.copy(scope.actionResult, scope.actionResultCopied);
-                scope.actionResultCopied.day = $.grep(city.days, function(someDay) {
+                scope.actionResultCopied.day = $.grep(city.days, function (someDay) {
                     return someDay.id == scope.actionResultCopied.day_id;
                 })[0];
 
@@ -47,7 +45,9 @@ app.directive('protectResult', function($timeout, actionResultsService) {
                 }
 
                 scope.protectedResident = protectedResident;
-            }, true);
+            }
+
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -103,6 +103,8 @@ app.directive('protectResult', function($timeout, actionResultsService) {
                     } else {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
+                    scope.actionResult = createdActionResult;
+                    init();
 
                     $timeout(function() {
                         if (scope.isNew)

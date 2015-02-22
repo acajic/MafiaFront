@@ -340,7 +340,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.allCitiesIsSearchActiveWillChange = function() {
-        $scope.selectedAllCities.rowId = null;
+        // .selectedAllCities.rowId = null;
         if (!$scope.allCitiesFilterModel.isSearchActive) { // about to become TRUE
             $timeout(function() {
                 $("#search-all-cities-ac-input input[type=text]").focus();
@@ -394,7 +394,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.myCitiesIsSearchActiveWillChange = function() {
-        $scope.selectedMyCities.rowId = null;
+        // $scope.selectedMyCities.rowId = null;
         if (!$scope.myCitiesFilterModel.isSearchActive) { // about to become TRUE
             $timeout(function() {
                 $("#search-my-cities-ac-input input[type=text]").focus();
@@ -619,26 +619,17 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         }
     };
 
+    $scope.selectCity = function (city) {
+//        var selectedCity = $.grep($scope.myCities, function (city) {
+//            return city.id == newValue;
+//        })[0];
+        $scope.citySelected(city);
+        var alreadySelected = $('.table-cities tr.selected');
+        alreadySelected.removeClass("selected");
+        var row = $('.table-cities:visible').find("[name='id'][value='" + city.id + "']").parent();
+        row.addClass("selected");
+    };
 
-    $scope.$watch("selectedMyCities.rowId", function (newValue) {
-        if (!$scope.myCities)
-            return;
-
-        var selectedCity = $.grep($scope.myCities, function (city) {
-            return city.id == newValue;
-        })[0];
-        $scope.citySelected(selectedCity);
-    });
-
-    $scope.$watch("selectedAllCities.rowId", function (newValue) {
-        if (!$scope.allCities)
-            return;
-
-        var selectedCity = $.grep($scope.allCities, function (city) {
-            return city.id == newValue;
-        })[0];
-        $scope.citySelected(selectedCity);
-    });
 
     $scope.citySelected = function (selectedCity) {
         $scope.selectedCity = selectedCity;
@@ -647,29 +638,17 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.tabSelected = function (tabIndex) {
-        $scope.selectedAllCities.rowId = 0;
-        $scope.selectedMyCities.rowId = 0;
+        if (tabIndex == $scope.selectedTab)
+            return;
+
+        $scope.selectedTab = tabIndex;
+        $scope.citySelected(null);
+        var alreadySelected = $('.table-cities tr.selected');
+        alreadySelected.removeClass("selected");
+        // $scope.selectedAllCities.rowId = 0;
+        // $scope.selectedMyCities.rowId = 0;
     };
 
-    /*
-    function amICreatorOfCity(city) {
-        if (city) {
-            return city.user_creator_id == authService.user.id;
-        } else
-            return false;
-    }
-
-    function amIMemberOfCity(city) {
-        if (!city)
-            return false;
-
-        var residentMe = $.grep(city.residents, function(someResident) {
-            return someResident.user_id == authService.user.id;
-        })[0];
-
-        return residentMe;
-    }
-    */
 
     function classNameForMyCitiesRow(city) {
         if (!city)
@@ -684,8 +663,8 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         if (city.is_join_requested)
             classes += "city-row-join-requested";
 
-        if (city.id == $scope.selectedMyCities.rowId)
-            classes += " selected";
+        // if (city.id == $scope.selectedMyCities.rowId)
+        //    classes += " selected";
 
         return classes;
     }
@@ -701,14 +680,10 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         else
             classes +=  "city-row-private";
 
-        if (city.id == $scope.selectedAllCities.rowId)
-            classes += " selected";
+        //if (city.id == $scope.selectedAllCities.rowId)
+        //    classes += " selected";
 
         return classes;
-    }
-
-    function showEditButtonForCity(city) {
-        return city.is_owner;
     }
 
     function showEnterButtonForCity(city) {
@@ -753,8 +728,8 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
     $scope.$watch("user", function (newUser, oldUser) {
         $scope.selectedCity = null;
-        $scope.selectedAllCities = {};
-        $scope.selectedMyCities = {};
+        // $scope.selectedAllCities = {};
+        // $scope.selectedMyCities = {};
 
         if (!newUser || !newUser.id) {
             $scope.myCities = [];
@@ -821,14 +796,12 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         }
 
 
-        $scope.selectedAllCities = {rowId: 0};
-        $scope.selectedMyCities = {rowId: 0};
+        $scope.selectedTab = 0;
         $scope.reloadAllCities();
         $scope.reloadMyCities();
 
         $scope.classNameForMyCitiesRow = classNameForMyCitiesRow;
         $scope.classNameForAllCitiesRow = classNameForAllCitiesRow;
-        $scope.showEditButtonForCity = showEditButtonForCity;
         $scope.showEnterButtonForCity = showEnterButtonForCity;
 
         $scope.showPasswordFieldForCity = showPasswordFieldForCity;
@@ -964,7 +937,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
                 var savedRole = $scope.resident.saved_role;
                 if (savedRole && savedRole.id) {
                     $scope.resident.role = savedRole;
-                    initActionResults(cityId, savedRole.id, $scope.dayNumberMin, $scope.dayNumberMax);
+                    getActionResults(cityId, savedRole.id, $scope.dayNumberMin, $scope.dayNumberMax);
                 } else if ($scope.resident) {
                     // user has probably manually deleted the cookie containing their role id
                     $scope.basicValidationErrors.push({msg: 'Select your role.' });
@@ -972,25 +945,8 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
                     $scope.isLoading = false;
                 }
             } else {
-                initActionResults(cityId, null, $scope.dayNumberMin, $scope.dayNumberMax);
+                getActionResults(cityId, null, $scope.dayNumberMin, $scope.dayNumberMax);
             }
-
-
-            /*
-            var roleId = result[2];
-
-            if (roleId) {
-                $scope.resident.role = city.rolesById[roleId].role;
-                initActionResults(cityId, roleId, $scope.dayNumberMin, $scope.dayNumberMax);
-            } else if ($scope.resident) {
-                // user has probably manually deleted the cookie containing their role id
-                $scope.basicValidationErrors.push({msg: 'Select your role.' });
-                $scope.roleChooserEditMode = true;
-                $scope.isLoading = false;
-            } else {
-                initActionResults(cityId, null, $scope.dayNumberMin, $scope.dayNumberMax);
-            }
-            */
 
         }, function(reason) {
             $scope.isLoading = false;
@@ -1009,13 +965,64 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         });
     }
 
-    $scope.$watch('[actionResults, city.residentsById]', function(values) {
-        var actionResults = values[0];
-        if (!actionResults)
-            return;
 
-        var residentsById = values[1];
-        if (!residentsById)
+    function hasEarlierActionResults() {
+        return $scope.dayNumberMin > 0;
+    }
+
+    function loadEarlierActionResults() {
+        if ($scope.dayNumberMin > 0) {
+
+            $scope.dayNumberMin = Math.max(0, $scope.dayNumberMin - ACTION_RESULTS_DAYS_PER_PAGE);
+            $scope.dayNumberMax = $scope.dayNumberMin + ACTION_RESULTS_DAYS_PER_PAGE;
+            $timeout(function() {
+                $scope.isLoadingActionResults = true;
+            });
+            getActionResults($scope.city.id, $scope.resident.role.id, $scope.dayNumberMin, $scope.dayNumberMax);
+        }
+    }
+
+    function hasMoreRecentActionResults() {
+        if (!$scope.city)
+            return false;
+
+        return $scope.dayNumberMax <= $scope.city.current_day.number;
+    }
+
+    function loadMoreRecentActionResults() {
+        if ($scope.dayNumberMax <= $scope.city.current_day.number) {
+            $scope.dayNumberMax = Math.min($scope.dayNumberMax + ACTION_RESULTS_DAYS_PER_PAGE, $scope.city.current_day.number+1);
+            $scope.dayNumberMin = $scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE;
+            $timeout(function() {
+                $scope.isLoadingActionResults = true;
+            });
+            getActionResults($scope.city.id, $scope.resident.role.id, $scope.dayNumberMin, $scope.dayNumberMax);
+        }
+    }
+
+    function getActionResults(cityId, roleId, dayNumberMin, dayNumberMax) {
+
+        actionResultsService.getActionResults(cityId, roleId, dayNumberMin, dayNumberMax).then(function(result) {
+            initActionResults(result);
+
+            $timeout(function() {
+                $scope.isLoading = false;
+                $scope.isLoadingActionResults = false;
+            });
+
+        }, function(reason) {
+            $timeout(function() {
+                $scope.isLoading = false;
+                $scope.isLoadingActionResults = false;
+                angular.forEach(reason.httpObj.responseJSON, function(error) {
+                    $scope.basicValidationErrors.push({type : 'danger', msg: error });
+                });
+            });
+        });
+    }
+
+    function initActionResults(actionResults) {
+        if (!actionResults)
             return;
 
         var actionResultsByType = {};
@@ -1033,7 +1040,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
             var residentsResult = actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS][0];
             if (residentsResult) {
                 angular.forEach(residentsResult.result.residents, function(someResidentStatus) {
-                    residentsById[someResidentStatus.id].alive = someResidentStatus.alive;
+                    $scope.city.residentsById[someResidentStatus.id].alive = someResidentStatus.alive;
                 });
                 $scope.residentsResult = residentsResult;
             }
@@ -1056,80 +1063,8 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
             }
         }
 
-    }, true);
-
-
-
-
-
-    function hasEarlierActionResults() {
-        return $scope.dayNumberMin > 0;
+        $scope.actionResults = actionResults;
     }
-
-    function loadEarlierActionResults() {
-        if ($scope.dayNumberMin > 0) {
-
-            $scope.dayNumberMin = Math.max(0, $scope.dayNumberMin - ACTION_RESULTS_DAYS_PER_PAGE);
-            $scope.dayNumberMax = $scope.dayNumberMin + ACTION_RESULTS_DAYS_PER_PAGE;
-            $timeout(function() {
-                $scope.isLoadingActionResults = true;
-            });
-            initActionResults($scope.city.id, $scope.resident.role.id, $scope.dayNumberMin, $scope.dayNumberMax);
-        }
-    }
-
-    function hasMoreRecentActionResults() {
-        if (!$scope.city)
-            return false;
-
-        return $scope.dayNumberMax <= $scope.city.current_day.number;
-    }
-
-    function loadMoreRecentActionResults() {
-        if ($scope.dayNumberMax <= $scope.city.current_day.number) {
-            $scope.dayNumberMax = Math.min($scope.dayNumberMax + ACTION_RESULTS_DAYS_PER_PAGE, $scope.city.current_day.number+1);
-            $scope.dayNumberMin = $scope.dayNumberMax - ACTION_RESULTS_DAYS_PER_PAGE;
-            $timeout(function() {
-                $scope.isLoadingActionResults = true;
-            });
-            initActionResults($scope.city.id, $scope.resident.role.id, $scope.dayNumberMin, $scope.dayNumberMax);
-        }
-    }
-
-    function initActionResults(cityId, roleId, dayNumberMin, dayNumberMax) {
-
-        actionResultsService.getActionResults(cityId, roleId, dayNumberMin, dayNumberMax).then(function(result) {
-            $scope.actionResults = result;
-            $timeout(function() {
-                $scope.isLoading = false;
-                $scope.isLoadingActionResults = false;
-            });
-
-        }, function(reason) {
-            $timeout(function() {
-                $scope.isLoading = false;
-                $scope.isLoadingActionResults = false;
-                angular.forEach(reason.httpObj.responseJSON, function(error) {
-                    $scope.basicValidationErrors.push({type : 'danger', msg: error });
-                });
-            });
-        });
-    }
-
-    /*
-    function getRoleId(cityId) {
-        var deferred = $q.defer();
-
-        residentsService.getResidentMeForCityId(cityId).then(function(residentMeResult) {
-            var roleId = residentMeResult.saved_role_id;
-            deferred.resolve(roleId);
-        }, function(reason) {
-            deferred.resolve(null);
-        });
-
-        return deferred.promise;
-    }
-    */
 
     function setCookieRoleId(cityId, userId, roleId) {
         var expirationDate = new Date();
@@ -1148,7 +1083,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         var shouldRefreshActionResults = $scope.resident.role == null;
         $scope.resident.role = $scope.city.rolesById[roleId].role;
         if (shouldRefreshActionResults)
-            initActionResults($scope.city.id, roleId, $scope.dayNumberMin, $scope.dayNumberMax);
+            getActionResults($scope.city.id, roleId, $scope.dayNumberMin, $scope.dayNumberMax);
         setCookieRoleId($scope.city.id, authService.user.id, roleId);
     }
 
@@ -2236,11 +2171,13 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         return availableRoles - usedRoles;
     }
 
-    $scope.$watch('roleQuantities', function(newRoleQuantities) {
-        if (!$scope.city)
-            return;
+    $scope.roleQuantityDidChange = function (roleId, newQuantity) {
 
-        var city_has_roles = angular.copy($scope.city.city_has_roles);
+        var roleQuantity = $scope.roleQuantities[roleId-1];
+        roleQuantity.quantity = newQuantity;
+        var newRoleQuantities = $scope.roleQuantities;
+
+        var city_has_roles = $scope.city.city_has_roles;
 
         var cityHasRolesByRoleId = {};
         angular.forEach(city_has_roles, function (cityHasRole) {
@@ -2284,7 +2221,9 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         });
         $scope.city.city_has_roles = city_has_roles;
         $scope.remainingRoles = remainingRoleCount($scope.city);
-    }, true);
+    };
+
+
 
 
     function changeNewRolePickRole(role) {
@@ -2927,7 +2866,7 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
  
 // adminCityController 
  
-app.controller('AdminCityController',function ($scope, $routeParams, $location, $modal, authService, layoutService, citiesService) {
+app.controller('AdminCityController',function ($scope, $routeParams, $location, $modal, $q, authService, layoutService, citiesService) {
     "use strict";
 
     init();
@@ -2939,27 +2878,38 @@ app.controller('AdminCityController',function ($scope, $routeParams, $location, 
         $scope.alerts = [];
 
         var cityId = $routeParams['city_id'];
-        if (cityId) {
-            citiesService.getCity(cityId).then(function(cityResult) {
-                $scope.inspectedCity = cityResult;
+        var cityPromise = citiesService.getCity(cityId).then(function(cityResult) {
+            setInspectedCity(cityResult);
 
-            });
-        }
+            return cityResult;
+        });
 
-        authService.userMe(false).then(function(userMeResult) {
+
+        var userMePromise = authService.userMe(false).then(function(userMeResult) {
             $scope.userMe = userMeResult;
             $scope.canSave = userMeResult.app_role.app_permissions[APP_PERMISSION_ADMIN_READ];
             $scope.canDelete = userMeResult.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE];
+
+            return userMeResult;
+        });
+
+
+        $q.all([cityPromise, userMePromise]).then(function (results) {
+            var inspectedCity = results[0];
+            var userMe = results[1];
+            $scope.canTriggerPhases = inspectedCity.started_at && !inspectedCity.finished_at && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ];
+            $scope.canChangeAvailability = !inspectedCity.started_at && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ];
         });
 
     }
 
-    $scope.$watch('inspectedCity.timezone', function(city) {
+    function setInspectedCity(city) {
+        $scope.inspectedCity = city;
         initTimezone();
-    });
+    }
 
     var initTimezone = function() {
-        if (!$scope.inspectedCity || !$scope.inspectedCity.timezone)
+        if (!$scope.inspectedCity || $scope.inspectedCity.timezone === undefined)
             return;
 
         $scope.timezoneString = ($scope.inspectedCity.timezone >= 0 ? '+' : '-') + $scope.minutesToString(Math.abs(parseInt($scope.inspectedCity.timezone)))
@@ -2973,7 +2923,8 @@ app.controller('AdminCityController',function ($scope, $routeParams, $location, 
         return citiesService.updateCity($scope.inspectedCity).then(function(cityResult) {
             $scope.isProcessing = false;
 
-            $scope.inspectedCity = cityResult;
+
+            setInspectedCity(cityResult);
             $scope.alerts.push({type: 'success', msg: 'Successfully updated'});
         }, function(reason) {
             $scope.isProcessing = false;
@@ -2988,21 +2939,6 @@ app.controller('AdminCityController',function ($scope, $routeParams, $location, 
     $scope.closeAlert = function(index) {
         $scope.alerts.splice(index, 1);
     };
-
-
-
-    $scope.$watch('[inspectedCity, userMe]', function(newValues, oldValues) {
-        var inspectedCity = newValues[0];
-        var userMe = newValues[1];
-        if (!inspectedCity || !userMe) {
-            $scope.canTriggerPhases = false;
-            return;
-        }
-
-        $scope.canTriggerPhases = inspectedCity.started_at && !inspectedCity.finished_at && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ];
-        $scope.canChangeAvailability = !inspectedCity.started_at && userMe.app_role.app_permissions[APP_PERMISSION_ADMIN_READ];
-    }, true);
-
 
     $scope.deleteCity = function() {
         openDeletionModal();
@@ -3058,7 +2994,8 @@ app.controller('AdminCityController',function ($scope, $routeParams, $location, 
             $scope.isTriggeringGamePhase = true;
             citiesService.triggerDayStart($scope.inspectedCity.id).then(function(updatedCityResult) {
                 $scope.isTriggeringGamePhase = false;
-                $scope.inspectedCity = updatedCityResult;
+
+                setInspectedCity(updatedCityResult);
                 $scope.alerts.push({type: 'success', msg: "Day start successfully triggered." });
             }, function(reason) {
                 $scope.isTriggeringGamePhase = false;
@@ -3098,7 +3035,8 @@ app.controller('AdminCityController',function ($scope, $routeParams, $location, 
             $scope.isTriggeringGamePhase = true;
             citiesService.triggerNightStart($scope.inspectedCity.id).then(function(updatedCityResult) {
                 $scope.isTriggeringGamePhase = false;
-                $scope.inspectedCity = updatedCityResult;
+
+                setInspectedCity(updatedCityResult);
                 $scope.alerts.push({type: 'success', msg: "Night start successfully triggered." });
             }, function(reason) {
                 $scope.isTriggeringGamePhase = false;
@@ -4734,7 +4672,7 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
  
 // actionResultDirective 
  
-app.directive('actionResult', function(actionResultsService) {
+app.directive('actionResult', function($compile, actionResultsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -4749,10 +4687,63 @@ app.directive('actionResult', function(actionResultsService) {
             hide: '='
         },
         templateUrl: 'app/directiveTemplates/domain/actionResult.html',
-        link: function(scope, element, attrs) {
-            "use strict";
+        compile: function (element, attrs) {
+            var actionResultDirectivesByActionResultTypeId = {};
+            // var voteResultDirective = element.find( "vote-result" );
+            actionResultDirectivesByActionResultTypeId[ACTION_RESULT_TYPE_ID_VOTE] = '<vote-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_VOTE" ></vote-result>';//voteResultDirective;
+            // var voteMafiaResultDirective = element.find( "vote-mafia-result" );
+            actionResultDirectivesByActionResultTypeId[ACTION_RESULT_TYPE_ID_VOTE_MAFIA] = '<vote-mafia-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_VOTE_MAFIA"></vote-mafia-result>';// voteMafiaResultDirective;
+            // var sheriffIdentitiesResultDirective = element.find( "sheriff-identities-result" );
+            actionResultDirectivesByActionResultTypeId[ACTION_RESULT_TYPE_ID_SHERIFF_IDENTITIES] = '<sheriff-identities-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_SHERIFF_IDENTITIES"></sheriff-identities-result>';
+            // var terroristBombResultDirective = element.find( "terrorist-bomb-result" );
+            actionResultDirectivesByActionResultTypeId[ACTION_RESULT_TYPE_ID_TERRORIST_BOMB] = '<terrorist-bomb-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_TERRORIST_BOMB"></terrorist-bomb-result>';
+            // var residentBecameSheriffResultDirective = element.find( "resident-became-sheriff-result" );
+            actionResultDirectivesByActionResultTypeId[ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SHERIFF] = '<resident-became-sheriff-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_SHERIFF"></resident-became-sheriff-result>';
+            // var residentBecameDeputyResultDirective = element.find( "resident-became-deputy-result" );
+            actionResultDirectivesByActionResultTypeId[ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY] = '<resident-became-deputy-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY"></resident-became-deputy-result>';
+            // var revivalOccuredResultDirective = element.find( "revival-occurred-result" );
+            actionResultDirectivesByActionResultTypeId[ACTION_RESULT_TYPE_ID_REVIVAL_OCCURRED] = '<revival-occurred-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_REVIVAL_OCCURRED"></revival-occurred-result>';
+            // var revivalRevealedResultDirective = element.find( "revival-revealed-result" );
+            actionResultDirectivesByActionResultTypeId[ACTION_RESULT_TYPE_ID_REVIVAL_REVEALED] = '<revival-revealed-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_REVIVAL_REVEALED"></revival-revealed-result>';
 
-            scope.actionResultTypeIds = actionResultsService.actionResultTypeIds;
+            // var investigateResultDirective = element.find( "investigate-result" );
+            actionResultDirectivesByActionResultTypeId[ACTION_RESULT_TYPE_ID_INVESTIGATE] = '<investigate-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_INVESTIGATE"></investigate-result>';
+            // var protectResultDirective = element.find( "protect-result" );
+            actionResultDirectivesByActionResultTypeId[ACTION_RESULT_TYPE_ID_PROTECT] = '<protect-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_PROTECT"></protect-result>';
+            // var tellerVotesResultDirective = element.find( "teller-votes-result" );
+            actionResultDirectivesByActionResultTypeId[ACTION_RESULT_TYPE_ID_TELLER_VOTES] = '<teller-votes-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_TELLER_VOTES"></teller-votes-result>';
+            // var mafiaMembersResultDirective = element.find( "mafia-members-result" );
+            actionResultDirectivesByActionResultTypeId[ACTION_RESULT_TYPE_ID_SINGLE_REQUIRED_MAFIA_MEMBERS] = '<mafia-members-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_SINGLE_REQUIRED_MAFIA_MEMBERS"></mafia-members-result>';
+            // var journalistInvestigateResultDirective = element.find( "journalist-investigate-result" );
+            actionResultDirectivesByActionResultTypeId[ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE] = '<journalist-investigate-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE"></journalist-investigate-result>';
+            // var deputyIdentitiesResultDirective = element.find( "deputy-identities-result" );
+            actionResultDirectivesByActionResultTypeId[ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES] = '<deputy-identities-result ng-if="actionResult && actionResult.action_result_type.id == actionResultTypeIds.ACTION_RESULT_TYPE_ID_DEPUTY_IDENTITIES"></deputy-identities-result>';
+
+
+
+            return {
+                pre: function (scope, element, attrs) {
+
+                },
+                post: function (scope, element, attrs) {
+                    "use strict";
+
+                    scope.actionResultTypeIds = actionResultsService.actionResultTypeIds;
+
+                    var actionResultTypeId = scope.actionResult.action_result_type.id;
+                    var actionResultDiv = element.find('.action-result');
+
+                    if (actionResultDirectivesByActionResultTypeId[actionResultTypeId]) {
+                        var actionResultDirective = actionResultDirectivesByActionResultTypeId[actionResultTypeId];
+                        var transcludeActionResultDirective = $compile( actionResultDirective );
+                        transcludeActionResultDirective(scope, function( actionResultDirectiveClone ) {
+                            actionResultDiv.append( actionResultDirectiveClone );
+                        });
+                    }
+
+
+                }
+            };
         }
     };
 }); 
@@ -5195,7 +5186,7 @@ app.directive('publicNewsFeed', function(actionResultsService) {
                     return null;
 
                 scope.publicActionResults = actionResultsService.publicActionResults(actionResults);
-            }, true);
+            });
 
         }
     };
@@ -5246,12 +5237,8 @@ app.directive('residents', function($timeout, actionResultsService) {
             "use strict";
 
 
-            scope.$watch('actionResultsByType', function(actionResultsByType) {
-
-                if (!actionResultsByType)
-                    return;
-
-                var residentsActionResults = actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS];
+            function init() {
+                var residentsActionResults = scope.actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS];
                 if (!residentsActionResults)
                     return;
 
@@ -5270,7 +5257,9 @@ app.directive('residents', function($timeout, actionResultsService) {
 
                     scope.residentsCopied = residents;
                 }
-            }, true);
+            }
+
+            init();
 
 
             scope.toggleMode = function() {
@@ -5307,6 +5296,7 @@ app.directive('residents', function($timeout, actionResultsService) {
                 submitActionResultPromise.then(function(createdActionResult) {
 
                     $timeout(function() {
+                        scope.actionResult = createdActionResult;
                         scope.actionResults.splice(index, 1, createdActionResult);
                         scope.editMode = false;
                     });
@@ -5401,6 +5391,8 @@ app.directive('roleChooser', function(residentsService) {
 
                 var saveRolePromise = residentsService.saveRoleForCityId(scope.city.id, scope.roleId);
                 saveRolePromise.then(function(updatedResident) {
+                    scope.editMode = false;
+
                     if (scope.handleAlert) {
                         scope.handleAlert({alert: {type: 'success', msg: 'You will be presented with this role the next time you log in to this game.'}});
                     }
@@ -5425,7 +5417,7 @@ app.directive('roleChooser', function(residentsService) {
  
 // roleDirective 
  
-app.directive('role', function(rolesService) {
+app.directive('role', function($compile, rolesService) {
     "use strict";
     return {
         restrict : 'E',
@@ -5445,10 +5437,86 @@ app.directive('role', function(rolesService) {
             loadMoreRecentActionResults: '='
         },
         templateUrl: 'app/directiveTemplates/domain/role.html',
-        link: function(scope, element, attrs) {
-            "use strict";
+        compile: function ( element, attrs ) {
 
-            scope.roleIds = rolesService.roleIds;
+            var roleDirectivesByRoleId = {};
+            var citizenDirective = element.find( "citizen" );
+            roleDirectivesByRoleId[ROLE_ID_CITIZEN] = citizenDirective;
+            var doctorDirective = element.find( "doctor" );
+            roleDirectivesByRoleId[ROLE_ID_DOCTOR] = doctorDirective;
+            var detectiveDirective = element.find( "detective" );
+            roleDirectivesByRoleId[ROLE_ID_DETECTIVE] = detectiveDirective;
+            var mobDirective = element.find( "mob" );
+            roleDirectivesByRoleId[ROLE_ID_MOB] = mobDirective;
+            var tellerDirective = element.find( "teller" );
+            roleDirectivesByRoleId[ROLE_ID_TELLER] = tellerDirective;
+            var sheriffDirective = element.find( "sheriff" );
+            roleDirectivesByRoleId[ROLE_ID_SHERIFF] = sheriffDirective;
+            var terroristDirective = element.find( "terrorist" );
+            roleDirectivesByRoleId[ROLE_ID_TERRORIST] = terroristDirective;
+            var journalistDirective = element.find( "journalist" );
+            roleDirectivesByRoleId[ROLE_ID_JOURNALIST] = journalistDirective;
+            var fugitiveDirective = element.find( "fugitive" );
+            roleDirectivesByRoleId[ROLE_ID_FUGITIVE] = fugitiveDirective;
+            var elderDirective = element.find( "elder" );
+            roleDirectivesByRoleId[ROLE_ID_ELDER] = elderDirective;
+            var necromancerDirective = element.find( "necromancer" );
+            roleDirectivesByRoleId[ROLE_ID_NECROMANCER] = necromancerDirective;
+            var zombieDirective = element.find( "zombie" );
+            roleDirectivesByRoleId[ROLE_ID_ZOMBIE] = zombieDirective;
+
+
+            for (var roleId in roleDirectivesByRoleId) {
+                if (!roleId || !roleDirectivesByRoleId.hasOwnProperty(roleId))
+                    continue;
+
+                var roleDirective = roleDirectivesByRoleId[roleId];
+                roleDirective.remove();
+            }
+
+
+
+            return {
+                pre: function (scope, element, attrs) {
+                },
+                post: function (scope, element, attrs) {
+
+                    scope.roleIds = rolesService.roleIds;
+
+                    var roleDiv = element.find('#role');
+
+
+                    if (!scope.resident || !scope.resident.role) {
+                        var citizenDirective = roleDirectivesByRoleId[ROLE_ID_CITIZEN];
+                        var transcludeCitizenDirective = $compile( citizenDirective );
+                        transcludeCitizenDirective(scope, function( citizenDirectiveClone ) {
+                            roleDiv.append( citizenDirectiveClone );
+                            roleDirectivesByRoleId[ROLE_ID_CITIZEN] = null;
+                        });
+
+                    }
+
+                    scope.$watch('resident.role', function (role) {
+                        var roleId;
+                        if (role && role.id) {
+                            roleId = role.id;
+                        } else {
+                            roleId = ROLE_ID_CITIZEN;
+                        }
+
+                        if (roleDirectivesByRoleId[roleId]) {
+                            var roleDirective = roleDirectivesByRoleId[roleId];
+                            var transcludeRoleDirective = $compile( roleDirective );
+                            transcludeRoleDirective(scope, function( roleDirectiveClone ) {
+                                roleDiv.append( roleDirectiveClone );
+                                roleDirectivesByRoleId[roleId] = null;
+                            });
+                        }
+
+                    });
+
+                }
+            };
 
         }
     };
@@ -5456,7 +5524,7 @@ app.directive('role', function(rolesService) {
  
 // specialActionsDirective 
  
-app.directive('specialActions', function(actionsService) {
+app.directive('specialActions', function($compile, actionsService) {
     "use strict";
     return {
         restrict : 'E',
@@ -5468,53 +5536,89 @@ app.directive('specialActions', function(actionsService) {
             actionResultsByType: '='
         },
         templateUrl: 'app/directiveTemplates/domain/specialActions.html',
-        link: function(scope, element, attrs) {
+        compile: function (element, attrs) {
             "use strict";
 
-            // scope.selectedActionType = null;
-            // scope.actionTypeLabel = "Select action type";
-            scope.actionTypes = [];
+            var actionDirectiveForActionTypeId = {};
+            actionDirectiveForActionTypeId[ACTION_TYPE_ID_INVESTIGATE] = '<investigate ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_INVESTIGATE]"></investigate>';
+            actionDirectiveForActionTypeId[ACTION_TYPE_ID_PROTECT] = '<protect ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_PROTECT]"></protect>';
+            actionDirectiveForActionTypeId[ACTION_TYPE_ID_TELLER_VOTES] = '<teller-votes ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_TELLER_VOTES]"> </teller-votes>';
+            actionDirectiveForActionTypeId[ACTION_TYPE_ID_VOTE_MAFIA] = '<vote-mafia ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_VOTE_MAFIA]"></vote-mafia>';
+            actionDirectiveForActionTypeId[ACTION_TYPE_ID_SHERIFF_IDENTITIES] = '<sheriff-identities ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_SHERIFF_IDENTITIES]"></sheriff-identities>';
+            actionDirectiveForActionTypeId[ACTION_TYPE_ID_TERRORIST_BOMB] = '<terrorist-bomb ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_TERRORIST_BOMB]"></terrorist-bomb>';
+            actionDirectiveForActionTypeId[ACTION_TYPE_ID_JOURNALIST_INVESTIGATE] = '<journalist-investigate ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_JOURNALIST_INVESTIGATE]"></journalist-investigate>';
+            actionDirectiveForActionTypeId[ACTION_TYPE_ID_DEPUTY_IDENTITIES] = '<deputy-identities ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_DEPUTY_IDENTITIES]"></deputy-identities>';
+            actionDirectiveForActionTypeId[ACTION_TYPE_ID_INITIATE_REVIVAL] = '<initiate-revival ng-if="showingActionTypes[actionTypeIds.ACTION_TYPE_ID_INITIATE_REVIVAL]"></initiate-revival>';
 
-            scope.$watch('city.rolesById', function(rolesById) {
-                var role = rolesById[scope.roleId].role;
 
-                if (role.action_types.length > 0) {
-                    scope.actionTypes = $.grep(role.action_types, function (someActionType) {
-                        return !someActionType.is_single_required && // eliminates ActionType::SingleRequired::MafiaMembers, ActionType::SingleRequired::Residents
-                        someActionType.id != ACTION_TYPE_ID_VOTE
-                    });
-                    if (scope.actionTypes.length > 0) {
+
+            return {
+                pre: function (scope, element, attrs) {
+
+                },
+                post: function (scope, element, attrs) {
+                    scope.actionTypeIds = actionsService.actionTypeIds;
+
+                    // scope.selectedActionType = null;
+                    // scope.actionTypeLabel = "Select action type";
+                    scope.actionTypes = [];
+
+                    function init() {
+                        var role = scope.city.rolesById[scope.roleId].role;
 
                         var showingActionTypes = {};
-                        angular.forEach(scope.actionTypes, function(someActionType) {
-                            showingActionTypes[someActionType.id] = true;
-                        });
-                        scope.showingActionTypes = showingActionTypes;
-                    } else {
-                       	scope.actionTypeLabel = "No special abilities";
+
+                        if (role.action_types.length > 0) {
+                            scope.actionTypes = $.grep(role.action_types, function (someActionType) {
+                                return !someActionType.is_single_required && // eliminates ActionType::SingleRequired::MafiaMembers, ActionType::SingleRequired::Residents
+                                    someActionType.id != ACTION_TYPE_ID_VOTE &&
+                                    someActionType.id != ACTION_TYPE_ID_ELDER_VOTE
+                            });
+                            if (scope.actionTypes.length > 0) {
+
+
+                                angular.forEach(scope.actionTypes, function(someActionType) {
+                                    showingActionTypes[someActionType.id] = true;
+                                });
+                                scope.showingActionTypes = showingActionTypes;
+                            } else {
+                                scope.actionTypeLabel = "No special abilities";
+                            }
+                        }
+
+                        var actionTypeParamsResult = scope.actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS][0];
+                        if (!actionTypeParamsResult) {
+                            return;
+                        }
+
+                        scope.actionTypeParamsResult = actionTypeParamsResult;
+
+
+                        var specialActionDiv = element.find('.special-action');
+                        for (var actionTypeId in showingActionTypes) {
+                            if (!actionTypeId || !showingActionTypes.hasOwnProperty(actionTypeId))
+                                continue;
+
+                            if (showingActionTypes[actionTypeId]) {
+                                if (actionDirectiveForActionTypeId[actionTypeId]) {
+                                    var actionDirective = actionDirectiveForActionTypeId[actionTypeId];
+                                    var transcludeActionDirective = $compile( actionDirective );
+                                    transcludeActionDirective(scope, function( actionDirectiveClone ) {
+                                        specialActionDiv.append( actionDirectiveClone );
+                                    });
+                                }
+
+                            }
+                        }
+
+
+
+
                     }
+
+                    init();
                 }
-
-            });
-
-            scope.actionTypeIds = actionsService.actionTypeIds;
-
-
-
-            scope.$watch('actionResultsByType', function(actionResultsByType) {
-                if (!actionResultsByType)
-                    return;
-
-
-                var actionTypeParamsResult = actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS][0];
-                if (!actionTypeParamsResult) {
-                    return;
-                }
-
-                scope.actionTypeParamsResult = actionTypeParamsResult;
-
-            }, true);
-
+            };
         }
     };
 }); 
@@ -5582,25 +5686,23 @@ app.directive('actionTypeParamsResult', function($timeout, actionResultsService)
             scope.actionTypeParams = {};
             scope.editMode = false;
 
-            scope.$watch('actionResult', function(actionResult) {
-                if (!actionResult)
+            function init() {
+                if (!scope.actionResult || !scope.actionResult.result)
                     return;
 
-                if (!actionResult.result)
-                    return;
-
-                var actionTypeParamsPerRolePerActionType = actionResult.result.action_types_params;
+                var actionTypeParamsPerRolePerActionType = scope.actionResult.result.action_types_params;
 
                 if (!actionTypeParamsPerRolePerActionType[scope.roleId.toString()])
                     return;
 
-                var actionTypeParams = {};
-                actionTypeParams = actionTypeParamsPerRolePerActionType[scope.roleId.toString()][scope.actionTypeId.toString()];
+                var actionTypeParams = actionTypeParamsPerRolePerActionType[scope.roleId.toString()][scope.actionTypeId.toString()];
 
 
                 scope.actionTypeParams = actionTypeParams;
 
-            }, true);
+            }
+
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -5633,6 +5735,10 @@ app.directive('actionTypeParamsResult', function($timeout, actionResultsService)
                     var index = scope.actionResults.indexOfMatchFunction(function(someActionResult) {
                         return someActionResult.id == scope.actionResult.id;
                     });
+
+
+                    scope.actionResult = createdActionResult;
+                    init();
 
                     $timeout(function() {
                         scope.actionResults.splice(index, 1, createdActionResult);
@@ -5674,8 +5780,9 @@ app.directive('deputyIdentitiesResult', function($timeout, actionResultsService)
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+
+                var actionResult = scope.actionResult;
                 if (!actionResult)
                     return;
                 var result = actionResult.result;
@@ -5685,7 +5792,7 @@ app.directive('deputyIdentitiesResult', function($timeout, actionResultsService)
                 }
 
                 // city_has_roles, interpret roles in deadResidentRoles
-                var city = values[1];
+                var city = scope.city;
                 if (!city)
                     return;
 
@@ -5741,7 +5848,9 @@ app.directive('deputyIdentitiesResult', function($timeout, actionResultsService)
 
 
                 scope.interpretation = "Info on deceased residents.";
-            }, true);
+            }
+
+            init();
 
 
             scope.toggleMode = function() {
@@ -5831,6 +5940,8 @@ app.directive('deputyIdentitiesResult', function($timeout, actionResultsService)
                     } else {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
+                    scope.actionResult = createdActionResult;
+                    init();
 
 
                     $timeout(function() {
@@ -5862,8 +5973,10 @@ app.directive('gameOverResult', function(actionResultsService) {
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.$watch('[actionResultsByType, city.residentsById]', function(values) {
-                var actionResultsByType = values[0];
+
+            function init() {
+
+                var actionResultsByType = scope.actionResultsByType;
                 if (!actionResultsByType)
                     return;
 
@@ -5884,7 +5997,7 @@ app.directive('gameOverResult', function(actionResultsService) {
                 scope.losersAffiliations = result['loser_affiliations'];
                 var residents = result['residents_with_roles'];
 
-                var residentsById = values[1];
+                var residentsById = scope.city.residentsById;
                 if (!residentsById)
                     residentsById = {};
 
@@ -5904,7 +6017,9 @@ app.directive('gameOverResult', function(actionResultsService) {
 
                 scope.residentsWithRoles = residents;
 
-            }, true);
+            }
+
+            init();
 
 
             scope.classNameForResidentRow = function(resident) {
@@ -5935,14 +6050,13 @@ app.directive('investigateResult', function($timeout, actionResultsService) {
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+                var actionResult = scope.actionResult;
                 var result = actionResult.result;
 
-                var city = values[1];
-                if (!city)
-                    return;
-                if (!actionResult.id) {
+                var city = scope.city;
+
+                if (!actionResult || !actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
                             id: ACTION_RESULT_TYPE_ID_INVESTIGATE
@@ -5971,7 +6085,10 @@ app.directive('investigateResult', function($timeout, actionResultsService) {
                 }
 
                 scope.investigatedResident = investigatedResident;
-            }, true);
+            }
+
+            init();
+
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -6029,6 +6146,8 @@ app.directive('investigateResult', function($timeout, actionResultsService) {
                     } else {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
+                    scope.actionResult = createdActionResult;
+                    init();
 
                     $timeout(function() {
                         if (scope.isNew)
@@ -6063,14 +6182,13 @@ app.directive('journalistInvestigateResult', function($timeout, actionResultsSer
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+                var actionResult = scope.actionResult;
                 var result = actionResult.result;
 
-                var city = values[1];
-                if (!city)
-                    return;
-                if (!actionResult.id) {
+                var city = scope.city;
+
+                if (!actionResult || !actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
                             id: ACTION_RESULT_TYPE_ID_JOURNALIST_INVESTIGATE
@@ -6099,7 +6217,9 @@ app.directive('journalistInvestigateResult', function($timeout, actionResultsSer
                 }
 
                 scope.investigatedResident = investigatedResident;
-            }, true);
+            }
+
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -6157,6 +6277,8 @@ app.directive('journalistInvestigateResult', function($timeout, actionResultsSer
                     } else {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
+                    scope.actionResult = createdActionResult;
+                    init();
 
                     $timeout(function(){
                         if (scope.isNew)
@@ -6186,15 +6308,15 @@ app.directive('mafiaMembersResult', function($timeout, actionResultsService) {
 
             scope.mafiaMembers = [];
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+                var actionResult = scope.actionResult;
                 var result = actionResult.result;
 
                 if (!result) {
                     return;
                 }
 
-                var city = values[1];
+                var city = scope.city;
 
                 scope.interpretation = "Mafia members";
 
@@ -6209,7 +6331,9 @@ app.directive('mafiaMembersResult', function($timeout, actionResultsService) {
 
 
 
-            }, true);
+            }
+
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -6273,13 +6397,18 @@ app.directive('mafiaMembersResult', function($timeout, actionResultsService) {
 
                     $timeout(function() {
                         if (index < 0) {
-                            index = 0;
                             scope.actionResults.splice(0, 0, createdActionResult);
                         } else {
                             scope.actionResults.splice(index, 1, createdActionResult);
                         }
+
+                        scope.actionResult = createdActionResult;
+                        init();
+
                         if (scope.isNew)
                             scope.hide();
+                        else
+                            scope.editMode = false;
                     });
 
 
@@ -6307,15 +6436,11 @@ app.directive('protectResult', function($timeout, actionResultsService) {
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
-                var result = actionResult.result;
+            var city = scope.city;
 
-                var city = values[1];
-                if (!city)
-                    return;
-
-                if (!actionResult.id) {
+            function init() {
+                var actionResult = scope.actionResult;
+                if (!actionResult || !actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
                             id: ACTION_RESULT_TYPE_ID_PROTECT
@@ -6324,9 +6449,11 @@ app.directive('protectResult', function($timeout, actionResultsService) {
                     };
                     return;
                 }
+                var result = actionResult.result;
+
 
                 angular.copy(scope.actionResult, scope.actionResultCopied);
-                scope.actionResultCopied.day = $.grep(city.days, function(someDay) {
+                scope.actionResultCopied.day = $.grep(city.days, function (someDay) {
                     return someDay.id == scope.actionResultCopied.day_id;
                 })[0];
 
@@ -6342,7 +6469,9 @@ app.directive('protectResult', function($timeout, actionResultsService) {
                 }
 
                 scope.protectedResident = protectedResident;
-            }, true);
+            }
+
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -6398,6 +6527,8 @@ app.directive('protectResult', function($timeout, actionResultsService) {
                     } else {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
+                    scope.actionResult = createdActionResult;
+                    init();
 
                     $timeout(function() {
                         if (scope.isNew)
@@ -6427,15 +6558,15 @@ app.directive('residentBecameDeputyResult', function($timeout, actionResultsServ
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+                var actionResult = scope.actionResult;
 
                 // city_has_roles, interpret roles in deadResidentRoles
-                var city = values[1];
+                var city = scope.city;
                 if (!city)
                     return;
 
-                scope.interpretation = "Deputy has died and you became the new Deputy. Congratulations!  You should change your acting role to 'Deputy' if you want your future actions to take effect.";
+                scope.interpretation = "Deputy has died and you became the new Deputy. Congratulations! You should change your acting role to 'Deputy' if you want your future actions to take effect.";
 
                 if (!actionResult.id) {
                     scope.actionResultCopied = {
@@ -6451,7 +6582,9 @@ app.directive('residentBecameDeputyResult', function($timeout, actionResultsServ
                 scope.actionResultCopied.day = $.grep(city.days, function(someDay) {
                     return someDay.id == scope.actionResultCopied.day_id;
                 })[0];
-            }, true);
+            }
+
+            init();
 
 
             scope.toggleMode = function() {
@@ -6503,6 +6636,8 @@ app.directive('residentBecameDeputyResult', function($timeout, actionResultsServ
                     } else {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
+                    scope.actionResult = createdActionResult;
+                    init();
 
                     $timeout(function() {
                         if (scope.isNew)
@@ -6530,11 +6665,12 @@ app.directive('residentBecameSheriffResult', function($timeout, actionResultsSer
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+
+                var actionResult = scope.actionResult;
 
                 // city_has_roles, interpret roles in deadResidentRoles
-                var city = values[1];
+                var city = scope.city;
                 if (!city)
                     return;
 
@@ -6554,8 +6690,9 @@ app.directive('residentBecameSheriffResult', function($timeout, actionResultsSer
                 scope.actionResultCopied.day = $.grep(city.days, function(someDay) {
                     return someDay.id == scope.actionResultCopied.day_id;
                 })[0];
-            }, true);
+            }
 
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -6606,6 +6743,10 @@ app.directive('residentBecameSheriffResult', function($timeout, actionResultsSer
                     } else {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
+                    scope.actionResult = createdActionResult;
+                    init();
+
+
 
                     $timeout(function() {
                         if (scope.isNew)
@@ -6633,13 +6774,14 @@ app.directive('revivalOccurredResult', function($timeout, actionResultsService) 
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, actionResults, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+
+                var actionResult = scope.actionResult;
                 var result = actionResult.result;
                 if (!result)
                     return;
 
-                var actionResults = values[1];
+                var actionResults = scope.actionResults;
                 if (!actionResults)
                     return;
                 var actionTypeParamsResultIndex = actionResults.indexOfMatchFunction(function (someActionResult) {
@@ -6652,7 +6794,7 @@ app.directive('revivalOccurredResult', function($timeout, actionResultsService) 
                 scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[ROLE_ID_NECROMANCER][ACTION_TYPE_ID_REVIVE.toString()];
                 var daysUntilReveal = scope.actionTypeParamsDictionary['days_until_reveal'];
 
-                var city = values[2];
+                var city = scope.city;
                 if (!city)
                     return;
 
@@ -6681,7 +6823,9 @@ app.directive('revivalOccurredResult', function($timeout, actionResultsService) 
 
                 scope.interpretation = "Necromancer raised someone from the dead. " + revelation_string;
 
-            }, true);
+            }
+
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -6731,6 +6875,10 @@ app.directive('revivalOccurredResult', function($timeout, actionResultsService) 
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
 
+                    scope.actionResult = createdActionResult;
+                    init();
+
+
                     $timeout(function() {
                         if (scope.isNew)
                             scope.hide();
@@ -6760,18 +6908,18 @@ app.directive('revivalRevealedResult', function($timeout, actionResultsService) 
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, actionResults, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+                var actionResult = scope.actionResult;
                 var result = actionResult.result;
                 if (!result)
                     return;
 
-                var actionResults = values[1];
+                var actionResults = scope.actionResults;
                 if (!actionResults)
                     return;
 
 
-                var city = values[2];
+                var city = scope.city;
                 if (!city)
                     return;
 
@@ -6803,7 +6951,11 @@ app.directive('revivalRevealedResult', function($timeout, actionResultsService) 
                 }
                 scope.revivedResident = revivedResident;
 
-            }, true);
+            }
+
+            init();
+
+
 
 
             scope.selectRevivedResident = function (resident) {
@@ -6863,6 +7015,9 @@ app.directive('revivalRevealedResult', function($timeout, actionResultsService) 
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
 
+                    scope.actionResult = createdActionResult;
+                    init();
+
                     $timeout(function() {
                         if (scope.isNew)
                             scope.hide();
@@ -6893,8 +7048,8 @@ app.directive('sheriffIdentitiesResult', function($timeout, actionResultsService
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+                var actionResult = scope.actionResult;
                 if (!actionResult)
                     return;
                 var result = actionResult.result;
@@ -6904,7 +7059,7 @@ app.directive('sheriffIdentitiesResult', function($timeout, actionResultsService
                 }
 
                 // city_has_roles, interpret roles in deadResidentRoles
-                var city = values[1];
+                var city = scope.city;
                 if (!city)
                     return;
 
@@ -6960,7 +7115,10 @@ app.directive('sheriffIdentitiesResult', function($timeout, actionResultsService
 
 
                 scope.interpretation = "Sheriff revealed info on deceased residents.";
-            }, true);
+            }
+
+            init();
+
 
 
             scope.toggleMode = function() {
@@ -7051,13 +7209,16 @@ app.directive('sheriffIdentitiesResult', function($timeout, actionResultsService
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
 
-                   $timeout(function() {
-                       if (scope.isNew)
-                           scope.hide();
-                       else {
-                           scope.editMode = false;
-                       }
-                   });
+                    scope.actionResult = createdActionResult;
+                    init();
+
+                    $timeout(function() {
+                        if (scope.isNew)
+                            scope.hide();
+                        else {
+                            scope.editMode = false;
+                        }
+                    });
 
 
                 });
@@ -7083,15 +7244,15 @@ app.directive('tellerVotesResult', function($timeout, actionResultsService) {
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+                var actionResult = scope.actionResult;
                 var result = actionResult.result;
                 if (!actionResult)
                     return;
 
                 var votesCountPerResidentId = result.votes_count;
 
-                var city = values[1];
+                var city = scope.city;
 
                 if (!city)
                     return;
@@ -7121,12 +7282,16 @@ app.directive('tellerVotesResult', function($timeout, actionResultsService) {
                     });
                 };
 
-                scope.interpretation = "Yesterday's public voting results:"
+                scope.interpretation = "Yesterday's public voting results:";
                 scope.votesCountPerResident = votesCountPerResident;
                 var votesCountPerResidentCopied = [];
                 angular.copy(votesCountPerResident, votesCountPerResidentCopied);
                 scope.votesCountPerResidentCopied = votesCountPerResidentCopied;
-            }, true);
+            }
+
+            init();
+
+
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -7223,6 +7388,9 @@ app.directive('tellerVotesResult', function($timeout, actionResultsService) {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
 
+                    scope.actionResult = createdActionResult;
+                    init();
+
 
                     $timeout(function() {
                         if (scope.isNew)
@@ -7255,13 +7423,13 @@ app.directive('terroristBombResult', function($timeout, actionResultsService) {
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, actionResults, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+                var actionResult = scope.actionResult;
                 var result = actionResult.result;
                 if (!result)
                     return;
 
-                var actionResults = values[1];
+                var actionResults = scope.actionResults;
                 if (!actionResults)
                     return;
                 var actionTypeParamsResultIndex = actionResults.indexOfMatchFunction(function (someActionResult) {
@@ -7271,7 +7439,7 @@ app.directive('terroristBombResult', function($timeout, actionResultsService) {
                     return;
                 }
 
-                var city = values[2];
+                var city = scope.city;
                 if (!city)
                     return;
 
@@ -7308,7 +7476,10 @@ app.directive('terroristBombResult', function($timeout, actionResultsService) {
                 killedResidents = killedResidents.substring(0, killedResidents.length - 2);
                 scope.interpretation = "There was a terrorist bombing. Residents " + killedResidents + " were killed in the explosion.";
 
-            }, true);
+            }
+
+            init();
+
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -7375,6 +7546,8 @@ app.directive('terroristBombResult', function($timeout, actionResultsService) {
                     } else {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
+                    scope.actionResult = createdActionResult;
+                    init();
 
                     $timeout(function() {
                         if (scope.isNew)
@@ -7404,17 +7577,12 @@ app.directive('voteMafiaResult', function($timeout, actionResultsService) {
             scope.killedResident = {};
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
-                if (!actionResult)
-                    return;
+            function init() {
+                var actionResult = scope.actionResult;;
 
+                var city = scope.city;
 
-                var city = values[1];
-                if (!city)
-                    return;
-
-                if (!actionResult.id) {
+                if (!actionResult || !actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
                             id: ACTION_RESULT_TYPE_ID_VOTE_MAFIA
@@ -7446,7 +7614,8 @@ app.directive('voteMafiaResult', function($timeout, actionResultsService) {
                     scope.interpretation = "Mafia did not manage to kill a citizen last night. Hurray!";
 
 
-            }, true);
+            }
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -7499,11 +7668,12 @@ app.directive('voteMafiaResult', function($timeout, actionResultsService) {
                     });
 
                     if (index < 0) {
-                        index = 0;
                         scope.actionResults.splice(0, 0, createdActionResult);
                     } else {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
+                    scope.actionResult = createdActionResult;
+                    init();
 
                     $timeout(function() {
                         if (scope.isNew)
@@ -7532,17 +7702,13 @@ app.directive('voteResult', function($timeout, actionResultsService) {
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
-                if (!actionResult)
-                    return;
+            function init() {
+                var actionResult = scope.actionResult;
 
 
-                var city = values[1];
-                if (!city)
-                    return;
+                var city = scope.city;
 
-                if (!actionResult.id) {
+                if (!actionResult || !actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
                             id: ACTION_RESULT_TYPE_ID_VOTE
@@ -7551,7 +7717,7 @@ app.directive('voteResult', function($timeout, actionResultsService) {
                     };
                 } else {
                     angular.copy(scope.actionResult, scope.actionResultCopied);
-                    scope.actionResultCopied.day = $.grep(city.days, function(someDay) {
+                    scope.actionResultCopied.day = $.grep(city.days, function (someDay) {
                         return someDay.id == scope.actionResultCopied.day_id;
                     })[0];
                 }
@@ -7566,7 +7732,9 @@ app.directive('voteResult', function($timeout, actionResultsService) {
                 }
 
                 scope.votedResident = votedResident;
-            }, true);
+            }
+
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -7617,13 +7785,22 @@ app.directive('voteResult', function($timeout, actionResultsService) {
                         return someActionResult.id == scope.actionResult.id;
                     });
 
-                    if (index < 0)
-                        index = 0;
+
+                    if (index < 0) {
+                        scope.actionResults.splice(0, 0, createdActionResult);
+                    } else {
+                        scope.actionResults.splice(index, 1, createdActionResult);
+                    }
+
+                    scope.actionResult = createdActionResult;
+                    init();
+
 
                     $timeout(function() {
-                        scope.actionResults.splice(index, 1, createdActionResult);
                         if (scope.isNew)
                             scope.hide();
+                        else
+                            scope.editMode = false;
                     });
 
 
@@ -7650,13 +7827,12 @@ app.directive('deputyIdentitiesActionTypeParamsResult', function(actionResultsSe
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.$watch('actionTypeParams', function(actionTypeParams) {
-                if (actionTypeParams.number_of_actions_available === undefined)
-                    return;
+            if (scope.actionTypeParams.number_of_actions_available === undefined)
+                return;
 
-                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
 
-            });
+
 
 
             scope.validateInput = function() {
@@ -7710,52 +7886,34 @@ app.directive('initiateRevivalActionTypeParamsResult', function(actionResultsSer
             };
 
 
-            var isRevivalDelayNumberValid = function(revivalDelayNumber) {
-
-                return revivalDelayNumber > 0 && revivalDelayNumber < 60;
+            var correctedRevivalDelayNumber = function(revivalDelayNumber) {
+                if (revivalDelayNumber < 1)
+                    return 1;
+                if (revivalDelayNumber > 59)
+                    return 59;
+                return revivalDelayNumber;
             };
 
-            scope.$watch('initiateRevivalProps.revivalDelayNumber', function(newValue, oldValue) {
-                if (newValue === undefined || !scope.actionTypeParams || !scope.actionTypeParams.revival_delay)
-                    return;
+            scope.revivalDelayNumberDidChange = function () {
+                scope.initiateRevivalProps.revivalDelayNumber = correctedRevivalDelayNumber(scope.initiateRevivalProps.revivalDelayNumber);
 
-                if (!isRevivalDelayNumberValid(newValue)) {
-                    if (isRevivalDelayNumberValid(oldValue)) {
-                        scope.initiateRevivalProps.revivalDelayNumber = oldValue;
-                    } else {
-                        scope.initiateRevivalProps.revivalDelayNumber = 5;
-                    }
-
-
-                }
                 var lastChar = scope.actionTypeParams.revival_delay.slice(-1);
                 scope.actionTypeParams.revival_delay = '' + scope.initiateRevivalProps.revivalDelayNumber + lastChar;
-
-            });
+            };
 
             var isInitiateRevivalTimeIntervalValid = function(revivalDelayTimeInterval) {
                 return revivalDelayTimeInterval == 'h' || revivalDelayTimeInterval == 'm' || revivalDelayTimeInterval == 's';
             };
 
-            scope.$watch('initiateRevivalProps.revivalDelayTimeInterval', function(newValue, oldValue) {
-                if (newValue === undefined)
-                    return;
-
-
-                if (!isInitiateRevivalTimeIntervalValid(newValue)) {
-                    if (isInitiateRevivalTimeIntervalValid(oldValue)) {
-                        scope.initiateRevivalProps.revivalDelayTimeInterval = oldValue;
-                    } else {
-                        scope.initiateRevivalProps.revivalDelayTimeInterval = 'm';
-                    }
-
-
+            scope.revivalDelayTimeIntervalDidChange = function () {
+                if (!isInitiateRevivalTimeIntervalValid(scope.initiateRevivalProps.revivalDelayTimeInterval)) {
+                    scope.initiateRevivalProps.revivalDelayTimeInterval = 'm';
                 }
                 var revivalDelayNumber = scope.initiateRevivalProps.revivalDelayNumber;
                 if (scope.actionTypeParams)
                     scope.actionTypeParams.revival_delay = '' + revivalDelayNumber + scope.initiateRevivalProps.revivalDelayTimeInterval;
 
-            }, true);
+            };
 
             scope.$watch('actionTypeParams.revival_delay', function(newValue, oldValue) {
                 if (newValue === undefined)
@@ -7791,13 +7949,12 @@ app.directive('investigateActionTypeParamsResult', function(actionResultsService
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.$watch('actionTypeParams', function(actionTypeParams) {
-                if (actionTypeParams.number_of_actions_available === undefined)
-                    return;
+            if (scope.actionTypeParams.number_of_actions_available === undefined)
+                return;
 
-                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
 
-            });
+
 
             scope.validateInput = function() {
                 if (scope.actionTypeParams.number_of_actions_available < 0) {
@@ -7832,13 +7989,11 @@ app.directive('journalistInvestigateActionTypeParamsResult', function(actionResu
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.$watch('actionTypeParams', function(actionTypeParams) {
-                if (actionTypeParams.number_of_actions_available === undefined)
+            if (scope.actionTypeParams.number_of_actions_available === undefined)
                     return;
 
-                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
 
-            });
 
 
             scope.validateInput = function() {
@@ -7874,12 +8029,11 @@ app.directive('protectActionTypeParamsResult', function(actionResultsService) {
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.$watch('actionTypeParams', function(actionTypeParams) {
-                if (actionTypeParams.number_of_actions_available === undefined)
-                    return;
+            if (scope.actionTypeParams.number_of_actions_available === undefined)
+                return;
 
-                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
-            });
+            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
+
 
             scope.validateInput = function() {
                 if (scope.actionTypeParams.number_of_actions_available < 0) {
@@ -7901,7 +8055,7 @@ app.directive('protectActionTypeParamsResult', function(actionResultsService) {
  
 // reviveActionTypeParamsResultDirective 
  
-app.directive('reviveActionTypeParamsResult', function() {
+ app.directive('reviveActionTypeParamsResult', function() {
     "use strict";
     return {
         restrict : 'E',
@@ -7926,42 +8080,36 @@ app.directive('reviveActionTypeParamsResult', function() {
             };
 
 
-            var isDaysUntilRevealValid = function(daysUntilReveal) {
 
-                return daysUntilReveal >= 0 && daysUntilReveal <= 5;
+            var daysUntilReveal = scope.actionTypeParams.days_until_reveal;
+            if (!scope.reviveProps.daysUntilReveal || daysUntilReveal != scope.reviveProps.daysUntilReveal.toString()) {
+                scope.reviveProps.daysUntilReveal = parseInt(daysUntilReveal);
+            }
+
+            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
+
+
+
+
+
+            var correctedDaysUntilReveal = function(daysUntilReveal) {
+                if (daysUntilReveal < 0)
+                    return 0;
+                if (daysUntilReveal > 5)
+                    return 5;
+
+                return daysUntilReveal;
             };
 
-            scope.$watch('reviveProps.daysUntilReveal', function(newValue, oldValue) {
-                if (newValue === undefined || !scope.actionTypeParams || scope.actionTypeParams.days_until_reveal === undefined)
-                    return;
 
-                if (!isDaysUntilRevealValid(newValue)) {
-                    if (isDaysUntilRevealValid(oldValue)) {
-                        scope.reviveProps.daysUntilReveal = oldValue;
-                    } else {
-                        scope.reviveProps.daysUntilReveal = 1;
-                    }
+            scope.daysUntilRevealDidChange = function () {
+                scope.reviveProps.daysUntilReveal = correctedDaysUntilReveal(scope.reviveProps.daysUntilReveal);
 
-
-                }
                 scope.actionTypeParams.days_until_reveal = scope.reviveProps.daysUntilReveal;
 
-
-            });
-
-            scope.$watch('actionTypeParams', function(newValue, oldValue) {
-                if (newValue.days_until_reveal === undefined || newValue.number_of_actions_available === undefined)
-                    return;
-
-                var daysUntilReveal = newValue.days_until_reveal;
-                if (!scope.reviveProps.daysUntilReveal || daysUntilReveal != scope.reviveProps.daysUntilReveal.toString()) {
-                    scope.reviveProps.daysUntilReveal = parseInt(daysUntilReveal);
-                }
+            };
 
 
-                scope.isInfinite = newValue.number_of_actions_available < 0;
-
-            }, true);
 
             scope.validateInput = function() {
                 if (scope.actionTypeParams.number_of_actions_available < 0) {
@@ -7997,13 +8145,13 @@ app.directive('sheriffIdentitiesActionTypeParamsResult', function(actionResultsS
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.$watch('actionTypeParams', function(actionTypeParams) {
-                if (actionTypeParams.number_of_actions_available === undefined)
+
+            if (scope.actionTypeParams.number_of_actions_available === undefined)
                     return;
 
-                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
 
-            });
+
 
             scope.validateInput = function() {
                 if (scope.actionTypeParams.number_of_actions_available < 0) {
@@ -8039,13 +8187,13 @@ app.directive('tellerVotesActionTypeParamsResult', function(actionResultsService
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.$watch('actionTypeParams', function(actionTypeParams) {
-                if (actionTypeParams.number_of_actions_available === undefined)
-                    return;
 
-                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+            if (scope.actionTypeParams.number_of_actions_available === undefined)
+                return;
 
-            });
+            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
+
+
 
             scope.validateInput = function() {
                 if (scope.actionTypeParams.number_of_actions_available < 0) {
@@ -8096,86 +8244,64 @@ app.directive('terroristBombActionTypeParamsResult', function(actionResultsServi
                 detonationTimeInterval : detonationTimeInterval || 'm'
             };
 
-            var isNumberOfCollateralsValid = function(numberOfCollaterals) {
-                return numberOfCollaterals >= 0 && numberOfCollaterals <= 2;
+
+            var detonationNumber = scope.actionTypeParams.detonation_delay.slice(0,-1);
+            if (!scope.detonationProps.detonationNumber || detonationNumber != scope.detonationProps.detonationNumber.toString()) {
+                scope.detonationProps.detonationNumber = parseInt(detonationNumber);
+            }
+            var detonationTimeInterval = scope.actionTypeParams.detonation_delay.slice(-1);
+            if (detonationTimeInterval != scope.detonationProps.detonationTimeInterval) {
+                scope.detonationProps.detonationTimeInterval = detonationTimeInterval;
+            }
+
+
+            var correctedNumberOfCollaterals = function(numberOfCollaterals) {
+                if (numberOfCollaterals < 0)
+                    return 0;
+                if (numberOfCollaterals > 2)
+                    return 2;
+                return numberOfCollaterals;
             };
 
-            scope.$watch('actionTypeParams.number_of_collaterals', function(newValue, oldValue) {
-                if (!scope.actionTypeParams) {
-                    return;
-                }
-
-                if (!isNumberOfCollateralsValid(newValue)) {
-                    if (isNumberOfCollateralsValid(oldValue))
-                        scope.actionTypeParams.number_of_collaterals = oldValue;
-                    else
-                        scope.actionTypeParams.number_of_collaterals = 1;
-                }
-
-            }, true);
+            scope.numberOfCollateralsDidChange = function() {
+                scope.actionTypeParams.number_of_collaterals = correctedNumberOfCollaterals(scope.actionTypeParams.number_of_collaterals);
 
 
-            var isDetonationNumberValid = function(detonationNumber) {
-
-                return detonationNumber > 0 && detonationNumber < 60;
             };
 
-            scope.$watch('detonationProps.detonationNumber', function(newValue, oldValue) {
-                if (newValue === undefined || !scope.actionTypeParams || !scope.actionTypeParams.detonation_delay)
-                    return;
 
-                if (!isDetonationNumberValid(newValue)) {
-                    if (isDetonationNumberValid(oldValue)) {
-                        scope.detonationProps.detonationNumber = oldValue;
-                    } else {
-                        scope.detonationProps.detonationNumber = 5;
-                    }
+            var correctedDetonationNumber = function(detonationNumber) {
+                if (detonationNumber < 1)
+                    return 1;
+                if (detonationNumber > 59)
+                    return 59;
+                return detonationNumber;
+            };
 
 
-                }
+            scope.detonationNumberDidChange = function () {
+                scope.detonationProps.detonationNumber = correctedDetonationNumber(scope.detonationProps.detonationNumber);
+
                 var lastChar = scope.actionTypeParams.detonation_delay.slice(-1);
                 scope.actionTypeParams.detonation_delay = '' + scope.detonationProps.detonationNumber + lastChar;
+            };
 
-            });
 
             var isDetonationTimeIntervalValid = function(detonationTimeInterval) {
                 return detonationTimeInterval == 'h' || detonationTimeInterval == 'm' || detonationTimeInterval == 's';
             };
 
-            scope.$watch('detonationProps.detonationTimeInterval', function(newValue, oldValue) {
-                if (newValue === undefined)
-                    return;
-
-
+            scope.detonationTimeIntervalDidChange = function () {
                 if (!isDetonationTimeIntervalValid(newValue)) {
-                    if (isDetonationTimeIntervalValid(oldValue)) {
-                        scope.detonationProps.detonationTimeInterval = oldValue;
-                    } else {
-                        scope.detonationProps.detonationTimeInterval = '5m';
-                    }
-
-
+                    scope.detonationProps.detonationTimeInterval = 'm';
                 }
                 var detonationNumber = scope.detonationProps.detonationNumber;
                 if (scope.actionTypeParams)
                     scope.actionTypeParams.detonation_delay = '' + detonationNumber + scope.detonationProps.detonationTimeInterval;
+            };
 
-            }, true);
 
-            scope.$watch('actionTypeParams.detonation_delay', function(newValue, oldValue) {
-                if (newValue === undefined)
-                    return;
 
-                var detonationNumber = newValue.slice(0,-1);
-                if (!scope.detonationProps.detonationNumber || detonationNumber != scope.detonationProps.detonationNumber.toString()) {
-                    scope.detonationProps.detonationNumber = parseInt(detonationNumber);
-                }
-                var detonationTimeInterval = newValue.slice(-1);
-                if (detonationTimeInterval != scope.detonationProps.detonationTimeInterval) {
-                    scope.detonationProps.detonationTimeInterval = detonationTimeInterval;
-                }
-
-            }, true);
 
         }
     };
@@ -10302,7 +10428,7 @@ app.directive('elder', function() {
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.roleId = ROLE_ID_ELDER_CITIZEN;
+            scope.roleId = ROLE_ID_ELDER;
 
         }
     };
@@ -10842,9 +10968,6 @@ app.directive('loader', function() {
 
             scope.size = attrs.size;
 
-            if (attrs['center'] !== undefined) {
-                scope.style = "display: block; margin: 0 auto;";
-            }
         }
     };
 }); 

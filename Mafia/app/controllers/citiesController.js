@@ -57,7 +57,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.allCitiesIsSearchActiveWillChange = function() {
-        $scope.selectedAllCities.rowId = null;
+        // .selectedAllCities.rowId = null;
         if (!$scope.allCitiesFilterModel.isSearchActive) { // about to become TRUE
             $timeout(function() {
                 $("#search-all-cities-ac-input input[type=text]").focus();
@@ -111,7 +111,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.myCitiesIsSearchActiveWillChange = function() {
-        $scope.selectedMyCities.rowId = null;
+        // $scope.selectedMyCities.rowId = null;
         if (!$scope.myCitiesFilterModel.isSearchActive) { // about to become TRUE
             $timeout(function() {
                 $("#search-my-cities-ac-input input[type=text]").focus();
@@ -336,26 +336,17 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         }
     };
 
+    $scope.selectCity = function (city) {
+//        var selectedCity = $.grep($scope.myCities, function (city) {
+//            return city.id == newValue;
+//        })[0];
+        $scope.citySelected(city);
+        var alreadySelected = $('.table-cities tr.selected');
+        alreadySelected.removeClass("selected");
+        var row = $('.table-cities:visible').find("[name='id'][value='" + city.id + "']").parent();
+        row.addClass("selected");
+    };
 
-    $scope.$watch("selectedMyCities.rowId", function (newValue) {
-        if (!$scope.myCities)
-            return;
-
-        var selectedCity = $.grep($scope.myCities, function (city) {
-            return city.id == newValue;
-        })[0];
-        $scope.citySelected(selectedCity);
-    });
-
-    $scope.$watch("selectedAllCities.rowId", function (newValue) {
-        if (!$scope.allCities)
-            return;
-
-        var selectedCity = $.grep($scope.allCities, function (city) {
-            return city.id == newValue;
-        })[0];
-        $scope.citySelected(selectedCity);
-    });
 
     $scope.citySelected = function (selectedCity) {
         $scope.selectedCity = selectedCity;
@@ -364,29 +355,17 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.tabSelected = function (tabIndex) {
-        $scope.selectedAllCities.rowId = 0;
-        $scope.selectedMyCities.rowId = 0;
+        if (tabIndex == $scope.selectedTab)
+            return;
+
+        $scope.selectedTab = tabIndex;
+        $scope.citySelected(null);
+        var alreadySelected = $('.table-cities tr.selected');
+        alreadySelected.removeClass("selected");
+        // $scope.selectedAllCities.rowId = 0;
+        // $scope.selectedMyCities.rowId = 0;
     };
 
-    /*
-    function amICreatorOfCity(city) {
-        if (city) {
-            return city.user_creator_id == authService.user.id;
-        } else
-            return false;
-    }
-
-    function amIMemberOfCity(city) {
-        if (!city)
-            return false;
-
-        var residentMe = $.grep(city.residents, function(someResident) {
-            return someResident.user_id == authService.user.id;
-        })[0];
-
-        return residentMe;
-    }
-    */
 
     function classNameForMyCitiesRow(city) {
         if (!city)
@@ -401,8 +380,8 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         if (city.is_join_requested)
             classes += "city-row-join-requested";
 
-        if (city.id == $scope.selectedMyCities.rowId)
-            classes += " selected";
+        // if (city.id == $scope.selectedMyCities.rowId)
+        //    classes += " selected";
 
         return classes;
     }
@@ -418,14 +397,10 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         else
             classes +=  "city-row-private";
 
-        if (city.id == $scope.selectedAllCities.rowId)
-            classes += " selected";
+        //if (city.id == $scope.selectedAllCities.rowId)
+        //    classes += " selected";
 
         return classes;
-    }
-
-    function showEditButtonForCity(city) {
-        return city.is_owner;
     }
 
     function showEnterButtonForCity(city) {
@@ -470,8 +445,8 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
     $scope.$watch("user", function (newUser, oldUser) {
         $scope.selectedCity = null;
-        $scope.selectedAllCities = {};
-        $scope.selectedMyCities = {};
+        // $scope.selectedAllCities = {};
+        // $scope.selectedMyCities = {};
 
         if (!newUser || !newUser.id) {
             $scope.myCities = [];
@@ -538,14 +513,12 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         }
 
 
-        $scope.selectedAllCities = {rowId: 0};
-        $scope.selectedMyCities = {rowId: 0};
+        $scope.selectedTab = 0;
         $scope.reloadAllCities();
         $scope.reloadMyCities();
 
         $scope.classNameForMyCitiesRow = classNameForMyCitiesRow;
         $scope.classNameForAllCitiesRow = classNameForAllCitiesRow;
-        $scope.showEditButtonForCity = showEditButtonForCity;
         $scope.showEnterButtonForCity = showEnterButtonForCity;
 
         $scope.showPasswordFieldForCity = showPasswordFieldForCity;

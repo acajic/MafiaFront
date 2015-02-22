@@ -69,6 +69,8 @@ app.directive('roleChooser', function(residentsService) {
 
                 var saveRolePromise = residentsService.saveRoleForCityId(scope.city.id, scope.roleId);
                 saveRolePromise.then(function(updatedResident) {
+                    scope.editMode = false;
+
                     if (scope.handleAlert) {
                         scope.handleAlert({alert: {type: 'success', msg: 'You will be presented with this role the next time you log in to this game.'}});
                     }

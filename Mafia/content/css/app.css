@@ -152,6 +152,11 @@ input, textarea, select {
     margin-bottom: 20px;
 }
 
+
+.horizontal-center {
+    text-align: center;
+}
+
 /* BEGIN register */
 
 .register {
@@ -448,10 +453,6 @@ ac-checkbox span {
     padding-bottom: 15px;
 }
 
-
-.role-big-loader {
-    text-align: center;
-}
 
 .city .general-messages {
     background-color: #322213;

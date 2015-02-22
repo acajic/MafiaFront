@@ -12,12 +12,8 @@ app.directive('residents', function($timeout, actionResultsService) {
             "use strict";
 
 
-            scope.$watch('actionResultsByType', function(actionResultsByType) {
-
-                if (!actionResultsByType)
-                    return;
-
-                var residentsActionResults = actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS];
+            function init() {
+                var residentsActionResults = scope.actionResultsByType[ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS];
                 if (!residentsActionResults)
                     return;
 
@@ -36,7 +32,9 @@ app.directive('residents', function($timeout, actionResultsService) {
 
                     scope.residentsCopied = residents;
                 }
-            }, true);
+            }
+
+            init();
 
 
             scope.toggleMode = function() {
@@ -73,6 +71,7 @@ app.directive('residents', function($timeout, actionResultsService) {
                 submitActionResultPromise.then(function(createdActionResult) {
 
                     $timeout(function() {
+                        scope.actionResult = createdActionResult;
                         scope.actionResults.splice(index, 1, createdActionResult);
                         scope.editMode = false;
                     });

@@ -100,7 +100,8 @@
         <alert ng-repeat="alert in basicValidationErrors" type="alert.type" close="closeBasicValidationAlert($index)">{{alert.msg}}</alert>
 
 
-        <role city="city"
+        <role ng-if="!isLoading"
+              city="city"
               resident="resident"
               action-results="actionResults"
               is-loading="isLoading"
@@ -115,6 +116,9 @@
               load-more-recent-action-results="loadMoreRecentActionResults">
 
         </role>
+        <div ng-show="isLoading" class="horizontal-center">
+            <loader size="large" center></loader>
+        </div>
 
         <div class="city-join-discussion" ng-if="resident">
             <button ng-click="joinDiscussion()" class="col-md-12 btn btn-join-discussion" ng-if="city.id">

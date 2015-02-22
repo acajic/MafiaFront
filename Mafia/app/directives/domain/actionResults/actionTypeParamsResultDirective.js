@@ -18,25 +18,23 @@ app.directive('actionTypeParamsResult', function($timeout, actionResultsService)
             scope.actionTypeParams = {};
             scope.editMode = false;
 
-            scope.$watch('actionResult', function(actionResult) {
-                if (!actionResult)
+            function init() {
+                if (!scope.actionResult || !scope.actionResult.result)
                     return;
 
-                if (!actionResult.result)
-                    return;
-
-                var actionTypeParamsPerRolePerActionType = actionResult.result.action_types_params;
+                var actionTypeParamsPerRolePerActionType = scope.actionResult.result.action_types_params;
 
                 if (!actionTypeParamsPerRolePerActionType[scope.roleId.toString()])
                     return;
 
-                var actionTypeParams = {};
-                actionTypeParams = actionTypeParamsPerRolePerActionType[scope.roleId.toString()][scope.actionTypeId.toString()];
+                var actionTypeParams = actionTypeParamsPerRolePerActionType[scope.roleId.toString()][scope.actionTypeId.toString()];
 
 
                 scope.actionTypeParams = actionTypeParams;
 
-            }, true);
+            }
+
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -69,6 +67,10 @@ app.directive('actionTypeParamsResult', function($timeout, actionResultsService)
                     var index = scope.actionResults.indexOfMatchFunction(function(someActionResult) {
                         return someActionResult.id == scope.actionResult.id;
                     });
+
+
+                    scope.actionResult = createdActionResult;
+                    init();
 
                     $timeout(function() {
                         scope.actionResults.splice(index, 1, createdActionResult);

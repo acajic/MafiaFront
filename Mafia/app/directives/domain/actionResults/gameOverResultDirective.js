@@ -10,8 +10,10 @@ app.directive('gameOverResult', function(actionResultsService) {
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.$watch('[actionResultsByType, city.residentsById]', function(values) {
-                var actionResultsByType = values[0];
+
+            function init() {
+
+                var actionResultsByType = scope.actionResultsByType;
                 if (!actionResultsByType)
                     return;
 
@@ -32,7 +34,7 @@ app.directive('gameOverResult', function(actionResultsService) {
                 scope.losersAffiliations = result['loser_affiliations'];
                 var residents = result['residents_with_roles'];
 
-                var residentsById = values[1];
+                var residentsById = scope.city.residentsById;
                 if (!residentsById)
                     residentsById = {};
 
@@ -52,7 +54,9 @@ app.directive('gameOverResult', function(actionResultsService) {
 
                 scope.residentsWithRoles = residents;
 
-            }, true);
+            }
+
+            init();
 
 
             scope.classNameForResidentRow = function(resident) {

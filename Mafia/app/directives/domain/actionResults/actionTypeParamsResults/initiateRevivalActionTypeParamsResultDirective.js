@@ -25,52 +25,34 @@ app.directive('initiateRevivalActionTypeParamsResult', function(actionResultsSer
             };
 
 
-            var isRevivalDelayNumberValid = function(revivalDelayNumber) {
-
-                return revivalDelayNumber > 0 && revivalDelayNumber < 60;
+            var correctedRevivalDelayNumber = function(revivalDelayNumber) {
+                if (revivalDelayNumber < 1)
+                    return 1;
+                if (revivalDelayNumber > 59)
+                    return 59;
+                return revivalDelayNumber;
             };
 
-            scope.$watch('initiateRevivalProps.revivalDelayNumber', function(newValue, oldValue) {
-                if (newValue === undefined || !scope.actionTypeParams || !scope.actionTypeParams.revival_delay)
-                    return;
+            scope.revivalDelayNumberDidChange = function () {
+                scope.initiateRevivalProps.revivalDelayNumber = correctedRevivalDelayNumber(scope.initiateRevivalProps.revivalDelayNumber);
 
-                if (!isRevivalDelayNumberValid(newValue)) {
-                    if (isRevivalDelayNumberValid(oldValue)) {
-                        scope.initiateRevivalProps.revivalDelayNumber = oldValue;
-                    } else {
-                        scope.initiateRevivalProps.revivalDelayNumber = 5;
-                    }
-
-
-                }
                 var lastChar = scope.actionTypeParams.revival_delay.slice(-1);
                 scope.actionTypeParams.revival_delay = '' + scope.initiateRevivalProps.revivalDelayNumber + lastChar;
-
-            });
+            };
 
             var isInitiateRevivalTimeIntervalValid = function(revivalDelayTimeInterval) {
                 return revivalDelayTimeInterval == 'h' || revivalDelayTimeInterval == 'm' || revivalDelayTimeInterval == 's';
             };
 
-            scope.$watch('initiateRevivalProps.revivalDelayTimeInterval', function(newValue, oldValue) {
-                if (newValue === undefined)
-                    return;
-
-
-                if (!isInitiateRevivalTimeIntervalValid(newValue)) {
-                    if (isInitiateRevivalTimeIntervalValid(oldValue)) {
-                        scope.initiateRevivalProps.revivalDelayTimeInterval = oldValue;
-                    } else {
-                        scope.initiateRevivalProps.revivalDelayTimeInterval = 'm';
-                    }
-
-
+            scope.revivalDelayTimeIntervalDidChange = function () {
+                if (!isInitiateRevivalTimeIntervalValid(scope.initiateRevivalProps.revivalDelayTimeInterval)) {
+                    scope.initiateRevivalProps.revivalDelayTimeInterval = 'm';
                 }
                 var revivalDelayNumber = scope.initiateRevivalProps.revivalDelayNumber;
                 if (scope.actionTypeParams)
                     scope.actionTypeParams.revival_delay = '' + revivalDelayNumber + scope.initiateRevivalProps.revivalDelayTimeInterval;
 
-            }, true);
+            };
 
             scope.$watch('actionTypeParams.revival_delay', function(newValue, oldValue) {
                 if (newValue === undefined)

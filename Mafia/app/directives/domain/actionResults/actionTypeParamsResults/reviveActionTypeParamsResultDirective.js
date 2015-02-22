@@ -1,4 +1,4 @@
-app.directive('reviveActionTypeParamsResult', function() {
+ app.directive('reviveActionTypeParamsResult', function() {
     "use strict";
     return {
         restrict : 'E',
@@ -23,42 +23,36 @@ app.directive('reviveActionTypeParamsResult', function() {
             };
 
 
-            var isDaysUntilRevealValid = function(daysUntilReveal) {
 
-                return daysUntilReveal >= 0 && daysUntilReveal <= 5;
+            var daysUntilReveal = scope.actionTypeParams.days_until_reveal;
+            if (!scope.reviveProps.daysUntilReveal || daysUntilReveal != scope.reviveProps.daysUntilReveal.toString()) {
+                scope.reviveProps.daysUntilReveal = parseInt(daysUntilReveal);
+            }
+
+            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
+
+
+
+
+
+            var correctedDaysUntilReveal = function(daysUntilReveal) {
+                if (daysUntilReveal < 0)
+                    return 0;
+                if (daysUntilReveal > 5)
+                    return 5;
+
+                return daysUntilReveal;
             };
 
-            scope.$watch('reviveProps.daysUntilReveal', function(newValue, oldValue) {
-                if (newValue === undefined || !scope.actionTypeParams || scope.actionTypeParams.days_until_reveal === undefined)
-                    return;
 
-                if (!isDaysUntilRevealValid(newValue)) {
-                    if (isDaysUntilRevealValid(oldValue)) {
-                        scope.reviveProps.daysUntilReveal = oldValue;
-                    } else {
-                        scope.reviveProps.daysUntilReveal = 1;
-                    }
+            scope.daysUntilRevealDidChange = function () {
+                scope.reviveProps.daysUntilReveal = correctedDaysUntilReveal(scope.reviveProps.daysUntilReveal);
 
-
-                }
                 scope.actionTypeParams.days_until_reveal = scope.reviveProps.daysUntilReveal;
 
-
-            });
-
-            scope.$watch('actionTypeParams', function(newValue, oldValue) {
-                if (newValue.days_until_reveal === undefined || newValue.number_of_actions_available === undefined)
-                    return;
-
-                var daysUntilReveal = newValue.days_until_reveal;
-                if (!scope.reviveProps.daysUntilReveal || daysUntilReveal != scope.reviveProps.daysUntilReveal.toString()) {
-                    scope.reviveProps.daysUntilReveal = parseInt(daysUntilReveal);
-                }
+            };
 
 
-                scope.isInfinite = newValue.number_of_actions_available < 0;
-
-            }, true);
 
             scope.validateInput = function() {
                 if (scope.actionTypeParams.number_of_actions_available < 0) {

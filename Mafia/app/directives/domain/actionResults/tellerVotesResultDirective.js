@@ -13,15 +13,15 @@ app.directive('tellerVotesResult', function($timeout, actionResultsService) {
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
+            function init() {
+                var actionResult = scope.actionResult;
                 var result = actionResult.result;
                 if (!actionResult)
                     return;
 
                 var votesCountPerResidentId = result.votes_count;
 
-                var city = values[1];
+                var city = scope.city;
 
                 if (!city)
                     return;
@@ -51,12 +51,16 @@ app.directive('tellerVotesResult', function($timeout, actionResultsService) {
                     });
                 };
 
-                scope.interpretation = "Yesterday's public voting results:"
+                scope.interpretation = "Yesterday's public voting results:";
                 scope.votesCountPerResident = votesCountPerResident;
                 var votesCountPerResidentCopied = [];
                 angular.copy(votesCountPerResident, votesCountPerResidentCopied);
                 scope.votesCountPerResidentCopied = votesCountPerResidentCopied;
-            }, true);
+            }
+
+            init();
+
+
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -152,6 +156,9 @@ app.directive('tellerVotesResult', function($timeout, actionResultsService) {
                     } else {
                         scope.actionResults.splice(index, 1, createdActionResult);
                     }
+
+                    scope.actionResult = createdActionResult;
+                    init();
 
 
                     $timeout(function() {

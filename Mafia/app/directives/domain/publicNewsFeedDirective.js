@@ -24,7 +24,7 @@ app.directive('publicNewsFeed', function(actionResultsService) {
                     return null;
 
                 scope.publicActionResults = actionResultsService.publicActionResults(actionResults);
-            }, true);
+            });
 
         }
     };

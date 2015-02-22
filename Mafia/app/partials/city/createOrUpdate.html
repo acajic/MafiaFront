@@ -403,7 +403,7 @@
                                 <i class="glyphicon glyphicon-tasks"></i> Distribution
                             </tab-heading>
                             You should distribute roles right before starting the game beacause the number of roles assigned should be equal to the number of players in the game.
-                            <table class="table sidetable">
+                            <table class="table sidetable" ng-if="city.residents">
                                 <tbody>
                                 <tr>
                                     <td>Total residents</td>
@@ -420,14 +420,14 @@
                                 </tr>
                                 <tr ng-repeat="role_quantity in roleQuantities | filter : {role : {affiliation: {id : affiliationIds.AFFILIATION_ID_CITIZENS}}}">
                                     <td>{{role_quantity.role.name}}</td>
-                                    <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'" readonly="city.started_at"></points-assign></td>
+                                    <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" max="city.residents.length" unused="remainingRoles" point-assign-id="{{role_quantity.role.id}}" on-change="roleQuantityDidChange(roleId, newQuantity)" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'" readonly="city.started_at"></points-assign></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="text-align: center">Mafia</td>
                                 </tr>
                                 <tr ng-repeat="role_quantity in roleQuantities | filter : {role: {affiliation: {id : affiliationIds.AFFILIATION_ID_MAFIA}}} ">
                                     <td>{{role_quantity.role.name}}</td>
-                                    <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'" readonly="city.started_at"></points-assign></td>
+                                    <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" max="city.residents.length" unused="remainingRoles" point-assign-id="{{role_quantity.role.id}}" on-change="roleQuantityDidChange(roleId, newQuantity)" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'" readonly="city.started_at"></points-assign></td>
                                 </tr>
                                 </tbody>
                             </table>

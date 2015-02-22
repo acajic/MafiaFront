@@ -3,10 +3,13 @@
     <elder-vote ng-if="!city.finished_at && roleId == roleIds.ROLE_ID_ELDER"></elder-vote>
 
     <residents ng-if="!city.finished_at" city="city" action-results="actionResults" action-results-by-type="actionResultsByType"></residents>
-    <game-over-result ng-if="city.finished_at" city="city" action-results-by-type="actionResultsByType"></game-over-result>
+    <game-over-result ng-if="city.finished_at && actionResultsByType" city="city" action-results-by-type="actionResultsByType"></game-over-result>
 
 </div>
 <div class="col-md-6">
-    <public-news-feed ng-hide="isLoadingActionResults" city="city" role-id="roleId" resident="resident" action-results="actionResults" day-number-min="dayNumberMin" day-number-max="dayNumberMax" has-earlier-action-results="hasEarlierActionResults"  load-earlier-action-results="loadEarlierActionResults" has-more-recent-action-results="hasMoreRecentActionResults" load-more-recent-action-results="loadMoreRecentActionResults"></public-news-feed>
-    <loader size="large" ng-show="isLoadingActionResults" center></loader>
+    <public-news-feed ng-if="actionResults" ng-hide="isLoadingActionResults" city="city" role-id="roleId" resident="resident" action-results="actionResults" day-number-min="dayNumberMin" day-number-max="dayNumberMax" has-earlier-action-results="hasEarlierActionResults"  load-earlier-action-results="loadEarlierActionResults" has-more-recent-action-results="hasMoreRecentActionResults" load-more-recent-action-results="loadMoreRecentActionResults"></public-news-feed>
+    <div class="horizontal-center">
+        <loader size="large" ng-show="isLoadingActionResults"></loader>
+    </div>
+
 </div>

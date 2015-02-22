@@ -11,13 +11,11 @@ app.directive('journalistInvestigateActionTypeParamsResult', function(actionResu
         link: function(scope, element, attrs) {
             "use strict";
 
-            scope.$watch('actionTypeParams', function(actionTypeParams) {
-                if (actionTypeParams.number_of_actions_available === undefined)
+            if (scope.actionTypeParams.number_of_actions_available === undefined)
                     return;
 
-                scope.isInfinite = actionTypeParams.number_of_actions_available < 0;
+            scope.isInfinite = scope.actionTypeParams.number_of_actions_available < 0;
 
-            });
 
 
             scope.validateInput = function() {

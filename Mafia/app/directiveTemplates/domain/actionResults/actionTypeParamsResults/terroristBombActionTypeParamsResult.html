@@ -8,8 +8,8 @@
 <div ng-if="editMode">
 
 
-    Detonation delay: <input type="number" ng-model="detonationProps.detonationNumber">
-    <select ng-model="detonationProps.detonationTimeInterval">
+    Detonation delay: <input type="number" ng-model="detonationProps.detonationNumber" ng-change="detonationNumberDidChange()">
+    <select ng-model="detonationProps.detonationTimeInterval" ng-change="detonationTimeIntervalDidChange()">
         <option value="s"> seconds </option>
         <option value="m"> minutes </option>
         <option value="h"> hours </option>
@@ -17,5 +17,5 @@
 
     <br/>
 
-    Number of collateral victims: <input type="number" ng-model="actionTypeParams.number_of_collaterals">
+    Number of collateral victims: <input type="number" ng-model="actionTypeParams.number_of_collaterals" ng-change="numberOfCollateralsDidChange()">
 </div>

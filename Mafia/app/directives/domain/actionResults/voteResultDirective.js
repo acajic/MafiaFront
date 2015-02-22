@@ -8,17 +8,13 @@ app.directive('voteResult', function($timeout, actionResultsService) {
 
             scope.actionResultCopied = {};
 
-            scope.$watch('[actionResult, city]', function(values) {
-                var actionResult = values[0];
-                if (!actionResult)
-                    return;
+            function init() {
+                var actionResult = scope.actionResult;
 
 
-                var city = values[1];
-                if (!city)
-                    return;
+                var city = scope.city;
 
-                if (!actionResult.id) {
+                if (!actionResult || !actionResult.id) {
                     scope.actionResultCopied = {
                         action_result_type: {
                             id: ACTION_RESULT_TYPE_ID_VOTE
@@ -27,7 +23,7 @@ app.directive('voteResult', function($timeout, actionResultsService) {
                     };
                 } else {
                     angular.copy(scope.actionResult, scope.actionResultCopied);
-                    scope.actionResultCopied.day = $.grep(city.days, function(someDay) {
+                    scope.actionResultCopied.day = $.grep(city.days, function (someDay) {
                         return someDay.id == scope.actionResultCopied.day_id;
                     })[0];
                 }
@@ -42,7 +38,9 @@ app.directive('voteResult', function($timeout, actionResultsService) {
                 }
 
                 scope.votedResident = votedResident;
-            }, true);
+            }
+
+            init();
 
             scope.toggleMode = function() {
                 if (scope.city.finished_at || !scope.resident)
@@ -93,13 +91,22 @@ app.directive('voteResult', function($timeout, actionResultsService) {
                         return someActionResult.id == scope.actionResult.id;
                     });
 
-                    if (index < 0)
-                        index = 0;
+
+                    if (index < 0) {
+                        scope.actionResults.splice(0, 0, createdActionResult);
+                    } else {
+                        scope.actionResults.splice(index, 1, createdActionResult);
+                    }
+
+                    scope.actionResult = createdActionResult;
+                    init();
+
 
                     $timeout(function() {
-                        scope.actionResults.splice(index, 1, createdActionResult);
                         if (scope.isNew)
                             scope.hide();
+                        else
+                            scope.editMode = false;
                     });
 
 

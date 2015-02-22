@@ -14,10 +14,13 @@
         </tab-heading>
 
         <div class="col-md-6 nopadding">
-            <special-actions city="city" role-id="roleId" resident="resident" action-results="actionResults" action-results-by-type="actionResultsByType"></special-actions>
+            <special-actions ng-if="!city.finished_at" city="city" role-id="roleId" resident="resident" action-results="actionResults" action-results-by-type="actionResultsByType"></special-actions>
         </div>
         <div class="col-md-6">
             <private-news-feed city="city" role-id="roleId" resident="resident" action-results="actionResults"  is-loading-action-results="isLoadingActionResults" day-number-min="dayNumberMin" day-number-max="dayNumberMax" has-earlier-action-results="hasEarlierActionResults"  load-earlier-action-results="loadEarlierActionResults" has-more-recent-action-results="hasMoreRecentActionResults" load-more-recent-action-results="loadMoreRecentActionResults"></private-news-feed>
+            <div class="horizontal-center">
+                <loader size="large" ng-show="isLoadingActionResults"></loader>
+            </div>
         </div>
 
     </tab>
