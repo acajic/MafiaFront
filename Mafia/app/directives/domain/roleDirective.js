@@ -19,8 +19,6 @@ app.directive('role', function($compile, rolesService) {
         },
         templateUrl: 'app/directiveTemplates/domain/role.html',
         compile: function ( element, attrs ) {
-            var time = (new Date()).getTime();
-            console.log('Compile: ' + time);
 
             var roleDirectivesByRoleId = {};
             var citizenDirective = element.find( "citizen" );
@@ -61,13 +59,8 @@ app.directive('role', function($compile, rolesService) {
 
             return {
                 pre: function (scope, element, attrs) {
-                    var time = (new Date()).getTime();
-                    console.log('Pre-Link: ' + time);
-
                 },
                 post: function (scope, element, attrs) {
-                    var time = (new Date()).getTime();
-                    console.log('Post-Link: ' + time);
 
                     scope.roleIds = rolesService.roleIds;
 
