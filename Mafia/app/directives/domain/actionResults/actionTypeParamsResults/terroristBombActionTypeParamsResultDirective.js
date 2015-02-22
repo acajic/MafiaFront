@@ -72,7 +72,7 @@ app.directive('terroristBombActionTypeParamsResult', function(actionResultsServi
             };
 
             scope.detonationTimeIntervalDidChange = function () {
-                if (!isDetonationTimeIntervalValid(newValue)) {
+                if (!isDetonationTimeIntervalValid(scope.detonationProps.detonationTimeInterval)) {
                     scope.detonationProps.detonationTimeInterval = 'm';
                 }
                 var detonationNumber = scope.detonationProps.detonationNumber;
