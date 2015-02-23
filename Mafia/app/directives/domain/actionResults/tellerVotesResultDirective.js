@@ -13,6 +13,10 @@ app.directive('tellerVotesResult', function($timeout, actionResultsService) {
 
             scope.actionResultCopied = {};
 
+            scope.addedResidentVoteCount = {};
+
+
+
             function init() {
                 var actionResult = scope.actionResult;
                 var result = actionResult.result;
@@ -72,8 +76,6 @@ app.directive('tellerVotesResult', function($timeout, actionResultsService) {
             scope.selectResident = function(selectedOption) {
                 scope.addedResidentVoteCount.resident = selectedOption;
             };
-
-            scope.addedResidentVoteCount = {};
 
 
             scope.addVoteCountForResident = function() {

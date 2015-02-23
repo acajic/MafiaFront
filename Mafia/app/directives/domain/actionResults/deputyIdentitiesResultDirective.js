@@ -41,7 +41,9 @@ app.directive('deputyIdentitiesResult', function($timeout, actionResultsService)
                     })[0];
                 }
 
-
+                scope.outcome = {
+                    success : true
+                };
 
                 scope.outcome.success = result.success.toString() == 'true';
 
@@ -91,9 +93,7 @@ app.directive('deputyIdentitiesResult', function($timeout, actionResultsService)
                 scope.editMode = !scope.editMode;
             };
 
-            scope.outcome = {
-                success : true
-            };
+
 
             scope.removeFromDeadResidents = function(index) {
                 scope.deadResidentRolesCopied.splice(index, 1);
