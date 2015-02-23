@@ -12,6 +12,7 @@ app.directive('sheriffIdentities', function($timeout, actionsService, actionResu
                 scope.actionResultTypes = actionResultTypesByIdsResult;
             });
 
+            scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_SHERIFF_IDENTITIES.toString()];
             scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
                 if (!actionTypeParamsResult)
                     return;

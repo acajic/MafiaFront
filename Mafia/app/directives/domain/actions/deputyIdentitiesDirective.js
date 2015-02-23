@@ -13,12 +13,13 @@ app.directive('deputyIdentities', function($timeout, actionsService, actionResul
             });
 
 
+            scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_DEPUTY_IDENTITIES.toString()];
             scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
                 if (!actionTypeParamsResult)
                     return;
 
                 scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_DEPUTY_IDENTITIES.toString()];
-            });
+            }, true);
 
 
             scope.revealIdentities = function() {

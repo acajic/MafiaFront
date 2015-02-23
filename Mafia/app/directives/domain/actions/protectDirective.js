@@ -6,12 +6,13 @@ app.directive('protect', function($timeout, actionsService) {
         link: function(scope, element, attrs) {
             "use strict";
 
+            scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_PROTECT.toString()];
             scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
                 if (!actionTypeParamsResult)
                     return;
 
                 scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_PROTECT.toString()];
-            });
+            }, true);
 
             scope.protectOnSelect = function(selectedResident) {
                 if (!selectedResident)

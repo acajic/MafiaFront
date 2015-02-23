@@ -8325,12 +8325,13 @@ app.directive('deputyIdentities', function($timeout, actionsService, actionResul
             });
 
 
+            scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_DEPUTY_IDENTITIES.toString()];
             scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
                 if (!actionTypeParamsResult)
                     return;
 
                 scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_DEPUTY_IDENTITIES.toString()];
-            });
+            }, true);
 
 
             scope.revealIdentities = function() {
@@ -8447,6 +8448,9 @@ app.directive('initiateRevival', function($timeout, $q, actionsService,actionRes
 
             scope.selectedResident = {};
 
+            scope.initiateRevivalActionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_INITIATE_REVIVAL.toString()];
+            scope.reviveActionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_REVIVE.toString()];
+
             scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
                 if (!actionTypeParamsResult)
                     return;
@@ -8517,6 +8521,8 @@ app.directive('investigate', function($timeout, actionsService) {
         link: function(scope, element, attrs) {
             "use strict";
 
+            scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_INVESTIGATE.toString()];
+
             scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
                 if (!actionTypeParamsResult)
                     return;
@@ -8578,6 +8584,7 @@ app.directive('journalistInvestigate', function($timeout, actionsService) {
         link: function(scope, element, attrs) {
             "use strict";
 
+            scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_JOURNALIST_INVESTIGATE.toString()];
             scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
                 if (!actionTypeParamsResult)
                     return;
@@ -8638,12 +8645,13 @@ app.directive('protect', function($timeout, actionsService) {
         link: function(scope, element, attrs) {
             "use strict";
 
+            scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_PROTECT.toString()];
             scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
                 if (!actionTypeParamsResult)
                     return;
 
                 scope.actionTypeParamsDictionary = actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_PROTECT.toString()];
-            });
+            }, true);
 
             scope.protectOnSelect = function(selectedResident) {
                 if (!selectedResident)
@@ -8705,6 +8713,7 @@ app.directive('sheriffIdentities', function($timeout, actionsService, actionResu
                 scope.actionResultTypes = actionResultTypesByIdsResult;
             });
 
+            scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_SHERIFF_IDENTITIES.toString()];
             scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
                 if (!actionTypeParamsResult)
                     return;
@@ -8772,7 +8781,7 @@ app.directive('tellerVotes', function($timeout, actionsService, actionResultsSer
             });
 
 
-
+            scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_TELLER_VOTES.toString()];
             scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
                 if (!actionTypeParamsResult)
                     return;
@@ -8837,6 +8846,7 @@ app.directive('terroristBomb', function($timeout, actionsService) {
 
             scope.selectedResident = {};
 
+            scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_TERRORIST_BOMB.toString()];
             scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
                 if (!actionTypeParamsResult)
                     return;

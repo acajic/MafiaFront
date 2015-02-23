@@ -9,6 +9,9 @@ app.directive('initiateRevival', function($timeout, $q, actionsService,actionRes
 
             scope.selectedResident = {};
 
+            scope.initiateRevivalActionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_INITIATE_REVIVAL.toString()];
+            scope.reviveActionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_REVIVE.toString()];
+
             scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
                 if (!actionTypeParamsResult)
                     return;

@@ -6,6 +6,7 @@ app.directive('journalistInvestigate', function($timeout, actionsService) {
         link: function(scope, element, attrs) {
             "use strict";
 
+            scope.actionTypeParamsDictionary = scope.actionTypeParamsResult.result.action_types_params[scope.roleId.toString()][ACTION_TYPE_ID_JOURNALIST_INVESTIGATE.toString()];
             scope.$watch('actionTypeParamsResult', function(actionTypeParamsResult) {
                 if (!actionTypeParamsResult)
                     return;
