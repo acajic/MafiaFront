@@ -23,14 +23,13 @@ app.directive('privateNewsFeed', function(actionResultsService) {
                 scope.actionResultTypes = actionResultTypesByIdsResult;
             });
 
-            scope.$watch('[actionResults, city.rolesById]', function(values) {
-                var actionResults = values[0];
+            scope.$watchCollection('actionResults', function(actionResults) {
                 if (!actionResults)
                     return null;
 
                 var privateActionResults = actionResultsService.privateActionResults(actionResults);
 
-                var rolesById = values[1];
+                var rolesById = scope.city.rolesById;
                 var role = rolesById[scope.roleId].role;
                 var showingActionResults = {};
                 angular.forEach(role.action_types, function(someActionType) {

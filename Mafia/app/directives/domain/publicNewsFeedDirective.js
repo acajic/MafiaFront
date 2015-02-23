@@ -19,7 +19,7 @@ app.directive('publicNewsFeed', function(actionResultsService) {
             "use strict";
 
 
-            scope.$watch('actionResults', function(actionResults) {
+            scope.$watchCollection('actionResults', function(actionResults) {
                 if (!actionResults)
                     return null;
 
