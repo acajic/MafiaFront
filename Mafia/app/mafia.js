@@ -8474,8 +8474,8 @@ app.directive('initiateRevival', function($timeout, $q, actionsService,actionRes
 
                 postActionPromise.then(function() {
                     $timeout(function() {
-                        scope.infos = [{type:"success", msg: "Initiating revival of " + selectedResident.name + ". After " + scope.reviveActionTypeParamsDictionary.revival_delay + " revival will be initiated and the user will be revived on the first following morning."}];
-                    });
+                        scope.infos = [{type:"success", msg: "Initiating revival of " + selectedResident.name + ". After " + scope.initiateRevivalActionTypeParamsDictionary.revival_delay + " revival will be initiated and the user will be revived on the first following morning."}];
+                    }, 0, false);
 
                 }, function(reason) {
                     angular.forEach(reason.httpObj.responseJSON, function(error) {
