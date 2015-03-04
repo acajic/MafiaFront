@@ -24,7 +24,7 @@
 </div>
 
 <div id="content-body">
-    <div class="city">
+    <div class="city" ng-show="city">
 
 
 
@@ -138,7 +138,7 @@
 
 
 
-            <tab>
+            <tab ng-show="city.id">
                 <tab-heading>
                     <i class="glyphicon glyphicon-tower"></i> Roles
                 </tab-heading>
@@ -149,7 +149,7 @@
                         <tab-heading>
                             <i class="glyphicon glyphicon-tasks"></i> Distribution
                         </tab-heading>
-                        <table class="table sidetable">
+                        <table class="table sidetable" ng-if="city.residents">
                             <tbody>
                                 <tr>
                                     <td>Total residents</td>
@@ -164,14 +164,14 @@
                                 </tr>
                                 <tr ng-repeat="role_quantity in roleQuantities | filter : {role : {affiliation: {id : affiliationIds.AFFILIATION_ID_CITIZENS }}}">
                                     <td>{{role_quantity.role.name}}</td>
-                                    <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" readonly="true" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'"></points-assign></td>
+                                    <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" max="city.residents.length" readonly="true" unused="remainingRoles" point-assign-id="{{role_quantity.role.id}}" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'"></points-assign></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="text-align: center">Mafia</td>
                                 </tr>
                                 <tr ng-repeat="role_quantity in roleQuantities | filter : {role: {affiliation: {id : affiliationIds.AFFILIATION_ID_MAFIA }}} ">
                                     <td>{{role_quantity.role.name}}</td>
-                                    <td><b>{{ city_has_role.quantity }}</b> : <points-assign value="role_quantity.quantity" readonly="true" unused="remainingRoles" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'"></points-assign></td>
+                                    <td><b>{{ city_has_role.quantity }}</b> : <points-assign value="role_quantity.quantity" max="city.residents.length" readonly="true" unused="remainingRoles" point-assign-id="{{role_quantity.role.id}}" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'"></points-assign></td>
                                 </tr>
                             </tbody>
                         </table>
