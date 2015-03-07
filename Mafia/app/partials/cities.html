@@ -122,7 +122,7 @@
                             </tr>
                         </tbody>
                         <tbody ng-if="myCitiesFilterModel.isSearchActive">
-                            <tr ng-repeat="city in mySearchCities" ng-class="classNameForMyCitiesRow(city)">
+                            <tr ng-repeat="city in mySearchCities" ng-class="classNameForMyCitiesRow(city)" ng-click="selectCity(city)">
                                 <input type="hidden" name="id" value="{{ city.id }}">
                                 <td ng-bind-html="renderHtml('{{city.name | acHighlightText: myCitiesFilterModel.searchText}}')"></td>
                                 <td style="text-align: center;">
@@ -205,7 +205,7 @@
                         </tr>
                     </tbody>
                     <tbody ng-if="allCitiesFilterModel.isSearchActive">
-                        <tr ng-repeat="city in allSearchCities" ng-class="classNameForMyCitiesRow(city)">
+                        <tr ng-repeat="city in allSearchCities" ng-class="classNameForMyCitiesRow(city)" ng-click="selectCity(city)">
                             <input type="hidden" name="id" value="{{ city.id }}">
                             <td ng-bind-html="renderHtml('{{city.name | acHighlightText: allCitiesFilterModel.searchText}}')"></td>
                             <td style="text-align: center;">
