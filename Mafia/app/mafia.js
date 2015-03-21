@@ -2590,7 +2590,7 @@ app.controller('CityDiscussionController', function ($scope, $routeParams, $loca
  
 // registerController 
  
-app.controller('RegisterController', function ($scope, $location, $timeout, usersService) {
+app.controller('RegisterController', function ($scope, $location, $timeout, usersService, serverService, authService) {
     "use strict";
 
     var newUser = {
@@ -2623,9 +2623,16 @@ app.controller('RegisterController', function ($scope, $location, $timeout, user
         var createUserPromise = usersService.createUser(newUser);
         $scope.isLoading = true;
         createUserPromise.then(function(createdUser) {
-            $timeout(function() {
-                $scope.registerInfos.push({type : 'success', msg: 'Successfully created user ' + createdUser.username + '. Check your email in order to confirm your email address.'});
-            });
+            if (createdUser.auth_token) {
+                serverService.setAuthToken(createdUser.auth_token.token_string, createdUser.auth_token.expiration_date);
+                authService.notifications.shouldSignIn = true;
+                back();
+            } else {
+                $timeout(function() {
+                    $scope.registerInfos.push({type : 'success', msg: 'Successfully created user ' + createdUser.username + '. Check your email in order to confirm your email address.'});
+                });
+            }
+
             $scope.isLoading = false;
         }, function(reason) {
             $scope.isLoading = false;
