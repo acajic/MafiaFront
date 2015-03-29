@@ -100,10 +100,10 @@
                                 <input type="hidden" name="id" value="{{ city.id }}">
                                 <td>{{city.name}}</td>
                                 <td style="text-align: center;">
-                                    <i class="fa fa-users" ng-if="city.is_owner"></i>
-                                    <i class="fa fa-user" ng-if="city.is_member"></i>
-                                    <i class="fa fa-question-circle" ng-if="city.is_join_requested"></i>
-                                    <i class="fa fa-envelope" ng-if="city.is_invited"></i>
+                                    <i class="fa fa-users" ng-if="city.is_owner" tooltip="Owner"></i>
+                                    <i class="fa fa-user" ng-if="city.is_member" tooltip="Member"></i>
+                                    <i class="fa fa-question-circle" ng-if="city.is_join_requested" tooltip="Requested to Join"></i>
+                                    <i class="fa fa-envelope" ng-if="city.is_invited" tooltip="Invited"></i>
                                 </td>
                                 <td style="text-align: center;"> <ac-relative-date ng-model="city.created_at" date-now="dateNow"></ac-relative-date> </td>
                                 <td style="text-align: center;">
@@ -126,10 +126,10 @@
                                 <input type="hidden" name="id" value="{{ city.id }}">
                                 <td ng-bind-html="renderHtml('{{city.name | acHighlightText: myCitiesFilterModel.searchText}}')"></td>
                                 <td style="text-align: center;">
-                                    <i class="fa fa-users" ng-if="city.is_owner"></i>
-                                    <i class="fa fa-user" ng-if="city.is_member"></i>
-                                    <i class="fa fa-question-circle" ng-if="city.is_join_requested"></i>
-                                    <i class="fa fa-envelope" ng-if="city.is_invited"></i>
+                                    <i class="fa fa-users" ng-if="city.is_owner" tooltip="Owner"></i>
+                                    <i class="fa fa-user" ng-if="city.is_member" tooltip="Member"></i>
+                                    <i class="fa fa-question-circle" ng-if="city.is_join_requested" tooltip="Requested to Join"></i>
+                                    <i class="fa fa-envelope" ng-if="city.is_invited" tooltip="Invited"></i>
                                 </td>
                                 <td style="text-align: center;"> <ac-relative-date ng-model="city.created_at" date-now="dateNow"></ac-relative-date> </td>
                                 <td style="text-align: center;">
@@ -185,8 +185,8 @@
                             <input type="hidden" name="id" value="{{ city.id }}">
                             <td>{{city.name}}</td>
                             <td style="text-align: center">
-                                <i class="glyphicon glyphicon-eye-close" ng-if="!city.public"></i>
-                                <i class="glyphicon glyphicon-eye-open" ng-if="city.public"></i>
+                                <i class="glyphicon glyphicon-eye-close" ng-if="!city.public" tooltip="Private"></i>
+                                <i class="glyphicon glyphicon-eye-open" ng-if="city.public" tooltip="Public"></i>
                             </td>
                             <td style="text-align: center;"> <ac-relative-date ng-model="city.created_at" date-now="dateNow"></ac-relative-date> </td>
                             <td style="text-align: center;">
@@ -209,8 +209,8 @@
                             <input type="hidden" name="id" value="{{ city.id }}">
                             <td ng-bind-html="renderHtml('{{city.name | acHighlightText: allCitiesFilterModel.searchText}}')"></td>
                             <td style="text-align: center;">
-                                <i class="glyphicon glyphicon-eye-close" ng-if="!city.public"></i>
-                                <i class="glyphicon glyphicon-eye-open" ng-if="city.public"></i>
+                                <i class="glyphicon glyphicon-eye-close" ng-if="!city.public" tooltip="Private"></i>
+                                <i class="glyphicon glyphicon-eye-open" ng-if="city.public" tooltip="Public"></i>
                             </td>
                             <td style="text-align: center;"> <ac-relative-date ng-model="city.created_at" date-now="dateNow"></ac-relative-date> </td>
                             <td style="text-align: center;">
