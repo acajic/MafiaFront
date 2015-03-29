@@ -465,6 +465,9 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
 
     $scope.$watch("city.timezone", function (newTimezone) {
         $scope.timerLastMidnightTimezoned = timerLastMidnightUTC - newTimezone*60*1000;
+        if ($scope.timerLastMidnightTimezoned > (new Date()).getTime()) {
+            $scope.timerLastMidnightTimezoned -= 24*60*60*1000;
+        }
     });
 
     /*
