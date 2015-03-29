@@ -93,7 +93,7 @@
                             <td><textarea ng-model="city.description"></textarea></td>
                         </tr>
                         <tr ng-hide="city.started_at">
-                            <td class="col-md-1 gray-cell">Accessibility</td>
+                            <td class="col-md-1 gray-cell">Access</td>
                             <td>
                                 <ac-checkbox ng-model="city.public">
                                     <span class="unchecked"><i class="fa fa-toggle-off"></i> (Private)</span>
@@ -104,7 +104,7 @@
                             </td>
                         </tr>
                         <tr ng-if="city.started_at">
-                            <td class="col-md-1 gray-cell">Accessibility</td>
+                            <td class="col-md-1 gray-cell">Access</td>
                             <td>
                                 <div style="display: inline;" tooltip="{{ city.public ? 'Public' : 'Private'}}">
                                     <img-bool boolean-value="city.public"></img-bool>
