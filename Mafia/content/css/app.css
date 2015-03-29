@@ -250,14 +250,14 @@ input, textarea, select {
     color: #ffffff;
 }
 
-.btn-create-new-city, .btn-enter-city, .btn-join-city, .btn-start-city, .btn-save-city, .btn-save, .btn-new, .btn-search, .btn-resume-city, .btn-invite {
+.btn-create-new-city, .btn-enter-city, .btn-join-city, .btn-start-city, .btn-save-city, .btn-save, .btn-new, .btn-search, .btn-resume-city, .btn-invite, .btn-accept {
     background-color: rgb(48, 81, 25);
     border: 1px solid rgb(15, 60, 7);
     color: #ffffff;
 
 }
 
-.btn-create-new-city:hover, .btn-enter-city:hover, .btn-join-city:hover, .btn-start-city:hover, .btn-save-city:hover, .btn-save:hover, .btn-new:hover, .btn-search:hover, .btn-resume-city:hover, .btn-invite:hover {
+.btn-create-new-city:hover, .btn-enter-city:hover, .btn-join-city:hover, .btn-start-city:hover, .btn-save-city:hover, .btn-save:hover, .btn-new:hover, .btn-search:hover, .btn-resume-city:hover, .btn-invite:hover, .btn-accept:hover {
     background-color: rgb(15, 60, 7);
     color: #ffffff;
 }
@@ -282,12 +282,12 @@ input, textarea, select {
     color: #ffffff;
 }
 
-.btn-leave-city, .btn-cancel-join-request-city, .btn-delete, .btn-erease {
+.btn-leave-city, .btn-cancel-join-request-city, .btn-delete, .btn-erease, .btn-reject {
     background-color: #562f29;
     border: #0d0d0d;
     color: #ffffff;
 }
-.btn-leave-city:hover, .btn-cancel-join-request-city:hover, .btn-delete:hover, .btn-erease:hover {
+.btn-leave-city:hover, .btn-cancel-join-request-city:hover, .btn-delete:hover, .btn-erease:hover, .btn-reject:hover {
     background-color: #560d0b;
     color: #ffffff;
 }
