@@ -177,19 +177,17 @@
                 <table class="table table-striped" ng-if="!isChangingUsers && city.invitations.length && amIOwner(city)">
                     <thead>
                     <tr>
-                        <td colspan="3" style="text-align: center">
+                        <td colspan="2" style="text-align: center">
                             Invitations
                         </td>
                     </tr>
                     <tr>
-                        <td>User Id</td>
                         <td>Username</td>
                         <td ng-if="!city.started_at">Cancel</td>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="(index, invitation) in city.invitations">
-                        <td>{{invitation.user_id}}</td>
                         <td>{{invitation.username}}</td>
                         <td ng-if="!city.started_at"><button class="btn btn-danger" ng-click="cancelInvitation(index)"><i class="glyphicon glyphicon-ban-circle"></i> </button></td>
                     </tr>
@@ -199,12 +197,11 @@
                 <table class="table table-striped" ng-if="!isChangingUsers && city.join_requests.length && amIOwner(city)">
                     <thead>
                     <tr>
-                        <td colspan="4" style="text-align: center">
+                        <td colspan="3" style="text-align: center">
                             Join Requests
                         </td>
                     </tr>
                     <tr>
-                        <td>User Id</td>
                         <td>Username</td>
                         <td ng-if="!city.started_at">Accept</td>
                         <td ng-if="!city.started_at">Reject</td>
@@ -212,7 +209,6 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="(index, joinRequest) in city.join_requests">
-                        <td>{{joinRequest.user_id}}</td>
                         <td>{{joinRequest.username}}</td>
                         <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-success notext" ng-click="acceptJoinRequest(index)"><i class="glyphicon glyphicon-ok"></i></button></td>
                         <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-danger notext" ng-click="rejectJoinRequest(index)"><i class="glyphicon glyphicon-remove"></i></button></td>
@@ -223,24 +219,18 @@
                 <table class="table table-striped" ng-if="!isChangingUsers">
                     <thead>
                     <tr>
-                        <td colspan="5" style="text-align: center">
+                        <td colspan="2" style="text-align: center">
                             Residents
                         </td>
                     </tr>
                     <tr>
-                        <td>Resident Id</td>
                         <td>Name</td>
-                        <td>User Id</td>
-                        <td>Username</td>
                         <td ng-if="amIOwner(city) && !city.started_at">Kick</td>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="(index, resident) in city.residents">
-                        <td>{{ resident.id }}</td>
                         <td>{{ resident.name }}</td>
-                        <td>{{resident.user_id}}</td>
-                        <td>{{resident.username}}</td>
                         <td ng-if="amIOwner(city) && !city.started_at && city.id"><button class="btn btn-delete edit-city-kick-user" ng-click="kickResident(index)" tooltip="Kick out" tooltip-placement="right"><img src="content/img/kick-icon.png" /></button></td>
                     </tr>
                     </tbody>
