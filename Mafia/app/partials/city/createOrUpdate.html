@@ -189,7 +189,7 @@
                     <tbody>
                     <tr ng-repeat="(index, invitation) in city.invitations">
                         <td>{{invitation.username}}</td>
-                        <td ng-if="!city.started_at"><button class="btn btn-danger" ng-click="cancelInvitation(index)"><i class="glyphicon glyphicon-ban-circle"></i> </button></td>
+                        <td ng-if="!city.started_at"><button class="btn btn-reject" ng-click="cancelInvitation(index)"><i class="glyphicon glyphicon-ban-circle"></i> </button></td>
                     </tr>
                     </tbody>
                 </table>
@@ -210,8 +210,8 @@
                     <tbody>
                     <tr ng-repeat="(index, joinRequest) in city.join_requests">
                         <td>{{joinRequest.username}}</td>
-                        <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-success notext" ng-click="acceptJoinRequest(index)"><i class="glyphicon glyphicon-ok"></i></button></td>
-                        <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-danger notext" ng-click="rejectJoinRequest(index)"><i class="glyphicon glyphicon-remove"></i></button></td>
+                        <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-accept notext" ng-click="acceptJoinRequest(index)"><i class="glyphicon glyphicon-ok"></i></button></td>
+                        <td ng-if="amIOwner(city) && !city.started_at"><button class="btn btn-reject notext" ng-click="rejectJoinRequest(index)"><i class="glyphicon glyphicon-remove"></i></button></td>
                     </tr>
                     </tbody>
                 </table>
