@@ -90,17 +90,13 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <td>Resident Id</td>
-                            <td>User Id</td>
-                            <td>Username</td>
+                            <td>#</td>
                             <td>Name</td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="(index, resident) in city.residents">
-                            <td>{{ resident.id }}</td>
-                            <td>{{resident.user_id}}</td>
-                            <td>{{resident.username}}</td>
+                            <td>{{index}}</td>
                             <td>{{resident.name}}</td>
                         </tr>
                     </tbody>

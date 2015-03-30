@@ -224,12 +224,14 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>#</td>
                         <td>Name</td>
                         <td ng-if="amIOwner(city) && !city.started_at">Kick</td>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="(index, resident) in city.residents">
+                        <td>{{index}}</td>
                         <td>{{ resident.name }}</td>
                         <td ng-if="amIOwner(city) && !city.started_at && city.id"><button class="btn btn-delete edit-city-kick-user" ng-click="kickResident(index)" tooltip="Kick out" tooltip-placement="right"><img src="content/img/kick-icon.png" /></button></td>
                     </tr>
