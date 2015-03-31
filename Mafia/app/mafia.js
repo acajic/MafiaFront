@@ -290,6 +290,16 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
     $scope.url = $location.absUrl();
 
+
+    $scope.staticPage = 0;
+    var staticPageTitles = ['Welcome', 'Traditional vs Online', 'Roles', 'Advanced'];
+    $scope.staticPageTitle = staticPageTitles[$scope.staticPage];
+    $scope.showStaticPage = function (index) {
+        $scope.staticPage = index;
+        $scope.staticPageTitle = staticPageTitles[$scope.staticPage];
+    };
+
+
     $scope.reloadAllCities = function(refresh) {
         refreshDateNow();
 
