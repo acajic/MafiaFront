@@ -1,13 +1,20 @@
-<div ng-include src="'app/static/cities/info/overview.html'">
+<div ng-show="staticPage == 0" ng-include src="'app/static/cities/info/overview.html'">
+</div>
+
+<div ng-show="staticPage == 1" ng-include src="'app/static/cities/info/traditionalVsOnline.html'">
+</div>
+
+<div ng-show="staticPage == 2">
+    <h2>Roles</h2>
+    <div ng-include src="'app/static/cities/info/roles.html'">
+    </div>
 </div>
 
 
-
-<h2>Roles</h2>
-<div ng-include src="'app/static/cities/info/roles.html'">
+<div ng-show="staticPage == 3">
+    <h2 id="advanced">Advanced</h2>
+    <div ng-include src="'app/static/cities/info/screenshots.html'"></div>
+    <div ng-include src="'app/static/cities/info/provableRoles.html'"></div>
 </div>
 
-<h2 id="advanced">Advanced</h2>
-<div ng-include src="'app/static/cities/info/screenshots.html'"></div>
-<div ng-include src="'app/static/cities/info/provableRoles.html'"></div>
 
