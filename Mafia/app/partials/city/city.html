@@ -121,9 +121,10 @@
         </div>
 
         <div class="city-join-discussion" ng-if="resident">
-            <button ng-click="joinDiscussion()" class="col-md-12 btn btn-join-discussion" ng-if="city.id">
+            <dir-disqus disqus-shortname="mafiafer" disqus-identifier="city{{ cityId }}" disqus-url="{{ disqusUrl }}" ready-to-bind="{{ cityId }}"></dir-disqus>
+           <!-- <button ng-click="joinDiscussion()" class="col-md-12 btn btn-join-discussion" ng-if="city.id">
                 Discussion - {{city.name}}
-            </button>
+            </button>-->
         </div>
     </div>
 </div>
