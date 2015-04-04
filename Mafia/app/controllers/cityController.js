@@ -274,6 +274,11 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
         $scope.loadEarlierActionResults = loadEarlierActionResults;
         $scope.hasMoreRecentActionResults = hasMoreRecentActionResults;
         $scope.loadMoreRecentActionResults = loadMoreRecentActionResults;
+
+
+
+        $scope.cityId = cityId;
+        $scope.disqusUrl = $location.absUrl();
     }
 
 });
