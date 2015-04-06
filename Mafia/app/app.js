@@ -286,7 +286,10 @@ app.run(['$route', '$rootScope', '$location', function ($route, $rootScope, $loc
 
 
 function registerHomeUrls(routeProvider) {
-    routeProvider.when('/cities', {
+    routeProvider.when('/', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    }).when('/cities', {
         controller: 'CitiesController',
         templateUrl: 'app/partials/cities.html'
     }).when('/my', {
