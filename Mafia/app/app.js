@@ -3,9 +3,6 @@ var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'u
 app.config(function ($routeProvider, $locationProvider) {
     'use strict';
 
-    // $locationProvider.html5Mode(true);
-    $locationProvider.hashPrefix('!');
-
     $routeProvider.when('/unsubscribe', {
         controller: 'UnsubscribeController',
         templateUrl: 'app/partials/unsubscribe.html'
@@ -260,5 +257,7 @@ app.config(function ($routeProvider, $locationProvider) {
         }
     }).otherwise({redirectTo:'/cities'})
 
+    $locationProvider.html5Mode(true);
+    // $locationProvider.hashPrefix('!');
 
 });
