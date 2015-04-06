@@ -3,13 +3,14 @@ var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'u
 app.config(function ($routeProvider, $locationProvider) {
     'use strict';
 
+
+
+    registerHomeUrls($routeProvider);
+
     $routeProvider.when('/unsubscribe', {
         controller: 'UnsubscribeController',
         templateUrl: 'app/partials/unsubscribe.html'
     }).when('/cities/email_confirmation/:emailConfirmationCode', {
-        controller: 'CitiesController',
-        templateUrl: 'app/partials/cities.html'
-    }).when('/cities', {
         controller: 'CitiesController',
         templateUrl: 'app/partials/cities.html'
     }).when('/register', {
@@ -255,9 +256,58 @@ app.config(function ($routeProvider, $locationProvider) {
                 });
             }
         }
-    }).otherwise({redirectTo:'/cities'})
+    });
+//    .otherwise({
+//        redirectTo: '/cities'
+//    });
+
 
     $locationProvider.html5Mode(true);
     // $locationProvider.hashPrefix('!');
 
 });
+
+
+app.run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
+    var original = $location.path;
+    $location.path = function (path, reload) {
+        if (reload === false) {
+            var lastRoute = $route.current;
+            var un = $rootScope.$on('$locationChangeSuccess', function () {
+                $route.current = lastRoute;
+                un();
+            });
+        }
+        return original.apply($location, [path]);
+    };
+}]);
+
+
+
+
+function registerHomeUrls(routeProvider) {
+    routeProvider.when('/cities', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    }).when('/my', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    }).when('/all', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    }).when('/welcome', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    }).when('/traditional-vs-online', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    }).when('/roles', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    }).when('/advanced', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    })
+}
+
+

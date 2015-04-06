@@ -7,13 +7,14 @@ var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'u
 app.config(function ($routeProvider, $locationProvider) {
     'use strict';
 
+
+
+    registerHomeUrls($routeProvider);
+
     $routeProvider.when('/unsubscribe', {
         controller: 'UnsubscribeController',
         templateUrl: 'app/partials/unsubscribe.html'
     }).when('/cities/email_confirmation/:emailConfirmationCode', {
-        controller: 'CitiesController',
-        templateUrl: 'app/partials/cities.html'
-    }).when('/cities', {
         controller: 'CitiesController',
         templateUrl: 'app/partials/cities.html'
     }).when('/register', {
@@ -259,12 +260,62 @@ app.config(function ($routeProvider, $locationProvider) {
                 });
             }
         }
-    }).otherwise({redirectTo:'/cities'})
+    });
+//    .otherwise({
+//        redirectTo: '/cities'
+//    });
+
 
     $locationProvider.html5Mode(true);
     // $locationProvider.hashPrefix('!');
 
-}); 
+});
+
+
+app.run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
+    var original = $location.path;
+    $location.path = function (path, reload) {
+        if (reload === false) {
+            var lastRoute = $route.current;
+            var un = $rootScope.$on('$locationChangeSuccess', function () {
+                $route.current = lastRoute;
+                un();
+            });
+        }
+        return original.apply($location, [path]);
+    };
+}]);
+
+
+
+
+function registerHomeUrls(routeProvider) {
+    routeProvider.when('/cities', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    }).when('/my', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    }).when('/all', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    }).when('/welcome', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    }).when('/traditional-vs-online', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    }).when('/roles', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    }).when('/advanced', {
+        controller: 'CitiesController',
+        templateUrl: 'app/partials/cities.html'
+    })
+}
+
+
+ 
  
 // appController 
  
@@ -292,10 +343,13 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
     $scope.staticPage = 0;
     var staticPageTitles = ['Welcome', 'Traditional vs Online', 'Roles', 'Advanced'];
+    var staticPageUrlTitles = ['welcome', 'traditional-vs-online', 'roles', 'advanced'];
     $scope.staticPageTitle = staticPageTitles[$scope.staticPage];
     $scope.showStaticPage = function (index) {
         $scope.staticPage = index;
         $scope.staticPageTitle = staticPageTitles[$scope.staticPage];
+        $location.path(staticPageUrlTitles[index], false);
+        $location.replace();
     };
 
 
@@ -650,6 +704,18 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         if (tabIndex == $scope.selectedTab)
             return;
 
+        switch(tabIndex) {
+            case 0:
+                $location.path(staticPageUrlTitles[$scope.staticPage], false);
+                break;
+            case 1:
+                $location.path('my', false);
+                break;
+            case 2:
+                $location.path('all', false);
+                break;
+        }
+        $location.replace();
         $scope.selectedTab = tabIndex;
         $scope.citySelected(null);
         var alreadySelected = $('.table-cities tr.selected');
@@ -789,7 +855,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         $scope.myCities = [];
 
 
-        var routePath = $route.current.$$route.originalPath;
+        var routePath = $route.current.$$route ? $route.current.$$route.originalPath : '';
         if (routePath.indexOf('email_confirmation') >= 0) {
             var emailConfirmationCode = $routeParams["emailConfirmationCode"];
             if (emailConfirmationCode) {
@@ -801,6 +867,8 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
         $scope.isReturningUser = getCookie('isReturningUser');
         if (!$scope.isReturningUser) {
+            $location.path(staticPageUrlTitles[0], false);
+            $location.replace();
             setCookie('isReturningUser', true);
         }
 

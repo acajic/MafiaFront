@@ -10,10 +10,13 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
     $scope.staticPage = 0;
     var staticPageTitles = ['Welcome', 'Traditional vs Online', 'Roles', 'Advanced'];
+    var staticPageUrlTitles = ['welcome', 'traditional-vs-online', 'roles', 'advanced'];
     $scope.staticPageTitle = staticPageTitles[$scope.staticPage];
     $scope.showStaticPage = function (index) {
         $scope.staticPage = index;
         $scope.staticPageTitle = staticPageTitles[$scope.staticPage];
+        $location.path(staticPageUrlTitles[index], false);
+        $location.replace();
     };
 
 
@@ -368,6 +371,18 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         if (tabIndex == $scope.selectedTab)
             return;
 
+        switch(tabIndex) {
+            case 0:
+                $location.path(staticPageUrlTitles[$scope.staticPage], false);
+                break;
+            case 1:
+                $location.path('my', false);
+                break;
+            case 2:
+                $location.path('all', false);
+                break;
+        }
+        $location.replace();
         $scope.selectedTab = tabIndex;
         $scope.citySelected(null);
         var alreadySelected = $('.table-cities tr.selected');
@@ -507,7 +522,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         $scope.myCities = [];
 
 
-        var routePath = $route.current.$$route.originalPath;
+        var routePath = $route.current.$$route ? $route.current.$$route.originalPath : '';
         if (routePath.indexOf('email_confirmation') >= 0) {
             var emailConfirmationCode = $routeParams["emailConfirmationCode"];
             if (emailConfirmationCode) {
@@ -519,6 +534,8 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
         $scope.isReturningUser = getCookie('isReturningUser');
         if (!$scope.isReturningUser) {
+            $location.path(staticPageUrlTitles[0], false);
+            $location.replace();
             setCookie('isReturningUser', true);
         }
 
