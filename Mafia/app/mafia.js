@@ -352,7 +352,6 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         $scope.staticPage = index;
         $scope.staticPageTitle = staticPageTitles[$scope.staticPage];
         $location.path(staticPageUrlTitles[index], false);
-        $location.replace();
     };
 
 
@@ -718,7 +717,6 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
                 $location.path('all', false);
                 break;
         }
-        $location.replace();
         $scope.selectedTab = tabIndex;
         $scope.citySelected(null);
         var alreadySelected = $('.table-cities tr.selected');
@@ -859,24 +857,41 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
 
         var routePath = $route.current.$$route ? $route.current.$$route.originalPath : '';
+
+        $scope.selectedTab = 0;
         if (routePath.indexOf('email_confirmation') >= 0) {
             var emailConfirmationCode = $routeParams["emailConfirmationCode"];
             if (emailConfirmationCode) {
                 authService.emailConfirmation.code = emailConfirmationCode;
-                // $location.path('/cities');
+            }
+        } else if (routePath == '/my') {
+            $scope.selectedTab = 1;
+        } else if (routePath == '/all') {
+            $scope.selectedTab = 2;
+        } else if (routePath == '/welcome') {
+            $scope.selectedTab = 0;
+            $scope.showStaticPage(0);
+        } else if (routePath == '/roles') {
+            $scope.selectedTab = 0;
+            $scope.showStaticPage(2);
+        } else if (routePath == '/traditional-vs-online') {
+            $scope.selectedTab = 0;
+            $scope.showStaticPage(1);
+        } else if (routePath == '/advanced') {
+            $scope.selectedTab = 0;
+            $scope.showStaticPage(3);
+        } else {
+            var isReturningUser = getCookie('isReturningUser');
+            if (isReturningUser) {
+                $scope.selectedTab = 1;
+            } else {
+                $scope.selectedTab = 0;
+                $location.path(staticPageUrlTitles[0], false);
+                setCookie('isReturningUser', true);
             }
         }
 
 
-        $scope.isReturningUser = getCookie('isReturningUser');
-        if (!$scope.isReturningUser) {
-            $location.path(staticPageUrlTitles[0], false);
-            $location.replace();
-            setCookie('isReturningUser', true);
-        }
-
-
-        $scope.selectedTab = 0;
         $scope.reloadAllCities();
         $scope.reloadMyCities();
 
