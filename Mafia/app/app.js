@@ -262,8 +262,8 @@ app.config(function ($routeProvider, $locationProvider) {
 //    });
 
 
-    $locationProvider.html5Mode(true);
-    // $locationProvider.hashPrefix('!');
+    //$locationProvider.html5Mode(true);
+    $locationProvider.hashPrefix('!');
 
 });
 
