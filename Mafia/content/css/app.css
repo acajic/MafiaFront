@@ -336,6 +336,10 @@ input, textarea, select {
     cursor: pointer;
 }
 
+.table-cities tbody tr:hover {
+    background-color: #9b9b9b;
+}
+
 
 .selected-city-right-div {
     margin-top: 45px;
