@@ -367,7 +367,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.tabSelected = function (tabIndex) {
-        if (tabIndex == $scope.selectedTab)
+        if ($scope.selectedTab[tabIndex])
             return;
 
         switch(tabIndex) {
@@ -381,7 +381,13 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
                 $location.path('all', false);
                 break;
         }
-        $scope.selectedTab = tabIndex;
+        for (var i = 0; i< $scope.selectedTab.length; i++) {
+            if (i == tabIndex)
+                $scope.selectedTab[i] = true;
+            else
+                $scope.selectedTab[i] = false;
+        }
+
         $scope.citySelected(null);
         var alreadySelected = $('.table-cities tr.selected');
         alreadySelected.removeClass("selected");
@@ -522,34 +528,34 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
         var routePath = $route.current.$$route ? $route.current.$$route.originalPath : '';
 
-        $scope.selectedTab = 0;
+        $scope.selectedTab = new Array(staticPageTitles.length);
         if (routePath.indexOf('email_confirmation') >= 0) {
             var emailConfirmationCode = $routeParams["emailConfirmationCode"];
             if (emailConfirmationCode) {
                 authService.emailConfirmation.code = emailConfirmationCode;
             }
         } else if (routePath == '/my') {
-            $scope.selectedTab = 1;
+            $scope.selectedTab[1] = true;
         } else if (routePath == '/all') {
-            $scope.selectedTab = 2;
+            $scope.selectedTab[2] = true;
         } else if (routePath == '/welcome') {
-            $scope.selectedTab = 0;
+            $scope.selectedTab[0] = true;
             $scope.showStaticPage(0);
         } else if (routePath == '/roles') {
-            $scope.selectedTab = 0;
+            $scope.selectedTab[0] = true;
             $scope.showStaticPage(2);
         } else if (routePath == '/traditional-vs-online') {
-            $scope.selectedTab = 0;
+            $scope.selectedTab[0] = true;
             $scope.showStaticPage(1);
         } else if (routePath == '/advanced') {
-            $scope.selectedTab = 0;
+            $scope.selectedTab[0] = true;
             $scope.showStaticPage(3);
         } else {
             var isReturningUser = getCookie('isReturningUser');
             if (isReturningUser) {
-                $scope.selectedTab = 1;
+                $scope.selectedTab[1] = true;
             } else {
-                $scope.selectedTab = 0;
+                $scope.selectedTab[0] = true;
                 $location.path(staticPageUrlTitles[0], false);
                 setCookie('isReturningUser', true);
             }

@@ -30,7 +30,7 @@
 
     <div class="cities">
         <tabset>
-            <tab ng-click="tabSelected(0)" id="welcome-tab" active="selectedTab == 0">
+            <tab ng-click="tabSelected(0)" id="welcome-tab" active="selectedTab[0]">
                 <tab-heading>
                     <div class="dropdown">
                         <i class="glyphicon glyphicon-info-sign"></i> {{staticPageTitle}}
@@ -57,7 +57,7 @@
             </tab>
 
 
-            <tab ng-click="tabSelected(1)" id="my-cities-tab" active="selectedTab == 1">
+            <tab ng-click="tabSelected(1)" id="my-cities-tab" active="selectedTab[1]">
                 <tab-heading>
                     <i class="glyphicon glyphicon-home"></i> My towns
                 </tab-heading>
@@ -154,7 +154,7 @@
 
             </tab>
 
-            <tab ng-click="tabSelected(2)" id="all-cities-tab" active="selectedTab == 2">
+            <tab ng-click="tabSelected(2)" id="all-cities-tab" active="selectedTab[2]">
             <tab-heading>
                 <i class="glyphicon glyphicon-globe"></i> All towns
             </tab-heading>
