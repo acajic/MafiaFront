@@ -703,28 +703,32 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.tabSelected = function (tabIndex) {
-        if ($scope.selectedTab[tabIndex])
-            return;
+        $scope.citySelected(null);
 
+        var newPath = null;
         switch(tabIndex) {
             case 0:
-                $location.path(staticPageUrlTitles[$scope.staticPage], false);
+                newPath = staticPageUrlTitles[$scope.staticPage];
                 break;
             case 1:
-                $location.path('my', false);
+                newPath = 'my';
                 break;
             case 2:
-                $location.path('all', false);
+                newPath = 'all';
                 break;
         }
-        for (var i = 0; i< $scope.selectedTab.length; i++) {
+        if (newPath != $location.path()) {
+            $location.path(newPath, false);
+        }
+
+        /*for (var i = 0; i< $scope.selectedTab.length; i++) {
             if (i == tabIndex)
                 $scope.selectedTab[i] = true;
             else
                 $scope.selectedTab[i] = false;
-        }
+        }*/
 
-        $scope.citySelected(null);
+
         var alreadySelected = $('.table-cities tr.selected');
         alreadySelected.removeClass("selected");
         // $scope.selectedAllCities.rowId = 0;
