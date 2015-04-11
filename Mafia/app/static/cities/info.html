@@ -1,8 +1,13 @@
 <div ng-show="staticPage == 0" ng-include src="'app/static/cities/info/overview.html'">
 </div>
 
-<div ng-show="staticPage == 1" ng-include src="'app/static/cities/info/traditionalVsOnline.html'">
+
+<div ng-show="staticPage == 1">
+    <h2>About</h2>
+    <div ng-include src="'app/static/cities/info/about.html'">
+    </div>
 </div>
+
 
 <div ng-show="staticPage == 2">
     <h2>Roles</h2>
