@@ -9,8 +9,8 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
 
     $scope.staticPage = 0;
-    var staticPageTitles = ['Welcome', 'Traditional vs Online', 'Roles', 'Advanced'];
-    var staticPageUrlTitles = ['welcome', 'traditional-vs-online', 'roles', 'advanced'];
+    var staticPageTitles = ['Welcome', 'About', 'Roles', 'Advanced'];
+    var staticPageUrlTitles = ['welcome', 'about', 'roles', 'advanced'];
     $scope.staticPageTitle = staticPageTitles[$scope.staticPage];
     $scope.showStaticPage = function (index) {
         $scope.staticPage = index;
@@ -548,7 +548,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         } else if (routePath == '/roles') {
             $scope.selectedTab[0] = true;
             $scope.showStaticPage(2);
-        } else if (routePath == '/traditional-vs-online') {
+        } else if (routePath == '/about') {
             $scope.selectedTab[0] = true;
             $scope.showStaticPage(1);
         } else if (routePath == '/advanced') {
