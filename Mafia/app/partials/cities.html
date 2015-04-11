@@ -39,7 +39,7 @@
                         </span>
                         <ul class="dropdown-menu" role="menu">
                             <li role="presentation"><button class="btn-link" role="menuitem" ng-click="showStaticPage(0)">Welcome</button></li>
-                            <li role="presentation"><button class="btn-link" role="menuitem" ng-click="showStaticPage(1)">Traditional vs. Online</button></li>
+                            <li role="presentation"><button class="btn-link" role="menuitem" ng-click="showStaticPage(1)">About</button></li>
                             <li role="presentation"><button class="btn-link" role="menuitem" ng-click="showStaticPage(2)">Roles</button></li>
                             <li role="presentation"><button class="btn-link" role="menuitem" ng-click="showStaticPage(3)">Advanced</button></li>
                         </ul>
@@ -51,7 +51,7 @@
 
                 </div>
 
-                <dir-disqus disqus-shortname="mafiafer" disqus-identifier="{{ url }}" disqus-url="{{ url }}" ready-to-bind="{{ !isLoadingContentAllCities }}"></dir-disqus>
+
 
 
             </tab>
@@ -301,7 +301,12 @@
             <div style="clear: both"></div>
         </div>
 
+
         <div style="clear: both"></div>
+
+        <div>
+            <dir-disqus disqus-shortname="mafiafer" disqus-identifier="{{ url }}" disqus-url="{{ url }}" ready-to-bind="{{ !isLoadingContentAllCities }}"></dir-disqus>
+        </div>
     </div>
 
     <div style="clear: both"></div>

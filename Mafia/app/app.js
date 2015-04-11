@@ -301,7 +301,7 @@ function registerHomeUrls(routeProvider) {
     }).when('/welcome', {
         controller: 'CitiesController',
         templateUrl: 'app/partials/cities.html'
-    }).when('/traditional-vs-online', {
+    }).when('/about', {
         controller: 'CitiesController',
         templateUrl: 'app/partials/cities.html'
     }).when('/roles', {
