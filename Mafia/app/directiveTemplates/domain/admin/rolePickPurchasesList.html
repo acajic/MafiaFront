@@ -89,7 +89,7 @@
         <tr ng-repeat="rolePickPurchase in rolePickPurchases">
             <td>{{ rolePickPurchase.id }}</td>
             <td>{{ rolePickPurchase.user_id }} {{ rolePickPurchase.user.username }} {{rolePickPurchase.user_email}}</td>
-            <td style="text-align: center;"><img-bool boolean-value="rolePickPurchase.role_pick_id"></img-bool></td>
+            <td style="text-align: center;"><img-bool boolean-value="rolePickPurchase.role_pick.id"></img-bool></td>
             <td>{{ rolePickPurchase.role_pick.city_id }} {{ rolePickPurchase.role_pick.city_name }}</td>
             <td>{{ rolePickPurchase.role_pick.city_started_at | localeDate }}</td>
             <td>{{ rolePickPurchase.role_pick.role.name }}</td>
