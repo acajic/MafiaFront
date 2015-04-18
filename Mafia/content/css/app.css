@@ -35,6 +35,19 @@ html, body {
     color: #C39D3C;
 }
 
+.external-links {
+    position: absolute;
+    padding: 10px;
+}
+
+.external-links .twitter-follow-button, .external-links .link-blog {
+    float: left;
+}
+
+.external-links .link-blog {
+    margin-right: 10px;
+}
+
 .auth input {
     width: 100px;
     color: #000000;
