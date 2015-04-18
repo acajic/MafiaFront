@@ -477,13 +477,13 @@
 
                         </tab>
 
-                        <tab ng-if="(user.role_pick_purchases.length && !city.started_at) || (city.role_picks.length && city.started_at)">
+                        <tab ng-if="user.unused_role_pick_purchases.length && !city.started_at">
                             <tab-heading>
                                 <i class="fa fa-flag"></i> Role Picks
                             </tab-heading>
 
                             <div ng-if="!city.started_at">
-                                <p style="font-size: 120%"> You have <b>{{user.role_pick_purchases.length}} Role Pick{{user.role_pick_purchases.length == 1 ? '' : 's'}}</b> at your disposal. </p>
+                                <p style="font-size: 120%"> You have <b>{{user.unused_role_pick_purchases.length}} Role Pick{{user.unused_role_pick_purchases.length == 1 ? '' : 's'}}</b> at your disposal. </p>
 
                                 When you have Role Picks to spend, you can submit as many role requests as you want. When the game starts, and the roles are being distributed,
                                 you will be assigned one of the roles you have requested. If you submitted multiple role requests, the system
