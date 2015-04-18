@@ -4615,7 +4615,7 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
 
             scope.homeButtonVisible = layoutService.homeButtonVisible;
 
-            scope.profileUrl = "#!/profile";
+            scope.profileUrl = "/profile";
 
             scope.adminButtonVisible = function() {
                 if (scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE] || scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
