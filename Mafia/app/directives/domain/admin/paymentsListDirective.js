@@ -5,7 +5,8 @@ app.directive('paymentsList', function($location, $q, paymentsService) {
         scope: {
             queryModel: '=',
             queryable: '=',
-            enableCreating: '='
+            enableCreating: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/paymentsList.html',
         link: function(scope, element, attrs) {
@@ -99,7 +100,11 @@ app.directive('paymentsList', function($location, $q, paymentsService) {
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.paymentLogs.length == 0) {
+                    reloadData();
+                }
+            });
 
         }
     };

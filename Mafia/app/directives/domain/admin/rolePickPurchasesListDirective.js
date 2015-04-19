@@ -5,7 +5,8 @@ app.directive('rolePickPurchasesList', function($location, $q, rolePickPurchases
         scope: {
             queryModel: '=',
             queryable: '=',
-            enableCreating: '='
+            enableCreating: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/rolePickPurchasesList.html',
         link: function(scope, element, attrs) {
@@ -105,7 +106,11 @@ app.directive('rolePickPurchasesList', function($location, $q, rolePickPurchases
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.rolePickPurchases.length == 0) {
+                    reloadData();
+                }
+            });
 
         }
     };
