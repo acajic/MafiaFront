@@ -5,7 +5,8 @@ app.directive('subscriptionsList', function($location, $q, subscriptionsService)
         scope: {
             queryModel: '=',
             queryable: '=',
-            enableCreating: '='
+            enableCreating: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/subscriptionsList.html',
         link: function(scope, element, attrs) {
@@ -98,7 +99,11 @@ app.directive('subscriptionsList', function($location, $q, subscriptionsService)
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.subscriptionPurchases.length == 0) {
+                    reloadData();
+                }
+            });
 
         }
 

@@ -4,7 +4,8 @@ app.directive('actionResultsList', function($q, actionResultsService, rolesServi
         restrict : 'E',
         scope: {
             queryModel: '=',
-            queryable: '='
+            queryable: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/actionResultsList.html',
         link: function(scope, element, attrs) {
@@ -118,7 +119,12 @@ app.directive('actionResultsList', function($q, actionResultsService, rolesServi
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.actionResults.length == 0) {
+                    reloadData();
+                }
+            });
+
 
         }
     };

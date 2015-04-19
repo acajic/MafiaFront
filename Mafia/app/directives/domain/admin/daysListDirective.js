@@ -4,7 +4,8 @@ app.directive('daysList', function(daysService) {
         restrict : 'E',
         scope: {
             queryModel: '=',
-            queryable: '='
+            queryable: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/daysList.html',
         link: function(scope, element, attrs) {
@@ -62,7 +63,11 @@ app.directive('daysList', function(daysService) {
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.days.length == 0) {
+                    reloadData();
+                }
+            });
 
         }
     };
