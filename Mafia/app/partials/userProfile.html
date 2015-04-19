@@ -81,7 +81,6 @@
                             <tr>
                                 <td>City</td>
                                 <td>Role</td>
-                                <td>Created</td>
                                 <td>Role Pick Date</td>
                                 <td>Granted Date</td>
                                 <td>Cancel</td>
@@ -96,7 +95,6 @@
                                 <td>{{rolePick.city_name}}</td>
                                 <td>{{rolePick.role.name}}</td>
                                 <td>{{rolePick.created_at | localeDate}}</td>
-                                <td></td>
                                 <td><i class="glyphicon glyphicon-question-sign" tooltip="Game has not started yet"></i></td>
                                 <td>
                                     <button class="btn btn-delete notext" tooltip="Cancel this Role Pick" ng-click="deleteRolePick(rolePick)"><i class="glyphicon glyphicon-remove-sign"></i></button>
@@ -111,7 +109,6 @@
                                 <td>{{rolePick.role.name}}</td>
                                 <td>{{rolePick.created_at | localeDate}}</td>
                                 <td>{{rolePick.city_started_at | localeDate}}</td>
-                                <td tooltip="If the wanted role was not granted, someone requested it before you."><img-bool boolean-value="rolePick.city_id"></img-bool></td>
                                 <td></td>
                             </tr>
                         </tbody>
