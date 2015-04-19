@@ -5,7 +5,8 @@ app.directive('gamePurchasesList', function($location, $q, gamePurchasesService)
         scope: {
             queryModel: '=',
             queryable: '=',
-            enableCreating: '='
+            enableCreating: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/gamePurchasesList.html',
         link: function(scope, element, attrs) {

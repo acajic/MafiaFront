@@ -5,7 +5,8 @@ app.directive('initialAppRolesList', function($q, $location, appRolesService) {
         scope: {
             queryModel: '=',
             queryable: '=',
-            enableCreating: '='
+            enableCreating: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/initialAppRolesList.html',
         link: function(scope, element, attrs) {
@@ -92,7 +93,11 @@ app.directive('initialAppRolesList', function($q, $location, appRolesService) {
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.initialAppRoles.length == 0) {
+                    reloadData();
+                }
+            });
 
         }
     };

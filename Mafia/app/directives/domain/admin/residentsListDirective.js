@@ -4,7 +4,8 @@ app.directive('residentsList', function($q, residentsService, rolesService) {
         restrict : 'E',
         scope: {
             queryModel: '=',
-            queryable: '='
+            queryable: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/residentsList.html',
         link: function(scope, element, attrs) {
@@ -109,7 +110,11 @@ app.directive('residentsList', function($q, residentsService, rolesService) {
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.residents.length == 0) {
+                    reloadData();
+                }
+            });
 
         }
     };

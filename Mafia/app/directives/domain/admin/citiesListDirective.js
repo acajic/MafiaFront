@@ -4,7 +4,8 @@ app.directive('citiesList', function($location, citiesService, authService) {
         restrict : 'E',
         scope: {
             queryModel: '=',
-            queryable: '='
+            queryable: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/citiesList.html',
         link: function(scope, element, attrs) {
@@ -88,16 +89,19 @@ app.directive('citiesList', function($location, citiesService, authService) {
 
             scope.reloadData = reloadData;
 
-            init();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.cities.length == 0) {
+                    reloadData();
+                }
+            });
 
-            function init() {
-                reloadData();
-
-                authService.userMe(false).then(function(userMeResult) {
-                    scope.userMe = userMeResult;
-                    // scope.canEditCities = userMeResult.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE];
-                });
-            }
+//            init();
+//
+//            function init() {
+//                authService.userMe(false).then(function(userMeResult) {
+//                    scope.userMe = userMeResult;
+//                });
+//            }
 
 
         }
