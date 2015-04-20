@@ -225,7 +225,7 @@
 
                     </tab>
 
-                    <tab ng-if="user.unused_role_pick_purchases.length && !city.started_at">
+                    <tab ng-if="city.is_member && user.unused_role_pick_purchases.length && !city.started_at">
                         <tab-heading>
                             <i class="fa fa-flag"></i> Role Picks
                         </tab-heading>
