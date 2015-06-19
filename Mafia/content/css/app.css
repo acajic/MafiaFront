@@ -48,6 +48,10 @@ html, body {
     margin-right: 10px;
 }
 
+.external-links .twitter-follow-button {
+    margin-right: 10px;
+}
+
 .auth input {
     width: 100px;
     color: #000000;
