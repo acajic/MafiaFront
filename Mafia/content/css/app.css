@@ -132,6 +132,11 @@ input, textarea, select {
     min-height: 80px;
 }
 
+.subtitle {
+    color: #ffffff;
+    text-align: center;
+}
+
 #header-auth {
     position: absolute;
     width: 350px;
