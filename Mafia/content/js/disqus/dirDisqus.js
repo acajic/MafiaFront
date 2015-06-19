@@ -1,15 +1,30 @@
 /**
  * A directive to embed a Disqus comments widget on your AngularJS page.
  *
- * For documentation, see the README.md file in this directory
- *
  * Created by Michael on 22/01/14.
  * Copyright Michael Bromley 2014
  * Available under the MIT license.
  */
-angular.module('angularUtils.directives.dirDisqus', [])
 
-    .directive('dirDisqus', ['$window', function($window) {
+(function() {
+
+    /**
+     * Config
+     */
+    var moduleName = 'angularUtils.directives.dirDisqus';
+
+    /**
+     * Module
+     */
+    var module;
+    try {
+        module = angular.module(moduleName);
+    } catch(err) {
+        // named module does not exist, so create one
+        module = angular.module(moduleName, []);
+    }
+
+    module.directive('dirDisqus', ['$window', function($window) {
         return {
             restrict: 'E',
             scope: {
@@ -19,6 +34,9 @@ angular.module('angularUtils.directives.dirDisqus', [])
                 disqus_url: '@disqusUrl',
                 disqus_category_id: '@disqusCategoryId',
                 disqus_disable_mobile: '@disqusDisableMobile',
+                disqus_config_language : '@disqusConfigLanguage',
+                disqus_remote_auth_s3 : '@disqusRemoteAuthS3',
+                disqus_api_key : '@disqusApiKey',
                 readyToBind: "@"
             },
             template: '<div id="disqus_thread"></div><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>',
@@ -38,6 +56,7 @@ angular.module('angularUtils.directives.dirDisqus', [])
                         isReady = "true";
                     }
                     if (scope.$eval(isReady)) {
+                      console.log('remote'+scope.disqus_remote_auth_s3);
                         // put the config variables into separate global vars so that the Disqus script can see them
                         $window.disqus_shortname = scope.disqus_shortname;
                         $window.disqus_identifier = scope.disqus_identifier;
@@ -45,7 +64,12 @@ angular.module('angularUtils.directives.dirDisqus', [])
                         $window.disqus_url = scope.disqus_url;
                         $window.disqus_category_id = scope.disqus_category_id;
                         $window.disqus_disable_mobile = scope.disqus_disable_mobile;
+                        $window.disqus_config =  function () {
+                            this.language = scope.disqus_config_language;
+                            this.page.remote_auth_s3 = scope.disqus_remote_auth_s3;
+                            this.page.api_key =scope.disqus_api_key;
 
+                        };
                         // get the remote Disqus script and insert it into the DOM, but only if it not already loaded (as that will cause warnings)
                         if (!$window.DISQUS) {
                             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -58,6 +82,9 @@ angular.module('angularUtils.directives.dirDisqus', [])
                                     this.page.identifier = scope.disqus_identifier;
                                     this.page.url = scope.disqus_url;
                                     this.page.title = scope.disqus_title;
+                                    this.language = scope.disqus_config_language;
+                                    this.page.remote_auth_s3=scope.disqus_remote_auth_s3;
+                                    this.page.api_key=scope.disqus_api_key;
                                 }
                             });
                         }
@@ -66,3 +93,5 @@ angular.module('angularUtils.directives.dirDisqus', [])
             }
         };
     }]);
+
+})();
