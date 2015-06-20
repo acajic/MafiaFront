@@ -1,4 +1,4 @@
-app.controller('CitiesController',function ($scope, $route, $routeParams, $timeout, $location, $sce, citiesService, authService, modalService, layoutService, rolesService, usersService) {
+app.controller('CitiesController',function ($scope, $route, $routeParams, $timeout, $location, $sce, citiesService, authService, modalService, layoutService) {
     "use strict";
 
 
@@ -559,13 +559,6 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         $scope.showAcceptInvitationButtonForCity = showAcceptInvitationButtonForCity;
         $scope.showLeaveButtonForCity = showLeaveButtonForCity;
         $scope.showCancelJoinRequestForCity = showCancelJoinRequestForCity;
-
-
-        rolesService.getAllRoles().then(function(allRolesResult) {
-            $scope.allRoles = allRolesResult;
-        });
-
-        $scope.affiliationIds = rolesService.affiliationIds;
 
 
         $scope.renderHtml = renderHtml;
