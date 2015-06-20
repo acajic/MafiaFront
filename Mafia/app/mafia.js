@@ -2,7 +2,7 @@
  
 // app 
  
-var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.pointsAssign', 'timer', 'ui.minLengthNumber', 'ui.dateLocale', 'uniqque_filter', 'ngQuickDate', 'angularUtils.directives.dirDisqus', 'ui.acInput', 'ui.acHighlightText', 'ui.acTimezonePicker', 'ui.acRelativeDate', 'angulartics', 'angulartics.google.analytics']);
+var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.pointsAssign', 'timer', 'ui.minLengthNumber', 'ui.dateLocale', 'uniqque_filter', 'ngQuickDate', 'angularUtils.directives.dirDisqus', 'ui.acInput', 'ui.acHighlightText', 'ui.acTimezonePicker', 'ui.acRelativeDate', 'angulartics', 'angulartics.google.analytics', 'ngSanitize']);
 
 app.config(function ($routeProvider, $locationProvider) {
     'use strict';
@@ -305,7 +305,7 @@ function registerHomeUrls(routeProvider) {
     }).when('/welcome', {
         controller: 'CitiesController',
         templateUrl: 'app/partials/cities.html'
-    }).when('/traditional-vs-online', {
+    }).when('/about', {
         controller: 'CitiesController',
         templateUrl: 'app/partials/cities.html'
     }).when('/roles', {
@@ -341,12 +341,12 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     var pageIndexAllCities = 0;
     var pageSizeAllCities = 10;
 
-    $scope.url = $location.absUrl();
+    // $scope.url = $location.absUrl();
 
 
     $scope.staticPage = 0;
-    var staticPageTitles = ['Welcome', 'Traditional vs Online', 'Roles', 'Advanced'];
-    var staticPageUrlTitles = ['welcome', 'traditional-vs-online', 'roles', 'advanced'];
+    var staticPageTitles = ['Welcome', 'About', 'Roles', 'Advanced'];
+    var staticPageUrlTitles = ['welcome', 'about', 'roles', 'advanced'];
     $scope.staticPageTitle = staticPageTitles[$scope.staticPage];
     $scope.showStaticPage = function (index) {
         $scope.staticPage = index;
@@ -703,22 +703,32 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     };
 
     $scope.tabSelected = function (tabIndex) {
-        if (tabIndex == $scope.selectedTab)
-            return;
+        $scope.citySelected(null);
 
+        var newPath = null;
         switch(tabIndex) {
             case 0:
-                $location.path(staticPageUrlTitles[$scope.staticPage], false);
+                newPath = staticPageUrlTitles[$scope.staticPage];
                 break;
             case 1:
-                $location.path('my', false);
+                newPath = 'my';
                 break;
             case 2:
-                $location.path('all', false);
+                newPath = 'all';
                 break;
         }
-        $scope.selectedTab = tabIndex;
-        $scope.citySelected(null);
+        if (newPath != $location.path()) {
+            $location.path(newPath, false);
+        }
+
+        /*for (var i = 0; i< $scope.selectedTab.length; i++) {
+            if (i == tabIndex)
+                $scope.selectedTab[i] = true;
+            else
+                $scope.selectedTab[i] = false;
+        }*/
+
+
         var alreadySelected = $('.table-cities tr.selected');
         alreadySelected.removeClass("selected");
         // $scope.selectedAllCities.rowId = 0;
@@ -858,34 +868,34 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
         var routePath = $route.current.$$route ? $route.current.$$route.originalPath : '';
 
-        $scope.selectedTab = 0;
+        $scope.selectedTab = new Array(staticPageTitles.length);
         if (routePath.indexOf('email_confirmation') >= 0) {
             var emailConfirmationCode = $routeParams["emailConfirmationCode"];
             if (emailConfirmationCode) {
                 authService.emailConfirmation.code = emailConfirmationCode;
             }
         } else if (routePath == '/my') {
-            $scope.selectedTab = 1;
+            $scope.selectedTab[1] = true;
         } else if (routePath == '/all') {
-            $scope.selectedTab = 2;
+            $scope.selectedTab[2] = true;
         } else if (routePath == '/welcome') {
-            $scope.selectedTab = 0;
+            $scope.selectedTab[0] = true;
             $scope.showStaticPage(0);
         } else if (routePath == '/roles') {
-            $scope.selectedTab = 0;
+            $scope.selectedTab[0] = true;
             $scope.showStaticPage(2);
-        } else if (routePath == '/traditional-vs-online') {
-            $scope.selectedTab = 0;
+        } else if (routePath == '/about') {
+            $scope.selectedTab[0] = true;
             $scope.showStaticPage(1);
         } else if (routePath == '/advanced') {
-            $scope.selectedTab = 0;
+            $scope.selectedTab[0] = true;
             $scope.showStaticPage(3);
         } else {
             var isReturningUser = getCookie('isReturningUser');
             if (isReturningUser) {
-                $scope.selectedTab = 1;
+                $scope.selectedTab[1] = true;
             } else {
-                $scope.selectedTab = 0;
+                $scope.selectedTab[0] = true;
                 $location.path(staticPageUrlTitles[0], false);
                 setCookie('isReturningUser', true);
             }
@@ -9133,7 +9143,8 @@ app.directive('actionResultsList', function($q, actionResultsService, rolesServi
         restrict : 'E',
         scope: {
             queryModel: '=',
-            queryable: '='
+            queryable: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/actionResultsList.html',
         link: function(scope, element, attrs) {
@@ -9247,7 +9258,12 @@ app.directive('actionResultsList', function($q, actionResultsService, rolesServi
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.actionResults.length == 0) {
+                    reloadData();
+                }
+            });
+
 
         }
     };
@@ -9261,7 +9277,8 @@ app.directive('actionsList', function($q, actionsService, rolesService) {
         restrict : 'E',
         scope: {
             queryModel: '=',
-            queryable: '='
+            queryable: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/actionsList.html',
         link: function(scope, element, attrs) {
@@ -9379,7 +9396,11 @@ app.directive('actionsList', function($q, actionsService, rolesService) {
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.actions.length == 0) {
+                    reloadData();
+                }
+            });
 
         }
     };
@@ -9393,7 +9414,8 @@ app.directive('citiesList', function($location, citiesService, authService) {
         restrict : 'E',
         scope: {
             queryModel: '=',
-            queryable: '='
+            queryable: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/citiesList.html',
         link: function(scope, element, attrs) {
@@ -9477,16 +9499,19 @@ app.directive('citiesList', function($location, citiesService, authService) {
 
             scope.reloadData = reloadData;
 
-            init();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.cities.length == 0) {
+                    reloadData();
+                }
+            });
 
-            function init() {
-                reloadData();
-
-                authService.userMe(false).then(function(userMeResult) {
-                    scope.userMe = userMeResult;
-                    // scope.canEditCities = userMeResult.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE];
-                });
-            }
+//            init();
+//
+//            function init() {
+//                authService.userMe(false).then(function(userMeResult) {
+//                    scope.userMe = userMeResult;
+//                });
+//            }
 
 
         }
@@ -9501,7 +9526,8 @@ app.directive('daysList', function(daysService) {
         restrict : 'E',
         scope: {
             queryModel: '=',
-            queryable: '='
+            queryable: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/daysList.html',
         link: function(scope, element, attrs) {
@@ -9559,7 +9585,11 @@ app.directive('daysList', function(daysService) {
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.days.length == 0) {
+                    reloadData();
+                }
+            });
 
         }
     };
@@ -9574,7 +9604,8 @@ app.directive('gamePurchasesList', function($location, $q, gamePurchasesService)
         scope: {
             queryModel: '=',
             queryable: '=',
-            enableCreating: '='
+            enableCreating: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/gamePurchasesList.html',
         link: function(scope, element, attrs) {
@@ -9662,7 +9693,8 @@ app.directive('grantedAppRolesList', function($q, $location, appRolesService) {
         scope: {
             queryModel: '=',
             queryable: '=',
-            enableCreating: '='
+            enableCreating: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/grantedAppRolesList.html',
         link: function(scope, element, attrs) {
@@ -9774,7 +9806,11 @@ app.directive('grantedAppRolesList', function($q, $location, appRolesService) {
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.grantedAppRoles.length == 0) {
+                    reloadData();
+                }
+            });
 
         }
     };
@@ -9789,7 +9825,8 @@ app.directive('initialAppRolesList', function($q, $location, appRolesService) {
         scope: {
             queryModel: '=',
             queryable: '=',
-            enableCreating: '='
+            enableCreating: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/initialAppRolesList.html',
         link: function(scope, element, attrs) {
@@ -9876,7 +9913,11 @@ app.directive('initialAppRolesList', function($q, $location, appRolesService) {
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.initialAppRoles.length == 0) {
+                    reloadData();
+                }
+            });
 
         }
     };
@@ -9891,7 +9932,8 @@ app.directive('paymentsList', function($location, $q, paymentsService) {
         scope: {
             queryModel: '=',
             queryable: '=',
-            enableCreating: '='
+            enableCreating: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/paymentsList.html',
         link: function(scope, element, attrs) {
@@ -9985,7 +10027,11 @@ app.directive('paymentsList', function($location, $q, paymentsService) {
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.paymentLogs.length == 0) {
+                    reloadData();
+                }
+            });
 
         }
     };
@@ -9999,7 +10045,8 @@ app.directive('residentsList', function($q, residentsService, rolesService) {
         restrict : 'E',
         scope: {
             queryModel: '=',
-            queryable: '='
+            queryable: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/residentsList.html',
         link: function(scope, element, attrs) {
@@ -10104,7 +10151,11 @@ app.directive('residentsList', function($q, residentsService, rolesService) {
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.residents.length == 0) {
+                    reloadData();
+                }
+            });
 
         }
     };
@@ -10119,7 +10170,8 @@ app.directive('rolePickPurchasesList', function($location, $q, rolePickPurchases
         scope: {
             queryModel: '=',
             queryable: '=',
-            enableCreating: '='
+            enableCreating: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/rolePickPurchasesList.html',
         link: function(scope, element, attrs) {
@@ -10219,7 +10271,11 @@ app.directive('rolePickPurchasesList', function($location, $q, rolePickPurchases
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.rolePickPurchases.length == 0) {
+                    reloadData();
+                }
+            });
 
         }
     };
@@ -10234,7 +10290,8 @@ app.directive('subscriptionsList', function($location, $q, subscriptionsService)
         scope: {
             queryModel: '=',
             queryable: '=',
-            enableCreating: '='
+            enableCreating: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/subscriptionsList.html',
         link: function(scope, element, attrs) {
@@ -10327,7 +10384,11 @@ app.directive('subscriptionsList', function($location, $q, subscriptionsService)
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.subscriptionPurchases.length == 0) {
+                    reloadData();
+                }
+            });
 
         }
 
@@ -10342,7 +10403,8 @@ app.directive('usersList', function($q, $location, usersService, appRolesService
         restrict : 'E',
         scope: {
             queryModel: '=',
-            queryable: '='
+            queryable: '=',
+            visible: '='
         },
         templateUrl: 'app/directiveTemplates/domain/admin/usersList.html',
         link: function(scope, element, attrs) {
@@ -10439,7 +10501,11 @@ app.directive('usersList', function($q, $location, usersService, appRolesService
 
             scope.reloadData = reloadData;
 
-            reloadData();
+            scope.$watch('visible', function (visible) {
+                if (visible && scope.users.length == 0) {
+                    reloadData();
+                }
+            });
 
 
         }
@@ -12697,7 +12763,7 @@ app.service('serverService', function ($q) {
     var productionServer = 'http://188.226.245.205:3000';
     var developmentServer = 'http://localhost:3000';
 
-    this.serverHost = productionServer;
+    this.serverHost = developmentServer;
 
 
 
