@@ -866,8 +866,8 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
             }
         } else if (routePath == '/my') {
             $scope.selectedTab[1] = true;
-        } else if (routePath == '/welcome') {
-            $scope.selectedTab[0] = true;
+        } else if (routePath == '/all') {
+            $scope.selectedTab[2] = true;
         } else if (routePath == '/') {
             var isReturningUser = getCookie('isReturningUser');
             if (isReturningUser) {
