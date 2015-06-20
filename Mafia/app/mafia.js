@@ -341,19 +341,6 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     var pageIndexAllCities = 0;
     var pageSizeAllCities = 10;
 
-    // $scope.url = $location.absUrl();
-
-
-    $scope.staticPage = 0;
-    var staticPageTitles = ['Welcome', 'About', 'Roles', 'Advanced'];
-    var staticPageUrlTitles = ['welcome', 'about', 'roles', 'advanced'];
-    $scope.staticPageTitle = staticPageTitles[$scope.staticPage];
-    $scope.showStaticPage = function (index) {
-        $scope.staticPage = index;
-        $scope.staticPageTitle = staticPageTitles[$scope.staticPage];
-        $location.path(staticPageUrlTitles[index], false);
-    };
-
 
     $scope.reloadAllCities = function(refresh) {
         refreshDateNow();
@@ -708,7 +695,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         var newPath = null;
         switch(tabIndex) {
             case 0:
-                newPath = staticPageUrlTitles[$scope.staticPage];
+                newPath = $scope.staticPageSelected;
                 break;
             case 1:
                 newPath = 'my';
@@ -721,18 +708,18 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
             $location.path(newPath, false);
         }
 
-        /*for (var i = 0; i< $scope.selectedTab.length; i++) {
-            if (i == tabIndex)
-                $scope.selectedTab[i] = true;
-            else
-                $scope.selectedTab[i] = false;
-        }*/
-
 
         var alreadySelected = $('.table-cities tr.selected');
         alreadySelected.removeClass("selected");
         // $scope.selectedAllCities.rowId = 0;
         // $scope.selectedMyCities.rowId = 0;
+    };
+
+    $scope.staticPageChange = function (pageName) {
+        $scope.staticPageSelected = pageName;
+        if ($scope.selectedTab[0]) {
+            $location.path(pageName, false)
+        }
     };
 
 
@@ -866,9 +853,12 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         $scope.myCities = [];
 
 
+        $scope.staticPageIndex = 0;
+        $scope.staticPageSelected = '';
+
         var routePath = $route.current.$$route ? $route.current.$$route.originalPath : '';
 
-        $scope.selectedTab = new Array(staticPageTitles.length);
+        $scope.selectedTab = new Array(3);
         if (routePath.indexOf('email_confirmation') >= 0) {
             var emailConfirmationCode = $routeParams["emailConfirmationCode"];
             if (emailConfirmationCode) {
@@ -878,25 +868,12 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
             $scope.selectedTab[1] = true;
         } else if (routePath == '/all') {
             $scope.selectedTab[2] = true;
-        } else if (routePath == '/welcome') {
-            $scope.selectedTab[0] = true;
-            $scope.showStaticPage(0);
-        } else if (routePath == '/roles') {
-            $scope.selectedTab[0] = true;
-            $scope.showStaticPage(2);
-        } else if (routePath == '/about') {
-            $scope.selectedTab[0] = true;
-            $scope.showStaticPage(1);
-        } else if (routePath == '/advanced') {
-            $scope.selectedTab[0] = true;
-            $scope.showStaticPage(3);
         } else {
             var isReturningUser = getCookie('isReturningUser');
             if (isReturningUser) {
                 $scope.selectedTab[1] = true;
             } else {
                 $scope.selectedTab[0] = true;
-                $location.path(staticPageUrlTitles[0], false);
                 setCookie('isReturningUser', true);
             }
         }
@@ -4787,6 +4764,66 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
 
         },
         templateUrl: 'app/directiveTemplates/auth.html'
+    };
+}); 
+ 
+// infoDirective 
+ 
+app.directive('info', function($routeParams, $location, $route) {
+    return {
+        restrict: 'E',
+        scope: {
+            index: '=',
+            change: '&'
+        },
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            var tabClasses;
+
+            var pageNames = ['welcome', 'about', 'roles', 'advanced'];
+
+
+            function initTabs() {
+                tabClasses = ["","","",""];
+            }
+
+            scope.getTabClass = function (tabNum) {
+                return tabClasses[tabNum];
+            };
+
+            scope.getTabPaneClass = function (tabNum) {
+                return "tab-pane " + tabClasses[tabNum];
+            };
+
+            scope.setActiveTab = function (tabNum) {
+                scope.index = tabNum;
+
+                initTabs();
+                tabClasses[tabNum] = "active";
+
+                if (scope.change) {
+                    scope.change({pageName : pageNames[tabNum]});
+                }
+            };
+
+            //Initialize
+
+            initTabs();
+
+            var routePath = $route.current.$$route ? $route.current.$$route.originalPath : '';
+
+            var index = 0;
+            for (var i = 0; i < pageNames.length; i++) {
+                if (routePath == '/' + pageNames[i]) {
+                    index = i;
+                    break;
+                }
+            }
+            scope.index = index;
+            scope.setActiveTab(index);
+        },
+        templateUrl: 'app/directiveTemplates/info.html'
     };
 }); 
  
