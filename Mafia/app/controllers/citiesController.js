@@ -530,9 +530,9 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
             }
         } else if (routePath == '/my') {
             $scope.selectedTab[1] = true;
-        } else if (routePath == '/all') {
-            $scope.selectedTab[2] = true;
-        } else {
+        } else if (routePath == '/welcome') {
+            $scope.selectedTab[0] = true;
+        } else if (routePath == '/') {
             var isReturningUser = getCookie('isReturningUser');
             if (isReturningUser) {
                 $scope.selectedTab[1] = true;
@@ -540,6 +540,8 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
                 $scope.selectedTab[0] = true;
                 setCookie('isReturningUser', true);
             }
+        } else {
+            $scope.selectedTab[0] = true;
         }
 
 
