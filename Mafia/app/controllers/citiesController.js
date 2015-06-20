@@ -5,7 +5,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     var pageIndexAllCities = 0;
     var pageSizeAllCities = 10;
 
-    $scope.url = $location.absUrl();
+    // $scope.url = $location.absUrl();
 
 
     $scope.staticPage = 0;

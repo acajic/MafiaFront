@@ -2,7 +2,7 @@
  
 // app 
  
-var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.pointsAssign', 'timer', 'ui.minLengthNumber', 'ui.dateLocale', 'uniqque_filter', 'ngQuickDate', 'angularUtils.directives.dirDisqus', 'ui.acInput', 'ui.acHighlightText', 'ui.acTimezonePicker', 'ui.acRelativeDate', 'angulartics', 'angulartics.google.analytics']);
+var app = angular.module('mafiaApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.pointsAssign', 'timer', 'ui.minLengthNumber', 'ui.dateLocale', 'uniqque_filter', 'ngQuickDate', 'angularUtils.directives.dirDisqus', 'ui.acInput', 'ui.acHighlightText', 'ui.acTimezonePicker', 'ui.acRelativeDate', 'angulartics', 'angulartics.google.analytics', 'ngSanitize']);
 
 app.config(function ($routeProvider, $locationProvider) {
     'use strict';
@@ -341,7 +341,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     var pageIndexAllCities = 0;
     var pageSizeAllCities = 10;
 
-    $scope.url = $location.absUrl();
+    // $scope.url = $location.absUrl();
 
 
     $scope.staticPage = 0;
