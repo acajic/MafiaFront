@@ -230,7 +230,7 @@ input, textarea, select {
     padding-bottom: 600px;
 }
 
-.cities .nav-tabs .dropdown-menu {
+.cities>div>.nav-tabs .dropdown-menu {
     background-color: #322213;
     margin-left: -17px;
     margin-top: 10px;
@@ -238,48 +238,69 @@ input, textarea, select {
     border-bottom-right-radius: 4px;
 }
 
-.cities .nav-tabs .dropdown-menu .btn-link {
+.cities>div>.nav-tabs .dropdown-menu .btn-link {
     color: #ffffff;
     padding: 5px;
 
 }
 
-.cities .nav-tabs .dropdown-toggle {
+.cities>div>.nav-tabs .dropdown-toggle {
     margin: -15px;
     padding: 15px;
     margin-top: -25px;
 }
 
-.cities .nav-tabs .dropdown-menu li a:hover {
+.cities>div>.nav-tabs .dropdown-menu li a:hover {
     background-color: #161616;
 }
 
-.cities .nav-tabs .dropdown-menu a {
+.cities>div>.nav-tabs .dropdown-menu a {
     color: #ffffff;
 }
 
-.nav-tabs {
+.cities>div>.nav-tabs {
     background-color: #322213;
     padding-left: 15px;
     border-bottom: none;
+    font-size: 18px;
 }
 
-.nav-tabs>li.active>a {
+.cities>div>.nav-tabs>li.active>a {
     color: white !important;
     background-color: #161616 !important;;
     border-color: #0d0d0d !important;
     margin-bottom: 2px;
 }
 
-.nav-tabs>li>a {
+.cities>div>.nav-tabs>li>a {
     color: #ffffff;
 }
 
-.nav-tabs>li>a:hover, .nav-tabs>li.active>a:hover{
+.cities>div>.nav-tabs>li>a:hover, .cities>div>.nav-tabs>li.active>a:hover{
     border-color: #0d0d0d;
     background-color: #0d0d0d;
     color: #ffffff;
 }
+
+.info-side-menu {
+    padding-top: 20px;
+    padding-left: 0px;
+    font-size: 16px;
+}
+
+.info-side-menu>.nav-pills>li>a {
+    color: #000000;
+}
+
+.info-side-menu>.nav-pills>li.active>a {
+    background-color: #3b3b3b;
+    color: #ffffff;
+}
+
+.info-side-menu>.nav-tabs>li.active>a:hover {
+
+}
+
 
 .cities-top-button-controls-bar {
     padding-left: 15px;
