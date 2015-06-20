@@ -1,4 +1,4 @@
-app.directive('info', function($routeParams, $location, $route) {
+app.directive('info', function($routeParams, $location, $route, rolesService) {
     return {
         restrict: 'E',
         scope: {
@@ -51,6 +51,11 @@ app.directive('info', function($routeParams, $location, $route) {
             }
             scope.index = index;
             scope.setActiveTab(index);
+
+            rolesService.getAllRoles().then(function(allRolesResult) {
+                scope.allRoles = allRolesResult;
+            });
+            scope.affiliationIds = rolesService.affiliationIds;
         },
         templateUrl: 'app/directiveTemplates/info.html'
     };

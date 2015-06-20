@@ -334,7 +334,7 @@ app.controller('AppController', function ($scope) {
  
 // citiesController 
  
-app.controller('CitiesController',function ($scope, $route, $routeParams, $timeout, $location, $sce, citiesService, authService, modalService, layoutService, rolesService, usersService) {
+app.controller('CitiesController',function ($scope, $route, $routeParams, $timeout, $location, $sce, citiesService, authService, modalService, layoutService) {
     "use strict";
 
 
@@ -895,13 +895,6 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         $scope.showAcceptInvitationButtonForCity = showAcceptInvitationButtonForCity;
         $scope.showLeaveButtonForCity = showLeaveButtonForCity;
         $scope.showCancelJoinRequestForCity = showCancelJoinRequestForCity;
-
-
-        rolesService.getAllRoles().then(function(allRolesResult) {
-            $scope.allRoles = allRolesResult;
-        });
-
-        $scope.affiliationIds = rolesService.affiliationIds;
 
 
         $scope.renderHtml = renderHtml;
@@ -4771,7 +4764,7 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
  
 // infoDirective 
  
-app.directive('info', function($routeParams, $location, $route) {
+app.directive('info', function($routeParams, $location, $route, rolesService) {
     return {
         restrict: 'E',
         scope: {
@@ -4824,6 +4817,11 @@ app.directive('info', function($routeParams, $location, $route) {
             }
             scope.index = index;
             scope.setActiveTab(index);
+
+            rolesService.getAllRoles().then(function(allRolesResult) {
+                scope.allRoles = allRolesResult;
+            });
+            scope.affiliationIds = rolesService.affiliationIds;
         },
         templateUrl: 'app/directiveTemplates/info.html'
     };
@@ -12802,7 +12800,7 @@ app.service('serverService', function ($q) {
     var productionServer = 'http://188.226.245.205:3000';
     var developmentServer = 'http://localhost:3000';
 
-    this.serverHost = developmentServer;
+    this.serverHost = productionServer;
 
 
 
