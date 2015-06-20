@@ -265,9 +265,9 @@ input, textarea, select {
 }
 
 .nav-tabs>li.active>a {
-    color: white;
-    background-color: #161616;
-    border-color: #0d0d0d;
+    color: white !important;
+    background-color: #161616 !important;;
+    border-color: #0d0d0d !important;
     margin-bottom: 2px;
 }
 
