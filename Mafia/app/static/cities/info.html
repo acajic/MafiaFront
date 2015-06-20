@@ -1,3 +1,30 @@
+<div class="tabbable tabs-left">
+    <ul class="nav nav-tabs">
+        <li ng-class="getTabClass(1)" ng-click="setActiveTab(1)"><a data-toggle="tab">Deal</a></li>
+        <li ng-class="getTabClass(2)" ng-click="setActiveTab(2)"><a data-toggle="tab">Bond</a></li>
+        <li ng-class="getTabClass(3)" ng-click="setActiveTab(3)"><a data-toggle="tab">Collateral</a></li>
+        <li ng-class="getTabClass(4)" ng-click="setActiveTab(4)"><a data-toggle="tab">Rating</a></li>
+    </ul>
+    <div class="tab-content">
+        <div ng-class="getTabPaneClass(1)" id="deal">
+            {{tab1}}
+        </div>
+
+        <div ng-class="getTabPaneClass(2)" id="bond">
+            {{tab2}}
+        </div>
+
+        <div ng-class="getTabPaneClass(3)" id="collateral">
+            {{tab3}}
+        </div>
+
+        <div ng-class="getTabPaneClass(4)" id="rating">
+            {{tab4}}
+        </div>
+
+    </div>
+</div>
+
 <div ng-show="staticPage == 0" ng-include src="'app/static/cities/info/overview.html'">
 </div>
 

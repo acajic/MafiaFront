@@ -40,28 +40,12 @@
         <tabset>
             <tab ng-click="tabSelected(0)" id="welcome-tab" active="selectedTab[0]">
                 <tab-heading>
-                    <div class="dropdown">
-                        <i class="glyphicon glyphicon-info-sign"></i> {{staticPageTitle}}
-                        <span class="dropdown-toggle">
-                            <i class="fa fa-sort-desc"></i>
-                        </span>
-                        <ul class="dropdown-menu" role="menu">
-                            <li role="presentation"><button class="btn-link" role="menuitem" ng-click="showStaticPage(0)">Welcome</button></li>
-                            <li role="presentation"><button class="btn-link" role="menuitem" ng-click="showStaticPage(1)">About</button></li>
-                            <li role="presentation"><button class="btn-link" role="menuitem" ng-click="showStaticPage(2)">Roles</button></li>
-                            <li role="presentation"><button class="btn-link" role="menuitem" ng-click="showStaticPage(3)">Advanced</button></li>
-                        </ul>
-                    </div>
-
+                    <i class="glyphicon glyphicon-info-sign"></i> Info
                 </tab-heading>
 
-                <div class="col-md-12 cities-info-tab" ng-include src="'app/static/cities/info.html'">
-
+                <div class="col-md-12">
+                    <info index="staticPageIndex" change="staticPageChange(pageName)"></info>
                 </div>
-
-
-
-
             </tab>
 
 
