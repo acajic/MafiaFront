@@ -286,6 +286,7 @@ input, textarea, select {
     padding-top: 20px;
     padding-left: 0px;
     font-size: 16px;
+    min-width: 180px;
 }
 
 .info-side-menu>.nav-pills>li>a {
