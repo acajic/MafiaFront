@@ -127,6 +127,10 @@ input, textarea, select {
     padding-top: 40px;
 }
 
+.tutorial-text {
+    margin-bottom: 20px;
+}
+
 .title.small {
     font-size: 38px;
     min-height: 80px;
