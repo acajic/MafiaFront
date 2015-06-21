@@ -1,17 +1,13 @@
-app.directive('info', function($routeParams, $location, $route, rolesService) {
+app.directive('info', function($routeParams, $location, $route, rolesService, navigationService) {
     return {
         restrict: 'E',
         scope: {
-            index: '=',
             change: '&'
         },
         link: function(scope, element, attrs) {
             "use strict";
 
             var tabClasses;
-
-            var pageNames = ['welcome', 'about', 'roles', 'advanced'];
-
 
             function initTabs() {
                 tabClasses = ["","","",""];
@@ -27,12 +23,13 @@ app.directive('info', function($routeParams, $location, $route, rolesService) {
 
             scope.setActiveTab = function (tabNum) {
                 scope.index = tabNum;
+                navigationService.home.selectedInfoIndex = tabNum;
 
                 initTabs();
                 tabClasses[tabNum] = "active";
 
                 if (scope.change) {
-                    scope.change({pageName : pageNames[tabNum]});
+                    scope.change();
                 }
             };
 
@@ -43,8 +40,8 @@ app.directive('info', function($routeParams, $location, $route, rolesService) {
             var routePath = $route.current.$$route ? $route.current.$$route.originalPath : '';
 
             var index = 0;
-            for (var i = 0; i < pageNames.length; i++) {
-                if (routePath == '/' + pageNames[i]) {
+            for (var i = 0; i < navigationService.home.infoPaths.length; i++) {
+                if (routePath == '/' + navigationService.home.infoPaths[i]) {
                     index = i;
                     break;
                 }

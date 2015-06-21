@@ -1,4 +1,4 @@
-app.controller('CitiesController',function ($scope, $route, $routeParams, $timeout, $location, citiesService, authService, modalService, layoutService) {
+app.controller('CitiesController',function ($scope, $route, $routeParams, $timeout, $location, citiesService, authService, modalService, layoutService, navigationService) {
     "use strict";
 
 
@@ -356,33 +356,20 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     $scope.tabSelected = function (tabIndex) {
         $scope.citySelected(null);
 
-        var newPath = null;
-        switch(tabIndex) {
-            case 0:
-                newPath = $scope.staticPageSelected;
-                break;
-            case 1:
-                newPath = 'my';
-                break;
-            case 2:
-                newPath = 'all';
-                break;
-        }
+        navigationService.home.selectedTabIndex = tabIndex;
+
+        var newPath = navigationService.getHomePath();
         if (newPath != $location.path()) {
             $location.path(newPath, false);
         }
 
-
         var alreadySelected = $('.table-cities tr.selected');
         alreadySelected.removeClass("selected");
-        // $scope.selectedAllCities.rowId = 0;
-        // $scope.selectedMyCities.rowId = 0;
     };
 
-    $scope.staticPageChange = function (pageName) {
-        $scope.staticPageSelected = pageName;
+    $scope.staticPageChange = function () {
         if ($scope.selectedTab[0]) {
-            $location.path(pageName, false)
+            $location.path(navigationService.getHomePath(), false);
         }
     };
 
@@ -510,9 +497,6 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         $scope.myCities = [];
 
 
-        $scope.staticPageIndex = 0;
-        $scope.staticPageSelected = '';
-
         var routePath = $route.current.$$route ? $route.current.$$route.originalPath : '';
 
         $scope.selectedTab = new Array(3);
@@ -523,14 +507,18 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
             }
         } else if (routePath == '/my') {
             $scope.selectedTab[1] = true;
+            navigationService.home.selectedTabIndex = 1;
         } else if (routePath == '/all') {
             $scope.selectedTab[2] = true;
+            navigationService.home.selectedTabIndex = 2;
         } else if (routePath == '/') {
             var isReturningUser = getCookie('isReturningUser');
             if (isReturningUser) {
                 $scope.selectedTab[1] = true;
+                navigationService.home.selectedTabIndex = 1;
             } else {
                 $scope.selectedTab[0] = true;
+                navigationService.home.selectedTabIndex = 0;
                 setCookie('isReturningUser', true);
             }
         } else {

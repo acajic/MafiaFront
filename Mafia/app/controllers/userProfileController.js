@@ -1,4 +1,4 @@
-app.controller('UserProfileController', function ($scope, $location, $modal, $timeout, usersService, authService, layoutService, rolePicksService) {
+app.controller('UserProfileController', function ($scope, $location, $modal, $timeout, usersService, authService, layoutService, rolePicksService, navigationService) {
     "use strict";
 
     var user = {
@@ -13,7 +13,7 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
 
 
     var back = function() {
-        $location.path('/cities');
+        $location.path(navigationService.getHomePath());
     };
 
     var save = function() {

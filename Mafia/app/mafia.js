@@ -334,7 +334,7 @@ app.controller('AppController', function ($scope) {
  
 // citiesController 
  
-app.controller('CitiesController',function ($scope, $route, $routeParams, $timeout, $location, citiesService, authService, modalService, layoutService) {
+app.controller('CitiesController',function ($scope, $route, $routeParams, $timeout, $location, citiesService, authService, modalService, layoutService, navigationService) {
     "use strict";
 
 
@@ -692,33 +692,20 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     $scope.tabSelected = function (tabIndex) {
         $scope.citySelected(null);
 
-        var newPath = null;
-        switch(tabIndex) {
-            case 0:
-                newPath = $scope.staticPageSelected;
-                break;
-            case 1:
-                newPath = 'my';
-                break;
-            case 2:
-                newPath = 'all';
-                break;
-        }
+        navigationService.home.selectedTabIndex = tabIndex;
+
+        var newPath = navigationService.getHomePath();
         if (newPath != $location.path()) {
             $location.path(newPath, false);
         }
 
-
         var alreadySelected = $('.table-cities tr.selected');
         alreadySelected.removeClass("selected");
-        // $scope.selectedAllCities.rowId = 0;
-        // $scope.selectedMyCities.rowId = 0;
     };
 
-    $scope.staticPageChange = function (pageName) {
-        $scope.staticPageSelected = pageName;
+    $scope.staticPageChange = function () {
         if ($scope.selectedTab[0]) {
-            $location.path(pageName, false)
+            $location.path(navigationService.getHomePath(), false);
         }
     };
 
@@ -846,9 +833,6 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         $scope.myCities = [];
 
 
-        $scope.staticPageIndex = 0;
-        $scope.staticPageSelected = '';
-
         var routePath = $route.current.$$route ? $route.current.$$route.originalPath : '';
 
         $scope.selectedTab = new Array(3);
@@ -859,14 +843,18 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
             }
         } else if (routePath == '/my') {
             $scope.selectedTab[1] = true;
+            navigationService.home.selectedTabIndex = 1;
         } else if (routePath == '/all') {
             $scope.selectedTab[2] = true;
+            navigationService.home.selectedTabIndex = 2;
         } else if (routePath == '/') {
             var isReturningUser = getCookie('isReturningUser');
             if (isReturningUser) {
                 $scope.selectedTab[1] = true;
+                navigationService.home.selectedTabIndex = 1;
             } else {
                 $scope.selectedTab[0] = true;
+                navigationService.home.selectedTabIndex = 0;
                 setCookie('isReturningUser', true);
             }
         } else {
@@ -1221,7 +1209,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
  
 app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $timeout, citiesService, rolesService, rolePicksService,
                                                          gameEndConditionsService, selfGeneratedResultTypesService,
-                                                         authService, usersService, $location, $q, $modal) {
+                                                         authService, usersService, $location, $q, $modal, navigationService) {
     "use strict";
 
     var MIN_DAY_DURATION = 4;
@@ -1229,7 +1217,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
     var originalCity = {};
 
     function back() {
-        $location.path('/cities');
+        $location.path(navigationService.getHomePath());
     }
 
     function amIOwner(city) {
@@ -2666,7 +2654,7 @@ app.controller('CityDiscussionController', function ($scope, $routeParams, $loca
  
 // registerController 
  
-app.controller('RegisterController', function ($scope, $location, $timeout, usersService, serverService, authService) {
+app.controller('RegisterController', function ($scope, $location, $timeout, usersService, serverService, authService, navigationService) {
     "use strict";
 
     var newUser = {
@@ -2677,7 +2665,7 @@ app.controller('RegisterController', function ($scope, $location, $timeout, user
     };
 
     var back = function() {
-        $location.path('');
+        $location.path(navigationService.getHomePath());
     };
 
 
@@ -2772,7 +2760,7 @@ app.controller('UnsubscribeController', function ($scope, usersService) {
  
 // userProfileController 
  
-app.controller('UserProfileController', function ($scope, $location, $modal, $timeout, usersService, authService, layoutService, rolePicksService) {
+app.controller('UserProfileController', function ($scope, $location, $modal, $timeout, usersService, authService, layoutService, rolePicksService, navigationService) {
     "use strict";
 
     var user = {
@@ -2787,7 +2775,7 @@ app.controller('UserProfileController', function ($scope, $location, $modal, $ti
 
 
     var back = function() {
-        $location.path('/cities');
+        $location.path(navigationService.getHomePath());
     };
 
     var save = function() {
@@ -4568,7 +4556,7 @@ app.controller('AdminUserController',function ($scope, $routeParams, $location, 
  
 // authDirective 
  
-app.directive('auth', function($routeParams, $location, $modal, $timeout, authService, layoutService, usersService) {
+app.directive('auth', function($routeParams, $location, $modal, $timeout, authService, layoutService, usersService, navigationService) {
     return {
         restrict: 'E',
         link: function(scope, element, attrs) {
@@ -4578,7 +4566,9 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
 
             scope.homeButtonVisible = layoutService.homeButtonVisible;
 
-            scope.profileUrl = "#!/profile";
+            scope.openProfile = function () {
+                $location.path('/profile');
+            };
 
             scope.adminButtonVisible = function() {
                 if (scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE] || scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
@@ -4589,7 +4579,7 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
             };
 
             scope.setLocationHome = function () {
-                $location.path('/cities');
+                $location.path(navigationService.getHomePath());
             };
 
             scope.setLocationAdmin = function () {
@@ -4681,7 +4671,7 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
             scope.signOut = function() {
                 authService.signOut();
                 scope.user = {};
-                $location.path('/cities');
+                $location.path(navigationService.getHomePath());
             };
 
             $(document).keypress(function(e) {
@@ -4755,20 +4745,16 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
  
 // infoDirective 
  
-app.directive('info', function($routeParams, $location, $route, rolesService) {
+app.directive('info', function($routeParams, $location, $route, rolesService, navigationService) {
     return {
         restrict: 'E',
         scope: {
-            index: '=',
             change: '&'
         },
         link: function(scope, element, attrs) {
             "use strict";
 
             var tabClasses;
-
-            var pageNames = ['welcome', 'about', 'roles', 'advanced'];
-
 
             function initTabs() {
                 tabClasses = ["","","",""];
@@ -4784,12 +4770,13 @@ app.directive('info', function($routeParams, $location, $route, rolesService) {
 
             scope.setActiveTab = function (tabNum) {
                 scope.index = tabNum;
+                navigationService.home.selectedInfoIndex = tabNum;
 
                 initTabs();
                 tabClasses[tabNum] = "active";
 
                 if (scope.change) {
-                    scope.change({pageName : pageNames[tabNum]});
+                    scope.change();
                 }
             };
 
@@ -4800,8 +4787,8 @@ app.directive('info', function($routeParams, $location, $route, rolesService) {
             var routePath = $route.current.$$route ? $route.current.$$route.originalPath : '';
 
             var index = 0;
-            for (var i = 0; i < pageNames.length; i++) {
-                if (routePath == '/' + pageNames[i]) {
+            for (var i = 0; i < navigationService.home.infoPaths.length; i++) {
+                if (routePath == '/' + navigationService.home.infoPaths[i]) {
                     index = i;
                     break;
                 }
@@ -12423,6 +12410,41 @@ app.factory('modalService', function($modal) {
         successModal : successModal,
         errorModal : errorModal
     };
+}); 
+ 
+// navigationService 
+ 
+app.factory('navigationService', function() {
+    "use strict";
+
+    var infoPaths = ['welcome', 'about', 'roles', 'advanced'];
+
+    var home = {
+        selectedTabIndex: 1,
+        paths: {
+            0 : infoPaths[0],
+            1 : 'my',
+            2 : 'all'
+        },
+        infoPaths : infoPaths,
+        selectedInfoIndex : 0
+    };
+
+    var getHomePath = function () {
+        switch (home.selectedTabIndex) {
+            case 0:
+                return '/' + home.infoPaths[home.selectedInfoIndex];
+            case 2:
+                return '/' + home.paths[2];
+            default:
+                return '/' + home.paths[1];
+        }
+    };
+
+    return {
+        home : home,
+        getHomePath : getHomePath
+    }
 }); 
  
 // paymentsService 
