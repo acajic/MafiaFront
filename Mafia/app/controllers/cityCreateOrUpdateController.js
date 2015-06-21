@@ -1,6 +1,6 @@
 app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $timeout, citiesService, rolesService, rolePicksService,
                                                          gameEndConditionsService, selfGeneratedResultTypesService,
-                                                         authService, usersService, $location, $q, $modal) {
+                                                         authService, usersService, $location, $q, $modal, navigationService) {
     "use strict";
 
     var MIN_DAY_DURATION = 4;
@@ -8,7 +8,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
     var originalCity = {};
 
     function back() {
-        $location.path('/cities');
+        $location.path(navigationService.getHomePath());
     }
 
     function amIOwner(city) {

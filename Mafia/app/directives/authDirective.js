@@ -1,4 +1,4 @@
-app.directive('auth', function($routeParams, $location, $modal, $timeout, authService, layoutService, usersService) {
+app.directive('auth', function($routeParams, $location, $modal, $timeout, authService, layoutService, usersService, navigationService) {
     return {
         restrict: 'E',
         link: function(scope, element, attrs) {
@@ -8,7 +8,9 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
 
             scope.homeButtonVisible = layoutService.homeButtonVisible;
 
-            scope.profileUrl = "#!/profile";
+            scope.openProfile = function () {
+                $location.path('/profile');
+            };
 
             scope.adminButtonVisible = function() {
                 if (scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_WRITE] || scope.user.app_role.app_permissions[APP_PERMISSION_ADMIN_READ]) {
@@ -19,7 +21,7 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
             };
 
             scope.setLocationHome = function () {
-                $location.path('/cities');
+                $location.path(navigationService.getHomePath());
             };
 
             scope.setLocationAdmin = function () {
@@ -111,7 +113,7 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
             scope.signOut = function() {
                 authService.signOut();
                 scope.user = {};
-                $location.path('/cities');
+                $location.path(navigationService.getHomePath());
             };
 
             $(document).keypress(function(e) {

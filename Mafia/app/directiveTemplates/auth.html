@@ -25,7 +25,7 @@
             <button ng-if="homeButtonVisible()" ng-click="setLocationHome()" class="btn btn-primary"><i class="glyphicon glyphicon-home"></i>Home</button>
 
 
-            Hello, <a href="{{profileUrl}}" >{{user.username}}</a>!
+            Hello, <a ng-click="openProfile()">{{user.username}}</a>!
             <button ng-click="signOut()" class="btn btn-default" style="display: inline"><i class="glyphicon glyphicon-log-out"></i> Sign out</button>
         </div>
     </div>
