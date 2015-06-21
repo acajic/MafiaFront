@@ -334,7 +334,7 @@ app.controller('AppController', function ($scope) {
  
 // citiesController 
  
-app.controller('CitiesController',function ($scope, $route, $routeParams, $timeout, $location, $sce, citiesService, authService, modalService, layoutService) {
+app.controller('CitiesController',function ($scope, $route, $routeParams, $timeout, $location, citiesService, authService, modalService, layoutService) {
     "use strict";
 
 
@@ -825,13 +825,6 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     });
 
 
-    function renderHtml(htmlCode) {
-        return $sce.trustAsHtml(htmlCode);
-    };
-
-
-
-
     init();
 
     function init() {
@@ -896,9 +889,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         $scope.showLeaveButtonForCity = showLeaveButtonForCity;
         $scope.showCancelJoinRequestForCity = showCancelJoinRequestForCity;
 
-
-        $scope.renderHtml = renderHtml;
-
+        
     }
 
 }).filter('filterMyCities', function () {
