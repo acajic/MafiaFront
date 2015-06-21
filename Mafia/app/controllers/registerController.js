@@ -1,4 +1,4 @@
-app.controller('RegisterController', function ($scope, $location, $timeout, usersService, serverService, authService) {
+app.controller('RegisterController', function ($scope, $location, $timeout, usersService, serverService, authService, navigationService) {
     "use strict";
 
     var newUser = {
@@ -9,7 +9,7 @@ app.controller('RegisterController', function ($scope, $location, $timeout, user
     };
 
     var back = function() {
-        $location.path('');
+        $location.path(navigationService.getHomePath());
     };
 
 
