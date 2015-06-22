@@ -4,7 +4,7 @@
 
 <div ng-if="reviveActionTypeParamsDictionary.number_of_actions_available != 0">
     <div id="info-box">
-        <alert ng-repeat="alert in infos" type="alert.type" close="closeInfoAlert($index)">{{alert.msg}}</alert>
+        <alert ng-repeat="alert in infos" type="{{ alert.type }}" close="closeInfoAlert($index)">{{alert.msg}}</alert>
     </div>
     <div>
         <i class="glyphicon glyphicon-screenshot"></i>Revive

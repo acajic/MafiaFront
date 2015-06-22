@@ -6,7 +6,7 @@
     <div class="title textonly">Register</div>
 
     <div>
-        <alert ng-repeat="alert in registerInfos" type="alert.type" close="closeRegisterInfoAlert($index)">{{alert.msg}}</alert>
+        <alert ng-repeat="alert in registerInfos" type="{{ alert.type }}" close="closeRegisterInfoAlert($index)">{{alert.msg}}</alert>
     </div>
 
     <div class="register-buttons-bar">
