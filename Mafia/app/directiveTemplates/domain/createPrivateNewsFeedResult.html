@@ -3,8 +3,8 @@
     <button class="btn btn-default notext btn-toggle-edit-mode btn-toggle-edit-mode-small" ng-click="toggleMode()" tooltip="{{ editMode ? 'Cancel' : 'Alter' }}"><i class="glyphicon glyphicon-edit"></i></button>
 
     <div ng-if="editMode">
-        <div class="action-type-chooser" class="dropdown">
-            <a class="dropdown-toggle">
+        <div class="action-type-chooser" class="dropdown" dropdown>
+            <a class="dropdown-toggle" dropdown-toggle>
                 {{ actionTypeLabel }}
             </a>
             <ul class="dropdown-menu">
