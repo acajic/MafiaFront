@@ -6,7 +6,7 @@
 </div>
 <div id="content-body">
     <div class="alert">
-        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+        <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{alert.msg}}</alert>
     </div>
 
     <div style="padding: 15px;">

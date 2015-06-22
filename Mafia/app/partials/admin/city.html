@@ -6,7 +6,7 @@
     <div class="title textonly small">City: {{inspectedCity.name}}</div>
 
     <div>
-        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+        <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{alert.msg}}</alert>
     </div>
 
     <div class="admin-city-button-controls">
