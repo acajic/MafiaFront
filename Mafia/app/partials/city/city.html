@@ -8,7 +8,7 @@
 
     <div class="city-info-header">
         <div class="alert-box general-messages">
-            <alert ng-repeat="alert in generalMessages" type="alert.type" close="closeGeneralMessageAlert($index)">{{alert.msg}}</alert>
+            <alert ng-repeat="alert in generalMessages" type="{{ alert.type }}" close="closeGeneralMessageAlert($index)">{{alert.msg}}</alert>
         </div>
 
         <div ng-if="!city.finished_at" class="col-md-3 city-info-box">
@@ -98,7 +98,7 @@
 <div id="content-body">
     <div class="city">
 
-        <alert ng-repeat="alert in basicValidationErrors" type="alert.type" close="closeBasicValidationAlert($index)">{{alert.msg}}</alert>
+        <alert ng-repeat="alert in basicValidationErrors" type="{{ alert.type }}" close="closeBasicValidationAlert($index)">{{alert.msg}}</alert>
 
 
         <role ng-if="!isLoading"

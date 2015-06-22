@@ -5,7 +5,7 @@
 
     <div class="title textonly">{{city.name}} - DETAILS</div>
     <div class="alert-box general-messages">
-        <alert ng-repeat="alert in generalMessages" type="alert.type" close="closeGeneralMessage($index)">{{alert.msg}}</alert>
+        <alert ng-repeat="alert in generalMessages" type="{{ alert.type }}" close="closeGeneralMessage($index)">{{alert.msg}}</alert>
     </div>
 
     <div class="city-control-buttons-bar">
@@ -36,7 +36,7 @@
                 </tab-heading>
 
                 <div id="basic-validation-error">
-                    <alert ng-repeat="alert in basicValidationErrors" type="alert.type" close="closeDayCycleValidationAlert($index)">{{alert.msg}}</alert>
+                    <alert ng-repeat="alert in basicValidationErrors" type="{{ alert.type }}" close="closeDayCycleValidationAlert($index)">{{alert.msg}}</alert>
                 </div>
 
                 <table class="table sidetable">
@@ -111,7 +111,7 @@
                 </tab-heading>
 
                 <div id="day-cycle-validation-error">
-                    <alert ng-repeat="alert in dayCycleValidationErrors" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+                    <alert ng-repeat="alert in dayCycleValidationErrors" type="{{ alert.type }}" close="closeAlert($index)">{{alert.msg}}</alert>
                 </div>
 
                 <table class="table">
