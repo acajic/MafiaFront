@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div id='container'>
+        <ul class='breadcrumb'>
+  <li class='active'><a href='./apidoc.html'>Mafia 1.0</a></li>
+  
+</ul>
+
+<div>
+<p>The entire API is hosted on</p>
+
+<pre>http://exposemafia.com:3000</pre>
+</div>
+
+<h1 class='page-header'>Resources</h1>
+
+  <h2>
+    <a href='./apidoc/action_result_types.html'>
+      Action result types
+    </a><br>
+    <small>All action results are of a certain type.</small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td>
+              <a href='./apidoc/action_result_types/index.html'>GET /action_result_types</a>
+            </td>
+            <td width='60%'>Get all possible Action Result Types.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/action_results.html'>
+      Action results
+    </a><br>
+    <small>Action Results provide insight into the state of the game.</small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td>
+              <a href='./apidoc/action_results/action_results_for_city_and_role.html'>GET /action_results/city/:city_id/role/:role_id</a>
+            </td>
+            <td width='60%'>Get Action Results for a specific city and role.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/action_results/new.html'>GET /action_results/new</a>
+            </td>
+            <td width='60%'>A new Action Result.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/action_results/create.html'>POST /action_results</a>
+            </td>
+            <td width='60%'>Create a new Action Result.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/action_results/destroy.html'>DELETE /action_results/:action_result_id</a>
+            </td>
+            <td width='60%'>Delete an Action Result.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/action_type.html'>
+      Action type
+    </a><br>
+    <small>All actions are of a certain type.</small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td>
+              <a href='./apidoc/action_type/index.html'>GET /action_types</a>
+            </td>
+            <td width='60%'>Get all possible Action Types.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/actions.html'>
+      Actions
+    </a><br>
+    <small>A user interacts with a game via Actions.</small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td>
+              <a href='./apidoc/actions/new.html'>GET /actions/new</a>
+            </td>
+            <td width='60%'>Get a template for creating a new Action.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/actions/create.html'>POST /actions</a>
+            </td>
+            <td width='60%'>Create a new Action.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/actions/cancel_unprocessed_actions.html'>DELETE /actions/cancel_unprocessed_actions</a>
+            </td>
+            <td width='60%'>Cancel all Actions that haven&#39;t yet been processed.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/auth_tokens.html'>
+      Authentication
+    </a><br>
+    <small>Login, Logout and stuff.</small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td>
+              <a href='./apidoc/auth_tokens/create.html'>POST /login</a>
+            </td>
+            <td width='60%'>Exchange credentials for an Auth Token.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/auth_tokens/exchange_email_confirmation_code.html'>POST /exchange_email_confirmation_code</a>
+            </td>
+            <td width='60%'>Exchange email confirmation code for an Auth Token.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/auth_tokens/invalidate_auth_token.html'>DELETE /logout</a>
+            </td>
+            <td width='60%'>Invalidate the Auth Token that is passed as a parameter.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/cities.html'>
+      Cities
+    </a><br>
+    <small>Cities or Towns are basically games.</small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/index.html'>GET /cities</a>
+            </td>
+            <td width='60%'>Query cities/towns/games</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/me.html'>GET /cities/me</a>
+            </td>
+            <td width='60%'>Get my Cities</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/all_cities_for_search_text.html'>GET /cities/search/all_cities_for_search_text</a>
+            </td>
+            <td width='60%'>Get Cities by name.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/my_cities_for_search_text.html'>GET /cities/search/my_cities_for_search_text</a>
+            </td>
+            <td width='60%'>Get my Cities by name.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/show.html'>GET /cities/:city_id</a>
+            </td>
+            <td width='60%'>Get a City by id.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/new.html'>GET /cities/new</a>
+            </td>
+            <td width='60%'>Get a template for creating a new City.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/create.html'>POST /cities</a>
+            </td>
+            <td width='60%'>Create a new City.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/join.html'>POST /cities/:city_id/join</a>
+            </td>
+            <td width='60%'>Join a City.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/cancel_join_request.html'>DELETE /cities/:city_id/join_request</a>
+            </td>
+            <td width='60%'>Cancel a request to join a City.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/accept_invitation.html'>POST /cities/:city_id/accept_invitation</a>
+            </td>
+            <td width='60%'>Accept an invitation to join a City.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/accept_join_request.html'>POST /cities/:city_id/accept_join_request</a>
+            </td>
+            <td width='60%'>Accept a User&#39;s request to join a City you created.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/leave.html'>POST /cities/:city_id/leave</a>
+            </td>
+            <td width='60%'>Leave a City.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/cancel_invitation.html'>DELETE /cities/:city_id/invitation/:user_id</a>
+            </td>
+            <td width='60%'>Cancel an invitation sent to a User to join a City.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/reject_join_request.html'>DELETE /cities/:city_id/join_request/:user_id</a>
+            </td>
+            <td width='60%'>Reject a join request of a User to join a City.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/kick_user.html'>DELETE /cities/:city_id/user/:user_id</a>
+            </td>
+            <td width='60%'>Kick a user out of your City.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/invite.html'>POST /cities/:city_id/invite</a>
+            </td>
+            <td width='60%'>Invite users to your City.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/start.html'>POST /cities/:city_id/start</a>
+            </td>
+            <td width='60%'>Start a game.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/stop.html'>POST /cities/:city_id/stop</a>
+            </td>
+            <td width='60%'>Stop a game.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/pause.html'>POST /cities/:city_id/pause</a>
+            </td>
+            <td width='60%'>Pause a game.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/resume.html'>POST /cities/:city_id/resume</a>
+            </td>
+            <td width='60%'>Resume a game.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/update.html'>POST /cities/:city_id</a>
+            </td>
+            <td width='60%'>Update an existing City.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/cities/destroy.html'>DELETE /cities/:city_id</a>
+            </td>
+            <td width='60%'>Delete an existing City.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/days.html'>
+      Days
+    </a><br>
+    <small>When one day and one night pass inside one game, that constitutes a Day.</small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/game_end_conditions.html'>
+      Game end conditions
+    </a><br>
+    <small>What are the conditions that indicate that a game is over?</small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td>
+              <a href='./apidoc/game_end_conditions/index.html'>GET /game_end_conditions</a>
+            </td>
+            <td width='60%'>Get all possible Game End Conditions.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/residents.html'>
+      Residents
+    </a><br>
+    <small>When a user joins a city, they become Residents.</small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td>
+              <a href='./apidoc/residents/show.html'>GET /residents/:resident_id</a>
+            </td>
+            <td width='60%'>Show a Resident.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/residents/save_role.html'>POST /residents/save_role</a>
+            </td>
+            <td width='60%'>Save a role.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/residents/new.html'>GET /residents/new</a>
+            </td>
+            <td width='60%'>A new Resident.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/roles.html'>
+      Roles
+    </a><br>
+    <small>Game roles like Citizen, Doctor, Detective, Mafia, ...</small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td>
+              <a href='./apidoc/roles/index.html'>GET /roles</a>
+            </td>
+            <td width='60%'>Get all possible Roles.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/self_generated_result_types.html'>
+      Self generated result types
+    </a><br>
+    <small>Information that gets generated for every player but its creation is not initiated by any specific action.</small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td>
+              <a href='./apidoc/self_generated_result_types/index.html'>GET /self_generated_result_types</a>
+            </td>
+            <td width='60%'>Get all Self Generated Result Types.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/user_preference.html'>
+      User preference
+    </a><br>
+    <small>Mostly account and mailing preferences.</small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td>
+              <a href='./apidoc/user_preference/update_my_user_preference.html'>GET /user_preference/me</a>
+            </td>
+            <td width='60%'>Get my User Preferences.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/user_preference/unsubscribe.html'>GET /user_preference/unsubscribe</a>
+            </td>
+            <td width='60%'>Unsibscribe from all emails.</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/users.html'>
+      Users
+    </a><br>
+    <small>When you register, you become a User.</small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td>
+              <a href='./apidoc/users/index.html'>GET /users</a>
+            </td>
+            <td width='60%'>Query Users.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/users/me.html'>GET /users/me</a>
+            </td>
+            <td width='60%'>Get User object representing myself.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/users/show.html'>GET /users/:user_id</a>
+            </td>
+            <td width='60%'>Get a User by id.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/users/new.html'>GET /users/new</a>
+            </td>
+            <td width='60%'>Get a template for a new User.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/users/edit.html'>GET /users/:user_id/edit</a>
+            </td>
+            <td width='60%'>Get a User for editting.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/users/create.html'>POST /users</a>
+            </td>
+            <td width='60%'>Create a new User.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/users/confirm_email.html'>GET /users/confrim_email</a>
+            </td>
+            <td width='60%'>Confirm email address after registration.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/users/forgot_password.html'>POST /users/forgot_password</a>
+            </td>
+            <td width='60%'>Request password renewal.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/users/confirm_forgot_password.html'>GET /users/confirm_forgot_password</a>
+            </td>
+            <td width='60%'>Confirm password renewal.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/users/update.html'>PUT /users/:user_id</a>
+            </td>
+            <td width='60%'>Update a User.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/users/destroy.html'>DELETE /users/:user_id</a>
+            </td>
+            <td width='60%'>Delete a User.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/users/allowed_email_patterns.html'>GET /users/allowed_email_patterns</a>
+            </td>
+            <td width='60%'>Get all allowed email patterns for user registration.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/users/app_roles.html'>GET /users/app_roles</a>
+            </td>
+            <td width='60%'>Get all possible app roles.</td>
+          </tr>
+    </tbody>
+  </table>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer></footer>
+  </div>
+  <script type='text/javascript' src='./apidoc/javascripts/bundled/jquery-1.7.2.js'></script>
+<script type='text/javascript' src='./apidoc/javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='./apidoc/javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='./apidoc/javascripts/apipie.js'></script>
+</body>
+</html>

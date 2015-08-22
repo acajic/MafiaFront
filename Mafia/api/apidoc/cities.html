@@ -1,0 +1,4395 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div id='container'>
+        <ul class='breadcrumb'>
+  <li>
+    <a href='../apidoc.html'>Mafia 1.0</a>
+    <span class='divider'>/</span>
+  </li>
+  <li class='active'>
+    Cities
+    
+  </li>
+  
+</ul>
+
+<div class='page-header'>
+  <h1>
+    Cities
+    <br>
+    <small>Cities or Towns are basically games.</small>
+  </h1>
+</div>
+
+  <div>
+<p>Cities (or Towns, or Games). Each City is a single Mafia game.</p>
+</div>
+
+
+  <h2>Supported Formats</h2>
+  json
+
+
+
+<div class='accordion' id='accordion'>
+
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/index.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-index'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /cities
+          </a>
+          <br>
+          <small>Query cities/towns/games</small>
+        </h2>
+    </div>
+
+
+    <div id='description-index' class='collapse accordion-body'>
+      
+<p>Query cities/towns/games</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>name </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Cities whose names contain this string will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>description </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Cities whose descriptions contain this string will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>resident_user_ids </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>If one of the specified users are a part of a City, that city will be
+returned. Example:</p>
+
+<pre>exposemafia.com:3000/cities?resident_user_ids[]=6&amp;resident_user_ids[]=5</pre>
+
+        <br>
+        Value: 
+<p>Must be an array of Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>public </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Cities that are public or the ones that are private will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>active </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Cities that are active (started and ongoing) or the ones that are inactive
+(not started or finished) will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>paused </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Cities that are paused or the ones that are not paused will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>paused_during_day </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Cities that are paused during day phase of the game or the ones that are
+paused during night phase of the game will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>started_at_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that started after this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>started_at_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that started before this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>paused_at_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were paused after this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>paused_at_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were paused before this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>finished_at_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were finished after this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>finished_at_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were finished before this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>created_at_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were created after this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>created_at_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were created before this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>updated_at_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were updated after this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>updated_at_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were updated before this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>page_index </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Page index.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>page_size </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Page size.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/me.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-me'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /cities/me
+          </a>
+          <br>
+          <small>Get my Cities</small>
+        </h2>
+    </div>
+
+
+    <div id='description-me' class='collapse accordion-body'>
+      
+<p>Get a list of Cities that I either created, am a participant of, am invited
+to or have requested to join them.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/all_cities_for_search_text.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-all_cities_for_search_text'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /cities/search/all_cities_for_search_text
+          </a>
+          <br>
+          <small>Get Cities by name.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-all_cities_for_search_text' class='collapse accordion-body'>
+      
+<p>Get all Cities whose name contains a specified query string.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>search </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A query string.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/my_cities_for_search_text.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-my_cities_for_search_text'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /cities/search/my_cities_for_search_text
+          </a>
+          <br>
+          <small>Get my Cities by name.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-my_cities_for_search_text' class='collapse accordion-body'>
+      
+<p>Get my Cities whose name contains a specified query string.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>search </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A query string.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/show.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-show'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /cities/:city_id
+          </a>
+          <br>
+          <small>Get a City by id.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-show' class='collapse accordion-body'>
+      
+<p>Get a City by id.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/new.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-new'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /cities/new
+          </a>
+          <br>
+          <small>Get a template for creating a new City.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-new' class='collapse accordion-body'>
+      
+<p>Get a template for creating a new City.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/create.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-create'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /cities
+          </a>
+          <br>
+          <small>Create a new City.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-create' class='collapse accordion-body'>
+      
+<p>Create a new  City. Example:</p>
+
+<pre>city: {
+  id: null,
+  name: &quot;MyTown&quot;,
+  description: &quot;MyTown description.&quot;,
+  public: true,
+  password: null,
+  hashed_password: null,
+  password_salt: null,
+  city_has_roles: null,
+  residents: null,
+  invitations: null,
+  join_requests: null,
+  self_generated_result_types: [
+    {
+      id: 10,
+      name: &quot;Residents&quot;,
+      description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+      is_self_generated: true
+    },
+    {
+      id: 14,
+      name: &quot;Action Type Params&quot;,
+      description: &quot;Residents know at all times the state of action type parameters (e.g. how many times they can still use a certain action)&quot;,
+      is_self_generated: true
+    }
+  ],
+  game_end_conditions: [
+    {
+      id: 1,
+      name: &quot;Citizens vs. Mafia&quot;,
+      description: &quot;The game ends if, at the moment of day start or night start, one of the following conditions are met:\n 1) all mafia members are dead, \n2) mafia members consist &gt;=50% of living population in a city.&quot;
+    }
+  ],
+  timezone: 120,
+  day_cycles: [
+    {
+      id: null,
+      day_start: 540,
+      night_start: 1200,
+      day_start_date: &quot;2015-08-09T07:00:36.570Z&quot;,
+      night_start_date: &quot;2015-08-09T18:00:36.570Z&quot;
+    }
+  ],
+  user_creator_id: 1,
+  user_creator_username: &quot;AndrijaCajic&quot;,
+  active: false,
+  paused: false,
+  paused_during_day: null,
+  last_paused_at: null,
+  current_day: null,
+  days: null,
+  started_at: null,
+  finished_at: null,
+  created_at: null,
+  updated_at: null,
+  is_invited: false,
+  is_join_requested: false,
+  is_member: false,
+  is_owner: true,
+  role_picks: null
+},
+auth_token: &quot;a03893d89c2f72f910fd24782e5db21f576424dbda6e382f64d92e0551596369&quot;</pre>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City</p>
+
+        <br>
+        Value: 
+<p>Must be a Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[name] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City name</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[description] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City description</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[public] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Is it a public or a private game. Default is public.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[timezone] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Number of minute difference from UTC. For London in the winter (GMT), this
+value is 0. For CEST – Central European Summer Time, this value is 120. For
+New York in summer (EDT – Eastern Daylight Time), this value is -240.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[password] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City password. Only users that know the password can join. Password is only
+used if the game is private.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[self_generated_result_types] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Information that player gets without having to do any actions
+(Self-generated action results). Must be like specified in example. Other
+scenarios not sufficiently tested.</p>
+
+        <br>
+        Value: 
+<p>Must be an array of Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/join.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-join'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /cities/:city_id/join
+          </a>
+          <br>
+          <small>Join a City.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-join' class='collapse accordion-body'>
+      
+<p>Join a City.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/cancel_join_request.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-cancel_join_request'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            DELETE /cities/:city_id/join_request
+          </a>
+          <br>
+          <small>Cancel a request to join a City.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-cancel_join_request' class='collapse accordion-body'>
+      
+<p>Cancel a request to join a City.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/accept_invitation.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-accept_invitation'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /cities/:city_id/accept_invitation
+          </a>
+          <br>
+          <small>Accept an invitation to join a City.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-accept_invitation' class='collapse accordion-body'>
+      
+<p>Accept an invitation to join a City.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/accept_join_request.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-accept_join_request'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /cities/:city_id/accept_join_request
+          </a>
+          <br>
+          <small>Accept a User's request to join a City you created.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-accept_join_request' class='collapse accordion-body'>
+      
+<p>Accept a User&#39;s request to join a City you created.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>user_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>An id of a User who requested to join.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/leave.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-leave'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /cities/:city_id/leave
+          </a>
+          <br>
+          <small>Leave a City.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-leave' class='collapse accordion-body'>
+      
+<p>Cancel your participation in a City. You can only leave before the game
+started.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/cancel_invitation.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-cancel_invitation'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            DELETE /cities/:city_id/invitation/:user_id
+          </a>
+          <br>
+          <small>Cancel an invitation sent to a User to join a City.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-cancel_invitation' class='collapse accordion-body'>
+      
+<p>Cancel an invitation sent to a User to join a City.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>user_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A User id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/reject_join_request.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-reject_join_request'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            DELETE /cities/:city_id/join_request/:user_id
+          </a>
+          <br>
+          <small>Reject a join request of a User to join a City.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-reject_join_request' class='collapse accordion-body'>
+      
+<p>Reject a join request of a User to join a City.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>user_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A User id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/kick_user.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-kick_user'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            DELETE /cities/:city_id/user/:user_id
+          </a>
+          <br>
+          <small>Kick a user out of your City.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-kick_user' class='collapse accordion-body'>
+      
+<p>Kick a user out of your City. You can only kick someone out before the game
+has started.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>user_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A User id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/invite.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-invite'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /cities/:city_id/invite
+          </a>
+          <br>
+          <small>Invite users to your City.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-invite' class='collapse accordion-body'>
+      
+<p>Invite users to your City. You can only invite users before the game has
+started.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/start.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-start'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /cities/:city_id/start
+          </a>
+          <br>
+          <small>Start a game.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-start' class='collapse accordion-body'>
+      
+<p>Start a game. Only a City creator can start it.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/stop.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-stop'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /cities/:city_id/stop
+          </a>
+          <br>
+          <small>Stop a game.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-stop' class='collapse accordion-body'>
+      
+<p>Stop a game. Only a City creator can stop it.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/pause.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-pause'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /cities/:city_id/pause
+          </a>
+          <br>
+          <small>Pause a game.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-pause' class='collapse accordion-body'>
+      
+<p>Pause a game. Only a City creator can pause it.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/resume.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-resume'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /cities/:city_id/resume
+          </a>
+          <br>
+          <small>Resume a game.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-resume' class='collapse accordion-body'>
+      
+<p>Resume a game. Only a City creator can resume it.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/update.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-update'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /cities/:city_id
+          </a>
+          <br>
+          <small>Update an existing City.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-update' class='collapse accordion-body'>
+      
+<p>Update an existing City. Example:</p>
+
+<pre>city: {
+  id: 4,
+  name: &quot;test3&quot;,
+  description: &quot;Testing description.&quot;,
+  public: false,
+  password: &quot;Wyoming&quot;,
+  hashed_password: null,
+  password_salt: null,
+  city_has_roles: [
+    {
+      id: 205,
+      city_id: 4,
+      role: {
+        id: 1,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Citizen&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        1: {},
+        9: {}
+      }
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 2,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 2,
+          name: &quot;Protect&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          number_of_actions_available: -1
+          },
+          action_result_type: {
+          id: 2,
+          name: &quot;Protection Result&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Doctor&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        2: {
+        number_of_actions_available: -1
+        }
+      },
+      id: null,
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 3,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 3,
+          name: &quot;Investigate&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          number_of_actions_available: -1
+          },
+          action_result_type: {
+          id: 3,
+          name: &quot;Investigation Result&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Detective&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        3: {
+        number_of_actions_available: -1
+        }
+      },
+      id: null,
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 4,
+        affiliation: {
+        id: 2,
+        name: &quot;Mafia&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 8,
+          name: &quot;Mafia Members&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 9,
+          name: &quot;Mafia Members&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Mafia&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {},
+      id: null
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 7,
+        affiliation: {
+        id: 2,
+        name: &quot;Mafia&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 7,
+          name: &quot;Bomb&quot;,
+          trigger: {
+          id: 4,
+          name: &quot;async&quot;,
+          description: &quot;Triggering is asynchronous.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          detonation_delay: &quot;5m&quot;,
+          number_of_collaterals: 1
+          },
+          action_result_type: {
+          id: 8,
+          name: &quot;Terrorist Bombing&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true,
+        },
+        {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 8,
+          name: &quot;Mafia Members&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 9,
+          name: &quot;Mafia Members&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Terrorist&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        7: {
+        detonation_delay: &quot;5m&quot;,
+        number_of_collaterals: 1
+        }
+      },
+      id: null
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 5,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 5,
+          name: &quot;Reveal Identities&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          number_of_actions_available: 1
+          },
+          action_result_type: {
+          id: 5,
+          name: &quot;Revealed Identities&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true,
+        }
+        ],
+        name: &quot;Sheriff&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        5: {
+        number_of_actions_available: 1
+        }
+      },
+      id: null
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 9,
+        affiliation: {
+        id: 2,
+        name: &quot;Mafia&quot;
+        },
+        action_types: [
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 8,
+          name: &quot;Mafia Members&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 9,
+          name: &quot;Mafia Members&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Fugitive&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {},
+      id: null
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 12,
+        affiliation: {
+        id: 2,
+        name: &quot;Mafia&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 8,
+          name: &quot;Mafia Members&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 9,
+          name: &quot;Mafia Members&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 13,
+          name: &quot;Initiate Revival&quot;,
+          trigger: {
+          id: 4,
+          name: &quot;async&quot;,
+          description: &quot;Triggering is asynchronous.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          revival_delay: &quot;5m&quot;
+          },
+          action_result_type: null,
+          can_submit_manually: true
+        },
+        {
+          id: 14,
+          name: &quot;Revive&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          days_until_reveal: 1,
+          number_of_actions_available: 1
+          },
+          action_result_type: {
+          id: 17,
+          name: &quot;Revival Occurred&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: false
+        }
+        ],
+        name: &quot;Necromancer&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: [
+        {
+          id: 13,
+          affiliation: {
+          id: 2,
+          name: &quot;Mafia&quot;
+          },
+          action_types: [
+          {
+            id: 1,
+            name: &quot;Vote&quot;,
+            trigger: {
+            id: 1,
+            name: &quot;night start&quot;,
+            description: &quot;Triggers only at night start.&quot;
+            },
+            is_single_required: false,
+            action_type_params: {},
+            action_result_type: {
+            id: 1,
+            name: &quot;Public Vote&quot;,
+            description: null,
+            is_self_generated: false
+            },
+            can_submit_manually: true
+          },
+          {
+            id: 9,
+            name: &quot;Residents&quot;,
+            trigger: {
+            id: 5,
+            name: &quot;no trigger&quot;,
+            description: &quot;Never triggers.&quot;
+            },
+            is_single_required: true,
+            action_type_params: {},
+            action_result_type: {
+            id: 10,
+            name: &quot;Residents&quot;,
+            description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+            is_self_generated: true
+            },
+            can_submit_manually: true
+          },
+          {
+            id: 4,
+            name: &quot;Mafia Kill&quot;,
+            trigger: {
+            id: 2,
+            name: &quot;day start&quot;,
+            description: &quot;Triggers only at day start.&quot;
+            },
+            is_single_required: false,
+            action_type_params: {},
+            action_result_type: {
+            id: 4,
+            name: &quot;Mafia Kill&quot;,
+            description: null,
+            is_self_generated: false
+            },
+            can_submit_manually: true
+          }
+          ],
+          name: &quot;Zombie&quot;,
+          is_starting_role: false
+        }
+        ]
+      },
+      action_types_params: {
+        13: {
+        revival_delay: &quot;5m&quot;
+        },
+        14: {
+        days_until_reveal: 1,
+        number_of_actions_available: 1
+        }
+      },
+      id: null
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 6,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 6,
+          name: &quot;Count Votes&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          number_of_actions_available: -1
+          },
+          action_result_type: {
+          id: 7,
+          name: &quot;Vote Count&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Teller&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        6: {
+        number_of_actions_available: -1
+        }
+      },
+      id: null
+      },
+      {
+      city_id: 4,
+      role: {
+        id: 8,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 10,
+          name: &quot;Journalist Investigate&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          number_of_actions_available: -1
+          },
+          action_result_type: {
+          id: 11,
+          name: &quot;Journalist Investigation Result&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Journalist&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        10: {
+        number_of_actions_available: -1
+        }
+      },
+      id: null
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 10,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 11,
+          name: &quot;Check Identities&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          number_of_actions_available: 1
+          },
+          action_result_type: {
+          id: 12,
+          name: &quot;Identities of Deceased Residents&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Deputy&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        11: {
+        number_of_actions_available: 1
+        }
+      },
+      id: null
+      },
+      {
+      city_id: 4,
+      role: {
+        id: 11,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 12,
+          name: &quot;Elder Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 16,
+          name: &quot;Elder Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Elder&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {},
+      id: null
+    }
+  ],
+  residents: [
+    {
+      id: 45,
+      user_id: 1,
+      name: &quot;AndrijaCajic&quot;,
+      username: &quot;AndrijaCajic&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 46,
+      user_id: 2,
+      name: &quot;user2&quot;,
+      username: &quot;user2&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 47,
+      user_id: 3,
+      name: &quot;user3&quot;,
+      username: &quot;user3&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 48,
+      user_id: 4,
+      name: &quot;user4&quot;,
+      username: &quot;user4&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 49,
+      user_id: 5,
+      name: &quot;user5&quot;,
+      username: &quot;user5&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 50,
+      user_id: 28,
+      name: &quot;andrija.cajic&quot;,
+      username: &quot;andrija.cajic&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 51,
+      user_id: 6,
+      name: &quot;user6&quot;,
+      username: &quot;user6&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 52,
+      user_id: 7,
+      name: &quot;user7&quot;,
+      username: &quot;user7&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 53,
+      user_id: 8,
+      name: &quot;user8&quot;,
+      username: &quot;user8&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 54,
+      user_id: 9,
+      name: &quot;user9&quot;,
+      username: &quot;user9&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 55,
+      user_id: 10,
+      name: &quot;user10&quot;,
+      username: &quot;user10&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 56,
+      user_id: 11,
+      name: &quot;user11&quot;,
+      username: &quot;user11&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    }
+  ],
+  invitations: null,
+  join_requests: null,
+  self_generated_result_types: [
+    {
+      id: 10,
+      name: &quot;Residents&quot;,
+      description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+      is_self_generated: true
+    },
+    {
+      id: 14,
+      name: &quot;Action Type Params&quot;,
+      description: &quot;Residents know at all times the state of action type parameters (e.g. how many times they can still use a certain action)&quot;,
+      is_self_generated: true
+    }
+  ],
+  game_end_conditions: [
+    {
+      id: 1,
+      name: &quot;Citizens vs. Mafia&quot;,
+      description: &quot;The game ends if, at the moment of day start or night start, one of the following conditions are met:\n 1) all mafia members are dead, \n2) mafia members consist &gt;=50% of living population in a city.&quot;
+    }
+  ],
+  timezone: 60,
+  day_cycles: [
+    {
+      id: 13,
+      day_start: 540,
+      night_start: 1200,
+      day_start_date: &quot;2015-08-09T07:00:06.242Z&quot;,
+      night_start_date: &quot;2015-08-09T18:00:06.242Z&quot;
+    }
+  ],
+  user_creator_id: 1,
+  user_creator_username: &quot;AndrijaCajic&quot;,
+  active: false,
+  paused: false,
+  paused_during_day: null,
+  last_paused_at: null,
+  current_day: null,
+  days: null,
+  started_at: null,
+  finished_at: null,
+  created_at: &quot;2015-02-22T20:00:29.000Z&quot;,
+  updated_at: &quot;2015-02-22T20:00:29.000Z&quot;,
+  is_invited: false,
+  is_join_requested: false,
+  is_member: true,
+  is_owner: true,
+  role_picks: null
+},
+auth_token: &quot;a03893d89c2f72f910fd24782e5db21f576424dbda6e382f64d92e0551596369&quot;</pre>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City</p>
+
+        <br>
+        Value: 
+<p>Must be a Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City id. The id is generated after the city is created.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[name] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City name</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[description] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City description</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[public] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Is it a public or a private game. Default is public.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[timezone] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Number of minute difference from UTC. For London in the winter (GMT), this
+value is 0. For CEST – Central European Summer Time, this value is 120. For
+New York in summer (EDT – Eastern Daylight Time), this value is -240.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[password] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City password. Only users that know the password can join. Password is only
+used if the game is private. Password is sent via this key when client is
+submitting a request to the server. When server is sending password it is
+being sent via <strong>hashed_password</strong> and
+<strong>password_salt</strong>. When comparing the match for a
+<strong>password</strong>, concatenate <strong>password</strong> +
+<strong>password_salt</strong> into <strong>salted_password</strong> and
+then check</p>
+
+<pre>sha256_digest(salted_password) == hashed_password</pre>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[hashed_password] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City hashed password. Used to check if the validity of any password.
+Perform</p>
+
+<pre>sha256_digest( concatenate(password_you_want_to_validate, password_salt) ) == hashed_password</pre>
+
+<p>This will result in a boolean indicating whether the
+<strong>password_you_want_to_validate</strong> is the correct one or not.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[password_salt] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Password salt used in <strong>password</strong> matching with
+<strong>hashed_password</strong>.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[day_cycles] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>What is the timing and duration of day and night phases within the game.
+Example:</p>
+
+<pre>day_cycles: [
+  {
+    id: 13,
+    day_start: 540,
+    night_start: 840,
+    day_start_date: &quot;2015-08-09T07:00:06.242Z&quot;,
+    night_start_date: &quot;2015-08-09T18:00:06.242Z&quot;
+  },
+  {
+    id: 14,
+    day_start: 1140,
+    night_start: 1380,
+    day_start_date: &quot;2015-08-09T07:00:06.242Z&quot;,
+    night_start_date: &quot;2015-08-09T18:00:06.242Z&quot;
+  }
+]</pre>
+
+<p>Day cycles like these specify that at 9 AM the game will enter the *day
+phase*. At 2 PM, the day phase will end and the *night phase* will begin.
+At 7 PM, the *day phase* will commence again. And at 11 PM, the *night
+phase* again. On the next day, the cycle repeats.</p>
+
+        <br>
+        Value: 
+<p>Must be an array of Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[city_has_roles] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Role distribution in a city. This is nil when the city is just created, but
+must be set before the game is started.</p>
+
+<p>Example:</p>
+
+<pre>city_has_roles: [
+  {
+    city_id: 2,
+    role_id: 2,
+    action_types_params: {
+      1:{},
+      2:{
+        number_of_actions_available:-1
+      },
+      9:{}
+    }
+  },
+  {
+    city_id: 2,
+    role_id: 3,
+    action_types_params: {
+      1:{},
+      3:{
+        number_of_actions_available:4
+      },
+      9:{}
+    }
+  },
+  {
+    city_id: 2,
+    role_id: 4,
+    action_types_params: {
+      1:{},
+      4:{},
+      8:{},
+      9:{}
+    }
+  }
+]</pre>
+
+<p>The game cannot be started unless the total number of city_has_roles
+elements equals the number of residents (players) in the city. The value
+for action_types_params is <strong>optional</strong>. If not set, the
+default values will be used.</p>
+
+<p>For action_types_params, Hash specifies the ActionType as the key and the
+ActionType parameters as the value. Action type parameters are a way to
+modify (tweak) the properties of a certain role.</p>
+
+<p>A Doctor (role_id == 2) has 3 action types at his disposal: Vote (1),
+Protect (2), Residents (9). So, the action_types_params look like this:</p>
+
+<pre>{
+  1:{},
+  2:{&#39;number_of_actions_available&#39;:-1},
+  9:{}
+},</pre>
+
+<p>which means that there are no parameters attached to the action type 1
+(Vote) and 9 (Residents) but it is specified that user has an unlimited
+(-1) access to the action of type 2 (Protect).</p>
+
+<p>Similarly, for a Detective (role_id == 3), the action_types_params look
+like this:</p>
+
+<pre>{
+  1:{},
+  3:{&#39;number_of_actions_available&#39;:4},
+  9:{}
+}</pre>
+
+<p>Action type 3 is Investigate, and it is specified that a user who gets this
+role will be able to perform the Investigate action only 4 times in the
+game.</p>
+
+<p>A list of all possible Action Types can be accessed via
+<strong>/action_type</strong> endpoint. To see all the roles, what role has
+access to which action types and what are the default action type
+parameters for each role, use the <strong>/roles</strong> endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be an array of Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[self_generated_result_types] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Information that player gets without having to do any actions
+(Self-generated action results). Must be like specified in example. Other
+scenarios not sufficiently tested.</p>
+
+<p>self_generated_result_types: [</p>
+
+<pre>{
+  id: 10,
+  name: &quot;Residents&quot;,
+  description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+  is_self_generated: true
+},
+{
+  id: 14,
+  name: &quot;Action Type Params&quot;,
+  description: &quot;Residents know at all times the state of action type parameters (e.g. how many times they can still use a certain action)&quot;,
+  is_self_generated: true
+}</pre>
+
+<p>]</p>
+
+        <br>
+        Value: 
+<p>Must be an array of Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[game_end_conditions] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>There is only one game end condition so far. And every game must have at
+least one Game End Condition.</p>
+
+<p>game_end_conditions: [</p>
+
+<pre>{
+  id: 1,
+  name: &quot;Citizens vs. Mafia&quot;,
+  description: &quot;The game ends if, at the moment of day start or night start, one of the following conditions are met:\n 1) all mafia members are dead, \n2) mafia members consist &gt;=50% of living population in a city.&quot;
+}</pre>
+
+<p>]</p>
+
+        <br>
+        Value: 
+<p>Must be an array of Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/cities/destroy.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-destroy'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            DELETE /cities/:city_id
+          </a>
+          <br>
+          <small>Delete an existing City.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-destroy' class='collapse accordion-body'>
+      
+<p>Delete an existing City. Only an admin or a City creator can delete a City.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+</div>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer></footer>
+  </div>
+  <script type='text/javascript' src='../apidoc/javascripts/bundled/jquery-1.7.2.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/apipie.js'></script>
+</body>
+</html>
