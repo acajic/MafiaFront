@@ -271,7 +271,8 @@
                                     <input type="text" ng-model="newInvitedUser.username" placeholder="Username" typeahead="user.username for user in getUsersByUsername($viewValue)" typeahead-loading="loadingUsers" typeahead-on-select="setNewInvitedUser($item)" typeahead-wait-ms="300" typeahead-min-length=2 class="form-control" ng-enter="enterOnInviteInput()">
                                 </td>
                                 <td>
-                                    <input type="text" ng-model="newInvitedUser.email" placeholder="Email" typeahead="user.email for user in getUsersByEmail($viewValue)" typeahead-loading="loadingUsers" typeahead-on-select="setNewInvitedUser($item)" typeahead-wait-ms="300" typeahead-min-length=2 class="form-control" ng-enter="enterOnInviteInput()">
+                                    <!--typeahead="user.email for user in getUsersByEmail($viewValue)" typeahead-loading="loadingUsers" typeahead-on-select="setNewInvitedUser($item)" typeahead-wait-ms="300" typeahead-min-length=2 -->
+                                    <input type="text" ng-model="newInvitedUser.email" placeholder="Email" class="form-control" ng-enter="enterOnInviteInput()">
                                 </td>
                                 <td>
                                     <button ng-click="addInvitedUser()" class="btn btn-invite notext" popover="Add player to the list" popover-trigger="mouseenter" popover-placement="right"><i class="glyphicon glyphicon-plus"></i></button>

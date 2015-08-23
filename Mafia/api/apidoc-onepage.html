@@ -1,0 +1,8313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div id='container'>
+          <h4><a href='#action_result_types'>Action result types</a></h4>
+  <ul>
+      <li><a href='#action_result_types-index'>index</a></li>
+  </ul>
+  <h4><a href='#action_results'>Action results</a></h4>
+  <ul>
+      <li><a href='#action_results-action_results_for_city_and_role'>action_results_for_city_and_role</a></li>
+      <li><a href='#action_results-new'>new</a></li>
+      <li><a href='#action_results-create'>create</a></li>
+      <li><a href='#action_results-destroy'>destroy</a></li>
+  </ul>
+  <h4><a href='#action_type'>Action type</a></h4>
+  <ul>
+      <li><a href='#action_type-index'>index</a></li>
+  </ul>
+  <h4><a href='#actions'>Actions</a></h4>
+  <ul>
+      <li><a href='#actions-new'>new</a></li>
+      <li><a href='#actions-create'>create</a></li>
+      <li><a href='#actions-cancel_unprocessed_actions'>cancel_unprocessed_actions</a></li>
+  </ul>
+  <h4><a href='#auth_tokens'>Authentication</a></h4>
+  <ul>
+      <li><a href='#auth_tokens-create'>create</a></li>
+      <li><a href='#auth_tokens-exchange_email_confirmation_code'>exchange_email_confirmation_code</a></li>
+      <li><a href='#auth_tokens-invalidate_auth_token'>invalidate_auth_token</a></li>
+  </ul>
+  <h4><a href='#cities'>Cities</a></h4>
+  <ul>
+      <li><a href='#cities-index'>index</a></li>
+      <li><a href='#cities-me'>me</a></li>
+      <li><a href='#cities-all_cities_for_search_text'>all_cities_for_search_text</a></li>
+      <li><a href='#cities-my_cities_for_search_text'>my_cities_for_search_text</a></li>
+      <li><a href='#cities-show'>show</a></li>
+      <li><a href='#cities-new'>new</a></li>
+      <li><a href='#cities-create'>create</a></li>
+      <li><a href='#cities-join'>join</a></li>
+      <li><a href='#cities-cancel_join_request'>cancel_join_request</a></li>
+      <li><a href='#cities-accept_invitation'>accept_invitation</a></li>
+      <li><a href='#cities-accept_join_request'>accept_join_request</a></li>
+      <li><a href='#cities-leave'>leave</a></li>
+      <li><a href='#cities-cancel_invitation'>cancel_invitation</a></li>
+      <li><a href='#cities-reject_join_request'>reject_join_request</a></li>
+      <li><a href='#cities-kick_user'>kick_user</a></li>
+      <li><a href='#cities-invite'>invite</a></li>
+      <li><a href='#cities-start'>start</a></li>
+      <li><a href='#cities-stop'>stop</a></li>
+      <li><a href='#cities-pause'>pause</a></li>
+      <li><a href='#cities-resume'>resume</a></li>
+      <li><a href='#cities-update'>update</a></li>
+      <li><a href='#cities-destroy'>destroy</a></li>
+  </ul>
+  <h4><a href='#days'>Days</a></h4>
+  <ul>
+  </ul>
+  <h4><a href='#game_end_conditions'>Game end conditions</a></h4>
+  <ul>
+      <li><a href='#game_end_conditions-index'>index</a></li>
+  </ul>
+  <h4><a href='#residents'>Residents</a></h4>
+  <ul>
+      <li><a href='#residents-show'>show</a></li>
+      <li><a href='#residents-save_role'>save_role</a></li>
+      <li><a href='#residents-new'>new</a></li>
+  </ul>
+  <h4><a href='#roles'>Roles</a></h4>
+  <ul>
+      <li><a href='#roles-index'>index</a></li>
+  </ul>
+  <h4><a href='#self_generated_result_types'>Self generated result types</a></h4>
+  <ul>
+      <li><a href='#self_generated_result_types-index'>index</a></li>
+  </ul>
+  <h4><a href='#user_preference'>User preference</a></h4>
+  <ul>
+      <li><a href='#user_preference-update_my_user_preference'>update_my_user_preference</a></li>
+      <li><a href='#user_preference-unsubscribe'>unsubscribe</a></li>
+  </ul>
+  <h4><a href='#users'>Users</a></h4>
+  <ul>
+      <li><a href='#users-index'>index</a></li>
+      <li><a href='#users-me'>me</a></li>
+      <li><a href='#users-show'>show</a></li>
+      <li><a href='#users-new'>new</a></li>
+      <li><a href='#users-edit'>edit</a></li>
+      <li><a href='#users-create'>create</a></li>
+      <li><a href='#users-confirm_email'>confirm_email</a></li>
+      <li><a href='#users-forgot_password'>forgot_password</a></li>
+      <li><a href='#users-confirm_forgot_password'>confirm_forgot_password</a></li>
+      <li><a href='#users-update'>update</a></li>
+      <li><a href='#users-destroy'>destroy</a></li>
+      <li><a href='#users-allowed_email_patterns'>allowed_email_patterns</a></li>
+      <li><a href='#users-app_roles'>app_roles</a></li>
+  </ul>
+
+
+
+<div>
+<p>The entire API is hosted on</p>
+
+<pre>http://exposemafia.com:3000</pre>
+</div>
+
+<hr>
+
+
+  <ul class='breadcrumb'  id='action_result_types'>
+    <li><a href='#'>Mafia</a><span class='divider'>/</span></li>
+    <li class='active'>Action result types</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#action_result_types'>Action result types</a><br>
+      <small>All action results are of a certain type.</small>
+    </h1>
+  </div>
+
+    <div>
+<p>Here you can see all of the possible action result types.</p>
+</div>
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='action_result_types-index'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#action_result_types'>Action result types</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>index</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#action_result_types-index'>
+              GET /action_result_types
+            </a><br>
+            <small>Get all possible Action Result Types.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get all possible Action Result Types.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+  </div>
+
+  <ul class='breadcrumb'  id='action_results'>
+    <li><a href='#'>Mafia</a><span class='divider'>/</span></li>
+    <li class='active'>Action results</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#action_results'>Action results</a><br>
+      <small>Action Results provide insight into the state of the game.</small>
+    </h1>
+  </div>
+
+    <div>
+<p>Action Results are a way of insight into the state of the game.
+Players&#39; actions produce results. Who got killed by Mafia this morning?
+Who got voted out yesterday? Who is currently alive and who isn&#39;t? All
+of these are Action Results.</p>
+</div>
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='action_results-action_results_for_city_and_role'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#action_results'>Action results</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>action_results_for_city_and_role</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#action_results-action_results_for_city_and_role'>
+              GET /action_results/city/:city_id/role/:role_id
+            </a><br>
+            <small>Get Action Results for a specific city and role.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get Action Results for a specific city and role. This data is normally
+accessed when user enters a game in order to receive most up-to-date
+information about the state of the game.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>role_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Role id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>day_number_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Action Results that are produced on or after the specified game day.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>day_number_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Action Results that are produced on or before the specified game day.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>action_type_id </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Action type id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='action_results-new'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#action_results'>Action results</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>new</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#action_results-new'>
+              GET /action_results/new
+            </a><br>
+            <small>A new Action Result.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>A new Action Result.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>role_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Role id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='action_results-create'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#action_results'>Action results</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>create</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#action_results-create'>
+              POST /action_results
+            </a><br>
+            <small>Create a new Action Result.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Create a new Action Result. Normally, action results are created
+automatically when actions get processed. Users can always submit fake
+action results which will later be undistinguishable from the genuine ones.
+Example parameters:</p>
+
+<pre>{
+    action_result: {
+        city_id: 3,
+        role_id: null,
+        action_result_type: {
+            id: 8
+        },
+        day_id: 31,
+        result: {
+            target_ids: [
+                30
+            ],
+            success: true
+        }
+    },
+    auth_token: &quot;5764b40be8726d3f4e4f6c0cda526a9fccc4c4774fb36f7f4840b4ed217a999b&quot;
+}</pre>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>action_result </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Action Result</p>
+
+        <br>
+        Value: 
+<p>Must be a Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>action_result[city_id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City id (for what game is the action result).</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>action_result[role_id] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Role id (under what role will user be able to see this result).</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>action_result[action_result_type] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Action result type.</p>
+
+        <br>
+        Value: 
+<p>Must be Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>action_result[result] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Actual parameters of the action result. For example, if it is a Vote action
+- Who is the user that got voted out. If it is a terrorist bomb action,
+what are the players that got killed?</p>
+
+        <br>
+        Value: 
+<p>Must be Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='action_results-destroy'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#action_results'>Action results</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>destroy</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#action_results-destroy'>
+              DELETE /action_results/:action_result_id
+            </a><br>
+            <small>Delete an Action Result.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Delete an Action Result. On the user for whom the action result is intended
+can delete it.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>action_result_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>An Action Result id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+  </div>
+
+  <ul class='breadcrumb'  id='action_type'>
+    <li><a href='#'>Mafia</a><span class='divider'>/</span></li>
+    <li class='active'>Action type</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#action_type'>Action type</a><br>
+      <small>All actions are of a certain type.</small>
+    </h1>
+  </div>
+
+    <div>
+<p>Here you can see all of the possible action types.</p>
+</div>
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='action_type-index'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#action_type'>Action type</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>index</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#action_type-index'>
+              GET /action_types
+            </a><br>
+            <small>Get all possible Action Types.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get all possible Action Types.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+  </div>
+
+  <ul class='breadcrumb'  id='actions'>
+    <li><a href='#'>Mafia</a><span class='divider'>/</span></li>
+    <li class='active'>Actions</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#actions'>Actions</a><br>
+      <small>A user interacts with a game via Actions.</small>
+    </h1>
+  </div>
+
+    <div>
+<p>A user interacts with a game via Actions. To vote someone out, user casts a
+vote. That is an Action. For a detective to investigate or a doctor to
+protect someone, these are also Actions.</p>
+
+<p>There are four types of Actions in regard to their trigger time:</p>
+<ol><li>
+<p>DAY_START - Action gets processed in the &#39;morning&#39; (moment when a
+night phase ends and a day phase begins).</p>
+</li><li>
+<p>NIGHT_START - Action gets processed in the &#39;evening&#39; (moment when a
+day phase ends and a night phase begins).</p>
+</li><li>
+<p>BOTH - Action gets processed both in the morning and in the evening.</p>
+</li><li>
+<p>ASYNC - Action gets processed immediately or within specified delay after
+the submission.</p>
+</li></ol>
+
+<p>When an Action gets processed, it produces an Action Result.</p>
+</div>
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='actions-new'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#actions'>Actions</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>new</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#actions-new'>
+              GET /actions/new
+            </a><br>
+            <small>Get a template for creating a new Action.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get a template for creating a new Action.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='actions-create'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#actions'>Actions</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>create</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#actions-create'>
+              POST /actions
+            </a><br>
+            <small>Create a new Action.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Create a new  Action. Example:</p>
+
+<pre>{
+    action_instance: {
+        city_id: 3,
+        role_id: 6,
+        action_type_id: 1,
+        day_id: 31,
+        input: {
+            target_id: 25
+        }
+    },
+    auth_token: &quot;5764b40be8726d3f4e4f6c0cda526a9fccc4c4774fb36f7f4840b4ed217a999b&quot;
+}</pre>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>action </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Action</p>
+
+        <br>
+        Value: 
+<p>Must be a Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>action[city_id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City id (for what game is the action submitted).</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>action[role_id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Role id (under what role does a user submit this action).</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>action[action_type_id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Action type id (what action is it).</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>action[input] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Parameters for the action. For example, if it is a Vote action - Who is the
+user voting for?.</p>
+
+        <br>
+        Value: 
+<p>Must be Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='actions-cancel_unprocessed_actions'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#actions'>Actions</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>cancel_unprocessed_actions</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#actions-cancel_unprocessed_actions'>
+              DELETE /actions/cancel_unprocessed_actions
+            </a><br>
+            <small>Cancel all Actions that haven't yet been processed.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Cancel all Actions that haven&#39;t yet been processed. Example:</p>
+
+<pre>{
+    city_id: 3,
+    role_id: 6,
+    action_type_id: 1,
+    auth_token: &quot;5764b40be8726d3f4e4f6c0cda526a9fccc4c4774fb36f7f4840b4ed217a999b&quot;,
+}</pre>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>role_id </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Role id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>action_type_id </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Action type id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+  </div>
+
+  <ul class='breadcrumb'  id='auth_tokens'>
+    <li><a href='#'>Mafia</a><span class='divider'>/</span></li>
+    <li class='active'>Authentication</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#auth_tokens'>Authentication</a><br>
+      <small>Login, Logout and stuff.</small>
+    </h1>
+  </div>
+
+    <div>
+<p>Using these endpoints users can authenticate and acquire auth_token that
+they submit in their request for all endpoints that require authentication.</p>
+</div>
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='auth_tokens-create'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#auth_tokens'>Authentication</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>create</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#auth_tokens-create'>
+              POST /login
+            </a><br>
+            <small>Exchange credentials for an Auth Token.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Exchange credentials for an Auth Token. Example parameters:</p>
+
+<pre>{
+    &quot;username&quot;: &quot;AndrijaCajic&quot;,
+    &quot;password&quot;: &quot;yourPasswordHere&quot;
+}</pre>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>username </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>User&#39;s username</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>password </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>User&#39;s password. (Password are not stored anywhere in plaintext).</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='auth_tokens-exchange_email_confirmation_code'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#auth_tokens'>Authentication</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>exchange_email_confirmation_code</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#auth_tokens-exchange_email_confirmation_code'>
+              POST /exchange_email_confirmation_code
+            </a><br>
+            <small>Exchange email confirmation code for an Auth Token.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Exchange email confirmation code for an Auth Token. It can be done only
+once per confirmation code. If this same endpoint was tried the second time
+with the same confirmation code, all auth tokens for that user get
+invalidated and user has to login again using credentials.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>email_confirmation_code </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Email confirmation code</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='auth_tokens-invalidate_auth_token'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#auth_tokens'>Authentication</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>invalidate_auth_token</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#auth_tokens-invalidate_auth_token'>
+              DELETE /logout
+            </a><br>
+            <small>Invalidate the Auth Token that is passed as a parameter.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Invalidate the Auth Token that is passed as a parameter.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+  </div>
+
+  <ul class='breadcrumb'  id='cities'>
+    <li><a href='#'>Mafia</a><span class='divider'>/</span></li>
+    <li class='active'>Cities</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#cities'>Cities</a><br>
+      <small>Cities or Towns are basically games.</small>
+    </h1>
+  </div>
+
+    <div>
+<p>Cities (or Towns, or Games). Each City is a single Mafia game.</p>
+</div>
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='cities-index'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>index</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-index'>
+              GET /cities
+            </a><br>
+            <small>Query cities/towns/games</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Query cities/towns/games</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>name </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Cities whose names contain this string will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>description </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Cities whose descriptions contain this string will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>resident_user_ids </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>If one of the specified users are a part of a City, that city will be
+returned. Example:</p>
+
+<pre>exposemafia.com:3000/cities?resident_user_ids[]=6&amp;resident_user_ids[]=5</pre>
+
+        <br>
+        Value: 
+<p>Must be an array of Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>public </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Cities that are public or the ones that are private will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>active </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Cities that are active (started and ongoing) or the ones that are inactive
+(not started or finished) will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>paused </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Cities that are paused or the ones that are not paused will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>paused_during_day </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Cities that are paused during day phase of the game or the ones that are
+paused during night phase of the game will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>started_at_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that started after this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>started_at_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that started before this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>paused_at_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were paused after this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>paused_at_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were paused before this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>finished_at_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were finished after this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>finished_at_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were finished before this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>created_at_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were created after this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>created_at_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were created before this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>updated_at_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were updated after this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>updated_at_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Cities that were updated before this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>page_index </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Page index.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>page_size </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Page size.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-me'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>me</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-me'>
+              GET /cities/me
+            </a><br>
+            <small>Get my Cities</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get a list of Cities that I either created, am a participant of, am invited
+to or have requested to join them.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-all_cities_for_search_text'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>all_cities_for_search_text</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-all_cities_for_search_text'>
+              GET /cities/search/all_cities_for_search_text
+            </a><br>
+            <small>Get Cities by name.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get all Cities whose name contains a specified query string.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>search </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A query string.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-my_cities_for_search_text'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>my_cities_for_search_text</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-my_cities_for_search_text'>
+              GET /cities/search/my_cities_for_search_text
+            </a><br>
+            <small>Get my Cities by name.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get my Cities whose name contains a specified query string.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>search </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A query string.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-show'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>show</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-show'>
+              GET /cities/:city_id
+            </a><br>
+            <small>Get a City by id.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get a City by id.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-new'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>new</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-new'>
+              GET /cities/new
+            </a><br>
+            <small>Get a template for creating a new City.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get a template for creating a new City.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-create'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>create</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-create'>
+              POST /cities
+            </a><br>
+            <small>Create a new City.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Create a new  City. Example:</p>
+
+<pre>city: {
+  id: null,
+  name: &quot;MyTown&quot;,
+  description: &quot;MyTown description.&quot;,
+  public: true,
+  password: null,
+  hashed_password: null,
+  password_salt: null,
+  city_has_roles: null,
+  residents: null,
+  invitations: null,
+  join_requests: null,
+  self_generated_result_types: [
+    {
+      id: 10,
+      name: &quot;Residents&quot;,
+      description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+      is_self_generated: true
+    },
+    {
+      id: 14,
+      name: &quot;Action Type Params&quot;,
+      description: &quot;Residents know at all times the state of action type parameters (e.g. how many times they can still use a certain action)&quot;,
+      is_self_generated: true
+    }
+  ],
+  game_end_conditions: [
+    {
+      id: 1,
+      name: &quot;Citizens vs. Mafia&quot;,
+      description: &quot;The game ends if, at the moment of day start or night start, one of the following conditions are met:\n 1) all mafia members are dead, \n2) mafia members consist &gt;=50% of living population in a city.&quot;
+    }
+  ],
+  timezone: 120,
+  day_cycles: [
+    {
+      id: null,
+      day_start: 540,
+      night_start: 1200,
+      day_start_date: &quot;2015-08-09T07:00:36.570Z&quot;,
+      night_start_date: &quot;2015-08-09T18:00:36.570Z&quot;
+    }
+  ],
+  user_creator_id: 1,
+  user_creator_username: &quot;AndrijaCajic&quot;,
+  active: false,
+  paused: false,
+  paused_during_day: null,
+  last_paused_at: null,
+  current_day: null,
+  days: null,
+  started_at: null,
+  finished_at: null,
+  created_at: null,
+  updated_at: null,
+  is_invited: false,
+  is_join_requested: false,
+  is_member: false,
+  is_owner: true,
+  role_picks: null
+},
+auth_token: &quot;a03893d89c2f72f910fd24782e5db21f576424dbda6e382f64d92e0551596369&quot;</pre>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City</p>
+
+        <br>
+        Value: 
+<p>Must be a Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[name] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City name</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[description] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City description</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[public] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Is it a public or a private game. Default is public.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[timezone] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Number of minute difference from UTC. For London in the winter (GMT), this
+value is 0. For CEST – Central European Summer Time, this value is 120. For
+New York in summer (EDT – Eastern Daylight Time), this value is -240.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[password] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City password. Only users that know the password can join. Password is only
+used if the game is private.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[self_generated_result_types] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Information that player gets without having to do any actions
+(Self-generated action results). Must be like specified in example. Other
+scenarios not sufficiently tested.</p>
+
+        <br>
+        Value: 
+<p>Must be an array of Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-join'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>join</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-join'>
+              POST /cities/:city_id/join
+            </a><br>
+            <small>Join a City.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Join a City.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-cancel_join_request'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>cancel_join_request</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-cancel_join_request'>
+              DELETE /cities/:city_id/join_request
+            </a><br>
+            <small>Cancel a request to join a City.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Cancel a request to join a City.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-accept_invitation'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>accept_invitation</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-accept_invitation'>
+              POST /cities/:city_id/accept_invitation
+            </a><br>
+            <small>Accept an invitation to join a City.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Accept an invitation to join a City.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-accept_join_request'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>accept_join_request</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-accept_join_request'>
+              POST /cities/:city_id/accept_join_request
+            </a><br>
+            <small>Accept a User's request to join a City you created.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Accept a User&#39;s request to join a City you created.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>user_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>An id of a User who requested to join.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-leave'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>leave</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-leave'>
+              POST /cities/:city_id/leave
+            </a><br>
+            <small>Leave a City.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Cancel your participation in a City. You can only leave before the game
+started.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-cancel_invitation'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>cancel_invitation</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-cancel_invitation'>
+              DELETE /cities/:city_id/invitation/:user_id
+            </a><br>
+            <small>Cancel an invitation sent to a User to join a City.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Cancel an invitation sent to a User to join a City.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>user_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A User id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-reject_join_request'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>reject_join_request</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-reject_join_request'>
+              DELETE /cities/:city_id/join_request/:user_id
+            </a><br>
+            <small>Reject a join request of a User to join a City.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Reject a join request of a User to join a City.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>user_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A User id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-kick_user'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>kick_user</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-kick_user'>
+              DELETE /cities/:city_id/user/:user_id
+            </a><br>
+            <small>Kick a user out of your City.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Kick a user out of your City. You can only kick someone out before the game
+has started.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>user_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A User id.</p>
+
+        <br>
+        Value: 
+<p>Must be Fixnum</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-invite'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>invite</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-invite'>
+              POST /cities/:city_id/invite
+            </a><br>
+            <small>Invite users to your City.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Invite users to your City. You can only invite users before the game has
+started.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-start'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>start</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-start'>
+              POST /cities/:city_id/start
+            </a><br>
+            <small>Start a game.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Start a game. Only a City creator can start it.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-stop'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>stop</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-stop'>
+              POST /cities/:city_id/stop
+            </a><br>
+            <small>Stop a game.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Stop a game. Only a City creator can stop it.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-pause'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>pause</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-pause'>
+              POST /cities/:city_id/pause
+            </a><br>
+            <small>Pause a game.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Pause a game. Only a City creator can pause it.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-resume'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>resume</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-resume'>
+              POST /cities/:city_id/resume
+            </a><br>
+            <small>Resume a game.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Resume a game. Only a City creator can resume it.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-update'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>update</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-update'>
+              POST /cities/:city_id
+            </a><br>
+            <small>Update an existing City.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Update an existing City. Example:</p>
+
+<pre>city: {
+  id: 4,
+  name: &quot;test3&quot;,
+  description: &quot;Testing description.&quot;,
+  public: false,
+  password: &quot;Wyoming&quot;,
+  hashed_password: null,
+  password_salt: null,
+  city_has_roles: [
+    {
+      id: 205,
+      city_id: 4,
+      role: {
+        id: 1,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Citizen&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        1: {},
+        9: {}
+      }
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 2,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 2,
+          name: &quot;Protect&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          number_of_actions_available: -1
+          },
+          action_result_type: {
+          id: 2,
+          name: &quot;Protection Result&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Doctor&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        2: {
+        number_of_actions_available: -1
+        }
+      },
+      id: null,
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 3,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 3,
+          name: &quot;Investigate&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          number_of_actions_available: -1
+          },
+          action_result_type: {
+          id: 3,
+          name: &quot;Investigation Result&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Detective&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        3: {
+        number_of_actions_available: -1
+        }
+      },
+      id: null,
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 4,
+        affiliation: {
+        id: 2,
+        name: &quot;Mafia&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 8,
+          name: &quot;Mafia Members&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 9,
+          name: &quot;Mafia Members&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Mafia&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {},
+      id: null
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 7,
+        affiliation: {
+        id: 2,
+        name: &quot;Mafia&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 7,
+          name: &quot;Bomb&quot;,
+          trigger: {
+          id: 4,
+          name: &quot;async&quot;,
+          description: &quot;Triggering is asynchronous.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          detonation_delay: &quot;5m&quot;,
+          number_of_collaterals: 1
+          },
+          action_result_type: {
+          id: 8,
+          name: &quot;Terrorist Bombing&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true,
+        },
+        {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 8,
+          name: &quot;Mafia Members&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 9,
+          name: &quot;Mafia Members&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Terrorist&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        7: {
+        detonation_delay: &quot;5m&quot;,
+        number_of_collaterals: 1
+        }
+      },
+      id: null
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 5,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 5,
+          name: &quot;Reveal Identities&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          number_of_actions_available: 1
+          },
+          action_result_type: {
+          id: 5,
+          name: &quot;Revealed Identities&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true,
+        }
+        ],
+        name: &quot;Sheriff&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        5: {
+        number_of_actions_available: 1
+        }
+      },
+      id: null
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 9,
+        affiliation: {
+        id: 2,
+        name: &quot;Mafia&quot;
+        },
+        action_types: [
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 8,
+          name: &quot;Mafia Members&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 9,
+          name: &quot;Mafia Members&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Fugitive&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {},
+      id: null
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 12,
+        affiliation: {
+        id: 2,
+        name: &quot;Mafia&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 4,
+          name: &quot;Mafia Kill&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 8,
+          name: &quot;Mafia Members&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 9,
+          name: &quot;Mafia Members&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 13,
+          name: &quot;Initiate Revival&quot;,
+          trigger: {
+          id: 4,
+          name: &quot;async&quot;,
+          description: &quot;Triggering is asynchronous.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          revival_delay: &quot;5m&quot;
+          },
+          action_result_type: null,
+          can_submit_manually: true
+        },
+        {
+          id: 14,
+          name: &quot;Revive&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          days_until_reveal: 1,
+          number_of_actions_available: 1
+          },
+          action_result_type: {
+          id: 17,
+          name: &quot;Revival Occurred&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: false
+        }
+        ],
+        name: &quot;Necromancer&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: [
+        {
+          id: 13,
+          affiliation: {
+          id: 2,
+          name: &quot;Mafia&quot;
+          },
+          action_types: [
+          {
+            id: 1,
+            name: &quot;Vote&quot;,
+            trigger: {
+            id: 1,
+            name: &quot;night start&quot;,
+            description: &quot;Triggers only at night start.&quot;
+            },
+            is_single_required: false,
+            action_type_params: {},
+            action_result_type: {
+            id: 1,
+            name: &quot;Public Vote&quot;,
+            description: null,
+            is_self_generated: false
+            },
+            can_submit_manually: true
+          },
+          {
+            id: 9,
+            name: &quot;Residents&quot;,
+            trigger: {
+            id: 5,
+            name: &quot;no trigger&quot;,
+            description: &quot;Never triggers.&quot;
+            },
+            is_single_required: true,
+            action_type_params: {},
+            action_result_type: {
+            id: 10,
+            name: &quot;Residents&quot;,
+            description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+            is_self_generated: true
+            },
+            can_submit_manually: true
+          },
+          {
+            id: 4,
+            name: &quot;Mafia Kill&quot;,
+            trigger: {
+            id: 2,
+            name: &quot;day start&quot;,
+            description: &quot;Triggers only at day start.&quot;
+            },
+            is_single_required: false,
+            action_type_params: {},
+            action_result_type: {
+            id: 4,
+            name: &quot;Mafia Kill&quot;,
+            description: null,
+            is_self_generated: false
+            },
+            can_submit_manually: true
+          }
+          ],
+          name: &quot;Zombie&quot;,
+          is_starting_role: false
+        }
+        ]
+      },
+      action_types_params: {
+        13: {
+        revival_delay: &quot;5m&quot;
+        },
+        14: {
+        days_until_reveal: 1,
+        number_of_actions_available: 1
+        }
+      },
+      id: null
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 6,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 6,
+          name: &quot;Count Votes&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          number_of_actions_available: -1
+          },
+          action_result_type: {
+          id: 7,
+          name: &quot;Vote Count&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Teller&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        6: {
+        number_of_actions_available: -1
+        }
+      },
+      id: null
+      },
+      {
+      city_id: 4,
+      role: {
+        id: 8,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 10,
+          name: &quot;Journalist Investigate&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          number_of_actions_available: -1
+          },
+          action_result_type: {
+          id: 11,
+          name: &quot;Journalist Investigation Result&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Journalist&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        10: {
+        number_of_actions_available: -1
+        }
+      },
+      id: null
+    },
+    {
+      city_id: 4,
+      role: {
+        id: 10,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 1,
+          name: &quot;Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 1,
+          name: &quot;Public Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 11,
+          name: &quot;Check Identities&quot;,
+          trigger: {
+          id: 2,
+          name: &quot;day start&quot;,
+          description: &quot;Triggers only at day start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {
+          number_of_actions_available: 1
+          },
+          action_result_type: {
+          id: 12,
+          name: &quot;Identities of Deceased Residents&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Deputy&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {
+        11: {
+        number_of_actions_available: 1
+        }
+      },
+      id: null
+      },
+      {
+      city_id: 4,
+      role: {
+        id: 11,
+        affiliation: {
+        id: 1,
+        name: &quot;Citizens&quot;
+        },
+        action_types: [
+        {
+          id: 9,
+          name: &quot;Residents&quot;,
+          trigger: {
+          id: 5,
+          name: &quot;no trigger&quot;,
+          description: &quot;Never triggers.&quot;
+          },
+          is_single_required: true,
+          action_type_params: {},
+          action_result_type: {
+          id: 10,
+          name: &quot;Residents&quot;,
+          description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+          is_self_generated: true
+          },
+          can_submit_manually: true
+        },
+        {
+          id: 12,
+          name: &quot;Elder Vote&quot;,
+          trigger: {
+          id: 1,
+          name: &quot;night start&quot;,
+          description: &quot;Triggers only at night start.&quot;
+          },
+          is_single_required: false,
+          action_type_params: {},
+          action_result_type: {
+          id: 16,
+          name: &quot;Elder Vote&quot;,
+          description: null,
+          is_self_generated: false
+          },
+          can_submit_manually: true
+        }
+        ],
+        name: &quot;Elder&quot;,
+        is_starting_role: true,
+        role_has_demanded_roles: null,
+        implicated_roles: null
+      },
+      action_types_params: {},
+      id: null
+    }
+  ],
+  residents: [
+    {
+      id: 45,
+      user_id: 1,
+      name: &quot;AndrijaCajic&quot;,
+      username: &quot;AndrijaCajic&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 46,
+      user_id: 2,
+      name: &quot;user2&quot;,
+      username: &quot;user2&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 47,
+      user_id: 3,
+      name: &quot;user3&quot;,
+      username: &quot;user3&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 48,
+      user_id: 4,
+      name: &quot;user4&quot;,
+      username: &quot;user4&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 49,
+      user_id: 5,
+      name: &quot;user5&quot;,
+      username: &quot;user5&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 50,
+      user_id: 28,
+      name: &quot;andrija.cajic&quot;,
+      username: &quot;andrija.cajic&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 51,
+      user_id: 6,
+      name: &quot;user6&quot;,
+      username: &quot;user6&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 52,
+      user_id: 7,
+      name: &quot;user7&quot;,
+      username: &quot;user7&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 53,
+      user_id: 8,
+      name: &quot;user8&quot;,
+      username: &quot;user8&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 54,
+      user_id: 9,
+      name: &quot;user9&quot;,
+      username: &quot;user9&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 55,
+      user_id: 10,
+      name: &quot;user10&quot;,
+      username: &quot;user10&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    },
+    {
+      id: 56,
+      user_id: 11,
+      name: &quot;user11&quot;,
+      username: &quot;user11&quot;,
+      city_id: 4,
+      city_name: &quot;test3&quot;
+    }
+  ],
+  invitations: null,
+  join_requests: null,
+  self_generated_result_types: [
+    {
+      id: 10,
+      name: &quot;Residents&quot;,
+      description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+      is_self_generated: true
+    },
+    {
+      id: 14,
+      name: &quot;Action Type Params&quot;,
+      description: &quot;Residents know at all times the state of action type parameters (e.g. how many times they can still use a certain action)&quot;,
+      is_self_generated: true
+    }
+  ],
+  game_end_conditions: [
+    {
+      id: 1,
+      name: &quot;Citizens vs. Mafia&quot;,
+      description: &quot;The game ends if, at the moment of day start or night start, one of the following conditions are met:\n 1) all mafia members are dead, \n2) mafia members consist &gt;=50% of living population in a city.&quot;
+    }
+  ],
+  timezone: 60,
+  day_cycles: [
+    {
+      id: 13,
+      day_start: 540,
+      night_start: 1200,
+      day_start_date: &quot;2015-08-09T07:00:06.242Z&quot;,
+      night_start_date: &quot;2015-08-09T18:00:06.242Z&quot;
+    }
+  ],
+  user_creator_id: 1,
+  user_creator_username: &quot;AndrijaCajic&quot;,
+  active: false,
+  paused: false,
+  paused_during_day: null,
+  last_paused_at: null,
+  current_day: null,
+  days: null,
+  started_at: null,
+  finished_at: null,
+  created_at: &quot;2015-02-22T20:00:29.000Z&quot;,
+  updated_at: &quot;2015-02-22T20:00:29.000Z&quot;,
+  is_invited: false,
+  is_join_requested: false,
+  is_member: true,
+  is_owner: true,
+  role_picks: null
+},
+auth_token: &quot;a03893d89c2f72f910fd24782e5db21f576424dbda6e382f64d92e0551596369&quot;</pre>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City</p>
+
+        <br>
+        Value: 
+<p>Must be a Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City id. The id is generated after the city is created.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[name] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City name</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[description] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City description</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[public] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Is it a public or a private game. Default is public.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[timezone] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Number of minute difference from UTC. For London in the winter (GMT), this
+value is 0. For CEST – Central European Summer Time, this value is 120. For
+New York in summer (EDT – Eastern Daylight Time), this value is -240.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[password] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City password. Only users that know the password can join. Password is only
+used if the game is private. Password is sent via this key when client is
+submitting a request to the server. When server is sending password it is
+being sent via <strong>hashed_password</strong> and
+<strong>password_salt</strong>. When comparing the match for a
+<strong>password</strong>, concatenate <strong>password</strong> +
+<strong>password_salt</strong> into <strong>salted_password</strong> and
+then check</p>
+
+<pre>sha256_digest(salted_password) == hashed_password</pre>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[hashed_password] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City hashed password. Used to check if the validity of any password.
+Perform</p>
+
+<pre>sha256_digest( concatenate(password_you_want_to_validate, password_salt) ) == hashed_password</pre>
+
+<p>This will result in a boolean indicating whether the
+<strong>password_you_want_to_validate</strong> is the correct one or not.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[password_salt] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Password salt used in <strong>password</strong> matching with
+<strong>hashed_password</strong>.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[day_cycles] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>What is the timing and duration of day and night phases within the game.
+Example:</p>
+
+<pre>day_cycles: [
+  {
+    id: 13,
+    day_start: 540,
+    night_start: 840,
+    day_start_date: &quot;2015-08-09T07:00:06.242Z&quot;,
+    night_start_date: &quot;2015-08-09T18:00:06.242Z&quot;
+  },
+  {
+    id: 14,
+    day_start: 1140,
+    night_start: 1380,
+    day_start_date: &quot;2015-08-09T07:00:06.242Z&quot;,
+    night_start_date: &quot;2015-08-09T18:00:06.242Z&quot;
+  }
+]</pre>
+
+<p>Day cycles like these specify that at 9 AM the game will enter the *day
+phase*. At 2 PM, the day phase will end and the *night phase* will begin.
+At 7 PM, the *day phase* will commence again. And at 11 PM, the *night
+phase* again. On the next day, the cycle repeats.</p>
+
+        <br>
+        Value: 
+<p>Must be an array of Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[city_has_roles] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Role distribution in a city. This is nil when the city is just created, but
+must be set before the game is started.</p>
+
+<p>Example:</p>
+
+<pre>city_has_roles: [
+  {
+    city_id: 2,
+    role_id: 2,
+    action_types_params: {
+      1:{},
+      2:{
+        number_of_actions_available:-1
+      },
+      9:{}
+    }
+  },
+  {
+    city_id: 2,
+    role_id: 3,
+    action_types_params: {
+      1:{},
+      3:{
+        number_of_actions_available:4
+      },
+      9:{}
+    }
+  },
+  {
+    city_id: 2,
+    role_id: 4,
+    action_types_params: {
+      1:{},
+      4:{},
+      8:{},
+      9:{}
+    }
+  }
+]</pre>
+
+<p>The game cannot be started unless the total number of city_has_roles
+elements equals the number of residents (players) in the city. The value
+for action_types_params is <strong>optional</strong>. If not set, the
+default values will be used.</p>
+
+<p>For action_types_params, Hash specifies the ActionType as the key and the
+ActionType parameters as the value. Action type parameters are a way to
+modify (tweak) the properties of a certain role.</p>
+
+<p>A Doctor (role_id == 2) has 3 action types at his disposal: Vote (1),
+Protect (2), Residents (9). So, the action_types_params look like this:</p>
+
+<pre>{
+  1:{},
+  2:{&#39;number_of_actions_available&#39;:-1},
+  9:{}
+},</pre>
+
+<p>which means that there are no parameters attached to the action type 1
+(Vote) and 9 (Residents) but it is specified that user has an unlimited
+(-1) access to the action of type 2 (Protect).</p>
+
+<p>Similarly, for a Detective (role_id == 3), the action_types_params look
+like this:</p>
+
+<pre>{
+  1:{},
+  3:{&#39;number_of_actions_available&#39;:4},
+  9:{}
+}</pre>
+
+<p>Action type 3 is Investigate, and it is specified that a user who gets this
+role will be able to perform the Investigate action only 4 times in the
+game.</p>
+
+<p>A list of all possible Action Types can be accessed via
+<strong>/action_type</strong> endpoint. To see all the roles, what role has
+access to which action types and what are the default action type
+parameters for each role, use the <strong>/roles</strong> endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be an array of Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[self_generated_result_types] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Information that player gets without having to do any actions
+(Self-generated action results). Must be like specified in example. Other
+scenarios not sufficiently tested.</p>
+
+<p>self_generated_result_types: [</p>
+
+<pre>{
+  id: 10,
+  name: &quot;Residents&quot;,
+  description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+  is_self_generated: true
+},
+{
+  id: 14,
+  name: &quot;Action Type Params&quot;,
+  description: &quot;Residents know at all times the state of action type parameters (e.g. how many times they can still use a certain action)&quot;,
+  is_self_generated: true
+}</pre>
+
+<p>]</p>
+
+        <br>
+        Value: 
+<p>Must be an array of Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[game_end_conditions] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>There is only one game end condition so far. And every game must have at
+least one Game End Condition.</p>
+
+<p>game_end_conditions: [</p>
+
+<pre>{
+  id: 1,
+  name: &quot;Citizens vs. Mafia&quot;,
+  description: &quot;The game ends if, at the moment of day start or night start, one of the following conditions are met:\n 1) all mafia members are dead, \n2) mafia members consist &gt;=50% of living population in a city.&quot;
+}</pre>
+
+<p>]</p>
+
+        <br>
+        Value: 
+<p>Must be an array of Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='cities-destroy'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#cities'>Cities</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>destroy</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#cities-destroy'>
+              DELETE /cities/:city_id
+            </a><br>
+            <small>Delete an existing City.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Delete an existing City. Only an admin or a City creator can delete a City.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+  </div>
+
+  <ul class='breadcrumb'  id='days'>
+    <li><a href='#'>Mafia</a><span class='divider'>/</span></li>
+    <li class='active'>Days</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#days'>Days</a><br>
+      <small>When one day and one night pass inside one game, that constitutes a Day.</small>
+    </h1>
+  </div>
+
+    <div>
+<p>When one day and one night pass inside one game, that constitutes a Day.
+Each Day belongs to a city. A city has many Days.</p>
+</div>
+
+  <div class='accordion' id='accordion'>
+
+  </div>
+
+  <ul class='breadcrumb'  id='game_end_conditions'>
+    <li><a href='#'>Mafia</a><span class='divider'>/</span></li>
+    <li class='active'>Game end conditions</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#game_end_conditions'>Game end conditions</a><br>
+      <small>What are the conditions that indicate that a game is over?</small>
+    </h1>
+  </div>
+
+    <div>
+<p>What are the conditions that indicate that a game is over?</p>
+</div>
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='game_end_conditions-index'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#game_end_conditions'>Game end conditions</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>index</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#game_end_conditions-index'>
+              GET /game_end_conditions
+            </a><br>
+            <small>Get all possible Game End Conditions.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get all possible Game End Conditions.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+  </div>
+
+  <ul class='breadcrumb'  id='residents'>
+    <li><a href='#'>Mafia</a><span class='divider'>/</span></li>
+    <li class='active'>Residents</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#residents'>Residents</a><br>
+      <small>When a user joins a city, they become Residents.</small>
+    </h1>
+  </div>
+
+    <div>
+<p>When a user joins a city, they become Residents. A Resident belongs to one
+city and to one user.</p>
+</div>
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='residents-show'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#residents'>Residents</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>show</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#residents-show'>
+              GET /residents/:resident_id
+            </a><br>
+            <small>Show a Resident.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Show a Resident.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>resident_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A Resident id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='residents-save_role'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#residents'>Residents</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>save_role</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#residents-save_role'>
+              POST /residents/save_role
+            </a><br>
+            <small>Save a role.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Save a role. User specifies which role will appear the next time they log
+into the game. To be more precise, they specify which role will be inside
+their &#39;saved_role&#39; property of their Resident object the next time
+they access it.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A city id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>saved_role_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A role id to be saved.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='residents-new'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#residents'>Residents</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>new</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#residents-new'>
+              GET /residents/new
+            </a><br>
+            <small>A new Resident.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>A new Resident.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+  </div>
+
+  <ul class='breadcrumb'  id='roles'>
+    <li><a href='#'>Mafia</a><span class='divider'>/</span></li>
+    <li class='active'>Roles</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#roles'>Roles</a><br>
+      <small>Game roles like Citizen, Doctor, Detective, Mafia, ...</small>
+    </h1>
+  </div>
+
+    <div>
+<p>Game roles like Citizen, Doctor, Detective, Mafia, …</p>
+</div>
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='roles-index'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#roles'>Roles</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>index</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#roles-index'>
+              GET /roles
+            </a><br>
+            <small>Get all possible Roles.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get all possible Roles.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+  </div>
+
+  <ul class='breadcrumb'  id='self_generated_result_types'>
+    <li><a href='#'>Mafia</a><span class='divider'>/</span></li>
+    <li class='active'>Self generated result types</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#self_generated_result_types'>Self generated result types</a><br>
+      <small>Information that gets generated for every player but its creation is not initiated by any specific action.</small>
+    </h1>
+  </div>
+
+    <div>
+<p>Information that gets generated for every player but its creation is not
+initiated by any specific action. For example, ActionResultType::Residents
+is a Self Generated Result Type that informs each player about who is alive
+and who is dead after every important moment in the course of a game.</p>
+</div>
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='self_generated_result_types-index'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#self_generated_result_types'>Self generated result types</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>index</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#self_generated_result_types-index'>
+              GET /self_generated_result_types
+            </a><br>
+            <small>Get all Self Generated Result Types.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get all Self Generated Result Types.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+  </div>
+
+  <ul class='breadcrumb'  id='user_preference'>
+    <li><a href='#'>Mafia</a><span class='divider'>/</span></li>
+    <li class='active'>User preference</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#user_preference'>User preference</a><br>
+      <small>Mostly account and mailing preferences.</small>
+    </h1>
+  </div>
+
+    <div>
+<p>Mostly account and mailing preferences.</p>
+</div>
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='user_preference-update_my_user_preference'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#user_preference'>User preference</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>update_my_user_preference</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#user_preference-update_my_user_preference'>
+              GET /user_preference/me
+            </a><br>
+            <small>Get my User Preferences.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get my User Preferences.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>receive_notifications_when_added_to_game </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Update whether you want to receive an email notification when someone adds
+you to their game. Default is true.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>automatically_join_when_invited </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Update whether you want to automatically be joined to the game when someone
+invites you. Default is true.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='user_preference-unsubscribe'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#user_preference'>User preference</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>unsubscribe</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#user_preference-unsubscribe'>
+              GET /user_preference/unsubscribe
+            </a><br>
+            <small>Unsibscribe from all emails.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Unsibscribe from all emails.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>email </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>An email address that whishes to be unsubscribed.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+  </div>
+
+  <ul class='breadcrumb'  id='users'>
+    <li><a href='#'>Mafia</a><span class='divider'>/</span></li>
+    <li class='active'>Users</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#users'>Users</a><br>
+      <small>When you register, you become a User.</small>
+    </h1>
+  </div>
+
+    <div>
+<p>Users get created when a person completes a registration. In theory, one
+person should have one account. So, every registered person should
+correspond to one User object.</p>
+</div>
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='users-index'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#users'>Users</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>index</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#users-index'>
+              GET /users
+            </a><br>
+            <small>Query Users.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Query Users.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>username </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Users whose names contain this string will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>email </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Users whose emails contain this string will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>default_app_role_ids </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only if User&#39;s default app role id corresponds to one of the ids
+specified in this array, the User will be returned. Example:</p>
+
+<pre>exposemafia.com:3000/users?default_app_role_ids[]=3&amp;default_app_role_ids[]=2</pre>
+
+        <br>
+        Value: 
+<p>Must be an array of Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>app_role_ids </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only if User&#39;s current app role id corresponds to one of the ids
+specified in this array, the User will be returned. Example:</p>
+
+<pre>exposemafia.com:3000/users?app_role_ids[]=3&amp;app_role_ids[]=2</pre>
+
+        <br>
+        Value: 
+<p>Must be an array of Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>email_confirmed </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Filter based on whether the email has been confirmed or not.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>created_at_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Users that were created after this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>created_at_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Users that were created before this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>updated_at_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Users that were updated after this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>updated_at_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Users that were updated before this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>page_index </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Page index.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>page_size </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Page size.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='users-me'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#users'>Users</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>me</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#users-me'>
+              GET /users/me
+            </a><br>
+            <small>Get User object representing myself.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get User object representing myself. (User is identified based on auth
+token).</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='users-show'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#users'>Users</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>show</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#users-show'>
+              GET /users/:user_id
+            </a><br>
+            <small>Get a User by id.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get a User by id.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>user_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A User id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='users-new'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#users'>Users</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>new</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#users-new'>
+              GET /users/new
+            </a><br>
+            <small>Get a template for a new User.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get a blank new User.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='users-edit'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#users'>Users</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>edit</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#users-edit'>
+              GET /users/:user_id/edit
+            </a><br>
+            <small>Get a User for editting.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get a User for editting.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>user_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A User id. User can only get their own data.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='users-create'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#users'>Users</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>create</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#users-create'>
+              POST /users
+            </a><br>
+            <small>Create a new User.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Create a new User.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>user </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>User</p>
+
+        <br>
+        Value: 
+<p>Must be a Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>user[username] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Username</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>user[email] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Email</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>user[password] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Password in plaintext. Password does not get stored in the database in
+plaintext.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>user[repeat_password] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Repeat password</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='users-confirm_email'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#users'>Users</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>confirm_email</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#users-confirm_email'>
+              GET /users/confrim_email
+            </a><br>
+            <small>Confirm email address after registration.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Confirm email address after registration. On success, a redirect to &#39;<a
+href="http://exposemafia.com/email_confirmation/:email_confirmation_code">exposemafia.com/email_confirmation/:email_confirmation_code</a>&#39;
+is returned. The client will then automatically try to exchange the email
+confirmation code for auth token.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>email_confirmation_code </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A confirmation code that was sent via email.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='users-forgot_password'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#users'>Users</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>forgot_password</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#users-forgot_password'>
+              POST /users/forgot_password
+            </a><br>
+            <small>Request password renewal.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Request password renewal.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>email </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Email address of registered user. An email will be sent to that address so
+that the owner of that address can confirm that they want their password
+renewed.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='users-confirm_forgot_password'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#users'>Users</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>confirm_forgot_password</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#users-confirm_forgot_password'>
+              GET /users/confirm_forgot_password
+            </a><br>
+            <small>Confirm password renewal.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Confirm password renewal.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>email_confirmation_code </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Confirmation code that was sent via email asking the address owner whether
+they indeed want to renew their password.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='users-update'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#users'>Users</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>update</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#users-update'>
+              PUT /users/:user_id
+            </a><br>
+            <small>Update a User.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Update a User. Eample:</p>
+
+<pre>{
+  user: {
+      id: 21,
+      username: &quot;user21&quot;,
+      email: &quot;user21altered@email.com&quot;,
+      user_preference: {
+          id: 21,
+          user_id: 21,
+          receive_notifications_when_added_to_game: true,
+          automatically_join_when_invited: true,
+          created_at: &quot;2015-02-08T20:03:49.000Z&quot;,
+          updated_at: &quot;2015-02-08T20:03:49.000Z&quot;
+      },
+      app_role: {
+          id: 4,
+          name: &quot;User&quot;,
+          app_permissions: {
+              1: {
+                  id: 1,
+                  name: &quot;Permission to participate in games&quot;,
+                  created_at: &quot;2015-02-08T20:03:47.000Z&quot;,
+                  updated_at: &quot;2015-02-08T20:03:47.000Z&quot;
+              }
+          }
+      },
+      hashed_password: &quot;d8eddb48a9102eef992810644dca45b43b1f362619ef4586d04c6cdae11e1e4b&quot;,
+      password_salt: &quot;user21&quot;,
+      created_at: &quot;2015-02-08T20:03:49.000Z&quot;,
+      updated_at: &quot;2015-02-08T20:03:49.000Z&quot;,
+      auth_token: null,
+      role_picks: null,
+      game_purchases: null,
+      unused_game_purchases: null,
+      role_pick_purchases: null,
+      unused_role_pick_purchases: null,
+      subscription_purchases: null,
+      active_subscription: null,
+      password: &quot;bejobi&quot;
+  },
+  auth_token: &quot;ce5a189ec0807ce64e478b38cb6c379f558ecbf047ea63b4edf2fed12f63e494&quot;
+}</pre>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>user_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>A User id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>user </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>User</p>
+
+        <br>
+        Value: 
+<p>Must be a Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>user[id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Id</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>user[username] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Username</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>user[email] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Email</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>user[user_preference] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Email preferences</p>
+
+        <br>
+        Value: 
+<p>Must be Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>user[password] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Password in plaintext. Password does not get stored in plaintext. Password
+is necessary in order to perform update.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='users-destroy'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#users'>Users</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>destroy</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#users-destroy'>
+              DELETE /users/:user_id
+            </a><br>
+            <small>Delete a User.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Delete a User.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>password </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>For an important action like this, user password must be submitted.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='users-allowed_email_patterns'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#users'>Users</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>allowed_email_patterns</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#users-allowed_email_patterns'>
+              GET /users/allowed_email_patterns
+            </a><br>
+            <small>Get all allowed email patterns for user registration.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get all allowed email patterns for user registration.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='users-app_roles'>
+        <li>
+          <a href='#'>Mafia</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#users'>Users</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>app_roles</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#users-app_roles'>
+              GET /users/app_roles
+            </a><br>
+            <small>Get all possible app roles.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+<p>Get all possible app roles.</p>
+
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+  </div>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer></footer>
+  </div>
+  <script type='text/javascript' src='./apidoc/javascripts/bundled/jquery-1.7.2.js'></script>
+<script type='text/javascript' src='./apidoc/javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='./apidoc/javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='./apidoc/javascripts/apipie.js'></script>
+</body>
+</html>
