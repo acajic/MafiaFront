@@ -811,6 +811,10 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
     });
 
+    function redirectToAPI() {
+        window.location = 'api/apidoc.html';
+    };
+
 
     init();
 
@@ -877,7 +881,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         $scope.showLeaveButtonForCity = showLeaveButtonForCity;
         $scope.showCancelJoinRequestForCity = showCancelJoinRequestForCity;
 
-        
+        $scope.redirectToAPI = redirectToAPI;
     }
 
 }).filter('filterMyCities', function () {
