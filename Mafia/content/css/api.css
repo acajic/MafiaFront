@@ -1,0 +1,21 @@
+#content-header {
+    background: linear-gradient(#0d0d0d, #322213);
+    color: #ffffff;
+    border-radius: 4px;
+    height: 100px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+
+.title {
+    font-family: FontAwesome;
+    font-size: 58px;
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 3px 2px #000000;
+    min-height: 100px;
+    margin-top: 38px;
+}

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div id='container'>
+        <ul class='breadcrumb'>
+  <li>
+    <a href='../../apidoc.html'>Mafia 1.0</a>
+    <span class='divider'>/</span>
+  </li>
+  <li>
+    <a href='../../apidoc/residents.html'>
+      Residents
+      
+    </a>
+    <span class='divider'>/</span>
+  </li>
+  <li class='active'>index</li>
+  
+
+</ul>
+
+  <div class='page-header'>
+    <h1>
+      GET /residents
+      <br>
+      <small>[ADMIN] Query Residents</small>
+    </h1>
+  </div>
+
+<div>
+
+  <dl class="rdoc-list label-list"><dt>ADMIN
+<dd>
+<p>Query Residents</p>
+</dd></dl>
+
+
+  <h2>Supported Formats</h2>
+  json
+
+
+
+
+  <h2>Params</h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>user_ids </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Residents with there ids will be returned. Example:</p>
+
+<pre>exposemafia.com:3000/residents?user_ids[]=6&amp;user_ids[]=5</pre>
+
+        <br>
+        Value: 
+<p>Must be an array of Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>username </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Residents that belong to users whose usernames contain this string.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>name </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Residents whose names contain this string.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_ids </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Residents to at least one of these cities. Example:</p>
+
+<pre>exposemafia.com:3000/residents?city_ids[]=6&amp;city_ids[]=5</pre>
+
+        <br>
+        Value: 
+<p>Must be an array of Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_name </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Residents whose cities&#39; names contain this string.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>role_ids </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Residents whose true game roles are one of the specified. Example:</p>
+
+<pre>exposemafia.com:3000/residents?role_ids[]=2&amp;role_ids[]=3&amp;role_ids[]=4</pre>
+
+        <br>
+        Value: 
+<p>Must be an array of Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>saved_role_ids </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Residents whose saved game roles are one of the specified. Example:</p>
+
+<pre>exposemafia.com:3000/residents?saved_role_ids[]=2&amp;saved_role_ids[]=3&amp;saved_role_ids[]=4</pre>
+
+        <br>
+        Value: 
+<p>Must be an array of Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>role_seen </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Residents have logged in into the game at least once. They are the ones who
+have seen their game role.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>alive </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Alive Residents.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>died_at_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Residents that died after this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>died_at_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Residents that died before this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>updated_at_min </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Residents that were updated after this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>updated_at_max </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Only Residents that were updated before this timestamp will be returned.</p>
+
+        <br>
+        Value: 
+<p>Must be Timestamp - a number representing number of seconds since
+1970-01-01T00:00:00.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>page_index </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Page index.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>page_size </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Page size.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+</div>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer></footer>
+  </div>
+  <script type='text/javascript' src='../../apidoc/javascripts/bundled/jquery-1.7.2.js'></script>
+<script type='text/javascript' src='../../apidoc/javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='../../apidoc/javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='../../apidoc/javascripts/apipie.js'></script>
+</body>
+</html>

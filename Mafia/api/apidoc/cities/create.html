@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='../../apidoc/stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div id='container'>
+        <ul class='breadcrumb'>
+  <li>
+    <a href='../../apidoc.html'>Mafia 1.0</a>
+    <span class='divider'>/</span>
+  </li>
+  <li>
+    <a href='../../apidoc/cities.html'>
+      Cities
+      
+    </a>
+    <span class='divider'>/</span>
+  </li>
+  <li class='active'>create</li>
+  
+
+</ul>
+
+  <div class='page-header'>
+    <h1>
+      POST /cities
+      <br>
+      <small>Create a new City.</small>
+    </h1>
+  </div>
+
+<div>
+
+  
+<p>Create a new  City. Example:</p>
+
+<pre>city: {
+  id: null,
+  name: &quot;MyTown&quot;,
+  description: &quot;MyTown description.&quot;,
+  public: true,
+  password: null,
+  hashed_password: null,
+  password_salt: null,
+  city_has_roles: null,
+  residents: null,
+  invitations: null,
+  join_requests: null,
+  self_generated_result_types: [
+    {
+      id: 10,
+      name: &quot;Residents&quot;,
+      description: &quot;Residents know at all times which players are alive and which of them are dead.&quot;,
+      is_self_generated: true
+    },
+    {
+      id: 14,
+      name: &quot;Action Type Params&quot;,
+      description: &quot;Residents know at all times the state of action type parameters (e.g. how many times they can still use a certain action)&quot;,
+      is_self_generated: true
+    }
+  ],
+  game_end_conditions: [
+    {
+      id: 1,
+      name: &quot;Citizens vs. Mafia&quot;,
+      description: &quot;The game ends if, at the moment of day start or night start, one of the following conditions are met:\n 1) all mafia members are dead, \n2) mafia members consist &gt;=50% of living population in a city.&quot;
+    }
+  ],
+  timezone: 120,
+  day_cycles: [
+    {
+      id: null,
+      day_start: 540,
+      night_start: 1200,
+      day_start_date: &quot;2015-08-09T07:00:36.570Z&quot;,
+      night_start_date: &quot;2015-08-09T18:00:36.570Z&quot;
+    }
+  ],
+  user_creator_id: 1,
+  user_creator_username: &quot;AndrijaCajic&quot;,
+  active: false,
+  paused: false,
+  paused_during_day: null,
+  last_paused_at: null,
+  current_day: null,
+  days: null,
+  started_at: null,
+  finished_at: null,
+  created_at: null,
+  updated_at: null,
+  is_invited: false,
+  is_join_requested: false,
+  is_member: false,
+  is_owner: true,
+  role_picks: null
+},
+auth_token: &quot;a03893d89c2f72f910fd24782e5db21f576424dbda6e382f64d92e0551596369&quot;</pre>
+
+
+  <h2>Supported Formats</h2>
+  json
+
+
+
+
+  <h2>Params</h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City</p>
+
+        <br>
+        Value: 
+<p>Must be a Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[name] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City name</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[description] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City description</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[public] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Is it a public or a private game. Default is public.</p>
+
+        <br>
+        Value: 
+<p>Must be one of: true, false.</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[timezone] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Number of minute difference from UTC. For London in the winter (GMT), this
+value is 0. For CEST – Central European Summer Time, this value is 120. For
+New York in summer (EDT – Eastern Daylight Time), this value is -240.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[password] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City password. Only users that know the password can join. Password is only
+used if the game is private.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>city[self_generated_result_types] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Information that player gets without having to do any actions
+(Self-generated action results). Must be like specified in example. Other
+scenarios not sufficiently tested.</p>
+
+        <br>
+        Value: 
+<p>Must be an array of Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+
+    </tbody>
+  </table>
+
+
+
+</div>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer></footer>
+  </div>
+  <script type='text/javascript' src='../../apidoc/javascripts/bundled/jquery-1.7.2.js'></script>
+<script type='text/javascript' src='../../apidoc/javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='../../apidoc/javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='../../apidoc/javascripts/apipie.js'></script>
+</body>
+</html>

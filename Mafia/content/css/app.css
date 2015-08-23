@@ -225,6 +225,13 @@ input, textarea, select {
 
 /* BEGIN cities */
 
+.api {
+    float: right;
+    margin-bottom: -50px;
+    font-size: 18px;
+}
+
+
 .cities {
     margin-bottom: -600px;
     padding-bottom: 600px;
@@ -309,7 +316,7 @@ input, textarea, select {
     padding-bottom: 15px;
 }
 
-.btn-back, .btn-join-discussion, .btn-toggle-edit-mode {
+.btn-back, .btn-join-discussion, .btn-toggle-edit-mode, .btn-api {
      background-color: #232323;
      border: 1px solid #0d0d0d;
      color: #ffffff;
@@ -320,7 +327,7 @@ input, textarea, select {
     padding-right: 15px;
 }
 
-.btn-back:hover, .btn-join-discussion:hover, .btn-toggle-edit-mode:hover {
+.btn-back:hover, .btn-join-discussion:hover, .btn-toggle-edit-mode:hover, .btn-api:hover {
     background-color: #161616;
     color: #ffffff;
 }

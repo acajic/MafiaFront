@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div id='container'>
+        <ul class='breadcrumb'>
+  <li>
+    <a href='../apidoc.html'>Mafia 1.0</a>
+    <span class='divider'>/</span>
+  </li>
+  <li class='active'>
+    Actions
+    
+  </li>
+  
+</ul>
+
+<div class='page-header'>
+  <h1>
+    Actions
+    <br>
+    <small>A user interacts with a game via Actions.</small>
+  </h1>
+</div>
+
+  <div>
+<p>A user interacts with a game via Actions. To vote someone out, user casts a
+vote. That is an Action. For a detective to investigate or a doctor to
+protect someone, these are also Actions.</p>
+
+<p>There are four types of Actions in regard to their trigger time:</p>
+<ol><li>
+<p>DAY_START - Action gets processed in the &#39;morning&#39; (moment when a
+night phase ends and a day phase begins).</p>
+</li><li>
+<p>NIGHT_START - Action gets processed in the &#39;evening&#39; (moment when a
+day phase ends and a night phase begins).</p>
+</li><li>
+<p>BOTH - Action gets processed both in the morning and in the evening.</p>
+</li><li>
+<p>ASYNC - Action gets processed immediately or within specified delay after
+the submission.</p>
+</li></ol>
+
+<p>When an Action gets processed, it produces an Action Result.</p>
+</div>
+
+
+  <h2>Supported Formats</h2>
+  json
+
+
+
+<div class='accordion' id='accordion'>
+
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/actions/new.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-new'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /actions/new
+          </a>
+          <br>
+          <small>Get a template for creating a new Action.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-new' class='collapse accordion-body'>
+      
+<p>Get a template for creating a new Action.</p>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/actions/create.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-create'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            POST /actions
+          </a>
+          <br>
+          <small>Create a new Action.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-create' class='collapse accordion-body'>
+      
+<p>Create a new  Action. Example:</p>
+
+<pre>{
+    action_instance: {
+        city_id: 3,
+        role_id: 6,
+        action_type_id: 1,
+        day_id: 31,
+        input: {
+            target_id: 25
+        }
+    },
+    auth_token: &quot;5764b40be8726d3f4e4f6c0cda526a9fccc4c4774fb36f7f4840b4ed217a999b&quot;
+}</pre>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>action </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Action</p>
+
+        <br>
+        Value: 
+<p>Must be a Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>action[city_id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City id (for what game is the action submitted).</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>action[role_id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Role id (under what role does a user submit this action).</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>action[action_type_id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Action type id (what action is it).</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>action[input] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Parameters for the action. For example, if it is a Vote action - Who is the
+user voting for?.</p>
+
+        <br>
+        Value: 
+<p>Must be Hash</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/actions/cancel_unprocessed_actions.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-cancel_unprocessed_actions'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            DELETE /actions/cancel_unprocessed_actions
+          </a>
+          <br>
+          <small>Cancel all Actions that haven't yet been processed.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-cancel_unprocessed_actions' class='collapse accordion-body'>
+      
+<p>Cancel all Actions that haven&#39;t yet been processed. Example:</p>
+
+<pre>{
+    city_id: 3,
+    role_id: 6,
+    action_type_id: 1,
+    auth_token: &quot;5764b40be8726d3f4e4f6c0cda526a9fccc4c4774fb36f7f4840b4ed217a999b&quot;,
+}</pre>
+
+
+  <h3>Supported Formats</h3>
+  json
+
+
+
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>auth_token </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Auth Token is obtained via /login and destroyed via /logout endpoint.</p>
+
+        <br>
+        Value: 
+<p>Must be String</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>city_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>City id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>role_id </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Role id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>action_type_id </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Action type id.</p>
+
+        <br>
+        Value: 
+<p>Must be Integer</p>
+
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
+
+
+
+    </div>
+</div>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer></footer>
+  </div>
+  <script type='text/javascript' src='../apidoc/javascripts/bundled/jquery-1.7.2.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/apipie.js'></script>
+</body>
+</html>
