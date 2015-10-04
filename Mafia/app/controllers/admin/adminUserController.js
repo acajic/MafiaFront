@@ -144,7 +144,8 @@ app.controller('AdminUserController',function ($scope, $routeParams, $location, 
         modalInstance.result.then(function () {
             authService.impersonationAuthenticate($scope.inspectedUser.id).then(function(impersonatedUserResult) {
                 authService.notifications.shouldSignIn = true;
-                $location.path('');
+                // $location.path('');
+                window.location = '';
             });
         }, function () {
         });
