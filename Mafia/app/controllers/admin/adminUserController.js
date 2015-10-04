@@ -1,4 +1,4 @@
-app.controller('AdminUserController',function ($scope, $routeParams, $location, $modal, $timeout, authService, layoutService, usersService, serverService, appRolesService) {
+app.controller('AdminUserController',function ($scope, $routeParams, $location, $modal, $timeout, authService, layoutService, usersService, serverService, appRolesService, navigationService) {
     "use strict";
 
     init();
@@ -144,7 +144,8 @@ app.controller('AdminUserController',function ($scope, $routeParams, $location, 
         modalInstance.result.then(function () {
             authService.impersonationAuthenticate($scope.inspectedUser.id).then(function(impersonatedUserResult) {
                 authService.notifications.shouldSignIn = true;
-                $location.path('');
+                // $location.path('');
+                window.location = navigationService.getHomePath();
             });
         }, function () {
         });
