@@ -12942,9 +12942,8 @@ function setCookie(cname, cvalue, expirationDate) {
         d.setFullYear(d.getFullYear()+1);
     }
 
-
     var expires = "expires=" + d.toGMTString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+    document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/; domain=" + window.location.host;
 }
 
 function getCookie(cname) {
