@@ -12944,7 +12944,8 @@ function setCookie(cname, cvalue, expirationDate) {
 
 
     var expires = "expires=" + d.toGMTString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+    console.log("HOST: " + window.location.host);
+    document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/; domain=" + window.location.host;
 }
 
 function getCookie(cname) {
