@@ -113,7 +113,8 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
             scope.signOut = function() {
                 authService.signOut();
                 scope.user = {};
-                $location.path(navigationService.getHomePath());
+                // $location.path(navigationService.getHomePath());
+                window.location = navigationService.getHomePath();
             };
 
             $(document).keypress(function(e) {
