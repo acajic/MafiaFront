@@ -167,7 +167,7 @@
                                 </tr>
                                 <tr ng-repeat="role_quantity in roleQuantities | filter : {role: {affiliation: {id : affiliationIds.AFFILIATION_ID_MAFIA }}} ">
                                     <td>{{role_quantity.role.name}}</td>
-                                    <td><b>{{ city_has_role.quantity }}</b> : <points-assign value="role_quantity.quantity" max="city.residents.length" readonly="true" unused="remainingRoles" point-assign-id="{{role_quantity.role.id}}" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'"></points-assign></td>
+                                    <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" max="city.residents.length" readonly="true" unused="remainingRoles" point-assign-id="{{role_quantity.role.id}}" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'"></points-assign></td>
                                 </tr>
                             </tbody>
                         </table>
