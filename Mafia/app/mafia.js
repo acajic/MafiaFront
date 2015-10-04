@@ -4393,7 +4393,7 @@ app.controller('AdminSubscriptionPurchaseController',function ($scope, $routePar
  
 // adminUserController 
  
-app.controller('AdminUserController',function ($scope, $routeParams, $location, $modal, $timeout, authService, layoutService, usersService, serverService, appRolesService) {
+app.controller('AdminUserController',function ($scope, $routeParams, $location, $modal, $timeout, authService, layoutService, usersService, serverService, appRolesService, navigationService) {
     "use strict";
 
     init();
@@ -4540,7 +4540,7 @@ app.controller('AdminUserController',function ($scope, $routeParams, $location, 
             authService.impersonationAuthenticate($scope.inspectedUser.id).then(function(impersonatedUserResult) {
                 authService.notifications.shouldSignIn = true;
                 // $location.path('');
-                window.location = '';
+                window.location = navigationService.getHomePath();
             });
         }, function () {
         });
