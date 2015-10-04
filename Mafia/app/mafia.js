@@ -4393,7 +4393,7 @@ app.controller('AdminSubscriptionPurchaseController',function ($scope, $routePar
  
 // adminUserController 
  
-app.controller('AdminUserController',function ($scope, $routeParams, $location, $modal, $timeout, authService, layoutService, usersService, serverService, appRolesService) {
+app.controller('AdminUserController',function ($scope, $routeParams, $location, $modal, $timeout, authService, layoutService, usersService, serverService, appRolesService, navigationService) {
     "use strict";
 
     init();
@@ -4539,7 +4539,8 @@ app.controller('AdminUserController',function ($scope, $routeParams, $location, 
         modalInstance.result.then(function () {
             authService.impersonationAuthenticate($scope.inspectedUser.id).then(function(impersonatedUserResult) {
                 authService.notifications.shouldSignIn = true;
-                $location.path('');
+                // $location.path('');
+                window.location = navigationService.getHomePath();
             });
         }, function () {
         });
@@ -4675,7 +4676,8 @@ app.directive('auth', function($routeParams, $location, $modal, $timeout, authSe
             scope.signOut = function() {
                 authService.signOut();
                 scope.user = {};
-                $location.path(navigationService.getHomePath());
+                // $location.path(navigationService.getHomePath());
+                window.location = navigationService.getHomePath();
             };
 
             $(document).keypress(function(e) {
@@ -12943,7 +12945,7 @@ function setCookie(cname, cvalue, expirationDate) {
     }
 
     var expires = "expires=" + d.toGMTString();
-    document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/; domain=" + window.location.host;
+    document.cookie = cname + "=" + cvalue + "; " + expires + ";";
 }
 
 function getCookie(cname) {
