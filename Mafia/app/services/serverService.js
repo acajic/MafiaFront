@@ -129,7 +129,7 @@ function setCookie(cname, cvalue, expirationDate) {
         d.setFullYear(d.getFullYear()+1);
     }
 
-    console.log("HOST: " + window.location.host);
+    
     document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/; domain=" + window.location.host;
 }
 
