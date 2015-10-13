@@ -761,7 +761,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     function joinCityPasswordDidChange() {
         var salted_password = $scope.selectedCity.joinCityPassword + ($scope.selectedCity.password_salt || '');
         var generated_hashed_password = sha256_digest(salted_password);
-        $scope.joinCityPasswordMatch = angular.equals(generated_hashed_password, $scope.selectedCity.hashed_password);
+        $scope.joinCityPasswordMatch = $scope.selectedCity.public || angular.equals(generated_hashed_password, $scope.selectedCity.hashed_password);
     }
 
     function showJoinButtonForCity(city) {
