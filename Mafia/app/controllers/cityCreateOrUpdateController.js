@@ -289,7 +289,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
     function joinCityPasswordDidChange() {
         var salted_password = $scope.city.password + ($scope.city.password_salt || '');
         var generated_hashed_password = sha256_digest(salted_password);
-        $scope.joinCityPasswordMatch = angular.equals(generated_hashed_password, $scope.city.hashed_password);
+        $scope.joinCityPasswordMatch = $scope.city.public || angular.equals(generated_hashed_password, $scope.city.hashed_password);
     }
 
     function showJoinButton(city) {
@@ -297,7 +297,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
             return false;
 
         if ($scope.joinCityPasswordMatch === undefined)
-            $scope.joinCityPasswordMatch = city.hashed_password == null || city.is_owner;
+            $scope.joinCityPasswordMatch = city.public || city.hashed_password == null || city.is_owner;
 
         return !isNew(city) && !city.started_at && !city.is_member && !city.is_join_requested && !city.is_invited && !city.finished_at && $scope.userMe;
     }
