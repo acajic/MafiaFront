@@ -350,7 +350,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
     $scope.citySelected = function (selectedCity) {
         $scope.selectedCity = selectedCity;
         if (selectedCity)
-            $scope.joinCityPasswordMatch = (selectedCity.hashed_password || '').length == 0;
+            $scope.joinCityPasswordMatch = selectedCity.public || (selectedCity.hashed_password || '').length == 0;
     };
 
     $scope.tabSelected = function (tabIndex) {
