@@ -1,6 +1,7 @@
 <div class="col-md-6 nopadding">
-    <vote ng-if="!city.finished_at && roleId && roleId != roleIds.ROLE_ID_FUGITIVE && roleId != roleIds.ROLE_ID_ELDER && roleId != roleIds.ROLE_ID_ZOMBIE"></vote>
+    <vote ng-if="!city.finished_at && roleId && roleId != roleIds.ROLE_ID_FUGITIVE && roleId != roleIds.ROLE_ID_ELDER && roleId != roleIds.ROLE_ID_ZOMBIE && roleId != roleIds.ROLE_ID_FORGER"></vote>
     <elder-vote ng-if="!city.finished_at && roleId == roleIds.ROLE_ID_ELDER"></elder-vote>
+    <forger-vote ng-if="!city.finished_at && roleId == roleIds.ROLE_ID_FORGER"></forger-vote>
 
     <residents ng-if="!city.finished_at" city="city" action-results="actionResults" action-results-by-type="actionResultsByType"></residents>
     <game-over-result ng-if="city.finished_at && actionResultsByType" city="city" action-results-by-type="actionResultsByType"></game-over-result>

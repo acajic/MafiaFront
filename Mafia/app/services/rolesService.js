@@ -14,6 +14,7 @@ var ROLE_ID_DEPUTY = 10;
 var ROLE_ID_ELDER = 11;
 var ROLE_ID_NECROMANCER = 12;
 var ROLE_ID_ZOMBIE = 13;
+var ROLE_ID_FORGER = 14;
 
 
 app.factory('rolesService', function(serverService, $q) {
@@ -37,7 +38,8 @@ app.factory('rolesService', function(serverService, $q) {
         ROLE_ID_DEPUTY : ROLE_ID_DEPUTY,
         ROLE_ID_ELDER : ROLE_ID_ELDER,
         ROLE_ID_NECROMANCER : ROLE_ID_NECROMANCER,
-        ROLE_ID_ZOMBIE : ROLE_ID_ZOMBIE
+        ROLE_ID_ZOMBIE : ROLE_ID_ZOMBIE,
+        ROLE_ID_FORGER : ROLE_ID_FORGER
     };
 
     var allRoles;

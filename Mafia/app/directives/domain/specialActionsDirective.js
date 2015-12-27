@@ -46,7 +46,8 @@ app.directive('specialActions', function($compile, actionsService) {
                             scope.actionTypes = $.grep(role.action_types, function (someActionType) {
                                 return !someActionType.is_single_required && // eliminates ActionType::SingleRequired::MafiaMembers, ActionType::SingleRequired::Residents
                                     someActionType.id != ACTION_TYPE_ID_VOTE &&
-                                    someActionType.id != ACTION_TYPE_ID_ELDER_VOTE
+                                    someActionType.id != ACTION_TYPE_ID_ELDER_VOTE &&
+                                    someActionType.id != ACTION_TYPE_ID_FORGER_VOTE
                             });
                             if (scope.actionTypes.length > 0) {
 
