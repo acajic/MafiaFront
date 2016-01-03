@@ -57,12 +57,23 @@ angular.module('ui.pointsAssign', [])
         init();
 
 
-        $scope.rate = function(value) {
+        $scope.rate = function(value, event) {
             if ( $scope.value !== value && !$scope.readonly ) {
                 $scope.value = value;
                 $scope.val = value;
 
                 $scope.onChange({roleId: $scope.pointAssignId, newQuantity: $scope.value});
+            }
+
+            if (!$scope.propagateClicks) {
+                //IE9 & Other Browsers
+                if (event.stopPropagation) {
+                    event.stopPropagation();
+                }
+                //IE8 and Lower
+                else {
+                    event.cancelBubble = true;
+                }
             }
         };
 
@@ -97,12 +108,13 @@ angular.module('ui.pointsAssign', [])
                 value: '=',
                 unused: '=',
                 max: '=',
+                propagateClicks: '=',
                 pointAssignId: '@',
                 onChange: '&'
             },
             controller: 'PointsAssignController',
             template: '<span ng-mouseleave="reset()">' +
-                        '<i ng-repeat="r in range" ng-mouseenter="enter($index)" ng-click="rate($index)" class="glyphicon" ng-class="$index <= val && (r.stateOn || \'glyphicon-star\') || (r.stateOff || \'glyphicon-star-empty\')"></i>' +
+                        '<i ng-repeat="r in range" ng-mouseenter="enter($index)" ng-click="rate($index, $event)" class="glyphicon" ng-class="$index <= val && (r.stateOn || \'glyphicon-star\') || (r.stateOff || \'glyphicon-star-empty\')"></i>' +
                     '</span>',
             replace: true
         };
