@@ -1,4 +1,4 @@
-app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $timeout, citiesService, rolesService, rolePicksService,
+app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $timeout, $compile, citiesService, rolesService, rolePicksService,
                                                          gameEndConditionsService, selfGeneratedResultTypesService,
                                                          authService, usersService, $location, $q, $modal, navigationService) {
     "use strict";
@@ -1079,6 +1079,23 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
     };
 
 
+    var selectedRoleId = null;
+    function roleClicked(role, event) {
+        $('.create-edit-city-roles-tab .role-description').remove();
+        if (!role.id) return;
+
+        if (role.id != selectedRoleId) {
+            selectedRoleId = role.id;
+            var roleDescriptionDirective = '<tr class="role-description"><td></td><td><role-description role-id="' + role.id + '" ></role-description></td></tr>';
+            var transcludeRoleDescriptionDirective = $compile( roleDescriptionDirective );
+            transcludeRoleDescriptionDirective($scope, function( roleDescriptionDirectiveClone ) {
+                roleDescriptionDirectiveClone.insertAfter($(event.currentTarget).closest('tr'));
+            });
+        } else {
+            selectedRoleId = null;
+        }
+    }
+
 
 
     function changeNewRolePickRole(role) {
@@ -1354,6 +1371,8 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.closeDayCycleValidationAlert = closeDayCycleValidationAlert;
 
         $scope.remainingRoles = 0;
+        $scope.roleClicked = roleClicked;
+
         $scope.changeNewRolePickRole = changeNewRolePickRole;
         $scope.submitRolePick = submitRolePick;
         $scope.deleteRolePick = deleteRolePick;
