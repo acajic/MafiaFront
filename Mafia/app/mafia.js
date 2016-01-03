@@ -1211,7 +1211,7 @@ app.controller('CityController', function ($scope, $routeParams, $q, $timeout, $
  
 // cityCreateOrUpdateController 
  
-app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $timeout, citiesService, rolesService, rolePicksService,
+app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $timeout, $compile, citiesService, rolesService, rolePicksService,
                                                          gameEndConditionsService, selfGeneratedResultTypesService,
                                                          authService, usersService, $location, $q, $modal, navigationService) {
     "use strict";
@@ -2292,6 +2292,23 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
     };
 
 
+    var selectedRoleId = null;
+    function roleClicked(role, event) {
+        $('.create-edit-city-roles-tab .role-description').remove();
+        if (!role.id) return;
+
+        if (role.id != selectedRoleId) {
+            selectedRoleId = role.id;
+            var roleDescriptionDirective = '<tr class="role-description"><td></td><td><role-description role-id="' + role.id + '" ></role-description></td></tr>';
+            var transcludeRoleDescriptionDirective = $compile( roleDescriptionDirective );
+            transcludeRoleDescriptionDirective($scope, function( roleDescriptionDirectiveClone ) {
+                roleDescriptionDirectiveClone.insertAfter($(event.currentTarget).closest('tr'));
+            });
+        } else {
+            selectedRoleId = null;
+        }
+    }
+
 
 
     function changeNewRolePickRole(role) {
@@ -2567,6 +2584,8 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
         $scope.closeDayCycleValidationAlert = closeDayCycleValidationAlert;
 
         $scope.remainingRoles = 0;
+        $scope.roleClicked = roleClicked;
+
         $scope.changeNewRolePickRole = changeNewRolePickRole;
         $scope.submitRolePick = submitRolePick;
         $scope.deleteRolePick = deleteRolePick;
@@ -5712,7 +5731,8 @@ app.directive('specialActions', function($compile, actionsService) {
                             scope.actionTypes = $.grep(role.action_types, function (someActionType) {
                                 return !someActionType.is_single_required && // eliminates ActionType::SingleRequired::MafiaMembers, ActionType::SingleRequired::Residents
                                     someActionType.id != ACTION_TYPE_ID_VOTE &&
-                                    someActionType.id != ACTION_TYPE_ID_ELDER_VOTE
+                                    someActionType.id != ACTION_TYPE_ID_ELDER_VOTE &&
+                                    someActionType.id != ACTION_TYPE_ID_FORGER_VOTE
                             });
                             if (scope.actionTypes.length > 0) {
 
@@ -8576,6 +8596,64 @@ app.directive('elderVote', function($timeout, actionsService) {
     };
 }); 
  
+// forgerVoteDirective 
+ 
+app.directive('forgerVote', function($timeout, actionsService) {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/actions/forgerVote.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            scope.voteOnSelect = function(selectedResident) {
+                if (!selectedResident)
+                    return;
+
+
+                var postActionPromise = actionsService.postAction(scope.city.id,
+                    scope.resident.role.id,
+                    ACTION_TYPE_ID_FORGER_VOTE,
+                    scope.city.current_day.id,
+                    { target_id : selectedResident.id });
+
+                postActionPromise.then(function() {
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "Voted for " + selectedResident.name + "."}];
+                    });
+                }, function(reason, ee) {
+                    scope.infos = [{type:"danger", msg: reason}];
+                })
+
+            };
+
+            scope.closeInfoAlert = function(index) {
+                scope.infos.splice(index, 1);
+            };
+
+            scope.cancelUnprocessedActions = function() {
+                var cancelUnprocessedActionsPromise = actionsService.cancelUnprocessedActions(scope.city.id, scope.resident.role.id, ACTION_TYPE_ID_FORGER_VOTE);
+
+
+                cancelUnprocessedActionsPromise.then(function() {
+                    $timeout(function() {
+                        scope.infos = [{type:"success", msg: "Canceled unprocessed actions."}];
+                    });
+                }, function(reason) {
+                    if (reason.httpObj.responseJSON) {
+                        angular.forEach(reason.httpObj.responseJSON, function(error) {
+                            scope.infos.push({type : 'danger', msg: error });
+                        });
+                    } else {
+                        scope.infos.push({type : 'danger', msg: "Failed to cancel actions." });
+                    }
+                });
+            };
+
+        }
+    };
+}); 
+ 
 // initiateRevivalDirective 
  
 app.directive('initiateRevival', function($timeout, $q, actionsService,actionResultsService) {
@@ -10642,6 +10720,22 @@ app.directive('elder', function() {
     };
 }); 
  
+// forgerDirective 
+ 
+app.directive('forger', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/forger.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+            scope.roleId = ROLE_ID_FORGER;
+
+        }
+    };
+}); 
+ 
 // fugitiveDirective 
  
 app.directive('fugitive', function() {
@@ -10909,6 +11003,22 @@ app.directive('elderDescription', function() {
     return {
         restrict : 'E',
         templateUrl: 'app/directiveTemplates/domain/roles/descriptions/elder.html',
+        link: function(scope, element, attrs) {
+            "use strict";
+
+
+
+        }
+    };
+}); 
+ 
+// forgerDescriptionDirective 
+ 
+app.directive('forgerDescription', function() {
+    "use strict";
+    return {
+        restrict : 'E',
+        templateUrl: 'app/directiveTemplates/domain/roles/descriptions/forger.html',
         link: function(scope, element, attrs) {
             "use strict";
 
@@ -11202,8 +11312,12 @@ var ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY = 13;
 var ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS = 14;
 var ACTION_RESULT_TYPE_ID_GAME_OVER = 15;
 
+var ACTION_RESULT_TYPE_ID_ELDER_VOTE = 16;
+
 var ACTION_RESULT_TYPE_ID_REVIVAL_OCCURRED = 17;
 var ACTION_RESULT_TYPE_ID_REVIVAL_REVEALED = 18;
+
+var ACTION_RESULT_TYPE_ID_FORGER_VOTE = 19;
 
 
 
@@ -11228,8 +11342,10 @@ app.factory('actionResultsService', function($q, serverService) {
         ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY : ACTION_RESULT_TYPE_ID_RESIDENT_BECAME_DEPUTY,
         ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS : ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_ACTION_TYPE_PARAMS,
         ACTION_RESULT_TYPE_ID_GAME_OVER : ACTION_RESULT_TYPE_ID_GAME_OVER,
+        ACTION_RESULT_TYPE_ID_ELDER_VOTE : ACTION_RESULT_TYPE_ID_ELDER_VOTE,
         ACTION_RESULT_TYPE_ID_REVIVAL_OCCURRED : ACTION_RESULT_TYPE_ID_REVIVAL_OCCURRED,
-        ACTION_RESULT_TYPE_ID_REVIVAL_REVEALED : ACTION_RESULT_TYPE_ID_REVIVAL_REVEALED
+        ACTION_RESULT_TYPE_ID_REVIVAL_REVEALED : ACTION_RESULT_TYPE_ID_REVIVAL_REVEALED,
+        ACTION_RESULT_TYPE_ID_FORGER_VOTE : ACTION_RESULT_TYPE_ID_FORGER_VOTE
     };
 
     var privateActionResultTypesForRole = function(role) {
@@ -11241,6 +11357,8 @@ app.factory('actionResultsService', function($q, serverService) {
                 someActionType.action_result_type.id == ACTION_RESULT_TYPE_ID_SELF_GENERATED_TYPE_RESIDENTS ||
                 someActionType.action_result_type.id == ACTION_RESULT_TYPE_ID_TERRORIST_BOMB ||
                 someActionType.action_result_type.id == ACTION_RESULT_TYPE_ID_VOTE ||
+                someActionType.action_result_type.id == ACTION_RESULT_TYPE_ID_ELDER_VOTE ||
+                someActionType.action_result_type.id == ACTION_RESULT_TYPE_ID_FORGER_VOTE ||
                 someActionType.action_result_type.id == ACTION_RESULT_TYPE_ID_VOTE_MAFIA ||
                 someActionType.action_result_type.id == ACTION_RESULT_TYPE_ID_SHERIFF_IDENTITIES ||
                 someActionType.action_result_type.id == ACTION_RESULT_TYPE_ID_REVIVAL_OCCURRED
@@ -11501,6 +11619,7 @@ var ACTION_TYPE_ID_DEPUTY_IDENTITIES = 11;
 var ACTION_TYPE_ID_ELDER_VOTE = 12;
 var ACTION_TYPE_ID_INITIATE_REVIVAL = 13;
 var ACTION_TYPE_ID_REVIVE = 14;
+var ACTION_TYPE_ID_FORGER_VOTE = 15;
 
 
 
@@ -11519,7 +11638,8 @@ app.factory('actionsService', function($q, serverService) {
         ACTION_TYPE_ID_DEPUTY_IDENTITIES : ACTION_TYPE_ID_DEPUTY_IDENTITIES,
         ACTION_TYPE_ID_ELDER_VOTE : ACTION_TYPE_ID_ELDER_VOTE,
         ACTION_TYPE_ID_INITIATE_REVIVAL : ACTION_TYPE_ID_INITIATE_REVIVAL,
-        ACTION_TYPE_ID_REVIVE : ACTION_TYPE_ID_REVIVE
+        ACTION_TYPE_ID_REVIVE : ACTION_TYPE_ID_REVIVE,
+        ACTION_TYPE_ID_FORGER_VOTE : ACTION_TYPE_ID_FORGER_VOTE
     };
 
 
@@ -12713,6 +12833,7 @@ var ROLE_ID_DEPUTY = 10;
 var ROLE_ID_ELDER = 11;
 var ROLE_ID_NECROMANCER = 12;
 var ROLE_ID_ZOMBIE = 13;
+var ROLE_ID_FORGER = 14;
 
 
 app.factory('rolesService', function(serverService, $q) {
@@ -12736,7 +12857,8 @@ app.factory('rolesService', function(serverService, $q) {
         ROLE_ID_DEPUTY : ROLE_ID_DEPUTY,
         ROLE_ID_ELDER : ROLE_ID_ELDER,
         ROLE_ID_NECROMANCER : ROLE_ID_NECROMANCER,
-        ROLE_ID_ZOMBIE : ROLE_ID_ZOMBIE
+        ROLE_ID_ZOMBIE : ROLE_ID_ZOMBIE,
+        ROLE_ID_FORGER : ROLE_ID_FORGER
     };
 
     var allRoles;
