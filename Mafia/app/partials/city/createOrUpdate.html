@@ -411,14 +411,14 @@
                                 <tr>
                                     <td colspan="2" style="text-align: center">Citizens</td>
                                 </tr>
-                                <tr ng-repeat="role_quantity in roleQuantities | filter : {role : {affiliation: {id : affiliationIds.AFFILIATION_ID_CITIZENS}}}" ng-click="roleClicked(role_quantity.role, $event)">
+                                <tr class="expandable-role-row" ng-repeat="role_quantity in roleQuantities | filter : {role : {affiliation: {id : affiliationIds.AFFILIATION_ID_CITIZENS}}}" ng-click="roleClicked(role_quantity.role, $event)">
                                     <td>{{role_quantity.role.name}}</td>
                                     <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" max="city.residents.length" unused="remainingRoles" point-assign-id="{{role_quantity.role.id}}" on-change="roleQuantityDidChange(roleId, newQuantity)" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'" readonly="city.started_at"></points-assign></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="text-align: center">Mafia</td>
                                 </tr>
-                                <tr ng-repeat="role_quantity in roleQuantities | filter : {role: {affiliation: {id : affiliationIds.AFFILIATION_ID_MAFIA}}} " ng-click="roleClicked(role_quantity.role, $event)">
+                                <tr class="expandable-role-row" ng-repeat="role_quantity in roleQuantities | filter : {role: {affiliation: {id : affiliationIds.AFFILIATION_ID_MAFIA}}} " ng-click="roleClicked(role_quantity.role, $event)">
                                     <td>{{role_quantity.role.name}}</td>
                                     <td><b>{{ role_quantity.quantity }}</b> : <points-assign value="role_quantity.quantity" max="city.residents.length" unused="remainingRoles" point-assign-id="{{role_quantity.role.id}}" on-change="roleQuantityDidChange(roleId, newQuantity)" state-zero="'glyphicon glyphicon-ban-circle'" state-on="'glyphicon glyphicon-user'" state-off="'glyphicon glyphicon-unchecked'" readonly="city.started_at"></points-assign></td>
                                 </tr>

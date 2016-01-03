@@ -1161,3 +1161,12 @@ and (orientation : portrait) {
 
 
 /* END responsive css */
+
+
+.expandable-role-row {
+    cursor: pointer;
+}
+
+.expandable-role-row span {
+    cursor: default;
+}
