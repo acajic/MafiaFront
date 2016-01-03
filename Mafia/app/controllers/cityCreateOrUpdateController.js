@@ -1082,6 +1082,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
     var selectedRoleId = null;
     function roleClicked(role, event) {
         $('.create-edit-city-roles-tab .role-description').remove();
+        $('.details-city-roles-tab .role-description').remove();
         if (!role.id) return;
 
         if (role.id != selectedRoleId) {
