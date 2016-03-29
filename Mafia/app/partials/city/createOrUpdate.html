@@ -25,10 +25,13 @@
             <script type="text/ng-template" id="deleteModalContent.html">
                 <div class="modal-popup">
                     <div class="modal-header">
-                        <h3>Delete this city?</h3>
+                        <h3>Delete this town?</h3>
                     </div>
                     <div class="modal-body">
-                        Enter password: <input type="password" ng-model="credentials.password" ng-enter="ok()">
+                        Enter password<p class="warning-appendix">*</p>: <input type="password" ng-model="credentials.password" ng-enter="ok()">
+                    </div>
+                    <div>
+                        <p class="warning-appendix">*</p> <p style="display: inline; color: #929292">your own account's password, not the password of this specific town</p>
                     </div>
 
                     <div class="bottom-buttons">
