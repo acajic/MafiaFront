@@ -12,7 +12,7 @@ app.directive('usersList', function($q, $location, usersService, appRolesService
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 50;
+            var pageSize = 100;
 
 
 
