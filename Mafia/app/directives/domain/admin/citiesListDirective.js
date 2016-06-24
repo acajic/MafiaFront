@@ -12,7 +12,7 @@ app.directive('citiesList', function($location, citiesService, authService) {
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 20;
+            var pageSize = 100;
 
 
             scope.cities = [];
