@@ -9251,7 +9251,7 @@ app.directive('actionResultsList', function($q, actionResultsService, rolesServi
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 50;
+            var pageSize = 100;
 
 
             scope.actionResults = [];
@@ -9385,7 +9385,7 @@ app.directive('actionsList', function($q, actionsService, rolesService) {
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 50;
+            var pageSize = 100;
 
 
             scope.actions = [];
@@ -9522,7 +9522,7 @@ app.directive('citiesList', function($location, citiesService, authService) {
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 20;
+            var pageSize = 100;
 
 
             scope.cities = [];
@@ -10511,7 +10511,7 @@ app.directive('usersList', function($q, $location, usersService, appRolesService
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 50;
+            var pageSize = 100;
 
 
 
