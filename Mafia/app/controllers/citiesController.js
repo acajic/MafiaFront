@@ -3,7 +3,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
 
     var pageIndexAllCities = 0;
-    var pageSizeAllCities = 10;
+    var pageSizeAllCities = 30;
 
 
     $scope.reloadAllCities = function(refresh) {
@@ -68,7 +68,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
 
     var pageIndexMyCities = 0;
-    var pageSizeMyCities = 10;
+    var pageSizeMyCities = 30;
 
     $scope.reloadMyCities = function(refresh) {
         refreshDateNow();
