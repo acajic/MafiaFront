@@ -12,7 +12,7 @@ app.directive('actionsList', function($q, actionsService, rolesService) {
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 50;
+            var pageSize = 100;
 
 
             scope.actions = [];

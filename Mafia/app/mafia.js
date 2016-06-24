@@ -339,7 +339,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
 
     var pageIndexAllCities = 0;
-    var pageSizeAllCities = 10;
+    var pageSizeAllCities = 30;
 
 
     $scope.reloadAllCities = function(refresh) {
@@ -404,7 +404,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
 
 
     var pageIndexMyCities = 0;
-    var pageSizeMyCities = 10;
+    var pageSizeMyCities = 30;
 
     $scope.reloadMyCities = function(refresh) {
         refreshDateNow();
@@ -9251,7 +9251,7 @@ app.directive('actionResultsList', function($q, actionResultsService, rolesServi
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 50;
+            var pageSize = 100;
 
 
             scope.actionResults = [];
@@ -9385,7 +9385,7 @@ app.directive('actionsList', function($q, actionsService, rolesService) {
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 50;
+            var pageSize = 100;
 
 
             scope.actions = [];
@@ -9522,7 +9522,7 @@ app.directive('citiesList', function($location, citiesService, authService) {
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 20;
+            var pageSize = 100;
 
 
             scope.cities = [];
@@ -10511,7 +10511,7 @@ app.directive('usersList', function($q, $location, usersService, appRolesService
             "use strict";
 
             var pageIndex = 0;
-            var pageSize = 50;
+            var pageSize = 100;
 
 
 
