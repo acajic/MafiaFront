@@ -182,6 +182,7 @@ app.controller('CityCreateOrUpdateController', function ($scope, $routeParams, $
                 $location.path('cities');
             }, function(reason) {
                 $scope.generalMessages.push({type: 'danger', msg: "City is not deleted." });
+                $modal.close();
             });
 
         }, function () {
