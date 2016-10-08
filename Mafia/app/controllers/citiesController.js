@@ -529,8 +529,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
             $scope.selectedTab[0] = true;
         }
         
-        $("#slack-script").detach().appendTo('#content-header .slack');
-
+        
 
         $scope.reloadAllCities();
         $scope.reloadMyCities();
