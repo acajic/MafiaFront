@@ -4,7 +4,7 @@ app.service('serverService', function ($q) {
     var productionServer = 'https://exposemafia.com:3000';// 'https://188.226.245.205:3000';
     var developmentServer = 'http://localhost:3000';
 
-    this.serverHost = productionServer;
+    this.serverHost = developmentServer;
 
 
 
