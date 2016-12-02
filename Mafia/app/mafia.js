@@ -815,6 +815,9 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         window.location = 'api/apidoc.html';
     };
 
+    function redirectToSupport() {
+        window.location = 'https://www.paypal.me/acajic';
+    };
 
     init();
 
@@ -882,6 +885,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         $scope.showCancelJoinRequestForCity = showCancelJoinRequestForCity;
 
         $scope.redirectToAPI = redirectToAPI;
+        $scope.redirectToSupport = redirectToSupport;
     }
 
 }).filter('filterMyCities', function () {
