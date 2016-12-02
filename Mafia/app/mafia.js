@@ -815,6 +815,9 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         window.location = 'api/apidoc.html';
     };
 
+    function redirectToSupport() {
+        window.location = 'https://www.paypal.me/acajic';
+    };
 
     init();
 
@@ -882,6 +885,7 @@ app.controller('CitiesController',function ($scope, $route, $routeParams, $timeo
         $scope.showCancelJoinRequestForCity = showCancelJoinRequestForCity;
 
         $scope.redirectToAPI = redirectToAPI;
+        $scope.redirectToSupport = redirectToSupport;
     }
 
 }).filter('filterMyCities', function () {
@@ -12940,7 +12944,7 @@ app.factory('selfGeneratedResultTypesService', function(serverService, $q) {
 app.service('serverService', function ($q) {
     "use strict";
 
-    var productionServer = 'http://188.226.245.205:3000';
+    var productionServer = 'https://exposemafia.com:3000';// 'https://188.226.245.205:3000';
     var developmentServer = 'http://localhost:3000';
 
     this.serverHost = productionServer;

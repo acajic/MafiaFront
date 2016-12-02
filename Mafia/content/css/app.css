@@ -234,8 +234,8 @@ input, textarea, select {
 
 /* BEGIN cities */
 
-.api {
-    float: right;
+.cities-header-right {
+    text-align: right;
     margin-bottom: -50px;
     font-size: 18px;
 }
