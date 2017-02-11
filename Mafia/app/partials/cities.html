@@ -20,21 +20,21 @@
     <div>
         <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{alert.msg}}</alert>
     </div>
-
-    <div class="col-md-12 cities-header-right">
-        <button class="btn btn-explore" ng-click="redirectToSupport()">
-            <i class="fa fa-paypal"></i> Support
-        </button>
-        <button class="btn btn-api" ng-click="redirectToAPI()">
-            <i class="glyphicon glyphicon-console"></i> API
-        </button>
-    </div>
-
+    
     <div class="cities-top-button-controls-bar">
-        <button ng-click="newCity()" ng-if="appPermissionCreateGamesGranted || user.unused_game_purchases.length" class="btn btn-create-new-city"><i class="glyphicon glyphicon-plus"></i>Create a new town</button>
+        <button ng-click="newCity()" ng-if="appPermissionCreateGamesGranted || user.unused_game_purchases.length" class="btn btn-create-new-city">
+            <i class="glyphicon glyphicon-plus"></i> Create a new town
+        </button>
         <p ng-if="!appPermissionCreateGamesGranted && user.unused_game_purchases.length">You can start {{user.unused_game_purchases.length}} more {{user.unused_game_purchases.length == 1 ? 'game' : 'games'}}.</p>
 
         <loader ng-show="isOpeningNewCity" size="small"></loader>
+        <button class="btn btn-api" ng-click="redirectToAPI()">
+            <i class="glyphicon glyphicon-console"></i> API
+        </button>
+        <button class="btn btn-explore" ng-click="redirectToSupport()">
+            <i class="fa fa-paypal"></i> Support
+        </button>
+
     </div>
 
 </div>
